@@ -1,4 +1,4 @@
-package org.dev.entities;
+package org.dev.metier;
 /***********************************************************************
  * Module:  MotoristConsulting.java
  * Author:  Zakariae
@@ -6,8 +6,6 @@ package org.dev.entities;
  ***********************************************************************/
 
 import java.util.*;
-
-import org.dev.metier.IConsultStrategy;
 
 /** @pdOid 1b9e3491-09fc-4aea-a714-de5d5bf17a60 */
 public class MotoristConsulting implements IConsultStrategy {

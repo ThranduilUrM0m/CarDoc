@@ -11,7 +11,5 @@ import java.util.*;
 public interface IEmployingStrategy {
    /** @pdOid 2946e3dc-a516-4672-8756-3e759f61c26f */
    boolean addEmployee();
-   /** @pdOid c6d9e9ff-7314-473e-8690-90ae1028d287 */
-   boolean removeEmployee();
 
 }

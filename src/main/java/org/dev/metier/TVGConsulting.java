@@ -1,4 +1,4 @@
-package org.dev.entities;
+package org.dev.metier;
 /***********************************************************************
  * Module:  TVGConsulting.java
  * Author:  Zakariae
@@ -6,8 +6,6 @@ package org.dev.entities;
  ***********************************************************************/
 
 import java.util.*;
-
-import org.dev.metier.IConsultStrategy;
 
 /** @pdOid 8cf4ba12-40d4-48a9-b0e2-5c1ff462b99d */
 public class TVGConsulting implements IConsultStrategy {
