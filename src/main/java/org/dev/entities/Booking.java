@@ -28,20 +28,17 @@ public class Booking implements Serializable{
    protected java.util.Date bookingCreationdate;
    protected boolean bookingIsCanceled;
    
-   @Column(name = "accountId")
-   protected long accountId;
    @ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
-   protected Account belongsToAccount;
+   protected Account account;
    
-   @OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="Booking", targetEntity=Control.class)
-   protected Control HasControl;
-   @OneToMany(mappedBy="Booking",targetEntity=Consultation.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Consultation> Consulted;
+   @OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="booking", targetEntity=Control.class)
+   protected Control control;
    
-   @Column(name = "tvgId")
-   private long tvgId;
+   @OneToMany(mappedBy="booking",targetEntity=Consultation.class)
+   protected java.util.Collection<Consultation> consultation;
+   
    @ManyToOne(optional=false) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
-   protected Tvg AtTvg;
+   protected Tvg tvg;
    
    public Long getBookingId() {
       return bookingId;
@@ -70,33 +67,40 @@ public class Booking implements Serializable{
 	public void setBookingIsCanceled(boolean bookingIsCanceled) {
 		this.bookingIsCanceled = bookingIsCanceled;
 	}
-	
-	public Control getHasControl() {
-		return HasControl;
+	public Account getAccount() {
+		return account;
 	}
-	public void setHasControl(Control hasControl) {
-		HasControl = hasControl;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
-	
-	public Tvg getAtTvg() {
-		return AtTvg;
+	public Control getControl() {
+		return control;
 	}
-	public void setAtTvg(Tvg atTvg) {
-		AtTvg = atTvg;
+	public void setControl(Control control) {
+		this.control = control;
+	}
+	public java.util.Collection<Consultation> getConsultation() {
+		return consultation;
+	}
+	public void setConsultation(java.util.Collection<Consultation> consultation) {
+		this.consultation = consultation;
+	}
+	public Tvg getTvg() {
+		return tvg;
+	}
+	public void setTvg(Tvg tvg) {
+		this.tvg = tvg;
 	}
 	public Booking(Long bookingId, Date bookingDate, Date bookingCreationdate, boolean bookingIsCanceled,
-			long accountId, Account belongsToAccount, Control hasControl, Collection<Consultation> consulted,
-			long tvgId, Tvg atTvg) {
+			Account account, Control control, Collection<Consultation> consultation, Tvg tvg) {
 		super();
 		this.bookingId = bookingId;
 		this.bookingDate = bookingDate;
 		this.bookingCreationdate = bookingCreationdate;
 		this.bookingIsCanceled = bookingIsCanceled;
-		this.accountId = accountId;
-		this.belongsToAccount = belongsToAccount;
-		HasControl = hasControl;
-		Consulted = consulted;
-		this.tvgId = tvgId;
-		AtTvg = atTvg;
+		this.account = account;
+		this.control = control;
+		this.consultation = consultation;
+		this.tvg = tvg;
 	}
 }

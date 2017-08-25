@@ -26,10 +26,8 @@ public class Picture  implements Serializable{
    protected String pictureExtension;
    protected boolean isLatest;
    
-   @Column(name = "accountId")
-   private long accountId;
    @ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
-   protected Account belongsToAccount;
+   protected Account account;
    
    public Long getPictureId() {
       return pictureId;
@@ -57,13 +55,19 @@ public class Picture  implements Serializable{
 	public void setLatest(boolean isLatest) {
 		this.isLatest = isLatest;
 	}
-	
-	public Picture(Long pictureId, String pictureContent, String pictureExtension, boolean isLatest) {
+	public Account getAccount() {
+		return account;
+	}
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	public Picture(Long pictureId, String pictureContent, String pictureExtension, boolean isLatest, Account account) {
 		super();
 		this.pictureId = pictureId;
 		this.pictureContent = pictureContent;
 		this.pictureExtension = pictureExtension;
 		this.isLatest = isLatest;
+		this.account = account;
 	}
-   
+	
 }

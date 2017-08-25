@@ -25,10 +25,8 @@ public class ControlPoint implements Serializable{
    @Column(length=40)
    protected String controlpointError;
    
-   @Column(name = "controlId")
-   private long controlId;
    @ManyToOne(optional=false) @JoinColumn(name="controlId", referencedColumnName="controlId")
-   protected Control belongsToControl;
+   protected Control control;
    
    public Long getControlpointId() {
       return controlpointId;
@@ -50,18 +48,17 @@ public class ControlPoint implements Serializable{
    public void setControlpointError(String newControlpointError) {
       controlpointError = newControlpointError;
    }
-   
-   	public Control getBelongsToControl() {
-		return belongsToControl;
-	}
-	public void setBelongsToControl(Control belongsToControl) {
-		this.belongsToControl = belongsToControl;
-	}
-	
-	public ControlPoint(Long controlpointId, String controlpointLabel, String controlpointError) {
-		this.setControlpointId(controlpointId);
-		this.setControlpointLabel(controlpointLabel);
-		this.setControlpointError(controlpointError);
-		this.setBelongsToControl(belongsToControl);
-	}
+public Control getControl() {
+	return control;
+}
+public void setControl(Control control) {
+	this.control = control;
+}
+public ControlPoint(Long controlpointId, String controlpointLabel, String controlpointError, Control control) {
+	super();
+	this.controlpointId = controlpointId;
+	this.controlpointLabel = controlpointLabel;
+	this.controlpointError = controlpointError;
+	this.control = control;
+}
 }

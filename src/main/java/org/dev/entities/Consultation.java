@@ -21,16 +21,11 @@ public class Consultation implements Serializable{
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long consultationId;
    
-   @Column(name = "accountId")
-   protected long accountId;
    @ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
-   protected Account belongsToAccount;
+   protected Account account;
    
-   @Column(name = "bookingId")
-   protected long bookingId;
    @ManyToOne(optional=false) @JoinColumn(name="bookingId", referencedColumnName="bookingId")
-   protected Booking hasBooking;
-   
+   protected Booking booking;
    
    public Long getConsultationId() {
       return consultationId;
@@ -38,17 +33,22 @@ public class Consultation implements Serializable{
    public void setConsultationId(Long newConsultationId) {
       consultationId = newConsultationId;
    }
-   
-   	public Booking getHasBooking() {
-		return hasBooking;
-	}
-	public void setHasBooking(Booking hasBooking) {
-		this.hasBooking = hasBooking;
-	}
-	
-	public Consultation(Long consultationId, Booking hasBooking) {
-		this.setConsultationId(consultationId);
-		this.setHasBooking(hasBooking);
-	}
-
+public Account getAccount() {
+	return account;
+}
+public void setAccount(Account account) {
+	this.account = account;
+}
+public Booking getBooking() {
+	return booking;
+}
+public void setBooking(Booking booking) {
+	this.booking = booking;
+}
+public Consultation(Long consultationId, Account account, Booking booking) {
+	super();
+	this.consultationId = consultationId;
+	this.account = account;
+	this.booking = booking;
+}
 }

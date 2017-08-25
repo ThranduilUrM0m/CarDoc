@@ -30,19 +30,16 @@ public class Control implements Serializable{
    @Column(length=40)
    protected String controlType;
    protected boolean controlConfirmed;
-
-   public IControlStrategy iControlStrategy;
    
-   @Column(name = "bookingId")
-   protected long bookingId;
    @OneToOne(optional=false) @JoinColumn(name="bookingId")
-   protected Booking belongsToBooking;
-   @OneToMany(mappedBy="Control", targetEntity=ControlPoint.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<ControlPoint> Contains;
-   @OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="Control", targetEntity=Employee.class)
-   protected Employee doneByEmployee;
+   protected Booking booking;
+   @OneToOne(optional=false) @JoinColumn(name="employeeId")
+   protected Employee employee;
+   
+   @OneToMany(mappedBy="control", targetEntity=ControlPoint.class)
+   protected java.util.Collection<ControlPoint> controlPoint;
    @ManyToOne(optional=false) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
-   protected Tvg atTvg;
+   protected Tvg tvg;
    
    public Long getControlId() {
       return controlId;
@@ -71,22 +68,40 @@ public class Control implements Serializable{
 	public void setControlConfirmed(boolean controlConfirmed) {
 		this.controlConfirmed = controlConfirmed;
 	}
-	
-	public Control(Long controlId, int controlPrice, String controlType) {
-		this.setControlId(controlId);
-		this.setControlPrice(controlPrice);
-		this.setControlType(controlType);
-		this.setControlConfirmed(false);
+	public Booking getBooking() {
+		return booking;
 	}
-   
-   public java.util.Collection<ControlPoint> getContains() {
-      if (Contains == null)
-         Contains = new java.util.ArrayList<ControlPoint>();
-      return Contains;
-   }
-   public java.util.Iterator getIteratorContains() {
-      if (Contains == null)
-         Contains = new java.util.ArrayList<ControlPoint>();
-      return Contains.iterator();
-   }
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+	public java.util.Collection<ControlPoint> getControlPoint() {
+		return controlPoint;
+	}
+	public void setControlPoint(java.util.Collection<ControlPoint> controlPoint) {
+		this.controlPoint = controlPoint;
+	}
+	public Employee getEmployee() {
+		return employee;
+	}
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	public Tvg getTvg() {
+		return tvg;
+	}
+	public void setTvg(Tvg tvg) {
+		this.tvg = tvg;
+	}
+	public Control(Long controlId, int controlPrice, String controlType, boolean controlConfirmed, Booking booking,
+			Collection<ControlPoint> controlPoint, Employee employee, Tvg tvg) {
+		super();
+		this.controlId = controlId;
+		this.controlPrice = controlPrice;
+		this.controlType = controlType;
+		this.controlConfirmed = controlConfirmed;
+		this.booking = booking;
+		this.controlPoint = controlPoint;
+		this.employee = employee;
+		this.tvg = tvg;
+	}
 }

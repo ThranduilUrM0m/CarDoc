@@ -25,8 +25,8 @@ public class Function implements Serializable{
    @Column(length=40)
    protected String functionLabel;
 
-   @OneToMany(mappedBy="Function",targetEntity=Employee.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Employee> employeesByFunction;
+   @OneToMany(mappedBy="function", targetEntity=Employee.class)
+   protected java.util.Collection<Employee> employee;
    
    public Long getFunctionId() {
       return functionId;
@@ -41,10 +41,16 @@ public class Function implements Serializable{
    public void setFunctionLabel(String newFunctionLabel) {
       functionLabel = newFunctionLabel;
    }
-   
-   public Function(Long functionId, String functionLabel) {
-	   this.setFunctionId(functionId);
-	   this.setFunctionLabel(functionLabel);
-   }
-
+public java.util.Collection<Employee> getEmployee() {
+	return employee;
+}
+public void setEmployee(java.util.Collection<Employee> employee) {
+	this.employee = employee;
+}
+public Function(Long functionId, String functionLabel, Collection<Employee> employee) {
+	super();
+	this.functionId = functionId;
+	this.functionLabel = functionLabel;
+	this.employee = employee;
+}
 }

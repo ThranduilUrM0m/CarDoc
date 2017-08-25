@@ -15,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -45,14 +46,14 @@ public class Tvg implements Serializable {
    protected java.util.Date tvgDayendB;
    protected boolean tvgAvailable;
 
-   @OneToMany(mappedBy="Tvg",targetEntity=Booking.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Booking> hasBookings;
-   @OneToMany(mappedBy="Tvg",targetEntity=Employee.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Employee> workers;
-   @OneToMany(mappedBy="Tvg",targetEntity=Control.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Control> hasControl;
-   @OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="Tvg", targetEntity=Account.class)
-   protected Account HasAccount;
+   @OneToMany(mappedBy="tvg",targetEntity=Booking.class)
+   protected java.util.Collection<Booking> booking;
+   @OneToMany(mappedBy="tvg",targetEntity=Employee.class)
+   protected java.util.Collection<Employee> employee;
+   @OneToMany(mappedBy="tvg",targetEntity=Control.class)
+   protected java.util.Collection<Control> control;
+   @OneToOne(optional=false) @JoinColumn(name="accountId")
+   protected Account account;
    
    public Long getTvgId() {
       return tvgId;
@@ -151,34 +152,52 @@ public class Tvg implements Serializable {
    public void setTvgAvailable(boolean newTvgAvailable) {
       tvgAvailable = newTvgAvailable;
    }
-   
-   public java.util.Collection<Employee> getworkers() {
-      if (workers == null)
-         workers = new java.util.HashSet<Employee>();
-      return workers;
-   }
-   public java.util.Iterator getIteratorworkers() {
-      if (workers == null)
-         workers = new java.util.HashSet<Employee>();
-      return workers.iterator();
-   }
-	public Tvg(Long tvgId, String tvgLegalname, String tvgLegaladresse, Date tvgCreationdate, String tvgCity, String tvgCountry, String tvgRegion, String tvgEmail, String tvgPhone, Date tvgDaystartA, Date tvgDaystartB, Date tvgDayendA, Date tvgDayendB, boolean tvgAvailable, Account account) {
-		super();
-		this.tvgId = tvgId;
-		this.tvgLegalname = tvgLegalname;
-		this.tvgLegaladresse = tvgLegaladresse;
-		this.tvgCreationdate = tvgCreationdate;
-		this.tvgCity = tvgCity;
-		this.tvgCountry = tvgCountry;
-		this.tvgRegion = tvgRegion;
-		this.tvgEmail = tvgEmail;
-		this.tvgPhone = tvgPhone;
-		this.tvgDaystartA = tvgDaystartA;
-		this.tvgDaystartB = tvgDaystartB;
-		this.tvgDayendA = tvgDayendA;
-		this.tvgDayendB = tvgDayendB;
-		this.tvgAvailable = tvgAvailable;
-		this.HasAccount = account;
-	}
-   
+public java.util.Collection<Booking> getBooking() {
+	return booking;
+}
+public void setBooking(java.util.Collection<Booking> booking) {
+	this.booking = booking;
+}
+public java.util.Collection<Employee> getEmployee() {
+	return employee;
+}
+public void setEmployee(java.util.Collection<Employee> employee) {
+	this.employee = employee;
+}
+public java.util.Collection<Control> getControl() {
+	return control;
+}
+public void setControl(java.util.Collection<Control> control) {
+	this.control = control;
+}
+public Account getAccount() {
+	return account;
+}
+public void setAccount(Account account) {
+	this.account = account;
+}
+public Tvg(Long tvgId, String tvgLegalname, String tvgLegaladresse, Date tvgCreationdate, String tvgCity,
+		String tvgCountry, String tvgRegion, String tvgEmail, String tvgPhone, Date tvgDaystartA, Date tvgDaystartB,
+		Date tvgDayendA, Date tvgDayendB, boolean tvgAvailable, Collection<Booking> booking,
+		Collection<Employee> employee, Collection<Control> control, Account account) {
+	super();
+	this.tvgId = tvgId;
+	this.tvgLegalname = tvgLegalname;
+	this.tvgLegaladresse = tvgLegaladresse;
+	this.tvgCreationdate = tvgCreationdate;
+	this.tvgCity = tvgCity;
+	this.tvgCountry = tvgCountry;
+	this.tvgRegion = tvgRegion;
+	this.tvgEmail = tvgEmail;
+	this.tvgPhone = tvgPhone;
+	this.tvgDaystartA = tvgDaystartA;
+	this.tvgDaystartB = tvgDaystartB;
+	this.tvgDayendA = tvgDayendA;
+	this.tvgDayendB = tvgDayendB;
+	this.tvgAvailable = tvgAvailable;
+	this.booking = booking;
+	this.employee = employee;
+	this.control = control;
+	this.account = account;
+}
 }

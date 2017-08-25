@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Vehicle implements Serializable {
@@ -26,19 +28,22 @@ public class Vehicle implements Serializable {
    @Column(length=100)
    protected String vehicleRegistration;
 
-	public Long getVehicleId() {
-		return vehicleId;
-	}
-	public void setVehicleId(Long vehicleId) {
-		this.vehicleId = vehicleId;
-	}
+   @ManyToOne(optional=false) @JoinColumn(name="motoristMatricule", referencedColumnName="motoristMatricule")
+   protected Motorist motorist;
+   
+   public Long getVehicleId() {
+	   return vehicleId;
+   }
+   public void setVehicleId(Long vehicleId) {
+	   this.vehicleId = vehicleId;
+   }
 	
-	public String getVehicleBrand() {
-		return vehicleBrand;
-	}
-	public void setVehicleBrand(String vehicleBrand) {
-		this.vehicleBrand = vehicleBrand;
-	}
+   public String getVehicleBrand() {
+	   return vehicleBrand;
+   }
+   public void setVehicleBrand(String vehicleBrand) {
+	   this.vehicleBrand = vehicleBrand;
+   }
 	
 	public String getVehicleType() {
 		return vehicleType;
@@ -60,14 +65,21 @@ public class Vehicle implements Serializable {
 	public void setVehicleRegistration(String vehicleRegistration) {
 		this.vehicleRegistration = vehicleRegistration;
 	}
-	
-	public Vehicle(Long vehicleId, String vehicleBrand, String vehicleType, Date vehicleFirstCirculation, String vehicleRegistration) {
+	public Motorist getMotorist() {
+		return motorist;
+	}
+	public void setMotorist(Motorist motorist) {
+		this.motorist = motorist;
+	}
+	public Vehicle(Long vehicleId, String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
+			String vehicleRegistration, Motorist motorist) {
 		super();
 		this.vehicleId = vehicleId;
 		this.vehicleBrand = vehicleBrand;
 		this.vehicleType = vehicleType;
 		this.vehicleFirstCirculation = vehicleFirstCirculation;
 		this.vehicleRegistration = vehicleRegistration;
+		this.motorist = motorist;
 	}
-  
+	
 }

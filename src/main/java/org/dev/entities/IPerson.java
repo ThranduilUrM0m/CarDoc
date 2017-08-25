@@ -10,15 +10,17 @@ import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance
-@DiscriminatorColumn(name="IPERSON_TYPE")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="IPERSON_TYPE", length=2, discriminatorType=DiscriminatorType.STRING)
 public abstract class IPerson implements Serializable {
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long ipersonId;
@@ -91,16 +93,16 @@ public abstract class IPerson implements Serializable {
 	public void setIpersonPhone(String ipersonPhone) {
 		this.ipersonPhone = ipersonPhone;
 	}
-
-   public IPerson(Long ipersonId, String ipersonLastname, String ipersonFirstname, java.util.Date ipersonBirthday, String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
-	  this.setIpersonId(ipersonId);
-	  this.setIpersonLastname(ipersonLastname);
-	  this.setIpersonFirstname(ipersonFirstname);
-	  this.setIpersonBirthday(ipersonBirthday);
-	  this.setIpersonCity(ipersonCity);
-	  this.setIpersonNationalcardid(ipersonNationalcardid);
-	  this.setIpersonEmail(ipersonEmail);
-	  this.setIpersonPhone(ipersonPhone);
-   }
-
+	public IPerson(Long ipersonId, String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
+			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
+		super();
+		this.ipersonId = ipersonId;
+		this.ipersonLastname = ipersonLastname;
+		this.ipersonFirstname = ipersonFirstname;
+		this.ipersonBirthday = ipersonBirthday;
+		this.ipersonCity = ipersonCity;
+		this.ipersonNationalcardid = ipersonNationalcardid;
+		this.ipersonEmail = ipersonEmail;
+		this.ipersonPhone = ipersonPhone;
+	}
 }

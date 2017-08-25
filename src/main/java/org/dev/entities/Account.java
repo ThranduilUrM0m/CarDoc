@@ -33,27 +33,23 @@ public class Account implements Serializable{
    protected String accountPassword;
    protected java.util.Date accountCreationdate;
    
-   public IBookStrategy iBookStrategy;
-   public ICancelBookStrategy iCancelStrategy;
-   public IConsultStrategy iConsultStrategy;
+   @OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
+   protected java.util.Collection<ConnectionHistory> connectionHistory;
+   @OneToMany(mappedBy="account",targetEntity=Consultation.class)
+   protected java.util.Collection<Consultation> consultation;
+   @OneToMany(mappedBy="account",targetEntity=Booking.class)
+   protected java.util.Collection<Booking> booking;
+   @OneToMany(mappedBy="account",targetEntity=Picture.class)
+   protected java.util.Collection<Picture> picture;
+   @OneToMany(mappedBy="account",targetEntity=MessageSent.class)
+   protected java.util.Collection<MessageSent> messageSent;
+   @OneToMany(mappedBy="account",targetEntity=MessageReceived.class)
+   protected java.util.Collection<MessageReceived> messageReceived;
    
-   @OneToMany(mappedBy="Account",targetEntity=ConnectionHistory.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<ConnectionHistory> HasConnectionHistory;
-   @OneToMany(mappedBy="Account",targetEntity=Consultation.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Consultation> HasConsultation;
-   @OneToMany(mappedBy="Account",targetEntity=Booking.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Booking> HasBooking;
-   @OneToMany(mappedBy="Account",targetEntity=Picture.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<Picture> HasPicture;
-   @OneToMany(mappedBy="Account",targetEntity=MessageSent.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<MessageSent> sendMessages;
-   @OneToMany(mappedBy="Account",targetEntity=MessageReceived.class, fetch=FetchType.EAGER)
-   protected java.util.Collection<MessageReceived> receiveMessages;
-   
-   @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="Account", targetEntity=Tvg.class)
-   protected Tvg belongsToTvg;
-   @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="Account", targetEntity=Motorist.class)
-   protected Motorist belongsToMotorist;
+   @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Tvg.class)
+   protected Tvg tvg;
+   @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Motorist.class)
+   protected Motorist motorist;
    
    public Long getAccountId() {
       return this.accountId;
@@ -82,55 +78,70 @@ public class Account implements Serializable{
    public void setAccountCreationdate(java.util.Date newAccountCreationdate) {
 	   this.accountCreationdate = newAccountCreationdate;
    }
-   
-   public Account(Long accountId, String accountLogin, String accountPassword, java.util.Date accountCreationdate) {
-	   this.setAccountId(accountId);
-	   this.setAccountLogin(accountLogin);
-	   this.setAccountPassword(accountPassword);
-	   this.setAccountCreationdate(accountCreationdate);
-   }   
-   
-   public java.util.Collection<ConnectionHistory> getHasConnectionHistory() {
-      if (HasConnectionHistory == null)
-    	  HasConnectionHistory = new java.util.ArrayList<ConnectionHistory>();
-      return HasConnectionHistory;
-   }
-   public java.util.Iterator getIteratorHasConnectionHistory() {
-      if (HasConnectionHistory == null)
-    	  HasConnectionHistory = new java.util.ArrayList<ConnectionHistory>();
-      return HasConnectionHistory.iterator();
-   }
-   
-   public java.util.Collection<Consultation> getHasConsultation() {
-      if (HasConsultation == null)
-    	  HasConsultation = new java.util.ArrayList<Consultation>();
-      return HasConsultation;
-   }
-   public java.util.Iterator getIteratorHasConsultation() {
-      if (HasConsultation == null)
-    	  HasConsultation = new java.util.ArrayList<Consultation>();
-      return HasConsultation.iterator();
-   }
-   
-   public java.util.Collection<Booking> getHasBooking() {
-      if (HasBooking == null)
-    	  HasBooking = new java.util.ArrayList<Booking>();
-      return HasBooking;
-   }
-   public java.util.Iterator getIteratorHasBooking() {
-      if (HasBooking == null)
-    	  HasBooking = new java.util.ArrayList<Booking>();
-      return HasBooking.iterator();
-   }
-   
-   public java.util.Collection<Picture> getHasPicture() {
-      if (HasPicture == null)
-    	  HasPicture = new java.util.ArrayList<Picture>();
-      return HasPicture;
-   }
-   public java.util.Iterator getIteratorHasPicture() {
-      if (HasPicture == null)
-    	  HasPicture = new java.util.ArrayList<Picture>();
-      return HasPicture.iterator();
-   }
+public java.util.Collection<ConnectionHistory> getConnectionHistory() {
+	return connectionHistory;
+}
+public void setConnectionHistory(java.util.Collection<ConnectionHistory> connectionHistory) {
+	this.connectionHistory = connectionHistory;
+}
+public java.util.Collection<Consultation> getConsultation() {
+	return consultation;
+}
+public void setConsultation(java.util.Collection<Consultation> consultation) {
+	this.consultation = consultation;
+}
+public java.util.Collection<Booking> getBooking() {
+	return booking;
+}
+public void setBooking(java.util.Collection<Booking> booking) {
+	this.booking = booking;
+}
+public java.util.Collection<Picture> getPicture() {
+	return picture;
+}
+public void setPicture(java.util.Collection<Picture> picture) {
+	this.picture = picture;
+}
+public java.util.Collection<MessageSent> getMessageSent() {
+	return messageSent;
+}
+public void setMessageSent(java.util.Collection<MessageSent> messageSent) {
+	this.messageSent = messageSent;
+}
+public java.util.Collection<MessageReceived> getMessageReceived() {
+	return messageReceived;
+}
+public void setMessageReceived(java.util.Collection<MessageReceived> messageReceived) {
+	this.messageReceived = messageReceived;
+}
+public Tvg getTvg() {
+	return tvg;
+}
+public void setTvg(Tvg tvg) {
+	this.tvg = tvg;
+}
+public Motorist getMotorist() {
+	return motorist;
+}
+public void setMotorist(Motorist motorist) {
+	this.motorist = motorist;
+}
+public Account(Long accountId, String accountLogin, String accountPassword, Date accountCreationdate,
+		Collection<ConnectionHistory> connectionHistory, Collection<Consultation> consultation,
+		Collection<Booking> booking, Collection<Picture> picture, Collection<MessageSent> messageSent,
+		Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist) {
+	super();
+	this.accountId = accountId;
+	this.accountLogin = accountLogin;
+	this.accountPassword = accountPassword;
+	this.accountCreationdate = accountCreationdate;
+	this.connectionHistory = connectionHistory;
+	this.consultation = consultation;
+	this.booking = booking;
+	this.picture = picture;
+	this.messageSent = messageSent;
+	this.messageReceived = messageReceived;
+	this.tvg = tvg;
+	this.motorist = motorist;
+}
 }

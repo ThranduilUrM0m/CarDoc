@@ -27,10 +27,8 @@ public class ConnectionHistory implements Serializable{
    @Column(length=40)
    protected String connectionhistoryDevicename;
    
-   @Column(name = "accountId")
-   private long accountId;
    @ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
-   protected Account belongsToAccount;
+   protected Account account;
    
    public Long getConnectionhistoryId() {
       return connectionhistoryId;
@@ -66,13 +64,20 @@ public class ConnectionHistory implements Serializable{
    public void setConnectionhistoryDevicename(String newConnectionhistoryDevicename) {
       connectionhistoryDevicename = newConnectionhistoryDevicename;
    }
-   
-   public ConnectionHistory(Long connectionhistoryId, java.util.Date connectionhistoryStart, java.util.Date connectionhistoryEnd, String connectionhistoryDeviceip, String connectionhistoryDevicename) {
-      this.setConnectionhistoryId(connectionhistoryId);
-      this.setConnectionhistoryStart(connectionhistoryStart);
-      this.setConnectionhistoryEnd(connectionhistoryEnd);
-      this.setConnectionhistoryDeviceip(connectionhistoryDeviceip);
-      this.setConnectionhistoryDevicename(connectionhistoryDevicename);
-   }
-
+public Account getAccount() {
+	return account;
+}
+public void setAccount(Account account) {
+	this.account = account;
+}
+public ConnectionHistory(Long connectionhistoryId, Date connectionhistoryStart, Date connectionhistoryEnd,
+		String connectionhistoryDeviceip, String connectionhistoryDevicename, Account account) {
+	super();
+	this.connectionhistoryId = connectionhistoryId;
+	this.connectionhistoryStart = connectionhistoryStart;
+	this.connectionhistoryEnd = connectionhistoryEnd;
+	this.connectionhistoryDeviceip = connectionhistoryDeviceip;
+	this.connectionhistoryDevicename = connectionhistoryDevicename;
+	this.account = account;
+}
 }

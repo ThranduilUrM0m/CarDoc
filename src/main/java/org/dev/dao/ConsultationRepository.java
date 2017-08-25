@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
-	
+	public List<Consultation> findByconsultationId(Long consultationId);
+	@Query("select a from Consultation a where a.consultationId like :x")
+	public Page<Consultation> searchConsultations(@Param("x")String mc, Pageable pageable);
 }

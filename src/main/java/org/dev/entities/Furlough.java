@@ -24,10 +24,8 @@ public class Furlough implements Serializable{
    protected java.util.Date furloughDateend;
    protected boolean furloughJustified;
    
-   @Column(name = "employeeId")
-   private long employeeId;
-   @ManyToOne(optional=false) @JoinColumn(name="employeeId", referencedColumnName="employeeId")
-   protected Employee demandedBy;
+   @ManyToOne(optional=false) @JoinColumn(name="employeeMatricule", referencedColumnName="employeeMatricule")
+   protected Employee employee;
    
    public Long getFurloughId() {
       return furloughId;
@@ -56,12 +54,19 @@ public class Furlough implements Serializable{
    public void setFurloughJustified(boolean newFurloughJustified) {
       furloughJustified = newFurloughJustified;
    }
-   
-   public Furlough(Long furloughId, java.util.Date furloughDatebegin, java.util.Date furloughDateend, boolean furloughJustified) {
-	   this.setFurloughId(furloughId);
-	   this.setFurloughDatebegin(furloughDatebegin);
-	   this.setFurloughDateend(furloughDateend);
-	   this.setFurloughJustified(furloughJustified);
-   }
-
+public Employee getEmployee() {
+	return employee;
+}
+public void setEmployee(Employee employee) {
+	this.employee = employee;
+}
+public Furlough(Long furloughId, Date furloughDatebegin, Date furloughDateend, boolean furloughJustified,
+		Employee employee) {
+	super();
+	this.furloughId = furloughId;
+	this.furloughDatebegin = furloughDatebegin;
+	this.furloughDateend = furloughDateend;
+	this.furloughJustified = furloughJustified;
+	this.employee = employee;
+}
 }

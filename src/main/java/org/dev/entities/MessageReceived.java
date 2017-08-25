@@ -22,69 +22,20 @@ import javax.persistence.ManyToOne;
 public class MessageReceived extends IMessage implements Serializable {
 
 	@ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
-	protected Account sender;
-	
-	public Account getSender() {
-		return sender;
+	protected Account account;
+
+	public Account getAccount() {
+		return account;
 	}
-	public void setSender(Account sender) {
-		this.sender = sender;
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
-	public MessageReceived(Long imessageId, String imessageContent, Date imessageSeenTime, Date imessageSendingTime, Date imessageReceivingTime, Account sender) {
+
+	public MessageReceived(Long imessageId, String imessageContent, Date imessageSeenTime, Date imessageSendingTime,
+			Date imessageReceivingTime, Account account) {
 		super(imessageId, imessageContent, imessageSeenTime, imessageSendingTime, imessageReceivingTime);
-		this.sender = sender;
+		this.account = account;
 	}
-	
-	@Override
-	public Long getImessageId() {
-		// TODO Auto-generated method stub
-		return super.getImessageId();
-	}
-	@Override
-	public void setImessageId(Long imessageId) {
-		// TODO Auto-generated method stub
-		super.setImessageId(imessageId);
-	}
-	@Override
-	public String getImessageContent() {
-		// TODO Auto-generated method stub
-		return super.getImessageContent();
-	}
-	@Override
-	public void setImessageContent(String imessageContent) {
-		// TODO Auto-generated method stub
-		super.setImessageContent(imessageContent);
-	}
-	@Override
-	public Date getImessageSeenTime() {
-		// TODO Auto-generated method stub
-		return super.getImessageSeenTime();
-	}
-	@Override
-	public void setImessageSeenTime(Date imessageSeenTime) {
-		// TODO Auto-generated method stub
-		super.setImessageSeenTime(imessageSeenTime);
-	}
-	@Override
-	public Date getImessageSendingTime() {
-		// TODO Auto-generated method stub
-		return super.getImessageSendingTime();
-	}
-	@Override
-	public void setImessageSendingTime(Date imessageSendingTime) {
-		// TODO Auto-generated method stub
-		super.setImessageSendingTime(imessageSendingTime);
-	}
-	@Override
-	public Date getImessageReceivingTime() {
-		// TODO Auto-generated method stub
-		return super.getImessageReceivingTime();
-	}
-	@Override
-	public void setImessageReceivingTime(Date imessageReceivingTime) {
-		// TODO Auto-generated method stub
-		super.setImessageReceivingTime(imessageReceivingTime);
-	}
-	
 	
 }
