@@ -9,8 +9,9 @@
 		<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" th:href="@{css/bootstrap.css}"/>
 		
 		<script type="text/javascript" src="../static/js/bootstrap.js" th:src="@{js/bootstrap.js}"></script>
+		<script async="" data-main="/run.js" src="../static/js/require.js"  th:src="@{js/require.js}"></script>
 	</head>
 	<body>
-	    <p th:text="'Hello, ' + ${name} + '!'" />
+	    <div id="react"></div>
 	</body>
 </html>
