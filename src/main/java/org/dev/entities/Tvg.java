@@ -176,12 +176,11 @@ public Account getAccount() {
 public void setAccount(Account account) {
 	this.account = account;
 }
-public Tvg(Long tvgId, String tvgLegalname, String tvgLegaladresse, Date tvgCreationdate, String tvgCity,
+public Tvg(String tvgLegalname, String tvgLegaladresse, Date tvgCreationdate, String tvgCity,
 		String tvgCountry, String tvgRegion, String tvgEmail, String tvgPhone, Date tvgDaystartA, Date tvgDaystartB,
 		Date tvgDayendA, Date tvgDayendB, boolean tvgAvailable, Collection<Booking> booking,
 		Collection<Employee> employee, Collection<Control> control, Account account) {
 	super();
-	this.tvgId = tvgId;
 	this.tvgLegalname = tvgLegalname;
 	this.tvgLegaladresse = tvgLegaladresse;
 	this.tvgCreationdate = tvgCreationdate;

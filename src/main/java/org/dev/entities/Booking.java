@@ -91,10 +91,9 @@ public class Booking implements Serializable{
 	public void setTvg(Tvg tvg) {
 		this.tvg = tvg;
 	}
-	public Booking(Long bookingId, Date bookingDate, Date bookingCreationdate, boolean bookingIsCanceled,
+	public Booking(Date bookingDate, Date bookingCreationdate, boolean bookingIsCanceled,
 			Account account, Control control, Collection<Consultation> consultation, Tvg tvg) {
 		super();
-		this.bookingId = bookingId;
 		this.bookingDate = bookingDate;
 		this.bookingCreationdate = bookingCreationdate;
 		this.bookingIsCanceled = bookingIsCanceled;

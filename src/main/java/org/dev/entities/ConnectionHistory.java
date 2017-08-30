@@ -70,10 +70,9 @@ public Account getAccount() {
 public void setAccount(Account account) {
 	this.account = account;
 }
-public ConnectionHistory(Long connectionhistoryId, Date connectionhistoryStart, Date connectionhistoryEnd,
+public ConnectionHistory(Date connectionhistoryStart, Date connectionhistoryEnd,
 		String connectionhistoryDeviceip, String connectionhistoryDevicename, Account account) {
 	super();
-	this.connectionhistoryId = connectionhistoryId;
 	this.connectionhistoryStart = connectionhistoryStart;
 	this.connectionhistoryEnd = connectionhistoryEnd;
 	this.connectionhistoryDeviceip = connectionhistoryDeviceip;

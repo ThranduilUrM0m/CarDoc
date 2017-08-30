@@ -54,9 +54,8 @@ public Control getControl() {
 public void setControl(Control control) {
 	this.control = control;
 }
-public ControlPoint(Long controlpointId, String controlpointLabel, String controlpointError, Control control) {
+public ControlPoint(String controlpointLabel, String controlpointError, Control control) {
 	super();
-	this.controlpointId = controlpointId;
 	this.controlpointLabel = controlpointLabel;
 	this.controlpointError = controlpointError;
 	this.control = control;

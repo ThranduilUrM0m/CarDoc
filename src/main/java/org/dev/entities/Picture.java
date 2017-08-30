@@ -61,9 +61,8 @@ public class Picture  implements Serializable{
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-	public Picture(Long pictureId, String pictureContent, String pictureExtension, boolean isLatest, Account account) {
+	public Picture(String pictureContent, String pictureExtension, boolean isLatest, Account account) {
 		super();
-		this.pictureId = pictureId;
 		this.pictureContent = pictureContent;
 		this.pictureExtension = pictureExtension;
 		this.isLatest = isLatest;

@@ -32,9 +32,9 @@ public class MessageReceived extends IMessage implements Serializable {
 		this.account = account;
 	}
 
-	public MessageReceived(Long imessageId, String imessageContent, Date imessageSeenTime, Date imessageSendingTime,
+	public MessageReceived(String imessageContent, Date imessageSeenTime, Date imessageSendingTime,
 			Date imessageReceivingTime, Account account) {
-		super(imessageId, imessageContent, imessageSeenTime, imessageSendingTime, imessageReceivingTime);
+		super(imessageContent, imessageSeenTime, imessageSendingTime, imessageReceivingTime);
 		this.account = account;
 	}
 	

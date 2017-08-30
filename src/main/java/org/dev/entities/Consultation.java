@@ -45,9 +45,8 @@ public Booking getBooking() {
 public void setBooking(Booking booking) {
 	this.booking = booking;
 }
-public Consultation(Long consultationId, Account account, Booking booking) {
+public Consultation(Account account, Booking booking) {
 	super();
-	this.consultationId = consultationId;
 	this.account = account;
 	this.booking = booking;
 }

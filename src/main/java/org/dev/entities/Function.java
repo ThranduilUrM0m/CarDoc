@@ -47,9 +47,8 @@ public java.util.Collection<Employee> getEmployee() {
 public void setEmployee(java.util.Collection<Employee> employee) {
 	this.employee = employee;
 }
-public Function(Long functionId, String functionLabel, Collection<Employee> employee) {
+public Function(String functionLabel, Collection<Employee> employee) {
 	super();
-	this.functionId = functionId;
 	this.functionLabel = functionLabel;
 	this.employee = employee;
 }

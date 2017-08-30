@@ -60,10 +60,9 @@ public Employee getEmployee() {
 public void setEmployee(Employee employee) {
 	this.employee = employee;
 }
-public Furlough(Long furloughId, Date furloughDatebegin, Date furloughDateend, boolean furloughJustified,
+public Furlough(Date furloughDatebegin, Date furloughDateend, boolean furloughJustified,
 		Employee employee) {
 	super();
-	this.furloughId = furloughId;
 	this.furloughDatebegin = furloughDatebegin;
 	this.furloughDateend = furloughDateend;
 	this.furloughJustified = furloughJustified;

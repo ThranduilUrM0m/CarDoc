@@ -92,10 +92,9 @@ public class Control implements Serializable{
 	public void setTvg(Tvg tvg) {
 		this.tvg = tvg;
 	}
-	public Control(Long controlId, int controlPrice, String controlType, boolean controlConfirmed, Booking booking,
+	public Control(int controlPrice, String controlType, boolean controlConfirmed, Booking booking,
 			Collection<ControlPoint> controlPoint, Employee employee, Tvg tvg) {
 		super();
-		this.controlId = controlId;
 		this.controlPrice = controlPrice;
 		this.controlType = controlType;
 		this.controlConfirmed = controlConfirmed;

@@ -71,10 +71,9 @@ public class Vehicle implements Serializable {
 	public void setMotorist(Motorist motorist) {
 		this.motorist = motorist;
 	}
-	public Vehicle(Long vehicleId, String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
+	public Vehicle(String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
 			String vehicleRegistration, Motorist motorist) {
 		super();
-		this.vehicleId = vehicleId;
 		this.vehicleBrand = vehicleBrand;
 		this.vehicleType = vehicleType;
 		this.vehicleFirstCirculation = vehicleFirstCirculation;

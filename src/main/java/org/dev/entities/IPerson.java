@@ -93,10 +93,9 @@ public abstract class IPerson implements Serializable {
 	public void setIpersonPhone(String ipersonPhone) {
 		this.ipersonPhone = ipersonPhone;
 	}
-	public IPerson(Long ipersonId, String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
+	public IPerson(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
 			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
 		super();
-		this.ipersonId = ipersonId;
 		this.ipersonLastname = ipersonLastname;
 		this.ipersonFirstname = ipersonFirstname;
 		this.ipersonBirthday = ipersonBirthday;

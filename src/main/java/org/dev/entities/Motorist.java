@@ -45,10 +45,10 @@ public class Motorist extends IPerson implements Serializable {
 		this.account = account;
 	}
 
-	public Motorist(Long ipersonId, String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
+	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
 			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone,
 			Collection<Vehicle> vehicle, Account account) {
-		super(ipersonId, ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid,
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid,
 				ipersonEmail, ipersonPhone);
 		this.vehicle = vehicle;
 		this.account = account;

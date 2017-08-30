@@ -69,10 +69,10 @@ public class Employee extends IPerson implements Serializable {
 	public void setControl(Control control) {
 		this.control = control;
 	}
-	public Employee(Long ipersonId, String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
+	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
 			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone,
 			String employeeMatricule, Collection<Furlough> furlough, Function function, Tvg tvg, Control control) {
-		super(ipersonId, ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid,
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid,
 				ipersonEmail, ipersonPhone);
 		this.employeeMatricule = employeeMatricule;
 		this.furlough = furlough;
