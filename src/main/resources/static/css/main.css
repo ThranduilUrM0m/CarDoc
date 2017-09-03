@@ -1,0 +1,228 @@
+/* line 10, ../sass/main.scss */
+body {
+  padding: 0;
+  overflow-x: hidden;
+}
+/* line 13, ../sass/main.scss */
+body .container-fluid {
+  padding: 0;
+}
+
+/* line 17, ../sass/main.scss */
+body * {
+  color: #999999;
+}
+
+/* line 20, ../sass/main.scss */
+body::before {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  width: 140vw;
+  height: 140vw;
+  -moz-border-radius: 20vw;
+  -webkit-border-radius: 20vw;
+  border-radius: 20vw;
+  top: -80vw;
+  left: -100vw;
+  background-color: #999999;
+  background-image: linear-gradient(110deg, #999999 0%, #ffffff 100%);
+  transform: rotate(65deg);
+}
+
+/* line 34, ../sass/main.scss */
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* line 40, ../sass/main.scss */
+.Aligner-item {
+  max-width: 50%;
+}
+
+/* line 44, ../sass/main.scss */
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+/* line 48, ../sass/main.scss */
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+/* line 1, ../sass/_homepage.scss */
+.navbar {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+/* line 7, ../sass/_homepage.scss */
+.navbar .navbar-brand {
+  padding: 0;
+}
+/* line 10, ../sass/_homepage.scss */
+.navbar .form-group {
+  margin: 0;
+}
+/* line 13, ../sass/_homepage.scss */
+.navbar .nav-link {
+  padding-top: .25rem !important;
+  padding-bottom: 0 !important;
+}
+
+/* line 18, ../sass/_homepage.scss */
+.search {
+  padding: 0;
+}
+/* line 20, ../sass/_homepage.scss */
+.search .modal-dialog {
+  margin: 0;
+  padding: 0;
+}
+/* line 23, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content {
+  height: 100vh;
+  width: 100vw;
+}
+/* line 27, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content .modal-body input {
+  border: 0;
+  background: rgba(0, 0, 0, 0);
+  font-size: 3rem;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #999999;
+  padding-bottom: 1rem;
+}
+/* line 37, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content .modal-body textarea, .search .modal-dialog .modal-content .modal-body input {
+  outline: none;
+}
+/* line 38, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content .modal-body ::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-size: 3rem;
+  color: #999999;
+}
+/* line 42, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content .modal-body ::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 3rem;
+  color: #999999;
+}
+/* line 46, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content .modal-body :-ms-input-placeholder {
+  /* IE 10+ */
+  font-size: 3rem;
+  color: #999999;
+}
+/* line 50, ../sass/_homepage.scss */
+.search .modal-dialog .modal-content .modal-body :-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 3rem;
+  color: #999999;
+}
+
+/* line 58, ../sass/_homepage.scss */
+.firstsection {
+  height: 100vh;
+  padding: 2rem;
+}
+/* line 61, ../sass/_homepage.scss */
+.firstsection .leftfirstsection {
+  background-image: url("../media/damage-930.png");
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+/* line 66, ../sass/_homepage.scss */
+.firstsection .leftfirstsection .linetop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 55vh;
+  border-left: 0.4rem solid rgba(153, 153, 153, 0.33333);
+}
+/* line 73, ../sass/_homepage.scss */
+.firstsection .leftfirstsection .linebottom {
+  position: absolute;
+  top: 72vh;
+  left: 0;
+  height: 18vh;
+  border-left: 0.4rem solid rgba(153, 153, 153, 0.33333);
+}
+/* line 80, ../sass/_homepage.scss */
+.firstsection .leftfirstsection ul {
+  position: absolute;
+  left: 0;
+  top: 56.5vh;
+}
+/* line 84, ../sass/_homepage.scss */
+.firstsection .leftfirstsection ul .nav-link {
+  padding: 0;
+  font-size: 1.25rem;
+}
+/* line 89, ../sass/_homepage.scss */
+.firstsection .leftfirstsection .contactinfo {
+  font-size: 0.7rem;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+/* line 97, ../sass/_homepage.scss */
+.firstsection .rightfirstsection {
+  height: 100%;
+  padding: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background-image: url("../media/black-and-white-car-vehicle-vintage.jpg");
+  background-size: cover;
+}
+/* line 105, ../sass/_homepage.scss */
+.firstsection .rightfirstsection .statisticsnumbers {
+  position: absolute;
+  bottom: 0;
+  right: 1.2vw;
+}
+/* line 109, ../sass/_homepage.scss */
+.firstsection .rightfirstsection .statisticsnumbers li {
+  text-align: right;
+}
+/* line 112, ../sass/_homepage.scss */
+.firstsection .rightfirstsection .statisticsnumbers button {
+  cursor: text;
+  font-size: 2rem;
+  color: white !important;
+  text-decoration: none;
+}
+/* line 118, ../sass/_homepage.scss */
+.firstsection .rightfirstsection .statisticsnumbers button:hover {
+  text-decoration: none;
+}
+
+/* line 124, ../sass/_homepage.scss */
+.secondsection {
+  height: 100vh;
+}
+
+/* line 127, ../sass/_homepage.scss */
+.thirdsection {
+  height: 100vh;
+}
+
+/* line 130, ../sass/_homepage.scss */
+.footer {
+  height: 50vh;
+}
+
+/* line 54, ../sass/main.scss */
+[type=reset], [type=submit], button, html [type=button] {
+  -webkit-appearance: none;
+}
