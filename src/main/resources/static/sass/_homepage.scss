@@ -1,3 +1,19 @@
+#nav-bg-shadow{
+	background: $halfgray;
+	-webkit-transition: background 1s ease-in-out;
+	-moz-transition: background 1s ease-in-out;
+	-ms-transition: background 1s ease-in-out;
+	-o-transition: background 1s ease-in-out;
+	transition: background 1s ease-in-out;
+	i{
+		color: $white;
+		-webkit-transition: background 1s ease-in-out;
+		-moz-transition: background 1s ease-in-out;
+		-ms-transition: background 1s ease-in-out;
+		-o-transition: background 1s ease-in-out;
+		transition: background 1s ease-in-out;
+	}
+}
 .navbar{
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
@@ -13,6 +29,31 @@
 	.nav-link{
 		padding-top: .25rem !important;
 		padding-bottom: 0 !important;
+	}
+}
+.login{
+	padding: 0;
+	.modal-dialog{
+	  margin: 0;
+	  padding: 0;
+		.modal-content{
+			height: 100vh;
+			width: 100vw;
+			.modal-body{
+				> div:first-of-type {
+					border-right: 1px solid $thirdgray;
+				}
+				.card{
+					background: $thirdgray;
+					.card-body{
+						i{
+							float: right;
+							font-size: 3rem;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 .search{
@@ -68,14 +109,14 @@
 			top: 0;
 			left: 0;
 			height: 55vh;
-			border-left: .4rem solid $halfgray;
+			border-left: .4rem solid $thirdgray;
 		}
 		.linebottom{
 			position: absolute;
 			top: 72vh;
 			left: 0;
 			height: 18vh;
-			border-left: .4rem solid $halfgray;
+			border-left: .4rem solid $thirdgray;
 		}
 		ul{
 			position: absolute;
@@ -122,11 +163,80 @@
 	}
 }
 .secondsection{
-	height: 100vh;
+	height: 80vh;
+	margin: 0;
+	.leftsecondsection{
+		padding: 0;
+		.carousel{
+			vertical-align: middle;
+			padding: 2rem;
+			padding-top: 1rem;
+			.card{
+				height: 75vh;
+				img{
+					width: 50%;
+			    display: block;
+			    margin: 0 auto;
+					margin-bottom: 3rem;
+				}
+				.table {
+				  border-collapse: collapse;
+				  border-style: hidden;
+				}
+				.lastdivider{
+					margin-top: 4.5rem;
+				}
+				.socialmediamotorist a, .socialmediatvg a{
+					font-size: 1.5rem;
+    			padding-top: 0;
+				}
+			}
+			.carousel-control-next span, .carousel-control-prev span{
+				color: $halfgray;
+				font-size: 3rem;
+			}
+		}
+	}
+	.rightsecondsection{
+		background: $halfgray;
+	}
 }
 .thirdsection{
-	height: 100vh;
+	height: 80vh;
+	margin: 0;
+	.leftthirdsection{
+		background: $halfgray;
+	}
+	.rightthirdsection{
+		padding: 0;
+		.carousel{
+			vertical-align: middle;
+			padding: 2rem;
+			padding-top: 1rem;
+			.card{
+				height: 75vh;
+				img{
+					width: 50%;
+			    display: block;
+			    margin: 0 auto;
+					margin-bottom: 3rem;
+				}
+				.table {
+				  border-collapse: collapse;
+				  border-style: hidden;
+				}
+				.lastdivider{
+					margin-top: 4.5rem;
+				}
+			}
+			.carousel-control-next span, .carousel-control-prev span{
+				color: $halfgray;
+				font-size: 3rem;
+			}
+		}
+	}
 }
 .footer{
 	height: 50vh;
+	background: $black;
 }

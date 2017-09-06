@@ -71,21 +71,21 @@ var Table = React.createClass({
       </div>
     );
   }
-  });
+});
 
 // Search
 var Search = React.createClass({
 
-filterList: function(event) {
-  this.props.userInput(event.target.value);
-},
+  filterList: function(event) {
+    this.props.userInput(event.target.value);
+  },
 
-render: function() {
-  return (
-    <input type="text" placeholder="Start Typing" value = {this.props.searchTerm} onChange = {this.filterList} autoFocus>
-    </input>
-  );
-}
+  render: function() {
+    return (
+      <input type="text" placeholder="Start Typing" value = {this.props.searchTerm} onChange = {this.filterList} autoFocus>
+      </input>
+    );
+  }
 });
 
 // App
@@ -117,17 +117,17 @@ var App = React.createClass({
 
 // JSON
 var DATA = [{
-  "title": "Binding",
-  "tags": "Binding Hiding Miding Sliding SAVE",
-  "content": "This is the binding content area where information about binding is shown"
-}, {
-  "title": "Constant",
-  "tags": "Math bath slather calf save",
-  "content": "This is the Constant content area where information about Constant is shown"
-}, {
-  "title": "Numbers",
-  "tags": "Happy birthday sir and maam",
-  "content": "This is the Numbers content area where information about Numbers is shown"
+    "title": "Binding",
+    "tags": "Binding Hiding Miding Sliding SAVE",
+    "content": "This is the binding content area where information about binding is shown"
+  }, {
+    "title": "Constant",
+    "tags": "Math bath slather calf save",
+    "content": "This is the Constant content area where information about Constant is shown"
+  }, {
+    "title": "Numbers",
+    "tags": "Happy birthday sir and maam",
+    "content": "This is the Numbers content area where information about Numbers is shown"
 }];
 
 var Tvg = React.createClass({
@@ -143,18 +143,27 @@ var Tvg = React.createClass({
 });
 var TvgTable = React.createClass({
   render: function() {
-    var rows = [];
-    var i = 0;
-    var countries = 0;
-    var cities = 0;
-    this.props.tvgs.forEach(function(tvg) {
-      rows.push(<Tvg tvg={tvg} />);
-      i++;
-    });
+    var tvgCounter = _.size(this.props.tvgs);
+    var countriesCounter = _.size(_.countBy(this.props.tvgs, function(tvg) { return tvg.tvgCountry; }));
+    var citiesCounter = _.size(_.countBy(this.props.tvgs, function(tvg) { return tvg.tvgCity; }));
     return (
-      <button type="button" className="btn btn-link" data-placement="buttom">
-        {i}
-      </button>
+      <ul className="nav flex-column statisticsnumbers">
+        <li className="nav-item">
+          <button type="button" className="btn btn-link" data-placement="buttom">
+            {tvgCounter}
+          </button>
+        </li>
+        <li className="nav-item">
+          <button type="button" className="btn btn-link" data-placement="buttom">
+            {countriesCounter}
+          </button>
+        </li>
+        <li className="nav-item">
+          <button type="button" className="btn btn-link" data-placement="buttom">
+            {citiesCounter}
+          </button>
+        </li>
+      </ul>
     );
   }
 });
@@ -180,6 +189,94 @@ var TvgApp = React.createClass({
     return ( <TvgTable tvgs={this.state.tvgs}/> );
   }
 });
+class LoginModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'signupas'};
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+  render() {
+    return (
+      <div className="login modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body row">
+              <div className="col">
+                <div className="container">
+                  <div className="card container">
+                    <div className="card-body">
+                      <h4 className="card-title">Login to your profile<i className="ion-log-in"></i></h4>
+                      <p className="card-text">Enter username and password to log in</p>
+                      <form>
+                        <div className="form-group">
+                          <input type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login"/>
+                        </div>
+                        <div className="form-group">
+                          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                        </div>
+                        <div className="form-check">
+                          <label className="form-check-label">
+                            <input type="checkbox" className="switch_checkbox"/>
+                            <span className="switch"></span>
+                            <span className="toggle"></span>
+                            <span className="label">Remember Me</span>
+                          </label>
+                        </div>
+                        <button type="submit" className="btn btn-primary">Submit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="container">
+                  <div className="card container">
+                    <div className="card-body">
+                      <h4 className="card-title">Join the community<i className="ion-compose"></i></h4>
+                      <p className="card-text">fill in the form below to get instant access</p>
+                      <form>
+                        <div className="form-group">
+                          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email address"/>
+                          <small id="emailHelp" className="form-text text-muted"></small>
+                        </div>
+                        <div className="form-group">
+                          <input type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login"/>
+                        </div>
+                        <div className="form-group">
+                          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                        </div>
+                        <div className="form-group">
+                          <select value={this.state.value} onChange={this.handleChange} className="form-control" id="exampleFormControlSelect1">
+                            <option value="signupas" disabled>Sign up as</option>
+                            <option value="motorist">Motorist</option>
+                            <option value="tvg">Tvg</option>
+                          </select>
+                        </div>
+                        <button type="submit" className="btn btn-primary">Submit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class SearchModal extends React.Component {
   render() {
     return (
@@ -206,9 +303,34 @@ class SearchModal extends React.Component {
   }
 }
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {  scrollBackground: 'nav-bg' };
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+  componentWillMount() {
+    let scrollTop = window.pageYOffset,
+        backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg";
+    this.setState({
+      scrollBackground: backgroundValue
+    });
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+  handleScroll(event) {
+      let scrollTop = event.srcElement.body.scrollTop,
+          backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg";
+      this.setState({
+        scrollBackground: backgroundValue
+      });
+  }
   render() {
     return (
-      <nav className="navbar navbar-expand-sm fixed-top">
+      <nav id={this.state.scrollBackground} className="navbar navbar-expand-sm fixed-top">
         <a className="navbar-brand" href="#">
           <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="LOGO" />
         </a>
@@ -219,7 +341,7 @@ class Header extends React.Component {
         </ul>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a className="nav-link" href="#"><i className="material-icons">perm_identity</i></a>
+            <a className="nav-link" href="#" data-toggle="modal" data-target="#loginModal"><i className="material-icons">perm_identity</i></a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#"><i className="material-icons">sort</i></a>
@@ -243,21 +365,7 @@ class RightFirstSection extends React.Component {
     return (
       <div className="jumbotron rightfirstsection Aligner">
         <h1 className="Aligner-item">TVG</h1>
-        <ul className="nav flex-column statisticsnumbers">
-          <li className="nav-item">
-            <TvgApp />
-          </li>
-          <li className="nav-item">
-            <button type="button" className="btn btn-link" data-placement="buttom">
-              XX
-            </button>
-          </li>
-          <li className="nav-item">
-            <button type="button" className="btn btn-link" data-placement="buttom">
-              XX
-            </button>
-          </li>
-        </ul>
+        <TvgApp />
       </div>
     );
   }
@@ -287,6 +395,7 @@ class FirstSection extends React.Component {
           <RightFirstSection />
         </div>
         <SearchModal />
+        <LoginModal />
       </section>
     );
   }
@@ -295,8 +404,112 @@ class SecondSection extends React.Component {
   render() {
     return (
       <section className="secondsection row">
-        <div className="col">Left Side</div>
-        <div className="col">Right Side</div>
+        <div className="leftsecondsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Employees</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+              <div className="carousel-item">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Employees</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Employees</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span className="ion-arrow-left-b" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span className="ion-arrow-right-b" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+        <div className="rightsecondsection col"></div>
       </section>
     );
   }
@@ -305,8 +518,111 @@ class ThirdSection extends React.Component {
   render() {
     return (
       <section className="thirdsection row">
-        <div className="col">Left Side</div>
-        <div className="col">Right Side</div>
+        <div className="leftthirdsection col"></div>
+        <div className="rightthirdsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Cars</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Cars</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav socialmediatvg justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Cars</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav socialmediamotorist justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span className="ion-arrow-left-b" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span className="ion-arrow-right-b" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
       </section>
     );
   }
@@ -315,8 +631,9 @@ class Footer extends React.Component {
   render() {
     return (
       <section className="footer row">
-        <div className="col">Left Side</div>
-        <div className="col">Right Side</div>
+        <div className="col"></div>
+        <div className="col"></div>
+        <div className="col"></div>
       </section>
     );
   }

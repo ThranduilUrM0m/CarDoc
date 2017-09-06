@@ -1,0 +1,55 @@
+$height: 1rem;
+$width: 3rem;
+
+.form-check-label{
+  padding: 0;
+  input[type='checkbox'] {
+    display: none;
+
+    &:checked ~ .toggle {
+      background: $gray;
+      left: ($width - ($height * 1.4 - $height) / 2) - $height;
+      transition: .5s;
+    }
+
+    &:checked ~ .switch {
+      background: $halfgray;
+      transition: .5s;
+    }
+
+    &:checked ~ .label {
+      color: $gray;
+      transition: .5s;
+    }
+  }
+
+  .switch {
+    display: block;
+    width: $width;
+    height: $height;
+    background: $thirdgray;
+    border-radius: $height / 2;
+    position: absolute;
+    top: 0;
+    transition: .5s;
+  }
+
+  .toggle {
+    height: $height * 1.5;
+    width: $height * 1.5;
+    border-radius: 50%;
+    background: $white;
+    position: absolute;
+    top: (($height * 1.4 - $height) / -2)+0.05;
+    left: ($height * 1.4 - $height) / -2;
+    box-shadow: 0 $width / 50 $width / 25 rgba($black, 2/5);
+    transition: .5s;
+  }
+
+  .label{
+    position: absolute;
+    left: $width+1;
+    top: 0;
+    transition: .5s;
+  }
+}

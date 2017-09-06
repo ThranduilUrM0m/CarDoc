@@ -15,7 +15,7 @@ public class CarDocApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(CarDocApplication.class, args);
 		AccountRepository accountRep = context.getBean(AccountRepository.class);
-		accountRep.save(new Account("root", "toor", new Date(), null, null, null, null, null, null, null, null));
-		List<Account> accounts = accountRep.findAll();
+		accountRep.save(new Account("root", "toor", new Date(), true, null, null, null, null, null, null, null, null));
+		accountRep.save(new Account("admin", "admin1234", new Date(), true, null, null, null, null, null, null, null, null));
 	}
 }

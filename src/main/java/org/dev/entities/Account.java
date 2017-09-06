@@ -20,19 +20,30 @@ import javax.persistence.OneToOne;
 import org.dev.metier.IBookStrategy;
 import org.dev.metier.ICancelBookStrategy;
 import org.dev.metier.IConsultStrategy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString(exclude = "accountPassword")
 @Entity
 public class Account implements Serializable{
+
+   public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long accountId;
    @Column(length=40)
    protected String accountLogin;
    @Column(length=100)
-   protected String accountPassword;
+   protected @JsonIgnore String accountPassword;
    protected java.util.Date accountCreationdate;
+   protected Boolean activated;
+   @Column(length=40)
+   protected String role;
    
    @OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
    protected java.util.Collection<ConnectionHistory> connectionHistory;
@@ -57,14 +68,15 @@ public class Account implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Account(String accountLogin, String accountPassword, Date accountCreationdate,
+	public Account(String accountLogin, String accountPassword, Date accountCreationdate, Boolean activated,
 			Collection<ConnectionHistory> connectionHistory, Collection<Consultation> consultation,
 			Collection<Booking> booking, Collection<Picture> picture, Collection<MessageSent> messageSent,
 			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist) {
 		super();
 		this.accountLogin = accountLogin;
-		this.accountPassword = accountPassword;
+		this.accountPassword = PASSWORD_ENCODER.encode(accountPassword);
 		this.accountCreationdate = accountCreationdate;
+		this.activated = activated;
 		this.connectionHistory = connectionHistory;
 		this.consultation = consultation;
 		this.booking = booking;
@@ -73,6 +85,14 @@ public class Account implements Serializable{
 		this.messageReceived = messageReceived;
 		this.tvg = tvg;
 		this.motorist = motorist;
+		if(this.tvg == null && this.motorist == null)
+			this.role = "ADMIN";
+		else {
+			if(this.tvg != null)
+				this.role = "TVG";
+			else
+				this.role = "MOTORIST";
+		}
 	}
 
 	public String getAccountLogin() {
@@ -96,7 +116,7 @@ public class Account implements Serializable{
 	}
 
 	public void setAccountPassword(String accountPassword) {
-		this.accountPassword = accountPassword;
+		this.accountPassword = PASSWORD_ENCODER.encode(accountPassword);
 	}
 
 	public java.util.Date getAccountCreationdate() {
@@ -105,6 +125,14 @@ public class Account implements Serializable{
 
 	public void setAccountCreationdate(java.util.Date accountCreationdate) {
 		this.accountCreationdate = accountCreationdate;
+	}
+	
+	public Boolean getActivated() {
+		return activated;
+	}
+
+	public void setActivated(Boolean activated) {
+		this.activated = activated;
 	}
 
 	public java.util.Collection<ConnectionHistory> getConnectionHistory() {
@@ -170,5 +198,15 @@ public class Account implements Serializable{
 	public void setMotorist(Motorist motorist) {
 		this.motorist = motorist;
 	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	
 	
 }
