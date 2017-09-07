@@ -7,7 +7,14 @@ $thirdgray: rgba(153, 153, 153, 1/3);
   background-color: $gray;
   background-image: linear-gradient(110deg, $gray 0%, $white 100%);
 }
-
+@mixin gradient200 {
+  background-color: $gray;
+  background-image: linear-gradient(200deg, $gray 0%, $white 100%);
+}
+@mixin gradient20 {
+  background-color: $gray;
+  background-image: linear-gradient(20deg, $gray 0%, $white 100%);
+}
 body{
 	padding : 0;
 	overflow-x: hidden;

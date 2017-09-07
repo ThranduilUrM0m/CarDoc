@@ -189,14 +189,73 @@ var TvgApp = React.createClass({
     return ( <TvgTable tvgs={this.state.tvgs}/> );
   }
 });
+class ContactUsModalLauncher extends React.Component {
+  render() {
+    return (
+      <button type="button" data-toggle="modal" data-target="#contactusModal" className="btn btn-secondary contactusmodallauncher"><i className="ion-compose"></i></button>
+    );
+  }
+}
+class ContactUsModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'signupas'};
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+  render() {
+    return (
+      <div className="contactus modal fade" id="contactusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body row">
+              <div className="col">
+                <div className="container">
+                  <div className="card container">
+                    <div className="card-body">
+                      <h4 className="card-title">Stay Connected<i className="ion-email"></i></h4>
+                      <p className="card-text">Suggestions and Complaints are Welcome</p>
+                      <form>
+                        <div className="form-group">
+                          <input type="email" className="form-control" id="exampleInputEmailContact1" aria-describedby="loginHelp" placeholder="Login"/>
+                        </div>
+                        <div className="form-group">
+                          <input type="text" className="form-control" id="exampleInputNameContact1" placeholder="Your Name"/>
+                        </div>
+                        <div className="form-group">
+                          <input type="text" className="form-control" id="exampleInputPhoneContact1" placeholder="Your Phone"/>
+                        </div>
+                        <div className="form-group">
+                          <textarea className="form-control" id="exampleFormControlMessageContact1" placeholder="Message" rows="5"></textarea>
+                        </div>
+                        <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: 'signupas'};
-
     this.handleChange = this.handleChange.bind(this);
   }
-
   handleChange(event) {
     this.setState({value: event.target.value});
   }
@@ -379,16 +438,17 @@ class FirstSection extends React.Component {
           <div className="linebottom"></div>
           <ul className="nav flex-column">
             <li className="nav-item">
-              <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+              <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+              <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#"><i className="ion-social-snapchat"></i></a>
+              <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
             </li>
           </ul>
           <LeftFirstSection />
+          <ContactUsModalLauncher />
           <p className="contactinfo">{this.props.contactinfo}</p>
         </div>
         <div className="col">
@@ -396,6 +456,7 @@ class FirstSection extends React.Component {
         </div>
         <SearchModal />
         <LoginModal />
+        <ContactUsModal />
       </section>
     );
   }
@@ -423,46 +484,15 @@ class SecondSection extends React.Component {
                       </tbody>
                     </table>
                     <div className="lastdivider dropdown-divider"></div>
-                    <ul className="nav justify-content-center">
+                    <ul className="nav socialmediatvg justify-content-center">
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-              </div>
-              <div className="carousel-item">
-                <div className="card">
-                  <div className="card-body">
-                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
-                    <h4 className="card-title text-center">TITLE</h4>
-                    <p className="card-text text-center">DESCRIPTION</p>
-                    <table className="table table-bordered">
-                      <tbody>
-                        <tr>
-                          <td className="text-center"><span>XX</span><br/><span>Employees</span></td>
-                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
-                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div className="lastdivider dropdown-divider"></div>
-                    <ul className="nav justify-content-center">
-                      <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
                       </li>
                     </ul>
                   </div>
@@ -484,15 +514,45 @@ class SecondSection extends React.Component {
                       </tbody>
                     </table>
                     <div className="lastdivider dropdown-divider"></div>
-                    <ul className="nav justify-content-center">
+                    <ul className="nav socialmediatvg justify-content-center">
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Employees</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav socialmediatvg justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
                       </li>
                     </ul>
                   </div>
@@ -509,7 +569,17 @@ class SecondSection extends React.Component {
             </a>
           </div>
         </div>
-        <div className="rightsecondsection col"></div>
+        <div className="rightsecondsection col row">
+          <div className="col Aligner">
+            <div>
+              <h4>Lorem ipsum dolor sit amet</h4>
+              <p>Consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor</p>
+            </div>
+          </div>
+          <div className="col">
+            <img src="../media/experte.png" alt="Card image cap"/>
+          </div>
+        </div>
       </section>
     );
   }
@@ -518,9 +588,19 @@ class ThirdSection extends React.Component {
   render() {
     return (
       <section className="thirdsection row">
-        <div className="leftthirdsection col"></div>
+        <div className="leftthirdsection col row">
+          <div className="col">
+            <img src="../media/McCarthys_Cars_Woman_Key.png" alt="Card image cap"/>
+          </div>
+          <div className="col Aligner">
+            <div>
+              <h4>Lorem ipsum dolor sit amet</h4>
+              <p>Consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor</p>
+            </div>
+          </div>
+        </div>
         <div className="rightthirdsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-          <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+          <div id="carouselExampleControls2" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
                 <div className="card">
@@ -538,45 +618,15 @@ class ThirdSection extends React.Component {
                       </tbody>
                     </table>
                     <div className="lastdivider dropdown-divider"></div>
-                    <ul className="nav justify-content-center">
+                    <ul className="nav socialmediamotorist justify-content-center">
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="card">
-                  <div className="card-body">
-                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
-                    <h4 className="card-title text-center">TITLE</h4>
-                    <p className="card-text text-center">DESCRIPTION</p>
-                    <table className="table table-bordered">
-                      <tbody>
-                        <tr>
-                          <td className="text-center"><span>XX</span><br/><span>Cars</span></td>
-                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
-                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div className="lastdivider dropdown-divider"></div>
-                    <ul className="nav socialmediatvg justify-content-center">
-                      <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
                       </li>
                     </ul>
                   </div>
@@ -600,24 +650,54 @@ class ThirdSection extends React.Component {
                     <div className="lastdivider dropdown-divider"></div>
                     <ul className="nav socialmediamotorist justify-content-center">
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-instagram"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-facebook"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="#"><i className="ion-social-twitter"></i></a>
+                        <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item">
+                <div className="card">
+                  <div className="card-body">
+                    <img className="img-thumbnail rounded-circle" src="../media/gallery1600.png" alt="Card image cap"/>
+                    <h4 className="card-title text-center">TITLE</h4>
+                    <p className="card-text text-center">DESCRIPTION</p>
+                    <table className="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td className="text-center"><span>XX</span><br/><span>Cars</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Bookings</span></td>
+                          <td className="text-center"><span>XX</span><br/><span>Controls</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="lastdivider dropdown-divider"></div>
+                    <ul className="nav socialmediamotorist justify-content-center">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
-            <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <a className="carousel-control-prev" href="#carouselExampleControls2" role="button" data-slide="prev">
               <span className="ion-arrow-left-b" aria-hidden="true"></span>
               <span className="sr-only">Previous</span>
             </a>
-            <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <a className="carousel-control-next" href="#carouselExampleControls2" role="button" data-slide="next">
               <span className="ion-arrow-right-b" aria-hidden="true"></span>
               <span className="sr-only">Next</span>
             </a>
@@ -629,11 +709,62 @@ class ThirdSection extends React.Component {
 }
 class Footer extends React.Component {
   render() {
+    let year = (new Date()).getFullYear();
     return (
-      <section className="footer row">
-        <div className="col"></div>
-        <div className="col"></div>
-        <div className="col"></div>
+      <section className="footer">
+        <div className="row">
+          <div className="col">
+            <h4>Navigation</h4>
+            <ul>
+              <li>page</li>
+            </ul>
+          </div>
+          <div className="col">
+            <h4>By the numbers</h4>
+          </div>
+          <div className="col">
+            <h4>Need help ?</h4>
+            <p>Call Us:<br/>+212 (0) 654 528 492</p>
+            <h5>General Inquiries:</h5>
+            <p>info@mail.com</p>
+            <h5>Stay connected</h5>
+            <ul className="nav">
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="dropdown-divider"></div>
+        <div className="row">
+          <div className="col text-center">
+            <p className="contactinfo">{this.props.contactinfo}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col text-center">
+            <ul className="nav">
+              <li className="nav-item">
+                © {year} By OPDesign, Inc. All rights reserved
+              </li>
+              <li className="nav-item">
+                <a href="#">Disclaimer</a>
+              </li>
+              <li className="nav-item">
+                <a href="#">Privacy Policy</a>
+              </li>
+              <li className="nav-item">
+                <a href="#">Sitemap</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
     );
   }
@@ -646,7 +777,7 @@ class ContainerFluid extends React.Component{
         <FirstSection contactinfo={["(212) 6 54 52 84 92 | Marjane 1, 2", <sup>ème</sup>,  " tranche n°51, Meknès Maroc."]} />
         <SecondSection />
         <ThirdSection />
-        <Footer />
+        <Footer contactinfo={["Marjane 1, 2", <sup>ème</sup>,  " tranche n°51, Meknès Maroc."]} />
       </div>
     );
   }

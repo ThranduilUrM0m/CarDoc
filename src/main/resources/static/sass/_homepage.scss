@@ -96,6 +96,33 @@
 		}
 	}
 }
+.contactus{
+	padding: 0;
+	.modal-dialog{
+	  margin: 0;
+	  padding: 0;
+		.modal-content{
+			height: 100vh;
+			width: 100vw;
+			.modal-body{
+				> div:first-of-type {
+					border-right: 1px solid $thirdgray;
+				}
+				.card{
+					.card-body{
+						i{
+							float: right;
+							font-size: 3rem;
+						}
+						button{
+							float: right;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 .firstsection{
 	height: 100vh;
 	padding: 2rem;
@@ -186,7 +213,7 @@
 				.lastdivider{
 					margin-top: 4.5rem;
 				}
-				.socialmediamotorist a, .socialmediatvg a{
+				.socialmediatvg a{
 					font-size: 1.5rem;
     			padding-top: 0;
 				}
@@ -198,14 +225,28 @@
 		}
 	}
 	.rightsecondsection{
-		background: $halfgray;
+		@include gradient200;
+		img{
+			height: 100%;
+			float: right;
+		}
+		p{
+			font-size: .8rem;
+		}
 	}
 }
 .thirdsection{
 	height: 80vh;
 	margin: 0;
 	.leftthirdsection{
-		background: $halfgray;
+		@include gradient20;
+		img{
+			height: 100%;
+			float: left;
+		}
+		p{
+			font-size: .8rem;
+		}
 	}
 	.rightthirdsection{
 		padding: 0;
@@ -228,6 +269,10 @@
 				.lastdivider{
 					margin-top: 4.5rem;
 				}
+				.socialmediamotorist a{
+					font-size: 1.5rem;
+    			padding-top: 0;
+				}
 			}
 			.carousel-control-next span, .carousel-control-prev span{
 				color: $halfgray;
@@ -239,4 +284,39 @@
 .footer{
 	height: 50vh;
 	background: $black;
+	&:before{
+		content: "";
+    position: absolute;
+    left: 0;
+    top: 260vh;
+    height: 50vh;
+    width: 100%;
+		background-image: url('../media/Map-dots.png');
+	  -webkit-background-size: contain;
+	  background-size: contain;
+		opacity: .4;
+	}
+	.row [class*='col']:not(:last-child):after {
+	  background: $thirdgray;
+	  width: 1px;
+	  content: "";
+	  display:block;
+	  position: absolute;
+	  top:1rem;
+	  bottom: 0;
+	  right: 0;
+	  min-height: 30vh;
+	}
+	.row{
+		z-index: 998;
+	}
+}
+.contactusmodallauncher {
+	position: fixed;
+	z-index: 999;
+	top: 85vh;
+	left: 2vw;
+	i{
+		font-size: 2.5rem;
+	}
 }
