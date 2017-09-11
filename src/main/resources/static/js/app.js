@@ -361,17 +361,170 @@ class SearchModal extends React.Component {
     );
   }
 }
+class MotoristPSModal extends React.Component {
+  render() {
+    return (
+      <div className="motoristps modal fade" id="motoristPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body row">
+              <div className="col">
+                <div className="card">
+                  <div className="card-body text-center">
+                    <div className="card-face active Aligner">
+                      <h1 className="card-title">STORIES</h1>
+                    </div>
+                    <div className="card-face">
+                      <h4 className="card-title">FACE 2</h4>
+                      <p className="card-text">Content</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="card">
+                  <div className="card-body text-center">
+                    <div className="card-face active Aligner">
+                      <h1 className="card-title">PLAN</h1>
+                    </div>
+                    <div className="card-face">
+                      <div className="row example-centered">
+                        <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+                            <ul className="timeline timeline-centered">
+                                <li className="timeline-item">
+                                    <div className="timeline-info">
+                                        <span>March 12, 2016</span>
+                                    </div>
+                                    <div className="timeline-marker"></div>
+                                    <div className="timeline-content">
+                                        <h3 className="timeline-title">Event Title</h3>
+                                        <p>Nullam vel sem. Nullam vel sem. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Donec vitae sapien ut libero venenatis faucibus. ullam dictum felis
+                                            eu pede mollis pretium. Pellentesque ut neque.</p>
+                                    </div>
+                                </li>
+                                <li className="timeline-item">
+                                    <div className="timeline-info">
+                                        <span>March 23, 2016</span>
+                                    </div>
+                                    <div className="timeline-marker"></div>
+                                    <div className="timeline-content">
+                                        <h3 className="timeline-title">Event Title</h3>
+                                        <p>Nullam vel sem. Nullam vel sem. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Donec vitae sapien ut libero venenatis faucibus. ullam dictum felis
+                                            eu pede mollis pretium. Pellentesque ut neque. </p>
+                                    </div>
+                                </li>
+                                <li className="timeline-item period">
+                                    <div className="timeline-info"></div>
+                                    <div className="timeline-marker"></div>
+                                    <div className="timeline-content">
+                                        <h2 className="timeline-title">April 2016</h2>
+                                    </div>
+                                </li>
+                                <li className="timeline-item">
+                                    <div className="timeline-info">
+                                        <span>April 02, 2016</span>
+                                    </div>
+                                    <div className="timeline-marker"></div>
+                                    <div className="timeline-content">
+                                        <h3 className="timeline-title">Event Title</h3>
+                                        <p>Nullam vel sem. Nullam vel sem. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Donec vitae sapien ut libero venenatis faucibus. ullam dictum felis
+                                            eu pede mollis pretium. Pellentesque ut neque. </p>
+                                    </div>
+                                </li>
+                                <li className="timeline-item">
+                                    <div className="timeline-info">
+                                        <span>April 28, 2016</span>
+                                    </div>
+                                    <div className="timeline-marker"></div>
+                                    <div className="timeline-content">
+                                        <h3 className="timeline-title">Event Title</h3>
+                                        <p>Nullam vel sem. Nullam vel sem. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Donec vitae sapien ut libero venenatis faucibus. ullam dictum felis
+                                            eu pede mollis pretium. Pellentesque ut neque. </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+class TvgPSModal extends React.Component {
+  render() {
+    return (
+      <div className="tvgps modal fade" id="tvgPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body row">
+              <div className="col">
+                <div className="card">
+                  <div className="card-body text-center">
+                    <div className="card-face active Aligner">
+                      <h1 className="card-title">PLAN</h1>
+                    </div>
+                    <div className="card-face">
+                      <h4 className="card-title">FACE 2</h4>
+                      <p className="card-text">Content</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="card">
+                  <div className="card-body text-center">
+                    <div className="card-face active Aligner">
+                      <h1 className="card-title">STORIES</h1>
+                    </div>
+                    <div className="card-face">
+                      <h4 className="card-title">FACE 2</h4>
+                      <p className="card-text">Content</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {  scrollBackground: 'nav-bg' };
+    this.state = {  scrollBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
     this.handleScroll = this.handleScroll.bind(this);
   }
   componentWillMount() {
     let scrollTop = window.pageYOffset,
-        backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg";
+        backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg",
+        logoValue = (scrollTop != 0) ? "../media/CarCare.png" : "../media/LogoCarCare.png",
+        idValue = (scrollTop != 0) ? "navbar-brand-carcare" : "navbar-brand-logocarcare";
     this.setState({
       scrollBackground: backgroundValue
+    });
+    this.setState({
+      logo: logoValue
+    });
+    this.setState({
+      id: idValue
     });
   }
   componentDidMount() {
@@ -381,17 +534,25 @@ class Header extends React.Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
   handleScroll(event) {
-      let scrollTop = event.srcElement.body.scrollTop,
-          backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg";
-      this.setState({
-        scrollBackground: backgroundValue
-      });
+    let scrollTop = event.srcElement.body.scrollTop,
+        backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg",
+        logoValue = (scrollTop != 0) ? "../media/CarCare.png" : "../media/LogoCarCare.png",
+        idValue = (scrollTop != 0) ? "navbar-brand-carcare" : "navbar-brand-logocarcare";
+    this.setState({
+      scrollBackground: backgroundValue
+    });
+    this.setState({
+      logo: logoValue
+    });
+    this.setState({
+      id: idValue
+    });
   }
   render() {
     return (
       <nav id={this.state.scrollBackground} className="navbar navbar-expand-sm fixed-top">
-        <a className="navbar-brand" href="#">
-          <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="LOGO" />
+        <a className="navbar-brand" id={this.state.id} href="#">
+          <img src={this.state.logo} alt="LOGO" />
         </a>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
@@ -433,7 +594,7 @@ class FirstSection extends React.Component {
   render() {
     return (
       <section className="firstsection row">
-        <div className="col leftfirstsection Aligner">
+        <a href="#" data-toggle="modal" data-target="#motoristPSModal" className="col leftfirstsection Aligner">
           <div className="linetop"></div>
           <div className="linebottom"></div>
           <ul className="nav flex-column">
@@ -450,13 +611,15 @@ class FirstSection extends React.Component {
           <LeftFirstSection />
           <ContactUsModalLauncher />
           <p className="contactinfo">{this.props.contactinfo}</p>
-        </div>
-        <div className="col">
+        </a>
+        <a href="#" data-toggle="modal" data-target="#tvgPSModal" className="col">
           <RightFirstSection />
-        </div>
+        </a>
         <SearchModal />
         <LoginModal />
         <ContactUsModal />
+        <MotoristPSModal />
+        <TvgPSModal />
       </section>
     );
   }
@@ -712,7 +875,7 @@ class Footer extends React.Component {
     let year = (new Date()).getFullYear();
     return (
       <section className="footer">
-        <div className="row">
+        <div className="row bigrow">
           <div className="col">
             <h4>Navigation</h4>
             <ul>
@@ -741,26 +904,27 @@ class Footer extends React.Component {
             </ul>
           </div>
         </div>
-        <div className="dropdown-divider"></div>
+        <div className="dropdown-divider footerdivider"></div>
         <div className="row">
           <div className="col text-center">
             <p className="contactinfo">{this.props.contactinfo}</p>
           </div>
         </div>
+        <div className="dropdown-divider footerdivider"></div>
         <div className="row">
-          <div className="col text-center">
-            <ul className="nav">
+          <div className="col">
+            <ul className="nav justify-content-center">
               <li className="nav-item">
-                © {year} By OPDesign, Inc. All rights reserved
+                <a className="nav-link">© {year} By OPDesign, Inc. All rights reserved</a>
               </li>
               <li className="nav-item">
-                <a href="#">Disclaimer</a>
+                <a className="nav-link" href="#">Disclaimer</a>
               </li>
               <li className="nav-item">
-                <a href="#">Privacy Policy</a>
+                <a className="nav-link" href="#">Privacy Policy</a>
               </li>
               <li className="nav-item">
-                <a href="#">Sitemap</a>
+                <a className="nav-link" href="#">Sitemap</a>
               </li>
             </ul>
           </div>

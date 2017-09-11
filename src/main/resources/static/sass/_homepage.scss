@@ -20,8 +20,28 @@
 	box-shadow: none;
 	padding-top: 0 !important;
 	padding-bottom: 0 !important;
-	.navbar-brand{
+	#navbar-brand-carcare{
 		padding: 0;
+		position: absolute;
+    top: 0;
+		transition: all .5s ease-in-out;
+		img{
+			height: 1.5rem;
+			transition: all .5s ease-in-out;
+		}
+	}
+	#navbar-brand-logocarcare{
+		padding: 0;
+		position: absolute;
+    top: 1vh;
+		transition: all .5s ease-in-out;
+		img{
+			height: 3rem;
+			transition: all .5s ease-in-out;
+		}
+		*{
+			transition: all .5s ease-in-out;
+		}
 	}
 	.form-group{
 		margin: 0;
@@ -29,6 +49,7 @@
 	.nav-link{
 		padding-top: .25rem !important;
 		padding-bottom: 0 !important;
+		transition: all .5s ease-in-out;
 	}
 }
 .login{
@@ -96,6 +117,62 @@
 		}
 	}
 }
+.tvgps, .motoristps{
+	padding: 0;
+	.modal-dialog{
+	  margin: 0;
+	  padding: 0;
+		.modal-content{
+			height: 100vh;
+			width: 100vw;
+			background: $darkgray;
+			.modal-body{
+				.card{
+					&:not(first-of-type){
+						overflow: auto;
+					}
+					&::-webkit-scrollbar {
+						display: none;
+					}
+				  width: 100%;
+				  height: 100%;
+				  margin: 0 auto;
+				  perspective: 600;
+				  position: relative;
+					background: $darkgray;
+				  .card-body{
+				    background-color: $darkgray;
+				    position: absolute;
+				    padding: 0;
+				    width: 100%;
+				    height: 100%;
+				    transform-style: preserve-3d;
+				    transition: all .5s ease-in-out;
+				    & *{
+				      color: $white;
+				    }
+				    &:hover{
+				      transform: rotateY(180deg);
+				    }
+				    .card-face{
+				      backface-visibility: hidden;
+				      height: 100%;
+				      width: 100%;
+				      position: absolute;
+				      &:not(.active){
+				        transform: rotateY(180deg);
+				      }
+							h1{
+								font-weight: bolder;
+								font-size: 5rem;
+							}
+				    }
+				  }
+				}
+			}
+		}
+	}
+}
 .contactus{
 	padding: 0;
 	.modal-dialog{
@@ -126,16 +203,29 @@
 .firstsection{
 	height: 100vh;
 	padding: 2rem;
+	&:before{
+		content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+		background-image: url('../media/810.jpg');
+	  -webkit-background-size: contain;
+	  background-size: contain;
+		opacity: .02;
+	}
 	.leftfirstsection{
+		text-decoration: none;
 		background-image: url('../media/damage-930.png');
 		background-size: 50%;
 		background-repeat: no-repeat;
 		background-position: center;
 		.linetop{
 			position: absolute;
-			top: 0;
+			top: 7vh;
 			left: 0;
-			height: 55vh;
+			height: 48vh;
 			border-left: .4rem solid $thirdgray;
 		}
 		.linebottom{
@@ -161,6 +251,9 @@
 			right: 0;
 			bottom: 0;
 		}
+	}
+	.col:not(first-of-type){
+		text-decoration: none;
 	}
 	.rightfirstsection{
 		height: 100%;
@@ -284,6 +377,7 @@
 .footer{
 	height: 50vh;
 	background: $black;
+	z-index: 997;
 	&:before{
 		content: "";
     position: absolute;
@@ -307,13 +401,44 @@
 	  right: 0;
 	  min-height: 30vh;
 	}
-	.row{
-		z-index: 998;
+	.bigrow{
+		min-height: 39vh;
+		padding-top: 1.2rem;
+		.col:first-of-type{
+			h4{
+				padding-left: 1.2rem;
+			}
+		}
+		p{
+			font-size: .8rem;
+		}
+		.nav{
+			a{
+				font-size: 1.2rem;
+			}
+			a:first-of-type{
+				padding-left: 0;
+			}
+		}
+	}
+	.row:not(:first-of-type){
+		.nav{
+			a{
+				font-size: .8rem;
+			}
+		}
+		p{
+			font-size: .8rem;
+			margin: 0;
+		}
+	}
+	.footerdivider{
+		border-top: .5px solid $thirdgray;
 	}
 }
 .contactusmodallauncher {
 	position: fixed;
-	z-index: 999;
+	z-index: 995;
 	top: 85vh;
 	left: 2vw;
 	i{
