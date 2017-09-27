@@ -54,6 +54,11 @@ public Control getControl() {
 public void setControl(Control control) {
 	this.control = control;
 }
+
+public ControlPoint() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 public ControlPoint(String controlpointLabel, String controlpointError, Control control) {
 	super();
 	this.controlpointLabel = controlpointLabel;

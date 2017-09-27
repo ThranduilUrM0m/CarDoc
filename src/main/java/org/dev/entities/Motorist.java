@@ -20,7 +20,8 @@ import javax.persistence.OneToOne;
 @Entity
 @DiscriminatorValue("MO")
 public class Motorist extends IPerson implements Serializable {
-	@Column(length=20)
+	
+	@Column(length=20) 
 	protected String motoristMatricule;
 	
 	@OneToMany(mappedBy="motorist", targetEntity=Vehicle.class)
@@ -45,13 +46,33 @@ public class Motorist extends IPerson implements Serializable {
 		this.account = account;
 	}
 
-	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
-			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone,
+	public String getMotoristMatricule() {
+		return motoristMatricule;
+	}
+
+	public void setMotoristMatricule(String motoristMatricule) {
+		this.motoristMatricule = motoristMatricule;
+	}
+
+	public Motorist() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCity,
+			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid, ipersonEmail,
+				ipersonPhone);
+		// TODO Auto-generated constructor stub
+	}
+
+	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCity,
+			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone, String motoristMatricule,
 			Collection<Vehicle> vehicle, Account account) {
-		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid,
-				ipersonEmail, ipersonPhone);
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid, ipersonEmail,
+				ipersonPhone);
+		this.motoristMatricule = motoristMatricule;
 		this.vehicle = vehicle;
 		this.account = account;
 	}
-	
 }

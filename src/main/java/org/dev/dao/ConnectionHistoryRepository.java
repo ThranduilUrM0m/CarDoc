@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ConnectionHistoryRepository extends JpaRepository<ConnectionHistory, Long> {
-	public List<ConnectionHistory> findByconnectionhistoryDeviceip(String connectionhistoryDeviceip);
-	@Query("select a from ConnectionHistory a where a.connectionhistoryDeviceip like :x")
-	public Page<ConnectionHistory> searchConnectionHistories(@Param("x")String mc, Pageable pageable);
+	
 }

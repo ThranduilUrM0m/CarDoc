@@ -20,8 +20,6 @@ import javax.persistence.OneToOne;
 import org.dev.metier.IBookStrategy;
 import org.dev.metier.ICancelBookStrategy;
 import org.dev.metier.IConsultStrategy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,7 +31,6 @@ import lombok.ToString;
 @Entity
 public class Account implements Serializable{
 
-   public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long accountId;
    @Column(length=40)
@@ -43,7 +40,7 @@ public class Account implements Serializable{
    protected java.util.Date accountCreationdate;
    protected Boolean activated;
    @Column(length=40)
-   protected String role;
+   protected String[] roles;
    
    @OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
    protected java.util.Collection<ConnectionHistory> connectionHistory;
@@ -71,10 +68,10 @@ public class Account implements Serializable{
 	public Account(String accountLogin, String accountPassword, Date accountCreationdate, Boolean activated,
 			Collection<ConnectionHistory> connectionHistory, Collection<Consultation> consultation,
 			Collection<Booking> booking, Collection<Picture> picture, Collection<MessageSent> messageSent,
-			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist) {
+			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist, String... roles) {
 		super();
 		this.accountLogin = accountLogin;
-		this.accountPassword = PASSWORD_ENCODER.encode(accountPassword);
+		this.setAccountPassword(accountPassword);
 		this.accountCreationdate = accountCreationdate;
 		this.activated = activated;
 		this.connectionHistory = connectionHistory;
@@ -85,14 +82,7 @@ public class Account implements Serializable{
 		this.messageReceived = messageReceived;
 		this.tvg = tvg;
 		this.motorist = motorist;
-		if(this.tvg == null && this.motorist == null)
-			this.role = "ADMIN";
-		else {
-			if(this.tvg != null)
-				this.role = "TVG";
-			else
-				this.role = "MOTORIST";
-		}
+		this.roles = roles;
 	}
 
 	public String getAccountLogin() {
@@ -116,7 +106,7 @@ public class Account implements Serializable{
 	}
 
 	public void setAccountPassword(String accountPassword) {
-		this.accountPassword = PASSWORD_ENCODER.encode(accountPassword);
+		this.accountPassword = accountPassword;
 	}
 
 	public java.util.Date getAccountCreationdate() {
@@ -162,7 +152,6 @@ public class Account implements Serializable{
 	public java.util.Collection<Picture> getPicture() {
 		return picture;
 	}
-
 	public void setPicture(java.util.Collection<Picture> picture) {
 		this.picture = picture;
 	}
@@ -199,14 +188,12 @@ public class Account implements Serializable{
 		this.motorist = motorist;
 	}
 
-	public String getRole() {
-		return role;
+	public String[] getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(String[] roles) {
+		this.roles = roles;
 	}
-
-	
 	
 }

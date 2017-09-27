@@ -92,6 +92,11 @@ public class Control implements Serializable{
 	public void setTvg(Tvg tvg) {
 		this.tvg = tvg;
 	}
+	
+	public Control() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Control(int controlPrice, String controlType, boolean controlConfirmed, Booking booking,
 			Collection<ControlPoint> controlPoint, Employee employee, Tvg tvg) {
 		super();

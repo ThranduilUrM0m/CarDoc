@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ControlPointRepository extends JpaRepository<ControlPoint, Long> {
-	public List<ControlPoint> findBycontrolpointLabel(String controlpointLabel);
-	@Query("select a from ControlPoint a where a.controlpointLabel like :x")
-	public Page<ControlPoint> searchControlPoints(@Param("x")String mc, Pageable pageable);
+	
 }

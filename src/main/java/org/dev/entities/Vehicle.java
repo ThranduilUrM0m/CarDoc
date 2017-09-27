@@ -28,7 +28,7 @@ public class Vehicle implements Serializable {
    @Column(length=100)
    protected String vehicleRegistration;
 
-   @ManyToOne(optional=false) @JoinColumn(name="motoristMatricule", referencedColumnName="motoristMatricule")
+   @ManyToOne(optional=true) @JoinColumn(name="motoristMatricule", referencedColumnName="motoristMatricule")
    protected Motorist motorist;
    
    public Long getVehicleId() {
@@ -71,6 +71,11 @@ public class Vehicle implements Serializable {
 	public void setMotorist(Motorist motorist) {
 		this.motorist = motorist;
 	}
+	
+	public Vehicle() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Vehicle(String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
 			String vehicleRegistration, Motorist motorist) {
 		super();
@@ -80,5 +85,4 @@ public class Vehicle implements Serializable {
 		this.vehicleRegistration = vehicleRegistration;
 		this.motorist = motorist;
 	}
-	
 }

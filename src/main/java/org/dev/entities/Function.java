@@ -47,6 +47,11 @@ public java.util.Collection<Employee> getEmployee() {
 public void setEmployee(java.util.Collection<Employee> employee) {
 	this.employee = employee;
 }
+
+public Function() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 public Function(String functionLabel, Collection<Employee> employee) {
 	super();
 	this.functionLabel = functionLabel;

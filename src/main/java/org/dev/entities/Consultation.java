@@ -45,6 +45,11 @@ public Booking getBooking() {
 public void setBooking(Booking booking) {
 	this.booking = booking;
 }
+
+public Consultation() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 public Consultation(Account account, Booking booking) {
 	super();
 	this.account = account;

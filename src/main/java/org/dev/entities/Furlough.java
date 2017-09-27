@@ -60,6 +60,11 @@ public Employee getEmployee() {
 public void setEmployee(Employee employee) {
 	this.employee = employee;
 }
+
+public Furlough() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 public Furlough(Date furloughDatebegin, Date furloughDateend, boolean furloughJustified,
 		Employee employee) {
 	super();

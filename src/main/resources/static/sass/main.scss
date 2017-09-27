@@ -58,6 +58,10 @@ body::before{
   align-self: flex-end;
 }
 
+.has-error input{
+  background-image: linear-gradient(0deg,#d50000 2px,rgba(213,0,0,0) 0),linear-gradient(0deg,rgba(0,0,0,.26) 1px,transparent 0) !important;
+}
+
 @import 'homepage';
 @import 'checkbox';
 @import 'timeline';

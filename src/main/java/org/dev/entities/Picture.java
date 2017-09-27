@@ -20,11 +20,11 @@ import javax.persistence.ManyToOne;
 public class Picture  implements Serializable{
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long pictureId;
-   @Column(columnDefinition = "TEXT")
-   protected String pictureContent;
    @Column(length=100)
+   protected String pictureName;
+   @Column(length=10)
    protected String pictureExtension;
-   protected boolean isLatest;
+   protected java.util.Date insertDate;
    
    @ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
    protected Account account;
@@ -36,24 +36,24 @@ public class Picture  implements Serializable{
       pictureId = newPictureId;
    }
    
-   public String getPictureContent() {
-      return pictureContent;
-   }
-   public void setPictureContent(String newPictureContent) {
-      pictureContent = newPictureContent;
-   }
-   
    public String getPictureExtension() {
       return pictureExtension;
    }
    public void setPictureExtension(String newPictureExtension) {
       pictureExtension = newPictureExtension;
    }
-   public boolean isLatest() {
-		return isLatest;
+   
+	public String getPictureName() {
+		return pictureName;
 	}
-	public void setLatest(boolean isLatest) {
-		this.isLatest = isLatest;
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+	public java.util.Date getInsertDate() {
+		return insertDate;
+	}
+	public void setInsertDate(java.util.Date insertDate) {
+		this.insertDate = insertDate;
 	}
 	public Account getAccount() {
 		return account;
@@ -61,11 +61,16 @@ public class Picture  implements Serializable{
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-	public Picture(String pictureContent, String pictureExtension, boolean isLatest, Account account) {
+	
+	public Picture() {
 		super();
-		this.pictureContent = pictureContent;
+		// TODO Auto-generated constructor stub
+	}
+	public Picture(String pictureName, String pictureExtension, Date insertDate, Account account) {
+		super();
+		this.pictureName = pictureName;
 		this.pictureExtension = pictureExtension;
-		this.isLatest = isLatest;
+		this.insertDate = insertDate;
 		this.account = account;
 	}
 	

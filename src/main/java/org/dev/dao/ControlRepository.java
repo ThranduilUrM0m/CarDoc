@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ControlRepository extends JpaRepository<Control, Long> {
-	public List<Control> findBycontrolType(String controlType);
-	@Query("select a from Control a where a.controlType like :x")
-	public Page<Control> searchControls(@Param("x")String mc, Pageable pageable);
+	
 }

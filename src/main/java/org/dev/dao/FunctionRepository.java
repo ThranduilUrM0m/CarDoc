@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FunctionRepository extends JpaRepository<Function, Long> {
-	public List<Function> findByfunctionLabel(String functionLabel);
-	@Query("select a from Function a where a.functionLabel like :x")
-	public Page<Function> searchFunctions(@Param("x")String mc, Pageable pageable);
+	
 }

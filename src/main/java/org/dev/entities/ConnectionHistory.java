@@ -70,6 +70,11 @@ public Account getAccount() {
 public void setAccount(Account account) {
 	this.account = account;
 }
+
+public ConnectionHistory() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 public ConnectionHistory(Date connectionhistoryStart, Date connectionhistoryEnd,
 		String connectionhistoryDeviceip, String connectionhistoryDevicename, Account account) {
 	super();

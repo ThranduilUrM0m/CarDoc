@@ -91,6 +91,11 @@ public class Booking implements Serializable{
 	public void setTvg(Tvg tvg) {
 		this.tvg = tvg;
 	}
+	
+	public Booking() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Booking(Date bookingDate, Date bookingCreationdate, boolean bookingIsCanceled,
 			Account account, Control control, Collection<Consultation> consultation, Tvg tvg) {
 		super();

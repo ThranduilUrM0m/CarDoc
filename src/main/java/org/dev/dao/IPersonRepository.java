@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface IPersonRepository extends JpaRepository<IPerson, Long> {
-	public List<IPerson> findByipersonNationalcardid(String ipersonNationalcardid);
-	@Query("select a from IPerson a where a.ipersonNationalcardid like :x")
-	public Page<IPerson> searchIPersons(@Param("x")String mc, Pageable pageable);
+	
 }

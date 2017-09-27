@@ -63,6 +63,11 @@ public abstract class IMessage implements Serializable{
 	public void setImessageReceivingTime(java.util.Date imessageReceivingTime) {
 		this.imessageReceivingTime = imessageReceivingTime;
 	}
+	
+	public IMessage() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public IMessage(String imessageContent, Date imessageSeenTime, Date imessageSendingTime,
 			Date imessageReceivingTime) {
 		super();

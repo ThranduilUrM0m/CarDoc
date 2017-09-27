@@ -11,7 +11,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FurloughRepository extends JpaRepository<Furlough, Long> {
-	public List<Furlough> findByfurloughDatebegin(Date furloughDatebegin);
-	@Query("select a from Furlough a where a.furloughDatebegin like :x")
-	public Page<Furlough> searchFurloughs(@Param("x")String mc, Pageable pageable);
+	
 }

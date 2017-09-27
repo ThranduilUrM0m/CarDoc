@@ -93,6 +93,11 @@ public abstract class IPerson implements Serializable {
 	public void setIpersonPhone(String ipersonPhone) {
 		this.ipersonPhone = ipersonPhone;
 	}
+	
+	public IPerson() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public IPerson(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
 			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
 		super();

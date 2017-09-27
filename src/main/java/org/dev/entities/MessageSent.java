@@ -29,6 +29,17 @@ public class MessageSent extends IMessage implements Serializable {
 		this.account = account;
 	}
 
+	public MessageSent() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MessageSent(String imessageContent, Date imessageSeenTime, Date imessageSendingTime,
+			Date imessageReceivingTime) {
+		super(imessageContent, imessageSeenTime, imessageSendingTime, imessageReceivingTime);
+		// TODO Auto-generated constructor stub
+	}
+
 	public MessageSent(String imessageContent, Date imessageSeenTime, Date imessageSendingTime,
 			Date imessageReceivingTime, Account account) {
 		super(imessageContent, imessageSeenTime, imessageSendingTime, imessageReceivingTime);
