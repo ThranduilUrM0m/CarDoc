@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 import org.dev.metier.IBookStrategy;
 import org.dev.metier.ICancelBookStrategy;
@@ -33,9 +34,9 @@ public class Account implements Serializable{
 
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long accountId;
-   @Column(length=40)
+   @Column(length=40) @Size(min = 6)
    protected String accountLogin;
-   @Column(length=100)
+   @Column(length=100) @Size(min = 6)
    protected @JsonIgnore String accountPassword;
    protected java.util.Date accountCreationdate;
    protected Boolean activated;

@@ -527,31 +527,30 @@ class LoginModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
       login: '',
+      loginL: '',
       password: '',
+      passwordL: '',
       signupas: '',
-      formErrors: {email: '', login: '', password: '', signupas: ''},
-      emailValid: false,
+      formErrors: {login: '', password: '', signupas: ''},
+      formErrorsL: {loginL: '', passwordL: ''},
       loginValid: false,
+      loginLValid: false,
       passwordValid: false,
+      passwordLValid: false,
       signupasValid: false,
-      formValid: false
+      formValid: false,
+      formLValid: false
     };
   }
 
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
-    let emailValid = this.state.emailValid;
     let loginValid = this.state.loginValid;
     let passwordValid = this.state.passwordValid;
     let signupasValid = this.state.signupasValid;
 
     switch(fieldName) {
-      case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-        break;
       case 'login':
         loginValid = value.length >= 6;
         fieldValidationErrors.login = loginValid ? '' : ' is invalid';
@@ -568,20 +567,51 @@ class LoginModal extends React.Component {
         break;
     }
     this.setState({formErrors: fieldValidationErrors,
-                    emailValid: emailValid,
                     loginValid: loginValid,
                     passwordValid: passwordValid,
                     signupasValid: signupasValid
                   }, this.validateForm);
   }
   validateForm() {
-    this.setState({formValid: this.state.emailValid && this.state.loginValid && this.state.passwordValid && this.state.signupasValid});
+    this.setState({formValid: this.state.loginValid && this.state.passwordValid && this.state.signupasValid});
   }
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
+
+  validateFieldL(fieldName, value) {
+    let fieldLValidationErrors = this.state.formErrorsL;
+    let loginLValid = this.state.loginLValid;
+    let passwordLValid = this.state.passwordLValid;
+
+    switch(fieldName) {
+      case 'loginL':
+        loginLValid = value.length >= 6;
+        fieldLValidationErrors.loginL = loginLValid ? '' : ' is invalid';
+        break;
+      case 'passwordL':
+        passwordLValid = value.length >= 6;
+        fieldLValidationErrors.passwordL = passwordLValid ? '' : ' is too short';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrorsL: fieldLValidationErrors,
+                    loginLValid: loginLValid,
+                    passwordLValid: passwordLValid
+                  }, this.validateFormL);
+  }
+  validateFormL() {
+    this.setState({formLValid: this.state.loginLValid && this.state.passwordLValid});
+  }
+  handleUserInputL(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateFieldL(name, value) });
+  }
+
   errorClass(error) {
    return(error.length === 0 ? '' : 'has-error');
   }
@@ -602,13 +632,24 @@ class LoginModal extends React.Component {
                     <div className="card-body">
                       <h4 className="card-title">Login to your profile<i className="ion-log-in"></i></h4>
                       <p className="card-text">Enter username and password to log in</p>
-                      <form>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login"/>
+                      <form action="login" method="post">
+
+                        <div className={`form-group ${this.errorClass(this.state.formErrorsL.loginL)}`}>
+                          <input value={this.state.loginL} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginLHelp" placeholder="Login" name="loginL" required/>
+                          <div className="invalid-feedback">
+                            Please provide a valid login.
+                          </div>
+                          <small id="loginLHelp" className="form-text text-muted"></small>
                         </div>
-                        <div className="form-group">
-                          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+
+                        <div className={`form-group ${this.errorClass(this.state.formErrorsL.passwordL)}`}>
+                          <input value={this.state.passwordL} onChange={(event) => this.handleUserInputL(event)} type="password" className="form-control" id="exampleInputPassword1" aria-describedby="passwordLHelp" placeholder="Password" name="passwordL" required/>
+                          <div className="invalid-feedback">
+                            A password has to have more than 6 characters.
+                          </div>
+                          <small id="passwordLHelp" className="form-text text-muted"></small>
                         </div>
+
                         <div className="form-check">
                           <label className="form-check-label">
                             <input type="checkbox" className="switch_checkbox"/>
@@ -617,7 +658,8 @@ class LoginModal extends React.Component {
                             <span className="label">Remember Me</span>
                           </label>
                         </div>
-                        <button type="submit" className="btn btn-primary">Submit</button>
+
+                        <button type="submit" className="btn btn-outline-primary" disabled={!this.state.formLValid}>Login</button>
                       </form>
                     </div>
                   </div>
@@ -630,14 +672,6 @@ class LoginModal extends React.Component {
                       <h4 className="card-title">Join the community<i className="ion-compose"></i></h4>
                       <p className="card-text">fill in the form below to get instant access</p>
                       <form action="signup" method="post">
-
-                        <div className={`form-group ${this.errorClass(this.state.formErrors.email)}`}>
-                          <input value={this.state.email} onChange={(event) => this.handleUserInput(event)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email address" name="email" required/>
-                          <div className="invalid-feedback">
-                            Please provide a valid email.
-                          </div>
-                          <small id="emailHelp" className="form-text text-muted"></small>
-                        </div>
 
                         <div className={`form-group ${this.errorClass(this.state.formErrors.login)}`}>
                           <input value={this.state.login} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login" name="login" required/>
@@ -657,7 +691,7 @@ class LoginModal extends React.Component {
 
                         <div className={`form-group ${this.errorClass(this.state.formErrors.signupas)}`}>
                           <select value={this.state.signupas} onChange={(event) => this.handleUserInput(event)} className="form-control" id="exampleFormControlSelect1" aria-describedby="signupasHelp" name="signupas" required>
-                            <option value="signupas" disabled>Sign up as</option>
+                            <option value="default">Sign up as</option>
                             <option value="motorist">Motorist</option>
                             <option value="tvg">Tvg</option>
                           </select>
@@ -667,7 +701,7 @@ class LoginModal extends React.Component {
                           <small id="signupasHelp" className="form-text text-muted"></small>
                         </div>
 
-                        <button type="button" className="btn btn-primary" disabled={!this.state.formValid}>Submit</button>
+                        <button type="submit" className="btn btn-outline-primary" disabled={!this.state.formValid}>Register</button>
                       </form>
                     </div>
                   </div>
