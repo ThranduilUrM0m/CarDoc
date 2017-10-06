@@ -14,7 +14,7 @@ body * {
 }
 
 /* line 29, ../sass/main.scss */
-body::before {
+.body-homepage::before {
   content: '';
   position: absolute;
   display: inline-block;
@@ -31,30 +31,52 @@ body::before {
 }
 
 /* line 43, ../sass/main.scss */
+.body-register::before {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  width: 140vw;
+  height: 125vw;
+  -moz-border-radius: 20vw;
+  -webkit-border-radius: 20vw;
+  border-radius: 20vw;
+  top: -80vw;
+  left: -100vw;
+  background-color: #999999;
+  background-image: linear-gradient(110deg, #999999 0%, #ffffff 100%);
+  transform: rotate(65deg);
+}
+
+/* line 57, ../sass/main.scss */
 .Aligner {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* line 49, ../sass/main.scss */
+/* line 63, ../sass/main.scss */
 .Aligner-item {
   max-width: 50%;
 }
 
-/* line 53, ../sass/main.scss */
+/* line 67, ../sass/main.scss */
 .Aligner-item--top {
   align-self: flex-start;
 }
 
-/* line 57, ../sass/main.scss */
+/* line 71, ../sass/main.scss */
 .Aligner-item--bottom {
   align-self: flex-end;
 }
 
-/* line 61, ../sass/main.scss */
+/* line 75, ../sass/main.scss */
 .has-error input {
   background-image: linear-gradient(0deg, #d50000 2px, rgba(213, 0, 0, 0) 0%), linear-gradient(0deg, rgba(0, 0, 0, 0) 1px, transparent 0%) !important;
+}
+
+/* line 79, ../sass/main.scss */
+a.disabled {
+  cursor: context-menu;
 }
 
 /* line 1, ../sass/_homepage.scss */
@@ -353,7 +375,38 @@ body::before {
   background-size: contain;
   opacity: .02;
 }
-/* line 250, ../sass/_homepage.scss */
+/* line 251, ../sass/_homepage.scss */
+.firstsection .register-firstsection {
+  text-decoration: none;
+}
+/* line 253, ../sass/_homepage.scss */
+.firstsection .register-firstsection .linetop {
+  position: absolute;
+  top: 7vh;
+  left: 0;
+  height: 48vh;
+  border-left: 0.4rem solid rgba(153, 153, 153, 0.33333);
+}
+/* line 260, ../sass/_homepage.scss */
+.firstsection .register-firstsection .linebottom {
+  position: absolute;
+  top: 72vh;
+  left: 0;
+  height: 18vh;
+  border-left: 0.4rem solid rgba(153, 153, 153, 0.33333);
+}
+/* line 267, ../sass/_homepage.scss */
+.firstsection .register-firstsection ul.nav-social {
+  position: absolute;
+  left: 0;
+  top: 63%;
+}
+/* line 271, ../sass/_homepage.scss */
+.firstsection .register-firstsection ul.nav-social .nav-link {
+  padding: 0;
+  font-size: 1.25rem;
+}
+/* line 277, ../sass/_homepage.scss */
 .firstsection .leftfirstsection {
   text-decoration: none;
   background-image: url("../media/motorist.png");
@@ -361,7 +414,7 @@ body::before {
   background-repeat: no-repeat;
   background-position: center;
 }
-/* line 256, ../sass/_homepage.scss */
+/* line 283, ../sass/_homepage.scss */
 .firstsection .leftfirstsection .linetop {
   position: absolute;
   top: 7vh;
@@ -369,7 +422,7 @@ body::before {
   height: 48vh;
   border-left: 0.4rem solid rgba(153, 153, 153, 0.33333);
 }
-/* line 263, ../sass/_homepage.scss */
+/* line 290, ../sass/_homepage.scss */
 .firstsection .leftfirstsection .linebottom {
   position: absolute;
   top: 72vh;
@@ -377,18 +430,18 @@ body::before {
   height: 18vh;
   border-left: 0.4rem solid rgba(153, 153, 153, 0.33333);
 }
-/* line 270, ../sass/_homepage.scss */
+/* line 297, ../sass/_homepage.scss */
 .firstsection .leftfirstsection ul {
   position: absolute;
   left: 0;
   top: 63%;
 }
-/* line 274, ../sass/_homepage.scss */
+/* line 301, ../sass/_homepage.scss */
 .firstsection .leftfirstsection ul .nav-link {
   padding: 0;
   font-size: 1.25rem;
 }
-/* line 279, ../sass/_homepage.scss */
+/* line 306, ../sass/_homepage.scss */
 .firstsection .leftfirstsection .contactinfo {
   font-size: 0.7rem;
   margin: 0;
@@ -396,11 +449,11 @@ body::before {
   right: 0;
   bottom: 0;
 }
-/* line 287, ../sass/_homepage.scss */
+/* line 314, ../sass/_homepage.scss */
 .firstsection .col:not(first-of-type) {
   text-decoration: none;
 }
-/* line 290, ../sass/_homepage.scss */
+/* line 317, ../sass/_homepage.scss */
 .firstsection .rightfirstsection {
   height: 100%;
   padding: 0;
@@ -410,88 +463,88 @@ body::before {
   background-image: url("../media/black-and-white-car-vehicle-vintage.jpg");
   background-size: cover;
 }
-/* line 298, ../sass/_homepage.scss */
+/* line 325, ../sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers {
   position: absolute;
   bottom: 0;
   right: 1.2vw;
 }
-/* line 302, ../sass/_homepage.scss */
+/* line 329, ../sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers li {
   text-align: right;
 }
-/* line 305, ../sass/_homepage.scss */
+/* line 332, ../sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers button {
   cursor: text;
   font-size: 2rem;
   color: white !important;
   text-decoration: none;
 }
-/* line 311, ../sass/_homepage.scss */
+/* line 338, ../sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers button:hover {
   text-decoration: none;
 }
 
-/* line 317, ../sass/_homepage.scss */
+/* line 344, ../sass/_homepage.scss */
 .secondsection {
   height: 80vh;
   margin: 0;
 }
-/* line 320, ../sass/_homepage.scss */
+/* line 347, ../sass/_homepage.scss */
 .secondsection .leftsecondsection {
   padding: 0;
 }
-/* line 322, ../sass/_homepage.scss */
+/* line 349, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel {
   vertical-align: middle;
   padding: 2rem;
   padding-top: 1rem;
 }
-/* line 326, ../sass/_homepage.scss */
+/* line 353, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card {
   height: 75vh;
 }
-/* line 328, ../sass/_homepage.scss */
+/* line 355, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card img {
   width: 50%;
   display: block;
   margin: 0 auto;
   margin-bottom: 3rem;
 }
-/* line 334, ../sass/_homepage.scss */
+/* line 361, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card .table {
   border-collapse: collapse;
   border-style: hidden;
 }
-/* line 338, ../sass/_homepage.scss */
+/* line 365, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card .lastdivider {
   margin-top: 4.5rem;
 }
-/* line 341, ../sass/_homepage.scss */
+/* line 368, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card .socialmediatvg a {
   font-size: 1.5rem;
   padding-top: 0;
 }
-/* line 346, ../sass/_homepage.scss */
+/* line 373, ../sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .carousel-control-next span, .secondsection .leftsecondsection .carousel .carousel-control-prev span {
   color: rgba(153, 153, 153, 0.5);
   font-size: 3rem;
 }
-/* line 352, ../sass/_homepage.scss */
+/* line 379, ../sass/_homepage.scss */
 .secondsection .rightsecondsection {
   background-color: #999999;
   background-image: linear-gradient(200deg, #999999 0%, #ffffff 100%);
 }
-/* line 354, ../sass/_homepage.scss */
+/* line 381, ../sass/_homepage.scss */
 .secondsection .rightsecondsection img {
   height: 100%;
   float: right;
 }
-/* line 358, ../sass/_homepage.scss */
+/* line 385, ../sass/_homepage.scss */
 .secondsection .rightsecondsection p {
   font-size: .8rem;
 }
-/* line 361, ../sass/_homepage.scss */
+/* line 388, ../sass/_homepage.scss */
 .secondsection .rightsecondsection h3 {
   position: absolute;
   font-size: 20rem;
@@ -499,126 +552,113 @@ body::before {
   border: 1px solid;
 }
 
-/* line 369, ../sass/_homepage.scss */
+/* line 396, ../sass/_homepage.scss */
 .thirdsection {
   height: 80vh;
   margin: 0;
 }
-/* line 372, ../sass/_homepage.scss */
+/* line 399, ../sass/_homepage.scss */
 .thirdsection .leftthirdsection {
   background-color: #999999;
   background-image: linear-gradient(20deg, #999999 0%, #ffffff 100%);
 }
-/* line 374, ../sass/_homepage.scss */
+/* line 401, ../sass/_homepage.scss */
 .thirdsection .leftthirdsection img {
   height: 100%;
   float: left;
 }
-/* line 378, ../sass/_homepage.scss */
+/* line 405, ../sass/_homepage.scss */
 .thirdsection .leftthirdsection p {
   font-size: .8rem;
 }
-/* line 381, ../sass/_homepage.scss */
+/* line 408, ../sass/_homepage.scss */
 .thirdsection .leftthirdsection h3 {
   position: absolute;
   font-size: 8rem;
   opacity: .25;
   border: 1px solid;
 }
-/* line 388, ../sass/_homepage.scss */
+/* line 415, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection {
   padding: 0;
 }
-/* line 390, ../sass/_homepage.scss */
+/* line 417, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel {
   vertical-align: middle;
   padding: 2rem;
   padding-top: 1rem;
 }
-/* line 394, ../sass/_homepage.scss */
+/* line 421, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card {
   height: 75vh;
 }
-/* line 396, ../sass/_homepage.scss */
+/* line 423, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card img {
   width: 50%;
   display: block;
   margin: 0 auto;
   margin-bottom: 3rem;
 }
-/* line 402, ../sass/_homepage.scss */
+/* line 429, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card .table {
   border-collapse: collapse;
   border-style: hidden;
 }
-/* line 406, ../sass/_homepage.scss */
+/* line 433, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card .lastdivider {
   margin-top: 4.5rem;
 }
-/* line 409, ../sass/_homepage.scss */
+/* line 436, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card .socialmediamotorist a {
   font-size: 1.5rem;
   padding-top: 0;
 }
-/* line 414, ../sass/_homepage.scss */
+/* line 441, ../sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .carousel-control-next span, .thirdsection .rightthirdsection .carousel .carousel-control-prev span {
   color: rgba(153, 153, 153, 0.5);
   font-size: 3rem;
 }
 
-/* line 421, ../sass/_homepage.scss */
+/* line 448, ../sass/_homepage.scss */
 .footer {
   height: 51vh;
   background: black;
   z-index: 997;
 }
-/* line 425, ../sass/_homepage.scss */
-.footer:before {
-  content: "";
-  position: absolute;
-  left: 100vh;
-  top: 250vh;
-  height: 10vh;
-  width: 100%;
-  background-image: url("../media/Map-dots.png");
-  -webkit-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-/* line 437, ../sass/_homepage.scss */
+/* line 452, ../sass/_homepage.scss */
 .footer .container {
   height: 100%;
 }
-/* line 439, ../sass/_homepage.scss */
+/* line 454, ../sass/_homepage.scss */
 .footer .container .row:first-of-type {
   height: 45vh;
   padding-top: 8vh;
 }
-/* line 442, ../sass/_homepage.scss */
+/* line 457, ../sass/_homepage.scss */
 .footer .container .row:first-of-type h5 {
   margin-bottom: 1rem;
 }
-/* line 445, ../sass/_homepage.scss */
+/* line 460, ../sass/_homepage.scss */
 .footer .container .row:first-of-type i {
   font-size: 3rem;
 }
-/* line 448, ../sass/_homepage.scss */
+/* line 463, ../sass/_homepage.scss */
 .footer .container .row:first-of-type p {
   font-size: .9rem;
 }
-/* line 453, ../sass/_homepage.scss */
+/* line 468, ../sass/_homepage.scss */
 .footer .container .row:not(first-of-type) a {
   font-size: .8rem;
 }
 
-/* line 459, ../sass/_homepage.scss */
+/* line 474, ../sass/_homepage.scss */
 .contactusmodallauncher {
   position: fixed;
   z-index: 995;
   top: 85vh;
   left: 2vw;
 }
-/* line 464, ../sass/_homepage.scss */
+/* line 479, ../sass/_homepage.scss */
 .contactusmodallauncher i {
   font-size: 2.5rem;
 }
@@ -898,7 +938,7 @@ body::before {
   background: #ff6b6b;
 }
 
-/* line 69, ../sass/main.scss */
+/* line 89, ../sass/main.scss */
 [type=reset], [type=submit], button, html [type=button] {
   -webkit-appearance: none;
 }

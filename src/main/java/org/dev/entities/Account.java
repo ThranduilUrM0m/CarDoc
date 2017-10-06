@@ -34,9 +34,9 @@ public class Account implements Serializable{
 
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long accountId;
-   @Column(length=40) @Size(min = 6)
+   @Column(length=40)
    protected String accountLogin;
-   @Column(length=100) @Size(min = 6)
+   @Column(length=100)
    protected @JsonIgnore String accountPassword;
    protected java.util.Date accountCreationdate;
    protected Boolean activated;
@@ -73,8 +73,8 @@ public class Account implements Serializable{
 		super();
 		this.accountLogin = accountLogin;
 		this.setAccountPassword(accountPassword);
-		this.accountCreationdate = accountCreationdate;
-		this.activated = activated;
+		this.accountCreationdate = new Date();
+		this.activated = false;
 		this.connectionHistory = connectionHistory;
 		this.consultation = consultation;
 		this.booking = booking;

@@ -26,12 +26,26 @@ body{
 body *{
   color: $gray;
 }
-body::before{
+.body-homepage::before{
    content: '';
    position: absolute;
    display: inline-block;
    width: 140vw;
    height: 140vw;
+   -moz-border-radius: 20vw;
+   -webkit-border-radius: 20vw;
+   border-radius: 20vw;
+   top: -80vw;
+   left: -100vw;
+   @include gradient;
+   transform: rotate(65deg);
+}
+.body-register::before{
+   content: '';
+   position: absolute;
+   display: inline-block;
+   width: 140vw;
+   height: 125vw;
    -moz-border-radius: 20vw;
    -webkit-border-radius: 20vw;
    border-radius: 20vw;
@@ -62,9 +76,15 @@ body::before{
   background-image: linear-gradient(0deg,#d50000 2px,rgba(213,0,0,0) 0),linear-gradient(0deg,rgba(0,0,0,.26) 1px,transparent 0) !important;
 }
 
+a.disabled {
+  cursor: context-menu;
+}
+
 @import 'homepage';
 @import 'checkbox';
 @import 'timeline';
+@import 'paneltab';
+
 
 [type=reset], [type=submit], button, html [type=button]{
 	-webkit-appearance: none;

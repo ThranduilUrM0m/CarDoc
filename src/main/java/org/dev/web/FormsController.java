@@ -1,8 +1,10 @@
 package org.dev.web;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.dev.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +18,22 @@ public class FormsController {
 	private HttpSession httpSession;
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String saveAccount(Model model, 	@RequestParam(name = "login", required = true)  String login, 
+    public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
     										@RequestParam(name = "password", required = true) String password, 
-    										@RequestParam(name = "signupas", required = true) String signupas) {
+    										@RequestParam(name = "signupas", required = true) String signupas,
+    										HttpServletResponse response) throws IOException {
         try {
-        	httpSession.setAttribute("login", login);
-        	httpSession.setAttribute("password", password);
-        	httpSession.setAttribute("signupas", signupas);
-            return httpSession.getAttribute("login").toString();
+        	if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
+        		response.sendRedirect("/?error=invalidform");
+        	else {
+        		httpSession.setAttribute("login", login);
+            	httpSession.setAttribute("password", password);
+            	httpSession.setAttribute("signupas", signupas);
+            	response.sendRedirect("/register");
+        	}
         } catch (Exception e) {
         	model.addAttribute("error", e);
-            return "redirect:/?error=" + e.getMessage();
+        	response.sendRedirect("/?error=" + e.getMessage());
         }
     }
 }

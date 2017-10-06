@@ -552,11 +552,11 @@ class LoginModal extends React.Component {
 
     switch(fieldName) {
       case 'login':
-        loginValid = value.length >= 6;
+        loginValid = value.length >= 6 && value != this.state.password;
         fieldValidationErrors.login = loginValid ? '' : ' is invalid';
         break;
       case 'password':
-        passwordValid = value.length >= 6;
+        passwordValid = value.length >= 6 && value != this.state.login;
         fieldValidationErrors.password = passwordValid ? '' : ' is too short';
         break;
       case 'signupas':
@@ -678,7 +678,7 @@ class LoginModal extends React.Component {
                           <div className="invalid-feedback">
                             Please provide a valid login.
                           </div>
-                          <small id="loginHelp" className="form-text text-muted"></small>
+                          <small id="loginHelp" className="form-text text-muted">Must contain more than 6 characters long.</small>
                         </div>
 
                         <div className={`form-group ${this.errorClass(this.state.formErrors.password)}`}>
@@ -686,7 +686,7 @@ class LoginModal extends React.Component {
                           <div className="invalid-feedback">
                             A password has to have more than 6 characters.
                           </div>
-                          <small id="passwordHelp" className="form-text text-muted"></small>
+                          <small id="passwordHelp" className="form-text text-muted">Must be 6-20 characters long.</small>
                         </div>
 
                         <div className={`form-group ${this.errorClass(this.state.formErrors.signupas)}`}>
@@ -1054,7 +1054,7 @@ class FirstSection extends React.Component {
         <a href="#" data-toggle="modal" data-target="#motoristPSModal" className="col leftfirstsection Aligner">
           <div className="linetop"></div>
           <div className="linebottom"></div>
-          <ul className="nav flex-column">
+          <ul className="nav nav-social flex-column">
             <li className="nav-item">
               <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
             </li>

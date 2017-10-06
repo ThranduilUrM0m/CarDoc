@@ -247,6 +247,33 @@
 	  background-size: contain;
 		opacity: .02;
 	}
+
+	.register-firstsection{
+		text-decoration: none;
+		.linetop{
+			position: absolute;
+			top: 7vh;
+			left: 0;
+			height: 48vh;
+			border-left: .4rem solid $thirdgray;
+		}
+		.linebottom{
+			position: absolute;
+			top: 72vh;
+			left: 0;
+			height: 18vh;
+			border-left: .4rem solid $thirdgray;
+		}
+		ul.nav-social{
+			position: absolute;
+			left: 0;
+			top: 63%;
+			.nav-link{
+				padding: 0;
+				font-size: 1.25rem;
+			}
+		}
+	}
 	.leftfirstsection{
 		text-decoration: none;
 		background-image: url('../media/motorist.png');
@@ -422,18 +449,6 @@
 	height: 51vh;
 	background: $black;
 	z-index: 997;
-	&:before{
-		content: "";
-    position: absolute;
-		left: 100vh;
-    top: 250vh;
-    height: 10vh;
-    width: 100%;
-		background-image: url('../media/Map-dots.png');
-	  -webkit-background-size: contain;
-	  background-size: contain;
-		background-repeat: no-repeat;
-	}
 	.container{
 		height: 100%;
 		.row:first-of-type{
