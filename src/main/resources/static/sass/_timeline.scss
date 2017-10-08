@@ -116,7 +116,7 @@ $primary-color-hover: scale-color($primary-color, $lightness: 32%);
         }
     }
     .timeline-centered {
-            @extend .timeline-split;
+            @extend .timeline-split !optional;
             @media (min-width: 992px) {
                 &,
                 .timeline-item,

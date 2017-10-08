@@ -91,29 +91,25 @@ var Search = React.createClass({
 
 // App
 var App = React.createClass({
-
   getInitialState: function() {
     return {
       filterText: '',
       filterText2: ''
     };
   },
-
   handleUserInput: function(filter) {
     this.setState({
       filterText: filter
     });
   },
-
   render: function() {
-
     return (
       <div>
           <Search searchTerm = {this.state.filterText} userInput = {this.handleUserInput} />
           <Table searchTerm = {this.state.filterText} data = {this.props.data} />
       </div>
     );
-}
+  }
 });
 
 // JSON
@@ -599,6 +595,9 @@ class RegisterTvgPanel extends React.Component{
       countries: [],
       cities: [],
       citiesWanted: [],
+      login: '',
+      password: '',
+      signupas: '',
       tvgLegalname: '',
       tvgLegaladresse: '',
       tvgCreationdate: '',
@@ -654,22 +653,25 @@ class RegisterTvgPanel extends React.Component{
     let tvgDaystartBValid = this.state.tvgDaystartBValid;
     let tvgDayendAValid = this.state.tvgDayendAValid;
     let tvgDayendBValid = this.state.tvgDayendBValid;
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let phoneReg = /^([0|\+[0-9]{1,5})?([0-9]{10})$/;
+    let timeReg = /^0[0-9]|1[0-9]|2[0-3]:[0-5][0-9]$/;
 
     switch(fieldName) {
       case 'tvgLegalname':
-        tvgLegalnameValid = value.length >= 0;
+        tvgLegalnameValid = value.length >= 1;
         fieldValidationErrors.tvgLegalname = tvgLegalnameValid ? '' : ' is invalid';
         break;
       case 'tvgLegaladresse':
-        tvgLegaladresseValid = value.length >= 0;
+        tvgLegaladresseValid = value.length >= 1;
         fieldValidationErrors.tvgLegaladresse = tvgLegaladresseValid ? '' : ' is invalid';
         break;
       case 'tvgCreationdate':
-        tvgCreationdateValid = value.length >= 0;
+        tvgCreationdateValid = moment(value, 'YYYY-MM-DD', true).isValid();
         fieldValidationErrors.tvgCreationdate = tvgCreationdateValid ? '' : ' is invalid';
         break;
       case 'tvgCity':
-        tvgCityValid = value.length >= 0;
+        tvgCityValid = value.length >= 1;
         fieldValidationErrors.tvgCity = tvgCityValid ? '' : ' is invalid';
         break;
       case 'tvgCountry':
@@ -677,31 +679,31 @@ class RegisterTvgPanel extends React.Component{
         fieldValidationErrors.tvgCountry = tvgCountryValid ? '' : ' is invalid';
         break;
       case 'tvgRegion':
-        tvgRegionValid = value.length >= 0;
+        tvgRegionValid = value.length >= 1;
         fieldValidationErrors.tvgRegion = tvgRegionValid ? '' : ' is invalid';
         break;
       case 'tvgEmail':
-        tvgEmailValid = value.length >= 0;
+        tvgEmailValid = reg.test(value);
         fieldValidationErrors.tvgEmail = tvgEmailValid ? '' : ' is invalid';
         break;
       case 'tvgPhone':
-        tvgPhoneValid = value.length >= 0;
+        tvgPhoneValid = phoneReg.test(value);
         fieldValidationErrors.tvgPhone = tvgPhoneValid ? '' : ' is invalid';
         break;
       case 'tvgDaystartA':
-        tvgDaystartAValid = value.length >= 0;
+        tvgDaystartAValid = timeReg.test(value);
         fieldValidationErrors.tvgDaystartA = tvgDaystartAValid ? '' : ' is invalid';
         break;
       case 'tvgDaystartB':
-        tvgDaystartBValid = value.length >= 0;
+        tvgDaystartBValid = timeReg.test(value);
         fieldValidationErrors.tvgDaystartB = tvgDaystartBValid ? '' : ' is invalid';
         break;
       case 'tvgDayendA':
-        tvgDayendAValid = value.length >= 0;
+        tvgDayendAValid = timeReg.test(value);
         fieldValidationErrors.tvgDayendA = tvgDayendAValid ? '' : ' is invalid';
         break;
       case 'tvgDayendB':
-        tvgDayendBValid = value.length >= 0;
+        tvgDayendBValid = timeReg.test(value);
         fieldValidationErrors.tvgDayendB = tvgDayendBValid ? '' : ' is invalid';
         break;
       default:
@@ -775,11 +777,36 @@ class RegisterTvgPanel extends React.Component{
       self.setState({citiesWanted: rowsC});
     });
   }
-  componentWillMount(){
+  componentWillMount() {
     this.loadCitiesFromJSON("AF");
   }
   componentDidMount() {
     this.loadCountriesFromJSON();
+    $.get("sessionLP", function(data) {
+      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+        $('.sessionVariables').submit();
+      }else{
+        this.setState({login: (JSON.parse(data)).login,
+                        password: (JSON.parse(data)).password,
+                        signupas: (JSON.parse(data)).signupas
+                      });
+      }
+    }.bind(this));
+  }
+  handleBlur(e){
+    const name = e.target.name;
+    if(name == 'tvgCreationdate' || name == 'tvgDaystartAValid' || name == 'tvgDaystartBValid' || name == 'tvgDayendA' || name == 'tvgDayendB'){
+      e.target.type = 'text';
+    }
+  }
+  handleFocus(e){
+    const name = e.target.name;
+    if(name == 'tvgCreationdate'){
+      e.target.type = 'date';
+    }
+    if(name == 'tvgDaystartA' || name == 'tvgDaystartB' || name == 'tvgDayendA' || name == 'tvgDayendB'){
+      e.target.type = 'time';
+    }
   }
   render(){
     var rows = [];
@@ -787,155 +814,151 @@ class RegisterTvgPanel extends React.Component{
       rows.push(<Country countryProp={country} />);
     });
     return(
-      <div className="container">
-        <div className="wizard">
-          <div className="container">
-          <div className="wizard-inner">
-            <ul className="nav nav-tabs" role="tablist">
-              <li role="presentation" className="disabled" id="step1"></li>
-              <li role="presentation" className="disabled" id="step2"></li>
-              <li role="presentation" className="disabled" id="step3"></li>
-              <li role="presentation" className="disabled" id="step4"></li>
-              <li role="presentation" className="disabled" id="step5"></li>
-              <li role="presentation" className="disabled" id="step6"></li>
-              <li role="presentation" className="disabled" id="step7"></li>
-              <li role="presentation" className="disabled" id="step8"></li>
-              <li role="presentation" className="disabled" id="step9"></li>
-              <li role="presentation" className="disabled" id="step10"></li>
-              <li role="presentation" className="disabled" id="step11"></li>
-              <li role="presentation" className="disabled" id="step12"></li>
-            </ul>
-            <div className="connecting-line-motorist"></div>
-          </div>
-          <div className="container">
-            <h4 className="card-title">Joining the community<i className="ion-compose"></i></h4>
-            <p className="card-text">fill in the form below to get finish Registring</p>
-          </div>
-          <form role="form">
-            <div className="tab-content">
-              <div className="tab-pane active" role="tabpanel">
-                <div className="container row">
-                  <div className="col">
+      <div className="registration">
+        <div className="container">
+          <div className="card card-first"></div>
+          <div className="card">
+            <div className="icon-reg"><i className="ion-clipboard"></i></div>
+            <h1 className="title">Joining the community</h1>
+            <form action="signuptvg" method="post">
+              <input name="login" type="hidden" value={this.state.login}/>
+              <input name="password" type="hidden" value={this.state.password}/>
+              <input name="signupas" type="hidden" value={this.state.signupas}/>
+              <div className="row">
+                <div className="col">
 
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgLegalname)}`}>
-                      <div className="input-group-addon"><i className="ion-ios-home-outline"></i></div>
-                      <input value={this.state.tvgLegalname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegalname" aria-describedby="tvgLegalnameHelp" placeholder="Legal Name" name="tvgLegalname" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Legal Name.
-                      </div>
-                      <small id="tvgLegalnameHelp" className="form-text text-muted"></small>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgLegalname)}`}>
+                    <input value={this.state.tvgLegalname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegalname" aria-describedby="tvgLegalnameHelp" name="tvgLegalname" required/>
+                    <label for="#{label}">Legal Name</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Legal Name.
                     </div>
-
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgLegaladresse)}`}>
-                      <div className="input-group-addon"><i className="ion-location"></i></div>
-                      <input value={this.state.tvgLegaladresse} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegaladresse" aria-describedby="tvgLegaladresseHelp" placeholder="Legal Adresse" name="tvgLegaladresse" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Legal Adresse.
-                      </div>
-                      <small id="tvgLegaladresseHelp" className="form-text text-muted"></small>
-                    </div>
-
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgCreationdate)}`}>
-                      <div className="input-group-addon"><i className="ion-android-calendar"></i></div>
-                      <input value={this.state.tvgCreationdate} onChange={(event) => this.handleUserInput(event)} type="date" className="form-control" id="exampleInputtvgCreationdate" aria-describedby="tvgCreationdateHelp" placeholder="Creation Date" name="tvgCreationdate" required/>
-                      <div className="invalid-feedback">
-                        Please Choose a Creation Date.
-                      </div>
-                      <small id="tvgCreationdateHelp" className="form-text text-muted"></small>
-                    </div>
-
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgCountry)}`}>
-                      <div className="input-group-addon"><i className="ion-flag"></i></div>
-                      <select value={this.props.tvgCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCountry" aria-describedby="tvgCountryHelp" name="tvgCountry" required>
-                        {rows}
-                      </select>
-                      <div className="invalid-feedback">
-                        Please Choose a Country.
-                      </div>
-                      <small id="tvgCountryHelp" className="form-text text-muted"></small>
-                    </div>
-
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgRegion)}`}>
-                      <div className="input-group-addon"><i className="ion-map"></i></div>
-                      <input value={this.state.tvgRegion} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgRegion" aria-describedby="tvgRegionHelp" placeholder="Region" name="tvgRegion" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Region.
-                      </div>
-                      <small id="tvgRegionHelp" className="form-text text-muted"></small>
-                    </div>
-
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgCity)}`}>
-                      <div className="input-group-addon"><i className="ion-ios-location"></i></div>
-                      <select value={this.props.tvgCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCity" aria-describedby="tvgCityHelp" name="tvgCity" required>
-                        {this.state.citiesWanted}
-                      </select>
-                      <div className="invalid-feedback">
-                        Please Choose a City.
-                      </div>
-                      <small id="tvgCityHelp" className="form-text text-muted"></small>
-                    </div>
+                    <small id="tvgLegalnameHelp" className="form-text text-muted"></small>
                   </div>
-                  <div className="col">
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgEmail)}`}>
-                      <div className="input-group-addon"><i className="ion-at"></i></div>
-                      <input value={this.state.tvgEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgEmail" aria-describedby="tvgEmailHelp" placeholder="Email" name="tvgEmail" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Email.
-                      </div>
-                      <small id="tvgEmailHelp" className="form-text text-muted"></small>
-                    </div>
 
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgPhone)}`}>
-                      <div className="input-group-addon"><i className="ion-iphone"></i></div>
-                      <input value={this.state.tvgPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgPhone" aria-describedby="tvgPhoneHelp" placeholder="Phone" name="tvgPhone" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Phone.
-                      </div>
-                      <small id="tvgPhoneHelp" className="form-text text-muted"></small>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgLegaladresse)}`}>
+                    <input value={this.state.tvgLegaladresse} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegaladresse" aria-describedby="tvgLegaladresseHelp" name="tvgLegaladresse" required/>
+                    <label for="#{label}">Legal Adresse</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Legal Adresse.
                     </div>
+                    <small id="tvgLegaladresseHelp" className="form-text text-muted"></small>
+                  </div>
 
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgDaystartA)}`}>
-                      <div className="input-group-addon"><i className="ion-ios-clock-outline"></i></div>
-                      <input value={this.state.tvgDaystartA} onChange={(event) => this.handleUserInput(event)} type="time" className="form-control" id="exampleInputtvgDaystartA" aria-describedby="tvgDaystartAHelp" placeholder="Morning Open" name="tvgDaystartA" required/>
-                      <div className="invalid-feedback">
-                        Please Choose an Opening Hour.
-                      </div>
-                      <small id="tvgDaystartAHelp" className="form-text text-muted"></small>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCreationdate)}`}>
+                    <input value={this.state.tvgCreationdate} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgCreationdate" aria-describedby="tvgCreationdateHelp" name="tvgCreationdate" required/>
+                    <label for="#{label}">Creation Date</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please Choose a Creation Date.
                     </div>
+                    <small id="tvgCreationdateHelp" className="form-text text-muted"></small>
+                  </div>
 
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgDayendA)}`}>
-                      <div className="input-group-addon"><i className="ion-ios-clock-outline"></i></div>
-                      <input value={this.state.tvgDayendA} onChange={(event) => this.handleUserInput(event)} type="time" className="form-control" id="exampleInputtvgDayendA" aria-describedby="tvgDayendAHelp" placeholder="Morning Close" name="tvgDayendA" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Legal Name.
-                      </div>
-                      <small id="tvgDayendAHelp" className="form-text text-muted"></small>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCountry)}`}>
+                    <select value={this.props.tvgCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCountry" aria-describedby="tvgCountryHelp" name="tvgCountry" required>
+                      <option value=""></option>
+                      {rows}
+                    </select>
+                    <label for="#{label}">Country</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please Choose a Country.
                     </div>
+                    <small id="tvgCountryHelp" className="form-text text-muted"></small>
+                  </div>
 
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgDaystartB)}`}>
-                      <div className="input-group-addon"><i className="ion-ios-clock"></i></div>
-                      <input value={this.state.tvgDaystartB} onChange={(event) => this.handleUserInput(event)} type="time" className="form-control" id="exampleInputtvgDaystartB" aria-describedby="tvgDaystartBHelp" placeholder="Afternoon Open" name="tvgDaystartB" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Legal Name.
-                      </div>
-                      <small id="tvgDaystartBHelp" className="form-text text-muted"></small>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgRegion)}`}>
+                    <input value={this.state.tvgRegion} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgRegion" aria-describedby="tvgRegionHelp" name="tvgRegion" required/>
+                    <label for="#{label}">Region</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Region.
                     </div>
+                    <small id="tvgRegionHelp" className="form-text text-muted"></small>
+                  </div>
 
-                    <div className={`form-group input-group ${this.errorClass(this.state.formErrors.tvgDayendB)}`}>
-                      <div className="input-group-addon"><i className="ion-ios-clock"></i></div>
-                      <input value={this.state.tvgDayendB} onChange={(event) => this.handleUserInput(event)} type="time" className="form-control" id="exampleInputtvgDayendB" aria-describedby="tvgDayendBHelp" placeholder="Evening Close" name="tvgDayendB" required/>
-                      <div className="invalid-feedback">
-                        Please provide a valid Legal Name.
-                      </div>
-                      <small id="tvgDayendBHelp" className="form-text text-muted"></small>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCity)}`}>
+                    <select value={this.props.tvgCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCity" aria-describedby="tvgCityHelp" name="tvgCity" required>
+                      <option value=""></option>
+                      {this.state.citiesWanted}
+                    </select>
+                    <label for="#{label}">City</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please Choose a City.
                     </div>
+                    <small id="tvgCityHelp" className="form-text text-muted"></small>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
+                <div className="col">
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgEmail)}`}>
+                    <input value={this.state.tvgEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgEmail" aria-describedby="tvgEmailHelp" name="tvgEmail" required/>
+                    <label for="#{label}">Email</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Email.
+                    </div>
+                    <small id="tvgEmailHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgPhone)}`}>
+                    <input value={this.state.tvgPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgPhone" aria-describedby="tvgPhoneHelp" name="tvgPhone" required/>
+                    <label for="#{label}">Phone</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Phone.
+                    </div>
+                    <small id="tvgPhoneHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDaystartA)}`}>
+                    <input value={this.state.tvgDaystartA} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDaystartA" aria-describedby="tvgDaystartAHelp" name="tvgDaystartA" required/>
+                    <label for="#{label}">Morning Opening</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please Choose an Opening Hour.
+                    </div>
+                    <small id="tvgDaystartAHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDayendA)}`}>
+                    <input value={this.state.tvgDayendA} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDayendA" aria-describedby="tvgDayendAHelp" name="tvgDayendA" required/>
+                    <label for="#{label}">Morning Closing</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Legal Name.
+                    </div>
+                    <small id="tvgDayendAHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDaystartB)}`}>
+                    <input value={this.state.tvgDaystartB} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDaystartB" aria-describedby="tvgDaystartBHelp" name="tvgDaystartB" required/>
+                    <label for="#{label}">Afternoon Opening</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Legal Name.
+                    </div>
+                    <small id="tvgDaystartBHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDayendB)}`}>
+                    <input value={this.state.tvgDayendB} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDayendB" aria-describedby="tvgDayendBHelp" name="tvgDayendB" required/>
+                    <label for="#{label}">Afternoon Closing</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                    Please provide a valid Legal Name.
+                    </div>
+                    <small id="tvgDayendBHelp" className="form-text text-muted"></small>
+                  </div>
+                </div>
               </div>
-              <div className="clearfix"></div>
-            </div>
-          </form>
+              <div className="button-container">
+                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}><i className="ion-paper-airplane"></i></button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -1040,9 +1063,21 @@ class Footer extends React.Component {
   }
 }
 class RegisterContainerFluid extends React.Component{
+  componentWillMount(){
+    $.get("sessionLP", function(data) {
+      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+        $('.sessionVariables').submit();
+      }
+    });
+  }
   render() {
     return (
       <div className="container-fluid">
+        <form className="sessionVariables" action="signup" method="post">
+          <input name="login" type="hidden" value=""/>
+          <input name="password" type="hidden" value=""/>
+          <input name="signupas" type="hidden" value=""/>
+        </form>
         <Header />
         <FirstSection contactinfo={["(212) 6 54 52 84 92 | Marjane 1, 2", <sup>ème</sup>,  " tranche n°51, Meknès Maroc."]} />
         <Footer contactinfo={["TheOPDude Inc.",<br/>,"Marjane 1, 2",<sup>ème</sup>," tranche n°51",<br/>,"Meknès Maroc, 50000."]} />

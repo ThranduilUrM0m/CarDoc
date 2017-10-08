@@ -29,13 +29,13 @@ public class CarDocApplication {
 		accountRep.save(new Account("tvg", "root", new Date(), true, null, null, null, null, null, null, null, null, "ROLE_TVG"));
 
 		TvgRepository tvgRep = context.getBean(TvgRepository.class);
-		tvgRep.save(new Tvg("CityCenter", "Marjane", (new SimpleDateFormat("dd/MM/yyyy").parse("31/03/2005")), "Meknes", "Morocco", "Fes-Meknes", "Citycenter@gmail.com", "05xxxxxxxx", "08:00", "12:00", "14:00", "18:00", true, null, null, null, accountRep.findOne((long) 2)));
+		tvgRep.save(new Tvg("CityCenter", "Marjane", (new SimpleDateFormat("YYYY-MM-DD").parse("2005-03-31")), "Meknes", "Morocco", "Fes-Meknes", "Citycenter@gmail.com", "05xxxxxxxx", "08:00", "12:00", "14:00", "18:00", true, null, null, accountRep.findOne((long) 2)));
 		
 		MotoristRepository motoristRep = context.getBean(MotoristRepository.class);
-		motoristRep.save(new Motorist("Mahdaoui", "Abdessamad", (new SimpleDateFormat("dd/MM/yyyy").parse("31/03/1995")), "Meknes", "DXXXXXX", "mahdaoui21@gmail.com ", "0600456165", "Matriule", null, accountRep.findOne((long) 1)));
+		motoristRep.save(new Motorist("Mahdaoui", "Abdessamad", (new SimpleDateFormat("YYYY-MM-DD").parse("1995-03-31")), "Meknes", "DXXXXXX", "mahdaoui21@gmail.com ", "0600456165", "Matriule", null, accountRep.findOne((long) 1)));
 		
 		VehicleRepository vehicleRep = context.getBean(VehicleRepository.class);
-		vehicleRep.save(new Vehicle("Peaugot", "Famille", (new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2015")), "RegistrationX", motoristRep.findOne((long) 1)));
+		vehicleRep.save(new Vehicle("Peaugot", "Famille", (new SimpleDateFormat("YYYY-MM-DD").parse("2015-01-01")), "RegistrationX", motoristRep.findOne((long) 1)));
 		
 		PictureRepository pictureRep = context.getBean(PictureRepository.class);
 		pictureRep.save(new Picture("citycenter", "png", new Date(), accountRep.findOne((long) 2)));

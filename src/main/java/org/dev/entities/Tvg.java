@@ -54,12 +54,12 @@ public class Tvg implements Serializable {
    protected String tvgDayendB;
    protected boolean tvgAvailable;
 
-   @OneToMany(mappedBy="tvg",targetEntity=Booking.class)
-   protected java.util.Collection<Booking> booking;
    @OneToMany(mappedBy="tvg",targetEntity=Employee.class)
    protected java.util.Collection<Employee> employee;
+   
    @OneToMany(mappedBy="tvg",targetEntity=Control.class)
    protected java.util.Collection<Control> control;
+   
    @OneToOne(optional=false) @JoinColumn(name="accountId")
    protected Account account;
    
@@ -156,12 +156,6 @@ public class Tvg implements Serializable {
 	   public void setTvgAvailable(boolean newTvgAvailable) {
 	      tvgAvailable = newTvgAvailable;
 	   }
-	public java.util.Collection<Booking> getBooking() {
-		return booking;
-	}
-	public void setBooking(java.util.Collection<Booking> booking) {
-		this.booking = booking;
-	}
 	public java.util.Collection<Employee> getEmployee() {
 		return employee;
 	}
@@ -187,8 +181,7 @@ public class Tvg implements Serializable {
 	}
 	public Tvg(String tvgLegalname, String tvgLegaladresse, Date tvgCreationdate, String tvgCity,
 			String tvgCountry, String tvgRegion, String tvgEmail, String tvgPhone, String tvgDaystartA, String tvgDaystartB,
-			String tvgDayendA, String tvgDayendB, boolean tvgAvailable, Collection<Booking> booking,
-			Collection<Employee> employee, Collection<Control> control, Account account) {
+			String tvgDayendA, String tvgDayendB, boolean tvgAvailable,	Collection<Employee> employee, Collection<Control> control, Account account) {
 		super();
 		this.tvgLegalname = tvgLegalname;
 		this.tvgLegaladresse = tvgLegaladresse;
@@ -203,7 +196,6 @@ public class Tvg implements Serializable {
 		this.tvgDayendA = tvgDayendA;
 		this.tvgDayendB = tvgDayendB;
 		this.tvgAvailable = tvgAvailable;
-		this.booking = booking;
 		this.employee = employee;
 		this.control = control;
 		this.account = account;

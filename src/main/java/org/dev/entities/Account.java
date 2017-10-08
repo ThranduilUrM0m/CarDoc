@@ -41,7 +41,7 @@ public class Account implements Serializable{
    protected java.util.Date accountCreationdate;
    protected Boolean activated;
    @Column(length=40)
-   protected String[] roles;
+   protected String roles;
    
    @OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
    protected java.util.Collection<ConnectionHistory> connectionHistory;
