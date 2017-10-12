@@ -39,7 +39,8 @@ public class TVGMetierImplementation implements TVGMetier {
 												account.getMessageReceived(),
 												account.getTvg(),
 												account.getMotorist(),
-												account.getRoles());
+												account.getRoles()
+												);
 		Tvg tvgInCreation = new Tvg(tvgLegaladresse, 
 									tvgLegaladresse, 
 									tvgCreationdate, 
@@ -67,6 +68,12 @@ public class TVGMetierImplementation implements TVGMetier {
 		Tvg tvgInDeletion = tvgRep.findOne(inTVG.getTvgId());
 		tvgRep.delete(tvgInDeletion);
 		return tvgInDeletion;
+	}
+
+	@Override
+	public Tvg consulteTVGByLogin(String login) {
+		Tvg tvgInConsult = tvgRep.findByAccountLogin(login);
+		return tvgInConsult;
 	}
 
 }

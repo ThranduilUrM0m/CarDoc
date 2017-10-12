@@ -37,6 +37,18 @@ public class Motorist extends IPerson implements Serializable {
 	public void setVehicle(java.util.Collection<Vehicle> vehicle) {
 		this.vehicle = vehicle;
 	}
+	
+	public boolean add(Vehicle e) {
+		return vehicle.add(e);
+	}
+
+	public boolean remove(Object o) {
+		return vehicle.remove(o);
+	}
+
+	public void clear() {
+		vehicle.clear();
+	}
 
 	public Account getAccount() {
 		return account;
@@ -59,19 +71,14 @@ public class Motorist extends IPerson implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCity,
-			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
-		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid, ipersonEmail,
-				ipersonPhone);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCity,
-			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone, String motoristMatricule,
-			Collection<Vehicle> vehicle, Account account) {
-		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone);
+	public Motorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry,
+			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone, 
+			String motoristMatricule, Collection<Vehicle> vehicle, Account account) {
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCountry, ipersonCity, ipersonNationalcardid,
+				ipersonEmail, ipersonPhone);
 		this.motoristMatricule = motoristMatricule;
 		this.vehicle = vehicle;
 		this.account = account;
+		// TODO Auto-generated constructor stub
 	}
 }

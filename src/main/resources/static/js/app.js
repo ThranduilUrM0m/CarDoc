@@ -193,17 +193,15 @@ var Motorist = React.createClass({
   },
 
   render: function() {
-    var active = '';
-    if(this.props.active){
-      active = 'active';
-    }else{
-      active = '';
-    }
+    var active = this.props.active === true ? 'active' : '' ;
+    var picture = 'def.png'
+    if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
+      picture = this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (
-      <div className={"carousel-item"+active}>
+      <div className={"carousel-item "+active}>
         <div className="card">
           <div className="card-body">
-            <img className="img-thumbnail rounded-circle" src={'../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension} alt="Card image cap"/>
+            <img className="img-thumbnail rounded-circle" src={'../media/'+picture} alt="Card image cap"/>
             <h4 className="card-title text-center">{this.props.motoristCarousel.ipersonLastname+' '+this.props.motoristCarousel.ipersonFirstname}</h4>
             <p className="card-text text-center">{this.props.motoristCarousel.ipersonCity}</p>
             <table className="table table-bordered">
@@ -287,9 +285,13 @@ var Tvg = React.createClass({
   loadDataFromServer: function () {
     var self = this;
     $.ajax({
-      url: _.values(this.props.tvgCarousel._links.booking)
+      url: _.values(this.props.tvgCarousel._links.account)
     }).then(function(data){
-      self.setState({tvgBookings: _.size(data._embedded.bookings)});
+      $.ajax({
+        url: _.values(data._links.booking)
+      }).then(function(dataS){
+        self.setState({tvgBookings: _.size(dataS._embedded.bookings)});
+      });
     });
 
     $.ajax({
@@ -333,17 +335,15 @@ var Tvg = React.createClass({
   },
 
   render: function() {
-    var active = '';
-    if(this.props.active){
-      active = 'active';
-    }else{
-      active = '';
-    }
+    var active = this.props.active === true ? 'active' : '' ;
+    var picture = 'def.png'
+    if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
+      picture = this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (
-      <div className={"carousel-item"+active}>
+      <div className={"carousel-item "+active}>
         <div className="card">
           <div className="card-body">
-            <img className="img-thumbnail rounded-circle" src={'../media/'+this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension} alt="Card image cap"/>
+            <img className="img-thumbnail rounded-circle" src={'../media/'+picture} alt="Card image cap"/>
             <h4 className="card-title text-center">{this.props.tvgCarousel.tvgLegalname}</h4>
             <p className="card-text text-center">{this.props.tvgCarousel.tvgLegaladresse}</p>
             <table className="table table-bordered">
@@ -534,6 +534,7 @@ class LoginModal extends React.Component {
       signupas: '',
       formErrors: {login: '', password: '', signupas: ''},
       formErrorsL: {loginL: '', passwordL: ''},
+      repeatedLogin: [],
       loginValid: false,
       loginLValid: false,
       passwordValid: false,
@@ -543,7 +544,6 @@ class LoginModal extends React.Component {
       formLValid: false
     };
   }
-
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
     let loginValid = this.state.loginValid;
@@ -552,8 +552,13 @@ class LoginModal extends React.Component {
 
     switch(fieldName) {
       case 'login':
-        loginValid = value.length >= 6 && value != this.state.password;
-        fieldValidationErrors.login = loginValid ? '' : ' is invalid';
+        loginValid = value.length >= 6 && value != this.state.password && _.findWhere(this.state.repeatedLogin, {accountLogin: value}) === undefined;
+        if(_.findWhere(this.state.repeatedLogin, {accountLogin: value}) != undefined){
+          fieldValidationErrors.login = 'Login already exists';
+        }
+        else {
+          fieldValidationErrors.login = loginValid ? '' : ' is invalid';
+        }
         break;
       case 'password':
         passwordValid = value.length >= 6 && value != this.state.login;
@@ -580,7 +585,14 @@ class LoginModal extends React.Component {
     const value = e.target.value;
     this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
-
+  componentWillMount () {
+    var self = this;
+    $.ajax({
+      url: "http://localhost:8080/api/accounts"
+    }).then(function(data){
+      self.setState({repeatedLogin: data._embedded.accounts});
+    });
+  }
   validateFieldL(fieldName, value) {
     let fieldLValidationErrors = this.state.formErrorsL;
     let loginLValid = this.state.loginLValid;
@@ -611,7 +623,6 @@ class LoginModal extends React.Component {
     const value = e.target.value;
     this.setState({[name]: value}, () => { this.validateFieldL(name, value) });
   }
-
   errorClass(error) {
    return(error.length === 0 ? '' : 'has-error');
   }
@@ -635,7 +646,7 @@ class LoginModal extends React.Component {
                       <form action="login" method="post">
 
                         <div className={`form-group ${this.errorClass(this.state.formErrorsL.loginL)}`}>
-                          <input value={this.state.loginL} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginLHelp" placeholder="Login" name="loginL" required/>
+                          <input value={this.state.loginL} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin2" aria-describedby="loginLHelp" placeholder="Login" name="loginL" required/>
                           <div className="invalid-feedback">
                             Please provide a valid login.
                           </div>
@@ -643,7 +654,7 @@ class LoginModal extends React.Component {
                         </div>
 
                         <div className={`form-group ${this.errorClass(this.state.formErrorsL.passwordL)}`}>
-                          <input value={this.state.passwordL} onChange={(event) => this.handleUserInputL(event)} type="password" className="form-control" id="exampleInputPassword1" aria-describedby="passwordLHelp" placeholder="Password" name="passwordL" required/>
+                          <input value={this.state.passwordL} onChange={(event) => this.handleUserInputL(event)} type="password" className="form-control" id="exampleInputPassword2" aria-describedby="passwordLHelp" placeholder="Password" name="passwordL" required/>
                           <div className="invalid-feedback">
                             A password has to have more than 6 characters.
                           </div>
@@ -673,7 +684,8 @@ class LoginModal extends React.Component {
                       <p className="card-text">fill in the form below to get instant access</p>
                       <form action="signup" method="post">
 
-                        <div className={`form-group ${this.errorClass(this.state.formErrors.login)}`}>
+                        <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.login)}`}>
+                          <span className={`tooltip tooltip-${this.state.formErrors.login}`}><span>{this.state.formErrors.login}</span></span>
                           <input value={this.state.login} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login" name="login" required/>
                           <div className="invalid-feedback">
                             Please provide a valid login.

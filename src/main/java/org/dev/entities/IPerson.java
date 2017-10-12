@@ -30,6 +30,8 @@ public abstract class IPerson implements Serializable {
    protected String ipersonFirstname;
    protected java.util.Date ipersonBirthday;
    @Column(length=100)
+   protected String ipersonCountry;
+   @Column(length=100)
    protected String ipersonCity;
    @Column(length=50)
    protected String ipersonNationalcardid;
@@ -99,11 +101,12 @@ public abstract class IPerson implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	public IPerson(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
-			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
+			String ipersonCountry, String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
 		super();
 		this.ipersonLastname = ipersonLastname;
 		this.ipersonFirstname = ipersonFirstname;
 		this.ipersonBirthday = ipersonBirthday;
+		this.ipersonCountry = ipersonCountry;
 		this.ipersonCity = ipersonCity;
 		this.ipersonNationalcardid = ipersonNationalcardid;
 		this.ipersonEmail = ipersonEmail;

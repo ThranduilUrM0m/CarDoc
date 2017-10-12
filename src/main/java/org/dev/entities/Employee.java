@@ -70,16 +70,16 @@ public class Employee extends IPerson implements Serializable {
 		this.control = control;
 	}
 	
-	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCity,
+	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry, String ipersonCity,
 			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
-		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid, ipersonEmail,
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail,
 				ipersonPhone);
 		// TODO Auto-generated constructor stub
 	}
 	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,
-			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone,
+			String ipersonCountry, String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone,
 			String employeeMatricule, Collection<Furlough> furlough, Function function, Tvg tvg, Control control) {
-		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCity, ipersonNationalcardid,
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCountry, ipersonCity, ipersonNationalcardid,
 				ipersonEmail, ipersonPhone);
 		this.employeeMatricule = employeeMatricule;
 		this.furlough = furlough;

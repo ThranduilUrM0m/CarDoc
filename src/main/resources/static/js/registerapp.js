@@ -504,71 +504,385 @@ class RegisterMotoristPanel extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-
+      countries: [],
+      cities: [],
+      citiesWanted: [],
+      login: '',
+      password: '',
+      signupas: '',
+  	  ipersonLastname: '',
+  	  ipersonFirstname: '',
+  	  ipersonBirthday: '',
+  	  ipersonCountry: '',
+  	  ipersonCity: '',
+  	  ipersonNationalcardid : '',
+  	  ipersonEmail: '',
+  	  ipersonPhone: '',
+  	  vehicleBrand: '',
+  	  vehicleType: '',
+  	  vehicleFirstCirculation: '',
+  	  vehicleRegistration : '',
+      formErrors: {
+        ipersonLastname: '',
+  	    ipersonFirstname: '',
+  	    ipersonBirthday: '',
+    	  ipersonCountry: '',
+  	    ipersonCity: '',
+  	    ipersonNationalcardid : '',
+  	    ipersonEmail: '',
+  	    ipersonPhone: '',
+  	    vehicleBrand: '',
+  	    vehicleType: '',
+  	    vehicleFirstCirculation: '',
+  	    vehicleRegistration : ''
+      },
+      ipersonLastnameValid: false,
+  	  ipersonFirstnameValid: false,
+  	  ipersonBirthdayValid: false,
+  	  ipersonCountryValid: false,
+  	  ipersonCityValid: false,
+  	  ipersonNationalcardidValid: false,
+  	  ipersonEmailValid: false,
+  	  ipersonPhoneValid: false,
+  	  vehicleBrandValid: false,
+  	  vehicleTypeValid: false,
+  	  vehicleFirstCirculationValid: false,
+  	  vehicleRegistrationValid: false,
+      formValid: false
     };
   }
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let ipersonLastnameValid = this.state.ipersonLastnameValid;
+  	let ipersonFirstnameValid = this.state.ipersonFirstnameValid;
+  	let ipersonBirthdayValid = this.state.ipersonBirthdayValid;
+  	let ipersonCountryValid = this.state.ipersonCountryValid;
+  	let ipersonCityValid = this.state.ipersonCityValid;
+  	let ipersonNationalcardidValid = this.state.ipersonNationalcardidValid;
+  	let ipersonEmailValid = this.state.ipersonEmailValid;
+  	let ipersonPhoneValid = this.state.ipersonPhoneValid;
+  	let vehicleBrandValid = this.state.vehicleBrandValid;
+  	let vehicleTypeValid = this.state.vehicleTypeValid;
+  	let vehicleFirstCirculationValid = this.state.vehicleFirstCirculationValid;
+  	let vehicleRegistrationValid = this.state.vehicleRegistrationValid;
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let phoneReg = /^([0|\+[0-9]{1,5})?([0-9]{10})$/;
 
+    switch(fieldName) {
+      case 'ipersonLastname':
+        ipersonLastnameValid = value.length >= 1;
+        fieldValidationErrors.ipersonLastname = ipersonLastnameValid ? '' : ' is invalid';
+        break;
+      case 'ipersonFirstname':
+        ipersonFirstnameValid = value.length >= 1;
+        fieldValidationErrors.ipersonFirstname = ipersonFirstnameValid ? '' : ' is invalid';
+        break;
+      case 'ipersonBirthday':
+        ipersonBirthdayValid = moment(value, 'YYYY-MM-DD', true).isValid();
+        fieldValidationErrors.ipersonBirthday = ipersonBirthdayValid ? '' : ' is invalid';
+        break;
+      case 'ipersonCountry':
+        ipersonCountryValid = value.length >= 1;
+        fieldValidationErrors.ipersonCountry = ipersonCountryValid ? '' : ' is invalid';
+        break;
+      case 'ipersonCity':
+        ipersonCityValid = value.length >= 1;
+        fieldValidationErrors.ipersonCity = ipersonCityValid ? '' : ' is invalid';
+        break;
+      case 'ipersonNationalcardid':
+        ipersonNationalcardidValid = value.length >= 9;
+        fieldValidationErrors.ipersonNationalcardid = ipersonNationalcardidValid ? '' : ' is invalid';
+        break;
+      case 'ipersonEmail':
+        ipersonEmailValid = reg.test(value);
+        fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
+        break;
+      case 'ipersonPhone':
+        ipersonPhoneValid = phoneReg.test(value);
+        fieldValidationErrors.ipersonPhone = ipersonPhoneValid ? '' : ' is invalid';
+        break;
+      case 'vehicleBrand':
+        vehicleBrandValid = value.length >= 1;
+        fieldValidationErrors.vehicleBrand = vehicleBrandValid ? '' : ' is invalid';
+        break;
+      case 'vehicleType':
+        vehicleTypeValid = value === 'Car (Light vehicles)' || value === 'Gas-powered vehicles' || value === 'Collection vehicles' || value === 'Utilities' || value === 'Electric vehicles' || value === 'Specific vehicles';
+        fieldValidationErrors.vehicleType = vehicleTypeValid ? '' : ' is invalid';
+        break;
+      case 'vehicleFirstCirculation':
+        vehicleFirstCirculationValid = moment(value, 'YYYY-MM-DD', true).isValid();
+        fieldValidationErrors.vehicleFirstCirculation = vehicleFirstCirculationValid ? '' : ' is invalid';
+        break;
+      case 'vehicleRegistration':
+        vehicleRegistrationValid = value.length >= 1;
+        fieldValidationErrors.vehicleRegistration = vehicleRegistrationValid ? '' : ' is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                  ipersonLastnameValid: ipersonLastnameValid,
+                  ipersonFirstnameValid: ipersonFirstnameValid,
+                  ipersonBirthdayValid: ipersonBirthdayValid,
+                  ipersonCountryValid: ipersonCountryValid,
+                  ipersonCityValid: ipersonCityValid,
+                  ipersonNationalcardidValid: ipersonNationalcardidValid,
+                  ipersonEmailValid: ipersonEmailValid,
+                  ipersonPhoneValid: ipersonPhoneValid,
+                  vehicleBrandValid: vehicleBrandValid,
+                  vehicleTypeValid: vehicleTypeValid,
+                  vehicleFirstCirculationValid: vehicleFirstCirculationValid,
+                  vehicleRegistrationValid: vehicleRegistrationValid
+                  }, this.validateForm);
+  }
+  validateForm() {
+    this.setState({formValid: this.state.ipersonLastnameValid &&
+                              this.state.ipersonFirstnameValid &&
+                              this.state.ipersonBirthdayValid &&
+                              this.state.ipersonCountryValid &&
+                              this.state.ipersonCityValid &&
+                              this.state.ipersonNationalcardidValid &&
+                              this.state.ipersonEmailValid &&
+                              this.state.ipersonPhoneValid &&
+                              this.state.vehicleBrandValid &&
+                              this.state.vehicleTypeValid &&
+                              this.state.vehicleFirstCirculationValid &&
+                              this.state.vehicleRegistrationValid});
+  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
+    if(name == 'ipersonCountry'){
+      var self = this;
+      var countrySelected = '';
+      $.ajax({
+        url: "../js/json/COUNTRIES.json"
+      }).then(function (data) {
+        countrySelected = _.first(_.where(data, {code: value})).code;
+        self.loadCitiesFromJSON(countrySelected);
+      });
+    }
+  }
+  errorClass(error) {
+   return(error.length === 0 ? '' : 'has-error');
+  }
+  loadCountriesFromJSON() {
+    var self = this;
+    $.ajax({
+      url: "../js/json/COUNTRIES.json"
+    }).then(function (data) {
+      self.setState({countries: data});
+    });
+  }
+  loadCitiesFromJSON(countryID) {
+    var self = this;
+    var rowsC = [];
+    $.ajax({
+      url: "../js/json/CITIES.json"
+    }).then(function (data) {
+      self.setState({cities: _.sortBy(_.where(data, {country: countryID}), 'name')});
+      self.state.cities.forEach(function(city) {
+        rowsC.push(<City cityProp={city} />);
+      });
+      self.setState({citiesWanted: rowsC});
+    });
+  }
+  componentWillMount() {
+    this.loadCitiesFromJSON("AF");
+  }
+  componentDidMount() {
+    this.loadCountriesFromJSON();
+    $.get("sessionLP", function(data) {
+      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+        $('.sessionVariables').submit();
+      }else{
+        this.setState({login: (JSON.parse(data)).login,
+                      password: (JSON.parse(data)).password,
+                      signupas: (JSON.parse(data)).signupas
+                      });
+      }
+    }.bind(this));
+  }
+
+  handleBlur(e){
+    const name = e.target.name;
+    if(name == 'ipersonBirthdayValid' || name == 'vehicleFirstCirculationValid'){
+      e.target.type = 'text';
+    }
+  }
+  handleFocus(e){
+    const name = e.target.name;
+    if(name == 'ipersonBirthdayValid' || name == 'vehicleFirstCirculationValid'){
+      e.target.type = 'date';
+    }
+  }
   render(){
+    var rows = [];
+    this.state.countries.forEach(function(country) {
+      rows.push(<Country countryProp={country} />);
+    });
     return(
-      <div className="container">
-        <div className="wizard">
-            <div className="wizard-inner">
-                <div className="connecting-line-motorist"></div>
-                <ul className="nav nav-tabs" role="tablist">
+      <div className="registration">
+        <div className="container">
+          <div className="card card-first"></div>
+          <div className="card">
+            <div className="icon-reg"><i className="ion-clipboard"></i></div>
+            <h1 className="title">Joining the community</h1>
+            <form action="signupmotorist" method="post">
+              <input name="login" type="hidden" value={this.state.login}/>
+              <input name="password" type="hidden" value={this.state.password}/>
+              <input name="signupas" type="hidden" value={this.state.signupas}/>
+              <div className="row">
+                <div className="col">
 
-                    <li role="presentation" className="active">
-                        <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Personal Information">
-                            <span className="round-tab">
-                                <i className="ion-person"></i>
-                            </span>
-                        </a>
-                    </li>
-
-                    <li role="presentation" className="disabled">
-                        <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Vehicle">
-                            <span className="round-tab">
-                                <i className="ion-model-s"></i>
-                            </span>
-                        </a>
-                    </li>
-
-                    <li role="presentation" className="disabled">
-                        <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                            <span className="round-tab">
-                                <i className="ion-ios-camera"></i>
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <form role="form">
-                <div className="tab-content">
-
-                    <div className="tab-pane active" role="tabpanel" id="step1">
-                        <h3>Step 1</h3>
-                        <p>This is step 1</p>
-                        <ul className="list-inline pull-right">
-                            <li><button type="button" className="btn btn-primary next-step">Save and continue</button></li>
-                        </ul>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonLastname)}`}>
+                    <input value={this.state.ipersonLastname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonLastname" aria-describedby="ipersonLastnameHelp" name="ipersonLastname" required/>
+                    <label for="#{label}">Last Name</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Last Name.
                     </div>
+                    <small id="ipersonLastnameHelp" className="form-text text-muted"></small>
+                  </div>
 
-                    <div className="tab-pane" role="tabpanel" id="step2">
-                        <h3>Step 2</h3>
-                        <p>This is step 2</p>
-                        <ul className="list-inline pull-right">
-                            <li><button type="button" className="btn btn-default prev-step">Previous</button></li>
-                            <li><button type="button" className="btn btn-primary next-step">Save and continue</button></li>
-                        </ul>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonFirstname)}`}>
+                    <input value={this.state.ipersonFirstname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonFirstname" aria-describedby="ipersonFirstnameHelp" name="ipersonFirstname" required/>
+                    <label for="#{label}">First Name</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid First Name.
                     </div>
+                    <small id="ipersonFirstnameHelp" className="form-text text-muted"></small>
+                  </div>
 
-                    <div className="tab-pane" role="tabpanel" id="complete">
-                        <h3>Complete</h3>
-                        <p>You have successfully completed all steps.</p>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonBirthday)}`}>
+                    <input value={this.state.ipersonBirthday} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonBirthday" aria-describedby="ipersonBirthdayHelp" name="ipersonBirthday" required/>
+                    <label for="#{label}">Birthday</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a Birthday.
                     </div>
-                    <div className="clearfix"></div>
+                    <small id="ipersonBirthdayHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCountry)}`}>
+                    <select value={this.props.ipersonCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCountry" aria-describedby="ipersonCountryHelp" name="ipersonCountry" required>
+                      <option value=""></option>
+                      {rows}
+                    </select>
+                    <label for="#{label}">Country</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a Country.
+                    </div>
+                    <small id="ipersonCountryHelp" className="form-text text-muted"></small>
+                  </div>
                 </div>
+                <div className="col">
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCity)}`}>
+                    <select value={this.props.ipersonCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCity" aria-describedby="ipersonCityHelp" name="ipersonCity" required>
+                      <option value=""></option>
+                      {this.state.citiesWanted}
+                    </select>
+                    <label for="#{label}">City</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a City.
+                    </div>
+                    <small id="ipersonCityHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonEmail)}`}>
+                    <input value={this.state.ipersonEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonEmail" aria-describedby="ipersonEmailHelp" name="ipersonEmail" required/>
+                    <label for="#{label}">Email</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Email.
+                    </div>
+                    <small id="ipersonEmailHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonPhone)}`}>
+                    <input value={this.state.ipersonPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonPhone" aria-describedby="ipersonPhoneHelp" name="ipersonPhone" required/>
+                    <label for="#{label}">Phone</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Phone.
+                    </div>
+                    <small id="ipersonPhoneHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonNationalcardid)}`}>
+                    <input value={this.state.ipersonNationalcardid} onChange={(event) => this.handleUserInput(event)} type="text" onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonNationalcardid" aria-describedby="ipersonNationalcardidHelp" name="ipersonNationalcardid" required/>
+                    <label for="#{label}">National Card Id</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid national card id.
+                    </div>
+                    <small id="ipersonNationalcardidHelp" className="form-text text-muted"></small>
+                  </div>
+                </div>
+              </div>
+              <div className="row Aligner">
+                <h5>Vehicle</h5>
+                <div className="bar"></div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleBrand)}`}>
+                    <input value={this.state.vehicleBrand} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputvehicleBrand" aria-describedby="vehicleBrandHelp" name="vehicleBrand" required/>
+                    <label for="#{label}">Vehicle Brand</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Vehicle Brand.
+                    </div>
+                    <small id="vehicleBrandHelp" className="form-text text-muted"></small>
+                  </div>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleType)}`}>
+                    <select value={this.props.vehicleType} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputvehicleType" aria-describedby="vehicleTypeHelp" name="vehicleType" required>
+                      <option value=""></option>
+                      <option value="Car (Light vehicles)">Car (Light vehicles)</option>
+                      <option value="Gas-powered vehicles">Gas-powered vehicles</option>
+                      <option value="Collection vehicles">Collection vehicles</option>
+                      <option value="Utilities">Utilities</option>
+                      <option value="Electric vehicles">Electric vehicles</option>
+                      <option value="Specific vehicles">Specific vehicles</option>
+                    </select>
+                    <label for="#{label}">Vehicle Type</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a Vehicle Type.
+                    </div>
+                    <small id="vehicleTypeHelp" className="form-text text-muted"></small>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleFirstCirculation)}`}>
+                    <input value={this.state.vehicleFirstCirculation} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputvehicleFirstCirculation" aria-describedby="vehicleFirstCirculationHelp" name="vehicleFirstCirculation" required/>
+                    <label for="#{label}">First Circulation</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose your Vehicle first Circulation.
+                    </div>
+                    <small id="vehicleFirstCirculationHelp" className="form-text text-muted"></small>
+                  </div>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleRegistration)}`}>
+                    <input value={this.state.vehicleRegistration} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputvehicleRegistration" aria-describedby="vehicleRegistrationHelp" name="vehicleRegistration" required/>
+                    <label for="#{label}">Vehicle Registration</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid vehicle registration.
+                    </div>
+                    <small id="vehicleRegistrationHelp" className="form-text text-muted"></small>
+                  </div>
+                </div>
+              </div>
+              <div className="button-container">
+                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}><i className="ion-paper-airplane"></i></button>
+              </div>
             </form>
+          </div>
         </div>
       </div>
     );
@@ -675,7 +989,7 @@ class RegisterTvgPanel extends React.Component{
         fieldValidationErrors.tvgCity = tvgCityValid ? '' : ' is invalid';
         break;
       case 'tvgCountry':
-        tvgCountryValid = value.length >= 0;
+        tvgCountryValid = value.length >= 1;
         fieldValidationErrors.tvgCountry = tvgCountryValid ? '' : ' is invalid';
         break;
       case 'tvgRegion':
@@ -832,7 +1146,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Legal Name</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Legal Name.
+                      Please provide a valid Legal Name.
                     </div>
                     <small id="tvgLegalnameHelp" className="form-text text-muted"></small>
                   </div>
@@ -842,7 +1156,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Legal Adresse</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Legal Adresse.
+                      Please provide a valid Legal Adresse.
                     </div>
                     <small id="tvgLegaladresseHelp" className="form-text text-muted"></small>
                   </div>
@@ -852,7 +1166,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Creation Date</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please Choose a Creation Date.
+                      Please Choose a Creation Date.
                     </div>
                     <small id="tvgCreationdateHelp" className="form-text text-muted"></small>
                   </div>
@@ -865,7 +1179,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Country</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please Choose a Country.
+                      Please Choose a Country.
                     </div>
                     <small id="tvgCountryHelp" className="form-text text-muted"></small>
                   </div>
@@ -875,7 +1189,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Region</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Region.
+                      Please provide a valid Region.
                     </div>
                     <small id="tvgRegionHelp" className="form-text text-muted"></small>
                   </div>
@@ -888,7 +1202,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">City</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please Choose a City.
+                      Please Choose a City.
                     </div>
                     <small id="tvgCityHelp" className="form-text text-muted"></small>
                   </div>
@@ -899,7 +1213,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Email</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Email.
+                      Please provide a valid Email.
                     </div>
                     <small id="tvgEmailHelp" className="form-text text-muted"></small>
                   </div>
@@ -909,7 +1223,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Phone</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Phone.
+                      Please provide a valid Phone number.
                     </div>
                     <small id="tvgPhoneHelp" className="form-text text-muted"></small>
                   </div>
@@ -919,7 +1233,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Morning Opening</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please Choose an Opening Hour.
+                      Please Choose a Morning Opening Hour.
                     </div>
                     <small id="tvgDaystartAHelp" className="form-text text-muted"></small>
                   </div>
@@ -929,7 +1243,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Morning Closing</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Legal Name.
+                      Please Choose a Morning Closing Hour.
                     </div>
                     <small id="tvgDayendAHelp" className="form-text text-muted"></small>
                   </div>
@@ -939,7 +1253,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Afternoon Opening</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Legal Name.
+                      Please Choose an Afternoon Opening Hour.
                     </div>
                     <small id="tvgDaystartBHelp" className="form-text text-muted"></small>
                   </div>
@@ -949,7 +1263,7 @@ class RegisterTvgPanel extends React.Component{
                     <label for="#{label}">Afternoon Closing</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                    Please provide a valid Legal Name.
+                      Please Choose an Afternoon Closing Hour.
                     </div>
                     <small id="tvgDayendBHelp" className="form-text text-muted"></small>
                   </div>
@@ -966,7 +1280,25 @@ class RegisterTvgPanel extends React.Component{
   }
 }
 class FirstSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      RegisterPanel: null
+    };
+  }
   render() {
+    var self = this;
+    $.get("sessionLP", function(data) {
+      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+        $('.sessionVariables').submit();
+      }else{
+        if((JSON.parse(data)).signupas === 'tvg'){
+          self.setState({RegisterPanel: <RegisterTvgPanel />});
+        }else{
+          self.setState({RegisterPanel: <RegisterMotoristPanel />});
+        }
+      }
+    }.bind(this));
     return (
       <section className="firstsection row">
         <a href="#" className="col disabled register-firstsection Aligner">
@@ -984,7 +1316,7 @@ class FirstSection extends React.Component {
             </li>
           </ul>
           <ContactUsModalLauncher />
-          <RegisterTvgPanel />
+          {this.state.RegisterPanel}
         </a>
         <SearchModal />
         <ContactUsModal />

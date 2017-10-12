@@ -7,12 +7,16 @@ import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.dev.CarDocApplication;
 import org.dev.dao.AccountRepository;
 import org.dev.dao.TvgRepository;
 import org.dev.entities.Account;
+import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
+import org.dev.entities.Vehicle;
+import org.dev.metier.MotoristMetier;
 import org.dev.metier.TVGMetier;
 import org.hibernate.validator.constraints.Email;
 import org.json.simple.JSONObject;
@@ -31,6 +35,8 @@ public class FormsController {
 	private HttpSession httpSession;
     @Autowired
     private TVGMetier iTVGMetier;
+    @Autowired
+    private MotoristMetier iMotoristMetier;
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
     public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
@@ -41,10 +47,15 @@ public class FormsController {
         	if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
         		response.sendRedirect("/?error=invalidForm");
         	else {
-        		httpSession.setAttribute("login", login);
-            	httpSession.setAttribute("password", password);
-            	httpSession.setAttribute("signupas", signupas);
-            	response.sendRedirect("/register");
+        		Tvg tvgInConsult = iTVGMetier.consulteTVGByLogin(login);
+        		if(tvgInConsult != null) {
+        			response.sendRedirect("/?error=repeatedLogin");
+        		}else {
+        			httpSession.setAttribute("login", login);
+                	httpSession.setAttribute("password", password);
+                	httpSession.setAttribute("signupas", signupas);
+                	response.sendRedirect("/register");
+        		}
         	}
         } catch (Exception e) {
         	model.addAttribute("error", e);
@@ -111,6 +122,41 @@ public class FormsController {
         			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, (new SimpleDateFormat("YYYY-MM-DD").parse(tvgCreationdate)), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_TVG"));
         			model.addAttribute("TVG", tvgInCreation);
                 	response.sendRedirect("/success?emailValidation=" + tvgEmail);
+        		}
+        	}
+        } catch (Exception e) {
+        	model.addAttribute("error", e);
+        	response.sendRedirect("/register?error=" + e.getMessage());
+        }
+	}
+	
+	@RequestMapping(value = "/signupmotorist", method = RequestMethod.POST)
+	public void saveMotorist(Model model,@RequestParam(name = "login", required = true) String login, 
+										 @RequestParam(name = "password", required = true) String password, 
+										 @RequestParam(name = "signupas", required = true) String signupas,
+										 @RequestParam(name = "ipersonLastname", required = true) String ipersonLastname,
+										 @RequestParam(name = "ipersonFirstname", required = true) String ipersonFirstname,
+										 @RequestParam(name = "ipersonBirthday", required = true) String ipersonBirthday,
+										 @RequestParam(name = "ipersonCountry", required = true) String ipersonCountry,
+										 @RequestParam(name = "ipersonCity", required = true) String ipersonCity,
+										 @RequestParam(name = "ipersonNationalcardid", required = true) @Size(min = 9) String ipersonNationalcardid,
+										 @RequestParam(name = "ipersonEmail", required = true) @Email(message="Please provide a valid email address") @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address") String ipersonEmail,
+										 @RequestParam(name = "ipersonPhone", required = true) @Pattern(regexp="^([0|\\+[0-9]{1,5})?([0-9]{10})$", message="Please provide a valid phone number") String ipersonPhone,
+										 @RequestParam(name = "vehicleBrand", required = true) String vehicleBrand,
+										 @RequestParam(name = "vehicleType", required = true)  String vehicleType,
+										 @RequestParam(name = "vehicleFirstCirculation", required = true) String vehicleFirstCirculation,
+										 @RequestParam(name = "vehicleRegistration", required = true) String vehicleRegistration,
+										 HttpServletResponse response) throws IOException {
+		try {
+        	if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
+        		response.sendRedirect("/?error=invalidLogin");
+        	else {
+        		if(!isValidDateStr(ipersonBirthday) || !isValidDateStr(vehicleFirstCirculation))
+        			response.sendRedirect("/register?error="+error);
+        		else {
+        			Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
+        			model.addAttribute("MOTORIST", motoristInCreation);
+                	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
         		}
         	}
         } catch (Exception e) {

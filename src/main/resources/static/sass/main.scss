@@ -58,6 +58,11 @@ body *{
   display: flex;
   align-items: center;
   justify-content: center;
+  .bar{
+    width: 95%;
+    height: 1px;
+    background-color: $thirdgray;
+  }
 }
 .Aligner-item {
   max-width: 50%;
@@ -80,7 +85,7 @@ a.disabled {
 @import 'checkbox';
 @import 'timeline';
 @import 'paneltab';
-
+@import 'tooltip';
 
 [type=reset], [type=submit], button, html [type=button]{
 	-webkit-appearance: none;

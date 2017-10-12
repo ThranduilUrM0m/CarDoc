@@ -69,7 +69,7 @@ public class Account implements Serializable{
 	public Account(String accountLogin, String accountPassword, Date accountCreationdate, Boolean activated,
 			Collection<ConnectionHistory> connectionHistory, Collection<Consultation> consultation,
 			Collection<Booking> booking, Collection<Picture> picture, Collection<MessageSent> messageSent,
-			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist, String... roles) {
+			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist, String roles) {
 		super();
 		this.accountLogin = accountLogin;
 		this.setAccountPassword(accountPassword);
@@ -189,11 +189,11 @@ public class Account implements Serializable{
 		this.motorist = motorist;
 	}
 
-	public String[] getRoles() {
+	public String getRoles() {
 		return roles;
 	}
 
-	public void setRoles(String[] roles) {
+	public void setRoles(String roles) {
 		this.roles = roles;
 	}
 	
