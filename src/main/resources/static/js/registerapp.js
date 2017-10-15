@@ -590,7 +590,7 @@ class RegisterMotoristPanel extends React.Component{
         fieldValidationErrors.ipersonCity = ipersonCityValid ? '' : ' is invalid';
         break;
       case 'ipersonNationalcardid':
-        ipersonNationalcardidValid = value.length >= 9;
+        ipersonNationalcardidValid = value.length >= 7;
         fieldValidationErrors.ipersonNationalcardid = ipersonNationalcardidValid ? '' : ' is invalid';
         break;
       case 'ipersonEmail':
@@ -707,13 +707,13 @@ class RegisterMotoristPanel extends React.Component{
 
   handleBlur(e){
     const name = e.target.name;
-    if(name == 'ipersonBirthdayValid' || name == 'vehicleFirstCirculationValid'){
+    if(name == 'ipersonBirthday' || name == 'vehicleFirstCirculation'){
       e.target.type = 'text';
     }
   }
   handleFocus(e){
     const name = e.target.name;
-    if(name == 'ipersonBirthdayValid' || name == 'vehicleFirstCirculationValid'){
+    if(name == 'ipersonBirthday' || name == 'vehicleFirstCirculation'){
       e.target.type = 'date';
     }
   }
@@ -826,7 +826,6 @@ class RegisterMotoristPanel extends React.Component{
               </div>
               <div className="row Aligner">
                 <h5>Vehicle</h5>
-                <div className="bar"></div>
               </div>
               <div className="row">
                 <div className="col">

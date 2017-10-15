@@ -6,6 +6,7 @@ package org.dev.entities;
  ***********************************************************************/
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.*;
 
 import javax.persistence.CascadeType;
@@ -42,6 +43,8 @@ public class Account implements Serializable{
    protected Boolean activated;
    @Column(length=40)
    protected String roles;
+   @Column(length=40)
+   protected String token;
    
    @OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
    protected java.util.Collection<ConnectionHistory> connectionHistory;
@@ -84,6 +87,12 @@ public class Account implements Serializable{
 		this.tvg = tvg;
 		this.motorist = motorist;
 		this.roles = roles;
+		String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		SecureRandom rnd = new SecureRandom();
+		StringBuilder sb = new StringBuilder( 20 );
+		   for( int i = 0; i < 20; i++ ) 
+		      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+		this.token = accountLogin+"|"+sb.toString();
 	}
 
 	public String getAccountLogin() {
@@ -92,6 +101,14 @@ public class Account implements Serializable{
 
 	public void setAccountLogin(String accountLogin) {
 		this.accountLogin = accountLogin;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Long getAccountId() {

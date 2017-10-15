@@ -1,11 +1,9 @@
 package org.dev.metier;
 
-import java.util.Collection;
 import java.util.Date;
 
 import org.dev.entities.Account;
 import org.dev.entities.Motorist;
-import org.dev.entities.Vehicle;
 
 public interface MotoristMetier {
 	public Motorist createMotorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry, String ipersonCity,

@@ -1,6 +1,7 @@
 package org.dev.web;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,20 +10,16 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.dev.CarDocApplication;
-import org.dev.dao.AccountRepository;
-import org.dev.dao.TvgRepository;
 import org.dev.entities.Account;
 import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
-import org.dev.entities.Vehicle;
+import org.dev.mail.MailSender;
 import org.dev.metier.MotoristMetier;
 import org.dev.metier.TVGMetier;
 import org.hibernate.validator.constraints.Email;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,8 +72,28 @@ public class FormsController {
 			return e.getMessage();
 		}
 	}
+    
+	@Autowired @Qualifier("zakariaeboutaleb@gmail.com")
+	public MailSender mailSender;
+	
+	@RequestMapping(value = "/emailvalidation", method = RequestMethod.POST)
+	public void emailValidation(Account account, String email) {
+        try{
+        	String body = "Dear " + account.getAccountLogin()
+            + ", thank you for placing your trust in us, "
+            + "Please refer to the link below to activate your account "
+            + "localhost:8080/emailvalidationhit?incoming="+account.getToken();
+        	mailSender.sendMail("zakariaeboutaleb@gmail.com", email, "Validation email", body);
+			httpSession.removeAttribute("login");
+			httpSession.removeAttribute("password");
+			httpSession.removeAttribute("signupas");
+        }
+        catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+	}
 
-	protected String error;
+	protected String error ;
 	public boolean isValidDateStr(String date) {
 		Date testDate = null;
 		Boolean testDateB = false;
@@ -121,6 +138,7 @@ public class FormsController {
         		else {
         			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, (new SimpleDateFormat("YYYY-MM-DD").parse(tvgCreationdate)), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_TVG"));
         			model.addAttribute("TVG", tvgInCreation);
+        			emailValidation(tvgInCreation.getAccount(), tvgEmail);
                 	response.sendRedirect("/success?emailValidation=" + tvgEmail);
         		}
         	}
@@ -139,7 +157,7 @@ public class FormsController {
 										 @RequestParam(name = "ipersonBirthday", required = true) String ipersonBirthday,
 										 @RequestParam(name = "ipersonCountry", required = true) String ipersonCountry,
 										 @RequestParam(name = "ipersonCity", required = true) String ipersonCity,
-										 @RequestParam(name = "ipersonNationalcardid", required = true) @Size(min = 9) String ipersonNationalcardid,
+										 @RequestParam(name = "ipersonNationalcardid", required = true) @Size(min = 7) String ipersonNationalcardid,
 										 @RequestParam(name = "ipersonEmail", required = true) @Email(message="Please provide a valid email address") @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address") String ipersonEmail,
 										 @RequestParam(name = "ipersonPhone", required = true) @Pattern(regexp="^([0|\\+[0-9]{1,5})?([0-9]{10})$", message="Please provide a valid phone number") String ipersonPhone,
 										 @RequestParam(name = "vehicleBrand", required = true) String vehicleBrand,
@@ -147,21 +165,25 @@ public class FormsController {
 										 @RequestParam(name = "vehicleFirstCirculation", required = true) String vehicleFirstCirculation,
 										 @RequestParam(name = "vehicleRegistration", required = true) String vehicleRegistration,
 										 HttpServletResponse response) throws IOException {
-		try {
-        	if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
-        		response.sendRedirect("/?error=invalidLogin");
-        	else {
-        		if(!isValidDateStr(ipersonBirthday) || !isValidDateStr(vehicleFirstCirculation))
-        			response.sendRedirect("/register?error="+error);
-        		else {
-        			Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
-        			model.addAttribute("MOTORIST", motoristInCreation);
-                	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
-        		}
-        	}
-        } catch (Exception e) {
-        	model.addAttribute("error", e);
-        	response.sendRedirect("/register?error=" + e.getMessage());
-        }
+		if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
+    		response.sendRedirect("/?error=invalidLogin");
+    	else {
+    		if(!isValidDateStr(ipersonBirthday))
+    			response.sendRedirect("/register?error="+error+":"+ipersonBirthday);
+    		else {
+    			if(!isValidDateStr(vehicleFirstCirculation))
+    				response.sendRedirect("/register?error="+error+":"+vehicleFirstCirculation);
+    			else {
+    				try {
+    					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
+            			model.addAttribute("MOTORIST", motoristInCreation);
+            			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
+                    	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
+    				} catch (ParseException e) {
+    					response.sendRedirect("/register?Parseerror=" + e);
+					}
+    			}
+    		}
+    	}
 	}
 }

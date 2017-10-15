@@ -1,0 +1,166 @@
+.success{
+  position: absolute;
+  top: 0;
+  /* Container */
+  .container {
+    &-text{
+      text-align: center;
+    }
+    position: relative;
+    width: 100%;
+    margin: 0;
+    .card {
+      position: relative;
+      background: $white;
+      padding: 0;
+      box-sizing: border-box;
+      @include materialShadow(1);
+      transition: .3s ease;
+      &:first-child {
+        background: darken($white, 5%);
+        margin: 0 15px;
+      }
+      &:nth-child(2) {
+        background: darken($white, 2%);
+        margin: 0 10px;
+      }
+      .chart{
+        display: flex;
+        svg {
+          margin: 0 auto;
+          padding: 0;
+          .outer {
+            fill: transparent;
+            stroke: $gray;
+            stroke-dasharray: 600;
+            transition: stroke-dashoffset .5s;
+            -webkit-animation-play-state: running;
+            /* firefox bug fix - won't rotate at 90deg angles */
+            -moz-transform: rotate(-10) translateX(-190px);
+          }
+        }
+        .check {
+          position: absolute;
+          top: 20%;
+          left: 38%;
+          margin: 0 auto;
+          padding: 0;
+          border: solid 1px $gray;
+          height: 4rem;
+          width: 11rem;
+          border-top: none;
+          border-right: none;
+          transform: rotate(-45deg);
+          transform-origin: top left;
+          animation: start 2s ease 1 both;
+          animation-play-state: running;
+        }
+      }
+      .chart[data-percent='100'] .outer {
+        stroke-dashoffset: 0;
+        -webkit-animation: show100 .5s;
+        animation: show100 .5s;
+      }
+      .chart[data-percent='75'] .outer {
+        stroke-dashoffset: 125;
+        -webkit-animation: show75 1s;
+        animation: show75 1s;
+      }
+      .chart[data-percent='50'] .outer {
+        stroke-dashoffset: 267;
+        -webkit-animation: show50 1s;
+        animation: show50 1s;
+      }
+      .chart[data-percent='25'] .outer {
+        stroke-dashoffset: 400;
+        -webkit-animation: show25 1s;
+        animation: show25 1s;
+      }
+
+      @keyframes start {
+        0% {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        50% {
+          opacity: 1;
+          width: 0;
+          height: 4rem;
+        }
+        100% {
+          width: 11rem;
+        }
+      }
+
+      @-webkit-keyframes show100 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes show100 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @-webkit-keyframes show75 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 134;
+        }
+      }
+      @keyframes show75 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 124;
+        }
+      }
+
+      @-webkit-keyframes show50 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 267;
+        }
+      }
+      @keyframes show50 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 267;
+        }
+      }
+
+      @-webkit-keyframes show25 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 401;
+        }
+      }
+      @keyframes show25 {
+        from {
+          stroke-dashoffset: 600;
+        }
+        to {
+          stroke-dashoffset: 401;
+        }
+      }
+    }
+  }
+}

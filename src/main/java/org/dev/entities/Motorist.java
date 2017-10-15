@@ -37,18 +37,6 @@ public class Motorist extends IPerson implements Serializable {
 	public void setVehicle(java.util.Collection<Vehicle> vehicle) {
 		this.vehicle = vehicle;
 	}
-	
-	public boolean add(Vehicle e) {
-		return vehicle.add(e);
-	}
-
-	public boolean remove(Object o) {
-		return vehicle.remove(o);
-	}
-
-	public void clear() {
-		vehicle.clear();
-	}
 
 	public Account getAccount() {
 		return account;

@@ -12,14 +12,18 @@ import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
 import org.dev.entities.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@Transactional
 public class MotoristMetierImplementation implements MotoristMetier{
 	@Autowired
 	protected MotoristRepository motoristRep;
 	@Autowired
 	protected AccountRepository accountRep;
 	@Autowired
-	protected VehicleRepository vehicleRep;
+	protected VehicleMetier iVehicleMetier;
 
 	@Override
 	public Motorist createMotorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry, String ipersonCity,
@@ -55,18 +59,11 @@ public class MotoristMetierImplementation implements MotoristMetier{
 				null,
 				accountInCreation
 				);
-		Vehicle vehicleInCreation = new Vehicle(
-				vehicleBrand,
-				vehicleType,
-				vehicleFirstCirculation,
-				vehicleRegistration,
-				motoristInCreation
-				);
 		accountInCreation.setMotorist(motoristInCreation);
-		motoristInCreation.add(vehicleInCreation);
 		accountRep.save(accountInCreation);
 		motoristRep.save(motoristInCreation);
-		vehicleRep.save(vehicleInCreation);
+		Vehicle vehicleInCreation = iVehicleMetier.createVehicle(vehicleBrand, vehicleType, vehicleFirstCirculation, vehicleRegistration, motoristInCreation);
+		motoristInCreation.setVehicle(iVehicleMetier.consulteVehicles(motoristInCreation));
 		return motoristInCreation;
 	}
 
