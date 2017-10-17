@@ -40,7 +40,7 @@ public class Tvg implements Serializable {
    protected String tvgCountry;
    @Column(length=100)
    protected String tvgRegion;
-   @Column(length=100)
+   @Column(length=100, unique=true)
    protected String tvgEmail;
    @Column(length=20)
    protected String tvgPhone;

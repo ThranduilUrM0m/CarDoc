@@ -82,7 +82,7 @@ public class FormsController {
         	String body = "Dear " + account.getAccountLogin()
             + ", thank you for placing your trust in us, "
             + "Please refer to the link below to activate your account "
-            + "localhost:8080/emailvalidationhit?incoming="+account.getToken();
+            + "localhost:8080/success?incoming="+account.getToken();
         	mailSender.sendMail("zakariaeboutaleb@gmail.com", email, "Validation email", body);
 			httpSession.removeAttribute("login");
 			httpSession.removeAttribute("password");

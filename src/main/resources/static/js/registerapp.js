@@ -480,7 +480,7 @@ class Header extends React.Component {
   render() {
     return (
       <nav id={this.state.scrollBackground} className="navbar navbar-expand-sm fixed-top">
-        <a className="navbar-brand" id={this.state.id} href="#">
+        <a className="navbar-brand" id={this.state.id} href="/">
           <img src={this.state.logo} alt="LOGO" />
         </a>
         <ul className="navbar-nav ml-auto">
@@ -536,6 +536,7 @@ class RegisterMotoristPanel extends React.Component{
   	    vehicleFirstCirculation: '',
   	    vehicleRegistration : ''
       },
+      repeatedEmail: [],
       ipersonLastnameValid: false,
   	  ipersonFirstnameValid: false,
   	  ipersonBirthdayValid: false,
@@ -594,8 +595,13 @@ class RegisterMotoristPanel extends React.Component{
         fieldValidationErrors.ipersonNationalcardid = ipersonNationalcardidValid ? '' : ' is invalid';
         break;
       case 'ipersonEmail':
-        ipersonEmailValid = reg.test(value);
-        fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
+        ipersonEmailValid = reg.test(value) && this.state.repeatedEmail === undefined;
+        if(this.state.repeatedEmail != undefined){
+          fieldValidationErrors.ipersonEmail = 'Email already exists';
+        }
+        else {
+          fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
+        }
         break;
       case 'ipersonPhone':
         ipersonPhoneValid = phoneReg.test(value);
@@ -652,7 +658,6 @@ class RegisterMotoristPanel extends React.Component{
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({[name]: value}, () => { this.validateField(name, value) });
     if(name == 'ipersonCountry'){
       var self = this;
       var countrySelected = '';
@@ -661,7 +666,20 @@ class RegisterMotoristPanel extends React.Component{
       }).then(function (data) {
         countrySelected = _.first(_.where(data, {code: value})).code;
         self.loadCitiesFromJSON(countrySelected);
+        self.setState({[name]: value}, () => { self.validateField(name, value) });
       });
+    }else{
+      if(name == 'ipersonEmail'){
+        var self = this;
+        $.ajax({
+          url: "http://localhost:8080/api/iPersons"
+        }).then(function(data){
+          self.setState({repeatedEmail: _.findWhere(data._embedded.motorists, {ipersonEmail: value})});
+          self.setState({[name]: value}, () => { self.validateField(name, value) });
+        });
+      }else{
+        this.setState({[name]: value}, () => { this.validateField(name, value) });
+      }
     }
   }
   errorClass(error) {
@@ -793,7 +811,8 @@ class RegisterMotoristPanel extends React.Component{
                     <small id="ipersonCityHelp" className="form-text text-muted"></small>
                   </div>
 
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonEmail)}`}>
+                  <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.ipersonEmail)}`}>
+                    <span className={`tooltip tooltip-${this.state.formErrors.ipersonEmail}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
                     <input value={this.state.ipersonEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonEmail" aria-describedby="ipersonEmailHelp" name="ipersonEmail" required/>
                     <label for="#{label}">Email</label>
                     <div className="bar"></div>
@@ -937,6 +956,7 @@ class RegisterTvgPanel extends React.Component{
         tvgDayendA: '',
         tvgDayendB: ''
       },
+      repeatedEmail: [],
       tvgLegalnameValid: false,
       tvgLegaladresseValid: false,
       tvgCreationdateValid: false,
@@ -996,8 +1016,13 @@ class RegisterTvgPanel extends React.Component{
         fieldValidationErrors.tvgRegion = tvgRegionValid ? '' : ' is invalid';
         break;
       case 'tvgEmail':
-        tvgEmailValid = reg.test(value);
-        fieldValidationErrors.tvgEmail = tvgEmailValid ? '' : ' is invalid';
+        tvgEmailValid = reg.test(value) && this.state.repeatedEmail === undefined;
+        if(_.findWhere(this.state.repeatedEmail, {tvgEmail: value}) != undefined){
+          fieldValidationErrors.tvgEmail = 'Email already exists';
+        }
+        else {
+          fieldValidationErrors.tvgEmail = tvgEmailValid ? '' : ' is invalid';
+        }
         break;
       case 'tvgPhone':
         tvgPhoneValid = phoneReg.test(value);
@@ -1054,7 +1079,6 @@ class RegisterTvgPanel extends React.Component{
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({[name]: value}, () => { this.validateField(name, value) });
     if(name == 'tvgCountry'){
       var self = this;
       var countrySelected = '';
@@ -1065,6 +1089,15 @@ class RegisterTvgPanel extends React.Component{
         self.loadCitiesFromJSON(countrySelected);
       });
     }
+    if(name == 'tvgEmail'){
+      var self = this;
+      $.ajax({
+        url: "http://localhost:8080/api/tvgs"
+      }).then(function(data){
+        self.setState({repeatedEmail: _.findWhere(data._embedded.tvgs, {tvgEmail: value})});
+      });
+    }
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
   errorClass(error) {
    return(error.length === 0 ? '' : 'has-error');
@@ -1207,7 +1240,8 @@ class RegisterTvgPanel extends React.Component{
                   </div>
                 </div>
                 <div className="col">
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgEmail)}`}>
+                  <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.tvgEmail)}`}>
+                    <span className={`tooltip tooltip-${this.state.formErrors.Email}`}><span>{this.state.formErrors.Email}</span></span>
                     <input value={this.state.tvgEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgEmail" aria-describedby="tvgEmailHelp" name="tvgEmail" required/>
                     <label for="#{label}">Email</label>
                     <div className="bar"></div>

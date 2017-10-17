@@ -35,7 +35,7 @@ public abstract class IPerson implements Serializable {
    protected String ipersonCity;
    @Column(length=50)
    protected String ipersonNationalcardid;
-   @Column(length=100)
+   @Column(length=100, unique=true)
    protected String ipersonEmail;
    @Column(length=20)
    protected String ipersonPhone;

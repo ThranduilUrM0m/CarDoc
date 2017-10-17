@@ -552,8 +552,8 @@ class LoginModal extends React.Component {
 
     switch(fieldName) {
       case 'login':
-        loginValid = value.length >= 6 && value != this.state.password && _.findWhere(this.state.repeatedLogin, {accountLogin: value}) === undefined;
-        if(_.findWhere(this.state.repeatedLogin, {accountLogin: value}) != undefined){
+        loginValid = value.length >= 6 && value != this.state.password && this.state.repeatedLogin === undefined;
+        if(this.state.repeatedLogin != undefined){
           fieldValidationErrors.login = 'Login already exists';
         }
         else {
@@ -583,14 +583,12 @@ class LoginModal extends React.Component {
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({[name]: value}, () => { this.validateField(name, value) });
-  }
-  componentWillMount () {
     var self = this;
     $.ajax({
       url: "http://localhost:8080/api/accounts"
     }).then(function(data){
-      self.setState({repeatedLogin: data._embedded.accounts});
+      self.setState({repeatedLogin: _.findWhere(data._embedded.accounts, {accountLogin: value})});
+      self.setState({[name]: value}, () => { self.validateField(name, value) });
     });
   }
   validateFieldL(fieldName, value) {

@@ -480,7 +480,7 @@ class Header extends React.Component {
   render() {
     return (
       <nav id={this.state.scrollBackground} className="navbar navbar-expand-sm fixed-top">
-        <a className="navbar-brand" id={this.state.id} href="#">
+        <a className="navbar-brand" id={this.state.id} href="/">
           <img src={this.state.logo} alt="LOGO" />
         </a>
         <ul className="navbar-nav ml-auto">
@@ -529,9 +529,64 @@ class SuccessPanel extends React.Component {
     );
   }
 }
+class EmailValidated extends React.Component {
+  render() {
+    return (
+      <div className="success">
+        <div className="container">
+          <div className="card">
+            <div className="container">
+              <figure className="chart" data-percent="75">
+                <svg width="200" height="200">
+                  <circle className="outer" cx="95" cy="95" r="85" transform="rotate(-10, 95, 95)"/>
+                </svg>
+                <div className="check"></div>
+              </figure>
+              <div className="container container-text">
+                <h4>Email Validated</h4>
+                <h6>Thank You for your trust</h6>
+                <p>You can now use your profile safely</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class FirstSection extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      SuccessPanelChoice: null
+    };
+  }
+  getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+  }
+  componentWillMount(){
+    if(this.getUrlParameter('incoming') != undefined){
+      this.setState({SuccessPanelChoice: <EmailValidated />});
+      const value = this.getUrlParameter('incoming').split('|');
+      $.get("http://localhost:8080/api/accounts", function(data) {
+        var account = _.findWhere(data._embedded.accounts, {accountLogin: value[0]});
+        console.log(account)
+        //validate
+      }.bind(this));
+    }else{
+      this.setState({SuccessPanelChoice: <SuccessPanel />});
+    }
   }
   render() {
     return (
@@ -550,7 +605,7 @@ class FirstSection extends React.Component {
               <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
             </li>
           </ul>
-          <SuccessPanel />
+          {this.state.SuccessPanelChoice}
           <ContactUsModalLauncher />
         </a>
         <SearchModal />
