@@ -528,17 +528,17 @@ class LoginModal extends React.Component {
     super(props);
     this.state = {
       login: '',
-      loginL: '',
+      username: '',
+      passwordnew: '',
       password: '',
-      passwordL: '',
       signupas: '',
-      formErrors: {login: '', password: '', signupas: ''},
-      formErrorsL: {loginL: '', passwordL: ''},
+      formErrors: {login: '', passwordnew: '', signupas: ''},
+      formErrorsL: {username: '', password: ''},
       repeatedLogin: [],
       loginValid: false,
-      loginLValid: false,
+      usernameValid: false,
+      passwordnewValid: false,
       passwordValid: false,
-      passwordLValid: false,
       signupasValid: false,
       formValid: false,
       formLValid: false
@@ -547,12 +547,12 @@ class LoginModal extends React.Component {
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
     let loginValid = this.state.loginValid;
-    let passwordValid = this.state.passwordValid;
+    let passwordnewValid = this.state.passwordnewValid;
     let signupasValid = this.state.signupasValid;
 
     switch(fieldName) {
       case 'login':
-        loginValid = value.length >= 6 && value != this.state.password && this.state.repeatedLogin === undefined;
+        loginValid = value.length >= 6 && value != this.state.passwordnew && this.state.repeatedLogin === undefined;
         if(this.state.repeatedLogin != undefined){
           fieldValidationErrors.login = 'Login already exists';
         }
@@ -560,9 +560,9 @@ class LoginModal extends React.Component {
           fieldValidationErrors.login = loginValid ? '' : ' is invalid';
         }
         break;
-      case 'password':
-        passwordValid = value.length >= 6 && value != this.state.login;
-        fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+      case 'passwordnew':
+        passwordnewValid = value.length >= 6 && value != this.state.login;
+        fieldValidationErrors.passwordnew = passwordnewValid ? '' : ' is too short';
         break;
       case 'signupas':
         signupasValid = value === 'motorist' || value === 'tvg';
@@ -573,12 +573,12 @@ class LoginModal extends React.Component {
     }
     this.setState({formErrors: fieldValidationErrors,
                     loginValid: loginValid,
-                    passwordValid: passwordValid,
+                    passwordnewValid: passwordnewValid,
                     signupasValid: signupasValid
                   }, this.validateForm);
   }
   validateForm() {
-    this.setState({formValid: this.state.loginValid && this.state.passwordValid && this.state.signupasValid});
+    this.setState({formValid: this.state.loginValid && this.state.passwordnewValid && this.state.signupasValid});
   }
   handleUserInput (e) {
     const name = e.target.name;
@@ -593,28 +593,28 @@ class LoginModal extends React.Component {
   }
   validateFieldL(fieldName, value) {
     let fieldLValidationErrors = this.state.formErrorsL;
-    let loginLValid = this.state.loginLValid;
-    let passwordLValid = this.state.passwordLValid;
+    let usernameValid = this.state.usernameValid;
+    let passwordValid = this.state.passwordValid;
 
     switch(fieldName) {
-      case 'loginL':
-        loginLValid = value.length >= 6;
-        fieldLValidationErrors.loginL = loginLValid ? '' : ' is invalid';
+      case 'username':
+        usernameValid = value.length >= 6;
+        fieldLValidationErrors.username = usernameValid ? '' : ' is invalid';
         break;
-      case 'passwordL':
-        passwordLValid = value.length >= 6;
-        fieldLValidationErrors.passwordL = passwordLValid ? '' : ' is too short';
+      case 'password':
+        passwordValid = value.length >= 6;
+        fieldLValidationErrors.password = passwordValid ? '' : ' is too short';
         break;
       default:
         break;
     }
     this.setState({formErrorsL: fieldLValidationErrors,
-                    loginLValid: loginLValid,
-                    passwordLValid: passwordLValid
+                    usernameValid: usernameValid,
+                    passwordValid: passwordValid
                   }, this.validateFormL);
   }
   validateFormL() {
-    this.setState({formLValid: this.state.loginLValid && this.state.passwordLValid});
+    this.setState({formLValid: this.state.usernameValid && this.state.passwordValid});
   }
   handleUserInputL(e) {
     const name = e.target.name;
@@ -643,20 +643,20 @@ class LoginModal extends React.Component {
                       <p className="card-text">Enter username and password to log in</p>
                       <form action="login" method="post">
 
-                        <div className={`form-group ${this.errorClass(this.state.formErrorsL.loginL)}`}>
-                          <input value={this.state.loginL} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin2" aria-describedby="loginLHelp" placeholder="Login" name="loginL" required/>
+                        <div className={`form-group ${this.errorClass(this.state.formErrorsL.username)}`}>
+                          <input value={this.state.username} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin2" aria-describedby="usernameHelp" placeholder="Login" name="username" required/>
                           <div className="invalid-feedback">
                             Please provide a valid login.
                           </div>
-                          <small id="loginLHelp" className="form-text text-muted"></small>
+                          <small id="usernameHelp" className="form-text text-muted"></small>
                         </div>
 
-                        <div className={`form-group ${this.errorClass(this.state.formErrorsL.passwordL)}`}>
-                          <input value={this.state.passwordL} onChange={(event) => this.handleUserInputL(event)} type="password" className="form-control" id="exampleInputPassword2" aria-describedby="passwordLHelp" placeholder="Password" name="passwordL" required/>
+                        <div className={`form-group ${this.errorClass(this.state.formErrorsL.password)}`}>
+                          <input value={this.state.password} onChange={(event) => this.handleUserInputL(event)} type="password" className="form-control" id="exampleInputPassword2" aria-describedby="passwordHelp" placeholder="Password" name="password" required/>
                           <div className="invalid-feedback">
                             A password has to have more than 6 characters.
                           </div>
-                          <small id="passwordLHelp" className="form-text text-muted"></small>
+                          <small id="passwordHelp" className="form-text text-muted"></small>
                         </div>
 
                         <div className="form-check">
@@ -691,12 +691,12 @@ class LoginModal extends React.Component {
                           <small id="loginHelp" className="form-text text-muted">Must contain more than 6 characters long.</small>
                         </div>
 
-                        <div className={`form-group ${this.errorClass(this.state.formErrors.password)}`}>
-                          <input value={this.state.password} onChange={(event) => this.handleUserInput(event)} type="password" className="form-control" id="exampleInputPassword1" aria-describedby="passwordHelp" placeholder="Password" name="password" required/>
+                        <div className={`form-group ${this.errorClass(this.state.formErrors.passwordnew)}`}>
+                          <input value={this.state.passwordnew} onChange={(event) => this.handleUserInput(event)} type="passwordnew" className="form-control" id="exampleInputpasswordnew1" aria-describedby="passwordnewHelp" placeholder="Password" name="passwordnew" required/>
                           <div className="invalid-feedback">
                             A password has to have more than 6 characters.
                           </div>
-                          <small id="passwordHelp" className="form-text text-muted">Must be 6-20 characters long.</small>
+                          <small id="passwordnewHelp" className="form-text text-muted">Must be 6-20 characters long.</small>
                         </div>
 
                         <div className={`form-group ${this.errorClass(this.state.formErrors.signupas)}`}>

@@ -59,6 +59,60 @@ class ContactUsModal extends React.Component {
     );
   }
 }
+class VehicleModal extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div className="vehicle modal fade" id="vehicleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body row">
+              <div className="col">
+                <div className="container">
+                  <div className="card container">
+                    <div className="card-body">
+                      <h4 className="card-title">Your Vehicles<i className="ion-model-s"></i></h4>
+                      <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+                        <div className="carousel-inner">
+                          <div className="carousel-item active">
+
+                          </div>
+                          <div className="carousel-item">
+
+                          </div>
+                          <div className="carousel-item">
+
+                          </div>
+                        </div>
+                        <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span className="sr-only">Previous</span>
+                        </a>
+                        <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span className="sr-only">Next</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -82,13 +136,26 @@ class Header extends React.Component {
 class ProfilContent extends React.Component {
   render() {
     return (
-      <div className="profil-content row">
-        <div className="col-9"></div>
-        <div className="col-3">
-          <div className="card">
-            <div className="card__image" id="card-2">
-              <div className="image-overlay"></div>
-              <img src="http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg" alt="" />
+      <div className="profil-content">
+        <div className="row"></div>
+        <div className="row">
+          <div className="col-9">
+            <div className="wrapper">
+              <div className="clash-card barbarian">
+                <div className="clash-card__image clash-card__image--barbarian">
+                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png" alt="barbarian" />
+                </div>
+                <div className="clash-card__level clash-card__level--barbarian">Level 4</div>
+                <div className="clash-card__unit-name">The Barbarian</div>
+              </div>
+            </div>
+          </div>
+          <div className="col-3">
+            <div className="card">
+              <div className="card__image" id="card-2">
+                <div className="image-overlay"></div>
+                <img src="http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg" alt="" />
+              </div>
             </div>
           </div>
         </div>
