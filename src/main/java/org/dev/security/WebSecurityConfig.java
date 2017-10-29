@@ -14,8 +14,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         
       http
-        .authorizeRequests().antMatchers("/css/**").permitAll() // Enable css when logged out
-
+        .authorizeRequests().antMatchers("/css/**").permitAll()
+							.antMatchers("/media/**").permitAll()
+							.antMatchers("/js/**").permitAll()
+							.antMatchers("/api/**").permitAll()
           .and()
         .authorizeRequests()
           .antMatchers("/", "/index")
@@ -38,6 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {  
-    	auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
+    	auth.inMemoryAuthentication().withUser("user1234").password("user4321").roles("USER");
     }
 }

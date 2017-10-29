@@ -253,7 +253,7 @@ var MotoristCarouselApp = React.createClass({
   loadMotoristsFromServer: function () {
     var self = this;
     $.ajax({
-      url: "http://localhost:8080/api/motorists"
+      url: "/api/motorists"
     }).then(function (data) {
       self.setState({motoristsCarousels: data._embedded.motorists});
     });
@@ -395,7 +395,7 @@ var TvgCarouselApp = React.createClass({
   loadTvgsFromServer: function () {
     var self = this;
     $.ajax({
-      url: "http://localhost:8080/api/tvgs"
+      url: "/api/tvgs"
     }).then(function (data) {
       self.setState({tvgsCarousels: data._embedded.tvgs});
     });
@@ -444,7 +444,7 @@ var TvgApp = React.createClass({
   loadTvgsFromServer: function () {
     var self = this;
     $.ajax({
-      url: "http://localhost:8080/api/tvgs"
+      url: "/api/tvgs"
     }).then(function (data) {
       self.setState({tvgs: data._embedded.tvgs});
     });
@@ -585,7 +585,7 @@ class LoginModal extends React.Component {
     const value = e.target.value;
     var self = this;
     $.ajax({
-      url: "http://localhost:8080/api/accounts"
+      url: "/api/accounts"
     }).then(function(data){
       self.setState({repeatedLogin: _.findWhere(data._embedded.accounts, {accountLogin: value})});
       self.setState({[name]: value}, () => { self.validateField(name, value) });
@@ -1042,6 +1042,7 @@ class LeftFirstSection extends React.Component {
   render() {
     return (
       <div className="Aligner-item">
+        <div data-toggle="modal" data-target="#motoristPSModal" className="carbg"></div>
         <h1>MOTORIST</h1>
       </div>
     );
@@ -1061,7 +1062,7 @@ class FirstSection extends React.Component {
   render() {
     return (
       <section className="firstsection row">
-        <a href="#" data-toggle="modal" data-target="#motoristPSModal" className="col leftfirstsection Aligner">
+        <a href="#" className="col leftfirstsection Aligner">
           <div className="linetop"></div>
           <div className="linebottom"></div>
           <ul className="nav nav-social flex-column">

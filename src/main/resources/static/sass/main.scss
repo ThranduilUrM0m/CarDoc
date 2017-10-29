@@ -29,6 +29,7 @@ body *{
 .body-homepage::before{
    content: '';
    position: absolute;
+   z-index: -1;
    display: inline-block;
    width: 140vw;
    height: 140vw;
