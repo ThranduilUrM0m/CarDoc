@@ -80,4 +80,9 @@ public class MotoristMetierImplementation implements MotoristMetier{
 		return motoristInConsult;
 	}
 
+	@Override
+	public Collection<Motorist> getAllMotorist() {
+		Collection<Motorist> motorists = motoristRep.findAll();
+		return motorists;
+	}	
 }

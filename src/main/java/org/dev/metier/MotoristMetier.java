@@ -1,5 +1,6 @@
 package org.dev.metier;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.dev.entities.Account;
@@ -12,4 +13,5 @@ public interface MotoristMetier {
 			String vehicleRegistration);
 	public Motorist deleteTVG(Motorist inMotorist);
 	public Motorist consulteMotoristByLogin(String login);
+	public Collection<Motorist> getAllMotorist();
 }

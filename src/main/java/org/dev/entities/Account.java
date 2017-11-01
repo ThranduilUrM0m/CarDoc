@@ -22,6 +22,8 @@ import javax.validation.constraints.Size;
 import org.dev.metier.IBookStrategy;
 import org.dev.metier.ICancelBookStrategy;
 import org.dev.metier.IConsultStrategy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,6 +35,7 @@ import lombok.ToString;
 @Entity
 public class Account implements Serializable{
 
+   public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long accountId;
    @Column(length=40)
@@ -42,7 +45,7 @@ public class Account implements Serializable{
    protected java.util.Date accountCreationdate;
    protected Boolean activated;
    @Column(length=40)
-   protected String roles;
+   protected String[] roles;
    @Column(length=40)
    protected String token;
    
@@ -72,7 +75,7 @@ public class Account implements Serializable{
 	public Account(String accountLogin, String accountPassword, Date accountCreationdate, Boolean activated,
 			Collection<ConnectionHistory> connectionHistory, Collection<Consultation> consultation,
 			Collection<Booking> booking, Collection<Picture> picture, Collection<MessageSent> messageSent,
-			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist, String roles) {
+			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist, String... roles) {
 		super();
 		this.accountLogin = accountLogin;
 		this.setAccountPassword(accountPassword);
@@ -124,7 +127,7 @@ public class Account implements Serializable{
 	}
 
 	public void setAccountPassword(String accountPassword) {
-		this.accountPassword = accountPassword;
+		this.accountPassword = PASSWORD_ENCODER.encode(accountPassword);
 	}
 
 	public java.util.Date getAccountCreationdate() {
@@ -206,11 +209,11 @@ public class Account implements Serializable{
 		this.motorist = motorist;
 	}
 
-	public String getRoles() {
+	public String[] getRoles() {
 		return roles;
 	}
 
-	public void setRoles(String roles) {
+	public void setRoles(String... roles) {
 		this.roles = roles;
 	}
 	

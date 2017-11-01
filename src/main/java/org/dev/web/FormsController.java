@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,17 +15,24 @@ import org.dev.entities.Account;
 import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
 import org.dev.mail.MailSender;
+import org.dev.metier.AccountMetier;
 import org.dev.metier.MotoristMetier;
 import org.dev.metier.TVGMetier;
 import org.hibernate.validator.constraints.Email;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 @RestController
 public class FormsController {
@@ -34,7 +42,31 @@ public class FormsController {
     private TVGMetier iTVGMetier;
     @Autowired
     private MotoristMetier iMotoristMetier;
+    @Autowired
+    private AccountMetier iAccountMetier;
 	
+    @RequestMapping(value = "/tvgs", method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseStatus(value=HttpStatus.OK)
+    public String tvgs(){
+    	try {
+    		return null;
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+    }
+    
+    @RequestMapping(value = "/motorists", method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseStatus(value=HttpStatus.OK)
+    public String motorists(){
+    	return null;
+    }
+    
+    @RequestMapping(value = "/accounts", method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseStatus(value=HttpStatus.OK)
+    public String accounts(){
+    	return null;
+    }
+    
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
     public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
     										@RequestParam(name = "password", required = true) String password, 

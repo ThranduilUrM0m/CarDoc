@@ -438,7 +438,7 @@ class TvgPSModal extends React.Component {
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {  scrollBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
+    this.state = {  scroHeader llBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
     this.handleScroll = this.handleScroll.bind(this);
   }
   componentWillMount() {
@@ -485,15 +485,10 @@ class Header extends React.Component {
         </a>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a className="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i className="material-icons">search</i></a>
-          </li>
-        </ul>
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
             <a className="nav-link" href="#" data-toggle="modal" data-target="#loginModal"></a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#"><i className="material-icons">sort</i></a>
+            <a className="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i className="material-icons">search</i></a>
           </li>
         </ul>
       </nav>

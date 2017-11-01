@@ -141,41 +141,72 @@ var Motorist = React.createClass({
     };
   },
   loadDataFromServer: function () {
-    var self = this;
-    $.ajax({
-      url: _.values(this.props.motoristCarousel._links.vehicle)
-    }).then(function(data){
-      self.setState({motoristVehicles: _.size(data._embedded.vehicles)});
+    fetch(_.values(this.props.motoristCarousel._links.vehicle), {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({motoristVehicles: _.size(responseData._embedded.vehicles)});
     });
 
-    $.ajax({
-      url: _.values(this.props.motoristCarousel._links.account)
-    }).then(function (accountData) {
-      self.setState({motoristAccount: accountData});
-
-      $.ajax({
-        url: _.values(accountData._links.booking)
-      }).then(function(BookingsData) {
-        self.setState({motoristBookings: _.size(_.where(BookingsData._embedded.bookings, {bookingIsCanceled: false}))});
-        for (var i = 0; i < BookingsData._embedded.bookings.length; i++) {
-          var current = BookingsData._embedded.bookings[i];
-          $.ajax({
-            url: _.values(BookingsData._embedded.bookings[i]._links.control)
-          }).then(function(ControlData) {
-            if(ControlData.controlConfirmed == true){
+    fetch(_.values(this.props.motoristCarousel._links.account), {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({motoristAccount: responseData});
+      
+      fetch(_.values(responseData._links.booking), {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+      .then((response) => response.json()) 
+      .then((responseDataB) => {
+        this.setState({motoristBookings: _.size(_.where(responseDataB._embedded.bookings, {bookingIsCanceled: false}))});
+        for (var i = 0; i < responseDataB._embedded.bookings.length; i++) {
+          var current = responseDataB._embedded.bookings[i];
+          
+          fetch(_.values(responseDataB._embedded.bookings[i]._links.control), {
+            headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            credentials: 'same-origin'
+          })
+          .then((response) => response.json()) 
+          .then((responseDataC) => {
+            if(responseDataC.controlConfirmed == true){
               this.setState({motoristControls: this.state.motoristControls + 1});
             }
           });
+
         }
       });
 
-      $.ajax({
-        url: _.values(accountData._links.picture)
-      }).then(function (pictureData) {
+      fetch(_.values(responseData._links.picture), {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+      .then((response) => response.json()) 
+      .then((responseDataP) => {
         var max = null;
         var min = null;
-        for (var i = 0; i < pictureData._embedded.pictures.length; i++) {
-          var current = pictureData._embedded.pictures[i];
+        for (var i = 0; i < responseDataP._embedded.pictures.length; i++) {
+          var current = responseDataP._embedded.pictures[i];
           if (max === null || current.insertDate > max.insertDate) {
             max = current;
           }
@@ -183,10 +214,10 @@ var Motorist = React.createClass({
             min = current;
           }
         }
-        self.setState({motoristPicture: max});
+        this.setState({motoristPicture: max});
       });
-
     });
+
   },
   componentDidMount: function () {
     this.loadDataFromServer();
@@ -251,11 +282,18 @@ var MotoristCarousel = React.createClass({
 var MotoristCarouselApp = React.createClass({
 
   loadMotoristsFromServer: function () {
-    var self = this;
-    $.ajax({
-      url: "/api/motorists"
-    }).then(function (data) {
-      self.setState({motoristsCarousels: data._embedded.motorists});
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/motorists', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({motoristsCarousels: responseData._embedded.motorists});
     });
   },
 
@@ -283,41 +321,75 @@ var Tvg = React.createClass({
     };
   },
   loadDataFromServer: function () {
-    var self = this;
-    $.ajax({
-      url: _.values(this.props.tvgCarousel._links.account)
-    }).then(function(data){
-      $.ajax({
-        url: _.values(data._links.booking)
-      }).then(function(dataS){
-        self.setState({tvgBookings: _.size(dataS._embedded.bookings)});
+    fetch(_.values(this.props.tvgCarousel._links.account), {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      fetch(_.values(responseData._links.booking), {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+      .then((responseS) => responseS.json()) 
+      .then((responseDataS) => { 
+        this.setState({tvgBookings: _.size(responseDataS._embedded.bookings)});
       });
     });
 
-    $.ajax({
-      url: _.values(this.props.tvgCarousel._links.control)
-    }).then(function(data){
-      self.setState({tvgControls: _.size(data._embedded.controls)});
+    fetch(_.values(this.props.tvgCarousel._links.control), {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({tvgControls: _.size(responseData._embedded.controls)});
     });
 
-    $.ajax({
-      url: _.values(this.props.tvgCarousel._links.employee)
-    }).then(function(data){
-      self.setState({tvgEmployees: _.size(data._embedded.employees)});
+    fetch(_.values(this.props.tvgCarousel._links.employee), {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({tvgEmployees: _.size(responseData._embedded.employees)});
     });
 
-    $.ajax({
-      url: _.values(this.props.tvgCarousel._links.account)
-    }).then(function (accountData) {
-      self.setState({tvgAccount: accountData});
-
-      $.ajax({
-        url: _.values(accountData._links.picture)
-      }).then(function (pictureData) {
+    fetch(_.values(this.props.tvgCarousel._links.account), {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({tvgAccount: responseData});
+      fetch(_.values(responseData._links.picture), {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+      .then((responseP) => response.json()) 
+      .then((responseDataP) => {
         var max = null;
         var min = null;
-        for (var i = 0; i < pictureData._embedded.pictures.length; i++) {
-          var current = pictureData._embedded.pictures[i];
+        for (var i = 0; i < responseDataP._embedded.pictures.length; i++) {
+          var current = responseDataP._embedded.pictures[i];
           if (max === null || current.insertDate > max.insertDate) {
             max = current;
           }
@@ -325,10 +397,10 @@ var Tvg = React.createClass({
             min = current;
           }
         }
-        self.setState({tvgPicture: max});
+        this.setState({tvgPicture: max});
       });
-
     });
+
   },
   componentDidMount: function () {
     this.loadDataFromServer();
@@ -393,12 +465,20 @@ var TvgCarousel = React.createClass({
 var TvgCarouselApp = React.createClass({
 
   loadTvgsFromServer: function () {
-    var self = this;
-    $.ajax({
-      url: "/api/tvgs"
-    }).then(function (data) {
-      self.setState({tvgsCarousels: data._embedded.tvgs});
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/tvgs', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({tvgsCarousels: responseData._embedded.tvgs});
     });
+
   },
 
   getInitialState: function () {
@@ -442,11 +522,18 @@ var TvgTable = React.createClass({
 });
 var TvgApp = React.createClass({
   loadTvgsFromServer: function () {
-    var self = this;
-    $.ajax({
-      url: "/api/tvgs"
-    }).then(function (data) {
-      self.setState({tvgs: data._embedded.tvgs});
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/tvgs', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({tvgs: responseData._embedded.tvgs});
     });
   },
 
@@ -583,12 +670,19 @@ class LoginModal extends React.Component {
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
-    var self = this;
-    $.ajax({
-      url: "/api/accounts"
-    }).then(function(data){
-      self.setState({repeatedLogin: _.findWhere(data._embedded.accounts, {accountLogin: value})});
-      self.setState({[name]: value}, () => { self.validateField(name, value) });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/accounts', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({repeatedLogin: _.findWhere(responseData._embedded.accounts, {accountLogin: value})});
+      this.setState({[name]: value}, () => { this.validateField(name, value) });
     });
   }
   validateFieldL(fieldName, value) {
@@ -641,7 +735,7 @@ class LoginModal extends React.Component {
                     <div className="card-body">
                       <h4 className="card-title">Login to your profile<i className="ion-log-in"></i></h4>
                       <p className="card-text">Enter username and password to log in</p>
-                      <form action="login" method="post">
+                      <form name="f" action="/index" method="post">
 
                         <div className={`form-group ${this.errorClass(this.state.formErrorsL.username)}`}>
                           <input value={this.state.username} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin2" aria-describedby="usernameHelp" placeholder="Login" name="username" required/>
@@ -1023,15 +1117,10 @@ class Header extends React.Component {
         </a>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a className="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i className="material-icons">search</i></a>
-          </li>
-        </ul>
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
             <a className="nav-link" href="#" data-toggle="modal" data-target="#loginModal"><i className="material-icons">perm_identity</i></a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#"><i className="material-icons">sort</i></a>
+            <a className="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i className="material-icons">search</i></a>
           </li>
         </ul>
       </nav>
