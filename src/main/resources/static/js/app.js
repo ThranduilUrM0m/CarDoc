@@ -144,7 +144,8 @@ var Motorist = React.createClass({
     fetch(_.values(this.props.motoristCarousel._links.vehicle), {
       headers : { 
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
       },
       credentials: 'same-origin'
     })
@@ -156,7 +157,8 @@ var Motorist = React.createClass({
     fetch(_.values(this.props.motoristCarousel._links.account), {
       headers : { 
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
       },
       credentials: 'same-origin'
     })
@@ -167,7 +169,8 @@ var Motorist = React.createClass({
       fetch(_.values(responseData._links.booking), {
         headers : { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
         },
         credentials: 'same-origin'
       })
@@ -180,7 +183,8 @@ var Motorist = React.createClass({
           fetch(_.values(responseDataB._embedded.bookings[i]._links.control), {
             headers : { 
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'x-my-custom-header': 'INDEED'
             },
             credentials: 'same-origin'
           })
@@ -197,7 +201,8 @@ var Motorist = React.createClass({
       fetch(_.values(responseData._links.picture), {
         headers : { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
         },
         credentials: 'same-origin'
       })
@@ -285,6 +290,7 @@ var MotoristCarouselApp = React.createClass({
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
                    headers: myHeaders,
                    mode: 'cors',
@@ -324,7 +330,8 @@ var Tvg = React.createClass({
     fetch(_.values(this.props.tvgCarousel._links.account), {
       headers : { 
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
       },
       credentials: 'same-origin'
     })
@@ -333,7 +340,8 @@ var Tvg = React.createClass({
       fetch(_.values(responseData._links.booking), {
         headers : { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
         },
         credentials: 'same-origin'
       })
@@ -346,7 +354,8 @@ var Tvg = React.createClass({
     fetch(_.values(this.props.tvgCarousel._links.control), {
       headers : { 
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
       },
       credentials: 'same-origin'
     })
@@ -358,7 +367,8 @@ var Tvg = React.createClass({
     fetch(_.values(this.props.tvgCarousel._links.employee), {
       headers : { 
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
       },
       credentials: 'same-origin'
     })
@@ -370,7 +380,8 @@ var Tvg = React.createClass({
     fetch(_.values(this.props.tvgCarousel._links.account), {
       headers : { 
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
       },
       credentials: 'same-origin'
     })
@@ -380,7 +391,8 @@ var Tvg = React.createClass({
       fetch(_.values(responseData._links.picture), {
         headers : { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
         },
         credentials: 'same-origin'
       })
@@ -468,6 +480,7 @@ var TvgCarouselApp = React.createClass({
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
                    headers: myHeaders,
                    mode: 'cors',
@@ -525,6 +538,7 @@ var TvgApp = React.createClass({
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
                    headers: myHeaders,
                    mode: 'cors',
@@ -673,6 +687,7 @@ class LoginModal extends React.Component {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
                    headers: myHeaders,
                    mode: 'cors',
@@ -1185,7 +1200,7 @@ class SecondSection extends React.Component {
   render() {
     return (
       <section className="secondsection row">
-        <div className="leftsecondsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <div className="leftsecondsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 row">
           <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
             <TvgCarouselApp />
             <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

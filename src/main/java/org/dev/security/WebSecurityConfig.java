@@ -1,12 +1,8 @@
 package org.dev.security;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.dev.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.IgnoredRequestCustomizer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,9 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -62,15 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/api/**");
+		RequestHeaderRequestMatcher requestHeaderRequestMatcher = new RequestHeaderRequestMatcher("x-my-custom-header", "INDEED");
+		AntPathRequestMatcher antPathRequestMatcher = new AntPathRequestMatcher("/api/**");
+		AndRequestMatcher andRequestMatcher = new AndRequestMatcher(requestHeaderRequestMatcher, antPathRequestMatcher);
+		web
+		    .ignoring()
+		        .requestMatchers(andRequestMatcher);
     }
-	
-	@Bean
-	public IgnoredRequestCustomizer optionsIgnoredRequestsCustomizer() {
-	   return configurer -> {
-	      List<RequestMatcher> matchers = new ArrayList<>();
-	      matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
-	      configurer.requestMatchers(new OrRequestMatcher(matchers));
-	   };
-	}
 }
