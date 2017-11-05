@@ -1,11 +1,13 @@
-class ContactUsModalLauncher extends React.Component {
+const {Component} = React;
+
+class ContactUsModalLauncher extends Component {
   render() {
     return (
-      <button type="button" data-toggle="modal" data-target="#contactusModal" className="btn btn-secondary contactusmodallauncher"><i className="ion-chatboxes"></i></button>
+      <button type="button" data-toggle="modal" data-target="#contactusModal" className="btn btn-secondary"><i className="ion-chatboxes"></i></button>
     );
   }
 }
-class ContactUsModal extends React.Component {
+class ContactUsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {value: 'signupas'};
@@ -59,7 +61,7 @@ class ContactUsModal extends React.Component {
     );
   }
 }
-class VehicleModal extends React.Component {
+class VehicleModal extends Component {
   constructor(props) {
     super(props);
   }
@@ -113,7 +115,7 @@ class VehicleModal extends React.Component {
     );
   }
 }
-class Header extends React.Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {  scrollBackground: 'nav-bg', logo: '../media/CarCareBlack.png', id: 'navbar-brand-carcare' };
@@ -136,29 +138,84 @@ class Header extends React.Component {
     );
   }
 }
-class ProfilContent extends React.Component {
+class TvgContentTop extends Component {
   render() {
     return (
-      <div className="profil-content">
-        <div className="row"></div>
-        <div className="row">
-          <div className="col-9">
-            <div className="wrapper">
-              <div className="clash-card barbarian">
-                <div className="clash-card__image clash-card__image--barbarian">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png" alt="barbarian" />
-                </div>
-                <div className="clash-card__level clash-card__level--barbarian">Level 4</div>
-                <div className="clash-card__unit-name">The Barbarian</div>
-              </div>
+      <div className="row"></div>
+    );
+  }
+}
+class TvgContentBottom extends Component {
+  render(){
+    return(
+      <div className="row"></div>
+    );
+  }
+}
+class MotoristContentTop extends Component {
+  render() {
+    return (
+      <div className="row"></div>
+    );
+  }
+}
+class VehicleModalLauncher extends Component {
+  updateState() {
+    $('.carousel-item:first-of-type').addClass( "active" );
+  }
+  render() {
+    return (
+      <div onLoad={this.updateState} className={"carousel-item clash-card barbarian"}>
+        <div className={"clash-card__image clash-card__image--barbarian"}>
+          <img src={"https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png"} alt="barbarian" />
+        </div>
+        <div className={"clash-card__level clash-card__level--barbarian"}>{this.props.vehicle.vehicleBrand}</div>
+        <div className="clash-card__unit-name">{this.props.vehicle.vehicleRegistration}</div>
+      </div>
+    );
+  }
+}
+class MotoristContentBottom extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      rows: []
+    };
+  }
+  componentDidMount(){
+    var self = this;
+    self.props.account.motorist.vehicle.forEach(function(vehicle) {
+      self.setState(prevState => ({
+        rows: [...prevState.rows, <VehicleModalLauncher vehicle={vehicle} />]
+      }));
+    });
+  }
+  render(){
+    return(
+      <div className="row">
+        <div className="col-9">
+
+          <div id="carouselExampleControls" data-ride="carousel" className="carousel slide vehiclesCarousel">
+            <div className="wrapper carousel-inner">
+              
+              {this.state.rows}
+
             </div>
+            <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
           </div>
-          <div className="col-3">
-            <div className="card">
-              <div className="card__image" id="card-2">
-                <div className="image-overlay"></div>
-                <img src="http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg" alt="" />
-              </div>
+        </div>
+        <div className="col-3">
+          <div className="card">
+            <div className="card__image" id="card-2">
+              <div className="image-overlay"></div>
+              <img src="http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg" alt="" />
             </div>
           </div>
         </div>
@@ -166,7 +223,75 @@ class ProfilContent extends React.Component {
     );
   }
 }
-class FirstSection extends React.Component {
+class ProfilContent extends Component {  
+  constructor(props){
+    super(props);
+    this.state = {
+      ContentTOP: '',
+      ContentBOTTOM: ''
+    };
+  }
+  loadAccountFromServer(){
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    var myInit = { method: 'POST',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/auth', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      if(this.props.account === 'tvg'){
+        this.setState({
+          ContentTOP: <TvgContentTop account={responseData} />,
+          ContentBOTTOM: <TvgContentBottom account={responseData} />
+        });
+      }else{
+        this.setState({
+          ContentTOP: <MotoristContentTop account={responseData} />,
+          ContentBOTTOM: <MotoristContentBottom account={responseData} />
+        });
+      }
+    });
+  }
+  componentDidMount() {
+    this.loadAccountFromServer();
+  }
+  render() {
+    return (
+      <div className="profil-content">
+        {this.state.ContentTOP}
+        {this.state.ContentBOTTOM}
+      </div>
+    );
+  }
+}
+class FirstSection extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      accountType: ''
+    };
+  }
+  componentDidMount(){
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    var myInit = { method: 'POST',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/auth', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({
+        accountType: responseData.token.split("|")[0]
+      });
+    });
+  }
   render() {
     return (
       <section className="firstsection row">
@@ -185,14 +310,14 @@ class FirstSection extends React.Component {
               <ContactUsModalLauncher />
             </li>
           </ul>
-          <ProfilContent account={this.props.account} />
+          <ProfilContent account={this.state.accountType} />
         </a>
         <ContactUsModal />
       </section>
     );
   }
 }
-class Footer extends React.Component {
+class Footer extends Component {
   render() {
     let year = (new Date()).getFullYear();
     return (
@@ -262,7 +387,7 @@ class Footer extends React.Component {
     );
   }
 }
-class ContainerFluid extends React.Component{
+class ContainerFluid extends Component{
   render() {
     return (
       <div className="container-fluid">

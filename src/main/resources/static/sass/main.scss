@@ -4,6 +4,9 @@ $gray: #999;
 $darkgray: #1e1e1e;
 $halfgray: rgba(153, 153, 153, 1/2);
 $thirdgray: rgba(153, 153, 153, 1/3);
+$barbarian: #EC9B3B;
+$archer: #EE5487;
+
 @mixin gradient{
   background-color: $gray;
   background-image: linear-gradient(110deg, $gray 0%, $white 100%);
@@ -88,6 +91,7 @@ a.disabled {
 @import 'paneltab';
 @import 'tooltip';
 @import 'success';
+@import 'profil';
 
 [type=reset], [type=submit], button, html [type=button]{
 	-webkit-appearance: none;

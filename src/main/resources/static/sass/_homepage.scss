@@ -1,4 +1,3 @@
-$barbarian: #EC9B3B;
 #nav-bg-shadow{
 	background: $black;
 	-webkit-transition: background 1s ease-in-out;
@@ -53,7 +52,6 @@ $barbarian: #EC9B3B;
 		transition: all .5s ease-in-out;
 	}
 	&-profil{
-		
 		position: absolute;
 		width: 100%;
 	}
@@ -282,173 +280,10 @@ $barbarian: #EC9B3B;
 			position: absolute;
 			left: 0;
 			top: 63%;
+			z-index: 999;
 			.nav-link{
 				padding: 0;
 				font-size: 1.25rem;
-			}
-		}
-	}
-	.profil-firstsection{
-		background-color: $white;
-		background-image: linear-gradient(-90deg, $white 0%, $thirdgray 100%);
-		-webkit-box-shadow: 0px 20px 60px -30px rgba(0,0,0,0.75);
-		-moz-box-shadow: 0px 20px 60px -30px rgba(0,0,0,0.75);
-		box-shadow: 0px 20px 60px -30px rgba(0,0,0,0.75);
-		.nav-social{
-			background-color: $white;
-			top: 50% !important;
-			left: -0.4% !important;
-			transform: translate(0%, -50%);
-			-webkit-box-shadow: -10px 0px 32px -20px rgba(0,0,0,0.75);
-			-moz-box-shadow: -10px 0px 32px -20px rgba(0,0,0,0.75);
-			box-shadow: -10px 0px 32px -20px rgba(0,0,0,0.75);
-			.contactusmodallauncher{
-				position: relative;
-				top: 0;
-				left: 0;
-			}
-			i{
-				font-size: 2.5rem;
-			}
-		}
-		.profil-content{
-			height: 100%;
-			.row{
-				height: 50%;
-				.col-9{
-					*, *:before, *:after {
-					  box-sizing: border-box;
-					}
-					.wrapper {
-						margin: 1rem;
-				    margin-left: 30%;
-				    transform: translate(-30%, 0);
-					  &:focus {
-					    outline: 0;
-					  }
-					}
-					.clash-card {
-					  background: white;
-					  width: 30rem;
-					  display: inline-block;
-					  margin: auto;
-					  position: relative;
-					  text-align: left;
-					  box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);
-					  z-index: 9998;
-						cursor: pointer;
-					}
-					.clash-card__image {
-					  position: relative;
-					  height: 10rem;
-					}
-
-					.clash-card__image--barbarian {
-					  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian-bg.jpg');
-					  img {
-					    width: auto;
-					    position: absolute;
-					    top: -50%;
-					    left: 50%;
-					    transform: translate(-50%, 0);
-					  }
-					}
-					.clash-card__level {
-					  text-transform: uppercase;
-					  font-size: .8rem;
-					  font-weight: 700;
-						margin-top: .5rem;
-					  margin-bottom: .2rem;
-					}
-					.clash-card__level--barbarian {
-					  color: $barbarian;
-					}
-					.clash-card__unit-name {
-					  font-size: 1.5rem;
-					  color: black;
-					  font-weight: 900;
-					  margin-bottom: .5rem;
-					}
-					.clearfix:after {
-						visibility: hidden;
-						display: block;
-						font-size: 0;
-						content: " ";
-						clear: both;
-						height: 0;
-					}
-				}
-				.col-3{
-					.card {
-						float: right;
-					  display: flex;
-					  flex-direction: column;
-					  border-radius: 0;
-					  align-items: left;
-					  margin: 1rem;
-					  padding: 0;
-					  width: 10rem;
-					  height: 10rem;
-					  background: #fff;
-					  box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);
-					}
-
-					.card__image {
-					  position: relative;
-					  display: block;
-					  width: 100%;
-					  height: 100%;
-					  overflow: hidden;
-
-					  &:hover {
-					    cursor: pointer;
-					    &:after {
-					      bottom: 0;
-					      color: rgba(255,255,255,1);
-					      transition: (all .15s);
-					    }
-					    .image-overlay {
-					      background-color: rgba(35,155,55,.33);
-					      transition: (all .15s);
-					    }
-					  }
-
-					  &:after {
-					    display: flex;
-					    justify-content: center;
-					    align-items: center;
-					    bottom: -10rem;
-					    position: absolute;
-					    width: 100%;
-					    height: 100%;
-					    font-family: "FontAwesome";
-					    font-size: 1rem;
-					    text-align: center;
-					    content: "\f00c";
-					    color: rgba(255, 255, 255, 0);
-					    color: #fff;
-					    transition: (all .15s);
-					  }
-
-					  .image-overlay {
-					    display: block;
-					    position: absolute;
-					    width: 100%;
-					    height: 100%;
-					    top: 0;
-					    left: 0;
-					    content: "";
-					    background-color: rgba (255,255,255,0);
-					    transition: (backgroundColor, .15s);
-					  }
-
-					  img {
-					    display: block;
-					    height: 100%;
-					  }
-
-					}
-				}
 			}
 		}
 	}

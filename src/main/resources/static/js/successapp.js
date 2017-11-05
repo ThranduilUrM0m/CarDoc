@@ -1,3 +1,4 @@
+const {Component} = React; // import {Component} from 'react';
 
 // Table Data
 var TableData = React.createClass({
@@ -127,14 +128,14 @@ var DATA = [{
     "content": "This is the Numbers content area where information about Numbers is shown"
 }];
 
-class ContactUsModalLauncher extends React.Component {
+class ContactUsModalLauncher extends Component {
   render() {
     return (
       <button type="button" data-toggle="modal" data-target="#contactusModal" className="btn btn-secondary contactusmodallauncher"><i className="ion-chatboxes"></i></button>
     );
   }
 }
-class ContactUsModal extends React.Component {
+class ContactUsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {value: 'signupas'};
@@ -188,7 +189,7 @@ class ContactUsModal extends React.Component {
     );
   }
 }
-class SearchModal extends React.Component {
+class SearchModal extends Component {
   render() {
     return (
       <div className="search modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -213,7 +214,7 @@ class SearchModal extends React.Component {
     );
   }
 }
-class MotoristPSModal extends React.Component {
+class MotoristPSModal extends Component {
   render() {
     return (
       <div className="motoristps modal fade" id="motoristPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -323,7 +324,7 @@ class MotoristPSModal extends React.Component {
     );
   }
 }
-class TvgPSModal extends React.Component {
+class TvgPSModal extends Component {
   render() {
     return (
       <div className="tvgps modal fade" id="tvgPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -435,7 +436,7 @@ class TvgPSModal extends React.Component {
     );
   }
 }
-class Header extends React.Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {  scrollBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
@@ -495,7 +496,7 @@ class Header extends React.Component {
     );
   }
 }
-class SuccessPanel extends React.Component {
+class SuccessPanel extends Component {
   render() {
     return (
       <div className="success">
@@ -524,7 +525,7 @@ class SuccessPanel extends React.Component {
     );
   }
 }
-class EmailValidated extends React.Component {
+class EmailValidated extends Component {
   render() {
     return (
       <div className="success">
@@ -549,7 +550,7 @@ class EmailValidated extends React.Component {
     );
   }
 }
-class FirstSection extends React.Component {
+class FirstSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -574,11 +575,22 @@ class FirstSection extends React.Component {
     if(this.getUrlParameter('incoming') != undefined){
       this.setState({SuccessPanelChoice: <EmailValidated />});
       const value = this.getUrlParameter('incoming').split('|');
-      $.get("http://localhost:8080/api/accounts", function(data) {
-        var account = _.findWhere(data._embedded.accounts, {accountLogin: value[0]});
-        console.log(account)
-        //validate
-      }.bind(this));
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
+      myHeaders.append("x-my-custom-header", "INDEED");
+      var myInit = { method: 'GET',
+                     headers: myHeaders,
+                     mode: 'cors',
+                     cache: 'default',
+                     credentials: 'same-origin' };
+      fetch('/api/accounts', myInit)
+      .then((response) => response.json()) 
+      .then((responseData) => { 
+        var account = _.findWhere(responseData._embedded.accounts, {accountLogin: value[0]});
+      });
+
     }else{
       this.setState({SuccessPanelChoice: <SuccessPanel />});
     }
@@ -609,7 +621,7 @@ class FirstSection extends React.Component {
     );
   }
 }
-class Footer extends React.Component {
+class Footer extends Component {
   render() {
     let year = (new Date()).getFullYear();
     return (
@@ -679,7 +691,7 @@ class Footer extends React.Component {
     );
   }
 }
-class SuccessContainerFluid extends React.Component{
+class SuccessContainerFluid extends Component{
   render() {
     return (
       <div className="container-fluid">

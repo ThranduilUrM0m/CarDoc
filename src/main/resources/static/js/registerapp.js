@@ -1,3 +1,4 @@
+const {Component} = React; // import {Component} from 'react';
 
 // Table Data
 var TableData = React.createClass({
@@ -127,14 +128,14 @@ var DATA = [{
     "content": "This is the Numbers content area where information about Numbers is shown"
 }];
 
-class ContactUsModalLauncher extends React.Component {
+class ContactUsModalLauncher extends Component {
   render() {
     return (
       <button type="button" data-toggle="modal" data-target="#contactusModal" className="btn btn-secondary contactusmodallauncher"><i className="ion-chatboxes"></i></button>
     );
   }
 }
-class ContactUsModal extends React.Component {
+class ContactUsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {value: 'signupas'};
@@ -188,7 +189,7 @@ class ContactUsModal extends React.Component {
     );
   }
 }
-class SearchModal extends React.Component {
+class SearchModal extends Component {
   render() {
     return (
       <div className="search modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -213,7 +214,7 @@ class SearchModal extends React.Component {
     );
   }
 }
-class MotoristPSModal extends React.Component {
+class MotoristPSModal extends Component {
   render() {
     return (
       <div className="motoristps modal fade" id="motoristPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -323,7 +324,7 @@ class MotoristPSModal extends React.Component {
     );
   }
 }
-class TvgPSModal extends React.Component {
+class TvgPSModal extends Component {
   render() {
     return (
       <div className="tvgps modal fade" id="tvgPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -435,7 +436,7 @@ class TvgPSModal extends React.Component {
     );
   }
 }
-class Header extends React.Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {  scroHeader llBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
@@ -495,7 +496,7 @@ class Header extends React.Component {
     );
   }
 }
-class RegisterMotoristPanel extends React.Component{
+class RegisterMotoristPanel extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -654,24 +655,44 @@ class RegisterMotoristPanel extends React.Component{
     const name = e.target.name;
     const value = e.target.value;
     if(name == 'ipersonCountry'){
-      var self = this;
       var countrySelected = '';
-      $.ajax({
-        url: "../js/json/COUNTRIES.json"
-      }).then(function (data) {
-        countrySelected = _.first(_.where(data, {code: value})).code;
-        self.loadCitiesFromJSON(countrySelected);
-        self.setState({[name]: value}, () => { self.validateField(name, value) });
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
+      myHeaders.append("x-my-custom-header", "INDEED");
+      var myInit = { method: 'GET',
+                     headers: myHeaders,
+                     mode: 'cors',
+                     cache: 'default',
+                     credentials: 'same-origin' };
+      fetch('../js/json/COUNTRIES.json', myInit)
+      .then((response) => response.json()) 
+      .then((responseData) => { 
+        countrySelected = _.first(_.where(responseData, {code: value})).code;
+        this.loadCitiesFromJSON(countrySelected);
+        this.setState({[name]: value}, () => { this.validateField(name, value) });
       });
+
     }else{
       if(name == 'ipersonEmail'){
-        var self = this;
-        $.ajax({
-          url: "http://localhost:8080/api/iPersons"
-        }).then(function(data){
-          self.setState({repeatedEmail: _.findWhere(data._embedded.motorists, {ipersonEmail: value})});
-          self.setState({[name]: value}, () => { self.validateField(name, value) });
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("x-my-custom-header", "INDEED");
+        var myInit = { method: 'GET',
+                       headers: myHeaders,
+                       mode: 'cors',
+                       cache: 'default',
+                       credentials: 'same-origin' };
+        fetch('/api/iPersons', myInit)
+        .then((response) => response.json()) 
+        .then((responseData) => { 
+          this.setState({repeatedEmail: _.findWhere(responseData._embedded.motorists, {ipersonEmail: value})});
+          this.setState({[name]: value}, () => { this.validateField(name, value) });
         });
+
       }else{
         this.setState({[name]: value}, () => { this.validateField(name, value) });
       }
@@ -681,41 +702,74 @@ class RegisterMotoristPanel extends React.Component{
    return(error.length === 0 ? '' : 'has-error');
   }
   loadCountriesFromJSON() {
-    var self = this;
-    $.ajax({
-      url: "../js/json/COUNTRIES.json"
-    }).then(function (data) {
-      self.setState({countries: data});
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/COUNTRIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({countries: responseData});
     });
+
   }
   loadCitiesFromJSON(countryID) {
-    var self = this;
     var rowsC = [];
-    $.ajax({
-      url: "../js/json/CITIES.json"
-    }).then(function (data) {
-      self.setState({cities: _.sortBy(_.where(data, {country: countryID}), 'name')});
-      self.state.cities.forEach(function(city) {
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/CITIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({cities: _.sortBy(_.where(responseData, {country: countryID}), 'name')});
+      this.state.cities.forEach(function(city) {
         rowsC.push(<City cityProp={city} />);
       });
-      self.setState({citiesWanted: rowsC});
+      this.setState({citiesWanted: rowsC});
     });
+
   }
   componentWillMount() {
     this.loadCitiesFromJSON("AF");
   }
   componentDidMount() {
     this.loadCountriesFromJSON();
-    $.get("sessionLP", function(data) {
-      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/sessionLP', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
         $('.sessionVariables').submit();
       }else{
-        this.setState({login: (JSON.parse(data)).login,
-                      password: (JSON.parse(data)).password,
-                      signupas: (JSON.parse(data)).signupas
+        this.setState({login: (JSON.parse(responseData)).login,
+                      password: (JSON.parse(responseData)).password,
+                      signupas: (JSON.parse(responseData)).signupas
                       });
       }
-    }.bind(this));
+    });
+
   }
 
   handleBlur(e){
@@ -915,7 +969,7 @@ var City = React.createClass({
     );
   }
 });
-class RegisterTvgPanel extends React.Component{
+class RegisterTvgPanel extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -1075,22 +1129,42 @@ class RegisterTvgPanel extends React.Component{
     const name = e.target.name;
     const value = e.target.value;
     if(name == 'tvgCountry'){
-      var self = this;
       var countrySelected = '';
-      $.ajax({
-        url: "../js/json/COUNTRIES.json"
-      }).then(function (data) {
-        countrySelected = _.first(_.where(data, {code: value})).code;
-        self.loadCitiesFromJSON(countrySelected);
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
+      myHeaders.append("x-my-custom-header", "INDEED");
+      var myInit = { method: 'GET',
+                     headers: myHeaders,
+                     mode: 'cors',
+                     cache: 'default',
+                     credentials: 'same-origin' };
+      fetch('../js/json/COUNTRIES.json', myInit)
+      .then((response) => response.json()) 
+      .then((responseData) => { 
+        countrySelected = _.first(_.where(responseData, {code: value})).code;
+        this.loadCitiesFromJSON(countrySelected);
       });
+
     }
     if(name == 'tvgEmail'){
-      var self = this;
-      $.ajax({
-        url: "http://localhost:8080/api/tvgs"
-      }).then(function(data){
-        self.setState({repeatedEmail: _.findWhere(data._embedded.tvgs, {tvgEmail: value})});
+      
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
+      myHeaders.append("x-my-custom-header", "INDEED");
+      var myInit = { method: 'GET',
+                     headers: myHeaders,
+                     mode: 'cors',
+                     cache: 'default',
+                     credentials: 'same-origin' };
+      fetch('/api/tvgs', myInit)
+      .then((response) => response.json()) 
+      .then((responseData) => { 
+        this.setState({repeatedEmail: _.findWhere(responseData._embedded.tvgs, {tvgEmail: value})});
       });
+
     }
     this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
@@ -1098,41 +1172,74 @@ class RegisterTvgPanel extends React.Component{
    return(error.length === 0 ? '' : 'has-error');
   }
   loadCountriesFromJSON() {
-    var self = this;
-    $.ajax({
-      url: "../js/json/COUNTRIES.json"
-    }).then(function (data) {
-      self.setState({countries: data});
+    
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/COUNTRIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({countries: responseData});
     });
+
   }
   loadCitiesFromJSON(countryID) {
-    var self = this;
     var rowsC = [];
-    $.ajax({
-      url: "../js/json/CITIES.json"
-    }).then(function (data) {
-      self.setState({cities: _.sortBy(_.where(data, {country: countryID}), 'name')});
-      self.state.cities.forEach(function(city) {
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/CITIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({cities: _.sortBy(_.where(responseData, {country: countryID}), 'name')});
+      this.state.cities.forEach(function(city) {
         rowsC.push(<City cityProp={city} />);
       });
-      self.setState({citiesWanted: rowsC});
+      this.setState({citiesWanted: rowsC});
     });
+
   }
   componentWillMount() {
     this.loadCitiesFromJSON("AF");
   }
   componentDidMount() {
     this.loadCountriesFromJSON();
-    $.get("sessionLP", function(data) {
-      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('sessionLP', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
         $('.sessionVariables').submit();
       }else{
-        this.setState({login: (JSON.parse(data)).login,
-                        password: (JSON.parse(data)).password,
-                        signupas: (JSON.parse(data)).signupas
+        this.setState({login: (JSON.parse(responseData)).login,
+                        password: (JSON.parse(responseData)).password,
+                        signupas: (JSON.parse(responseData)).signupas
                       });
       }
-    }.bind(this));
+    });
+
   }
   handleBlur(e){
     const name = e.target.name;
@@ -1307,7 +1414,7 @@ class RegisterTvgPanel extends React.Component{
     );
   }
 }
-class FirstSection extends React.Component {
+class FirstSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -1315,18 +1422,30 @@ class FirstSection extends React.Component {
     };
   }
   render() {
-    var self = this;
-    $.get("sessionLP", function(data) {
-      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('sessionLP', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
         $('.sessionVariables').submit();
       }else{
-        if((JSON.parse(data)).signupas === 'tvg'){
-          self.setState({RegisterPanel: <RegisterTvgPanel />});
+        if((JSON.parse(responseData)).signupas === 'tvg'){
+          this.setState({RegisterPanel: <RegisterTvgPanel />});
         }else{
-          self.setState({RegisterPanel: <RegisterMotoristPanel />});
+          this.setState({RegisterPanel: <RegisterMotoristPanel />});
         }
       }
-    }.bind(this));
+    });
+
     return (
       <section className="firstsection row">
         <a href="#" className="col disabled register-firstsection Aligner">
@@ -1352,7 +1471,7 @@ class FirstSection extends React.Component {
     );
   }
 }
-class Footer extends React.Component {
+class Footer extends Component {
   render() {
     let year = (new Date()).getFullYear();
     return (
@@ -1422,13 +1541,26 @@ class Footer extends React.Component {
     );
   }
 }
-class RegisterContainerFluid extends React.Component{
+class RegisterContainerFluid extends Component{
   componentWillMount(){
-    $.get("sessionLP", function(data) {
-      if(_.isEmpty((JSON.parse(data)).login) || _.isEmpty((JSON.parse(data)).password) || _.isEmpty((JSON.parse(data)).signupas)){
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('sessionLP', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
         $('.sessionVariables').submit();
       }
     });
+
   }
   render() {
     return (

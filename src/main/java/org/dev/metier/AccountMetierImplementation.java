@@ -14,11 +14,16 @@ public class AccountMetierImplementation implements AccountMetier{
 	@Autowired
 	protected AccountRepository accountRep;
 
+	
+	@Override
+	public Account getAccountByUsername(String username) {
+		return accountRep.findByAccountLogin(username);
+	}
+
+
 	@Override
 	public Collection<Account> getAllAccount() {
-
-		Collection<Account> accounts = accountRep.findAll();
-		return accounts;
+		return accountRep.findAll();
 	}
 	
 }

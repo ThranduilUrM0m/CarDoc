@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,11 +18,12 @@ import org.dev.metier.AccountMetier;
 import org.dev.metier.MotoristMetier;
 import org.dev.metier.TVGMetier;
 import org.hibernate.validator.constraints.Email;
-import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,27 +43,12 @@ public class FormsController {
     private MotoristMetier iMotoristMetier;
     @Autowired
     private AccountMetier iAccountMetier;
-	
-    @RequestMapping(value = "/tvgs", method = {RequestMethod.GET,RequestMethod.POST})
-    @ResponseStatus(value=HttpStatus.OK)
-    public String tvgs(){
-    	try {
-    		return null;
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-    }
     
-    @RequestMapping(value = "/motorists", method = {RequestMethod.GET,RequestMethod.POST})
-    @ResponseStatus(value=HttpStatus.OK)
-    public String motorists(){
-    	return null;
-    }
-    
-    @RequestMapping(value = "/accounts", method = {RequestMethod.GET,RequestMethod.POST})
-    @ResponseStatus(value=HttpStatus.OK)
-    public String accounts(){
-    	return null;
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    public Account getLogged() throws IOException{
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
+    	return accountLogged;
     }
     
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)

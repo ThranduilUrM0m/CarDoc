@@ -23,7 +23,11 @@ import org.dev.metier.ICancelFurloughStrategy;
 import org.dev.metier.IControlStrategy;
 import org.dev.metier.IFurloughStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@ipersonId")
 @DiscriminatorValue("EM")
 public class Employee extends IPerson implements Serializable {
 	@Column(length=40)

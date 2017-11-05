@@ -25,7 +25,9 @@ import org.dev.metier.IConsultStrategy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 import lombok.ToString;
@@ -33,6 +35,7 @@ import lombok.ToString;
 @Data
 @ToString(exclude = "accountPassword")
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
 public class Account implements Serializable{
 
    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();

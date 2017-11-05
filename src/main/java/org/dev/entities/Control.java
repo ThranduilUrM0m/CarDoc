@@ -22,7 +22,11 @@ import javax.persistence.OneToOne;
 
 import org.dev.metier.IControlStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@controlId")
 public class Control implements Serializable{
    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
    protected Long controlId;

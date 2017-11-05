@@ -21,9 +21,13 @@ import javax.persistence.OneToOne;
 
 import org.dev.metier.IEmployingStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
 
 @Data
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@tvgId")
 @Entity
 public class Tvg implements Serializable {
 	

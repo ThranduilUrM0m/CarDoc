@@ -1,3 +1,7 @@
+const {connect, Provider} = ReactRedux; // import {connect, Provider} from 'react-redux';
+const {createStore, compose} = Redux; // import {createStore} from 'redux';
+const {Component} = React; // import {Component} from 'react';
+
 // Table Data
 var TableData = React.createClass({
   render: function() {
@@ -563,14 +567,14 @@ var TvgApp = React.createClass({
     return ( <TvgTable tvgs={this.state.tvgs}/> );
   }
 });
-class ContactUsModalLauncher extends React.Component {
+class ContactUsModalLauncher extends Component {
   render() {
     return (
       <button type="button" data-toggle="modal" data-target="#contactusModal" className="btn btn-secondary contactusmodallauncher"><i className="ion-chatboxes"></i></button>
     );
   }
 }
-class ContactUsModal extends React.Component {
+class ContactUsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {value: 'signupas'};
@@ -624,7 +628,7 @@ class ContactUsModal extends React.Component {
     );
   }
 }
-class LoginModal extends React.Component {
+class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -835,7 +839,7 @@ class LoginModal extends React.Component {
     );
   }
 }
-class SearchModal extends React.Component {
+class SearchModal extends Component {
   render() {
     return (
       <div className="search modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -860,7 +864,7 @@ class SearchModal extends React.Component {
     );
   }
 }
-class MotoristPSModal extends React.Component {
+class MotoristPSModal extends Component {
   render() {
     return (
       <div className="motoristps modal fade" id="motoristPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -970,7 +974,7 @@ class MotoristPSModal extends React.Component {
     );
   }
 }
-class TvgPSModal extends React.Component {
+class TvgPSModal extends Component {
   render() {
     return (
       <div className="tvgps modal fade" id="tvgPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1082,7 +1086,7 @@ class TvgPSModal extends React.Component {
     );
   }
 }
-class Header extends React.Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {  scrollBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
@@ -1142,7 +1146,7 @@ class Header extends React.Component {
     );
   }
 }
-class LeftFirstSection extends React.Component {
+class LeftFirstSection extends Component {
   render() {
     return (
       <div className="Aligner-item">
@@ -1152,7 +1156,7 @@ class LeftFirstSection extends React.Component {
     );
   }
 }
-class RightFirstSection extends React.Component {
+class RightFirstSection extends Component {
   render() {
     return (
       <div className="jumbotron rightfirstsection Aligner">
@@ -1162,7 +1166,7 @@ class RightFirstSection extends React.Component {
     );
   }
 }
-class FirstSection extends React.Component {
+class FirstSection extends Component {
   render() {
     return (
       <section className="firstsection row">
@@ -1196,7 +1200,7 @@ class FirstSection extends React.Component {
     );
   }
 }
-class SecondSection extends React.Component {
+class SecondSection extends Component {
   render() {
     return (
       <section className="secondsection row">
@@ -1235,7 +1239,7 @@ class SecondSection extends React.Component {
     );
   }
 }
-class ThirdSection extends React.Component {
+class ThirdSection extends Component {
   render() {
     return (
       <section className="thirdsection row">
@@ -1273,7 +1277,7 @@ class ThirdSection extends React.Component {
     );
   }
 }
-class Footer extends React.Component {
+class Footer extends Component {
   render() {
     let year = (new Date()).getFullYear();
     return (
@@ -1343,7 +1347,7 @@ class Footer extends React.Component {
     );
   }
 }
-class ContainerFluid extends React.Component{
+class ContainerFluid extends Component{
   render() {
     return (
       <div className="container-fluid">

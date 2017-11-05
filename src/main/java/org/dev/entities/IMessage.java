@@ -17,8 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Inheritance
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@imessageId")
 @DiscriminatorColumn(name="IMESSAGE_TYPE")
 public abstract class IMessage implements Serializable{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
