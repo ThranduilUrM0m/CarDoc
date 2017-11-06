@@ -40,8 +40,6 @@ public class MotoristMetierImplementation implements MotoristMetier{
 				account.getConsultation(),
 				account.getBooking(),
 				account.getPicture(),
-				account.getMessageSent(),
-				account.getMessageReceived(),
 				account.getTvg(),
 				account.getMotorist(),
 				account.getRoles()

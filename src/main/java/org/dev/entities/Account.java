@@ -60,10 +60,6 @@ public class Account implements Serializable{
    protected java.util.Collection<Booking> booking;
    @OneToMany(mappedBy="account",targetEntity=Picture.class)
    protected java.util.Collection<Picture> picture;
-   @OneToMany(mappedBy="account",targetEntity=MessageSent.class)
-   protected java.util.Collection<MessageSent> messageSent;
-   @OneToMany(mappedBy="account",targetEntity=MessageReceived.class)
-   protected java.util.Collection<MessageReceived> messageReceived;
    
    @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Tvg.class)
    protected Tvg tvg;
@@ -77,8 +73,7 @@ public class Account implements Serializable{
 
 	public Account(String accountLogin, String accountPassword, Date accountCreationdate, Boolean activated,
 			Collection<ConnectionHistory> connectionHistory, Collection<Consultation> consultation,
-			Collection<Booking> booking, Collection<Picture> picture, Collection<MessageSent> messageSent,
-			Collection<MessageReceived> messageReceived, Tvg tvg, Motorist motorist, String... roles) {
+			Collection<Booking> booking, Collection<Picture> picture, Tvg tvg, Motorist motorist, String... roles) {
 		super();
 		this.accountLogin = accountLogin;
 		this.setAccountPassword(accountPassword);
@@ -88,8 +83,6 @@ public class Account implements Serializable{
 		this.consultation = consultation;
 		this.booking = booking;
 		this.picture = picture;
-		this.messageSent = messageSent;
-		this.messageReceived = messageReceived;
 		this.tvg = tvg;
 		this.motorist = motorist;
 		this.roles = roles;
@@ -178,22 +171,6 @@ public class Account implements Serializable{
 	}
 	public void setPicture(java.util.Collection<Picture> picture) {
 		this.picture = picture;
-	}
-
-	public java.util.Collection<MessageSent> getMessageSent() {
-		return messageSent;
-	}
-
-	public void setMessageSent(java.util.Collection<MessageSent> messageSent) {
-		this.messageSent = messageSent;
-	}
-
-	public java.util.Collection<MessageReceived> getMessageReceived() {
-		return messageReceived;
-	}
-
-	public void setMessageReceived(java.util.Collection<MessageReceived> messageReceived) {
-		this.messageReceived = messageReceived;
 	}
 
 	public Tvg getTvg() {
