@@ -25,5 +25,10 @@ public class AccountMetierImplementation implements AccountMetier{
 	public Collection<Account> getAllAccount() {
 		return accountRep.findAll();
 	}
-	
+
+
+	@Override
+	public void updateAccount(Account account) {
+		accountRep.save(account);
+	}
 }

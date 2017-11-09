@@ -233,9 +233,7 @@ class ProfilContent extends Component {
   }
   loadAccountFromServer(){
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
-    var myInit = { method: 'POST',
+    var myInit = { method: 'GET',
                    headers: myHeaders,
                    mode: 'cors',
                    cache: 'default',
@@ -243,16 +241,20 @@ class ProfilContent extends Component {
     fetch('/auth', myInit)
     .then((response) => response.json()) 
     .then((responseData) => {
-      if(this.props.account === 'tvg'){
-        this.setState({
-          ContentTOP: <TvgContentTop account={responseData} />,
-          ContentBOTTOM: <TvgContentBottom account={responseData} />
-        });
+      if(responseData.activated != false){
+        if(this.props.account === 'tvg'){
+          this.setState({
+            ContentTOP: <TvgContentTop account={responseData} />,
+            ContentBOTTOM: <TvgContentBottom account={responseData} />
+          });
+        }else{
+          this.setState({
+            ContentTOP: <MotoristContentTop account={responseData} />,
+            ContentBOTTOM: <MotoristContentBottom account={responseData} />
+          });
+        }
       }else{
-        this.setState({
-          ContentTOP: <MotoristContentTop account={responseData} />,
-          ContentBOTTOM: <MotoristContentBottom account={responseData} />
-        });
+        $('.sessionVariables').submit();
       }
     });
   }
@@ -262,6 +264,7 @@ class ProfilContent extends Component {
   render() {
     return (
       <div className="profil-content">
+        <form className="sessionVariables" action="/authRedirection" method="post"></form>
         {this.state.ContentTOP}
         {this.state.ContentBOTTOM}
       </div>
@@ -277,24 +280,27 @@ class FirstSection extends Component {
   }
   componentDidMount(){
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
-    var myInit = { method: 'POST',
+    var myInit = { method: 'GET',
                    headers: myHeaders,
                    mode: 'cors',
                    cache: 'default',
                    credentials: 'same-origin' };
     fetch('/auth', myInit)
     .then((response) => response.json()) 
-    .then((responseData) => { 
-      this.setState({
-        accountType: responseData.token.split("|")[0]
-      });
+    .then((responseData) => {
+      if(responseData.activated != false){
+        this.setState({
+          accountType: responseData.token.split("|")[0]
+        });
+      }else{
+        $('.sessionVariables').submit();
+      }
     });
   }
   render() {
     return (
       <section className="firstsection row">
+        <form className="sessionVariables" action="/authRedirection" method="post"></form>
         <a href="#" className="col disabled profil-firstsection">
           <ul className="nav nav-social flex-column">
             <li className="nav-item">

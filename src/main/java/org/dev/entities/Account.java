@@ -37,34 +37,36 @@ import lombok.ToString;
 @Entity
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
 public class Account implements Serializable{
-
-   public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
-   protected Long accountId;
-   @Column(length=40)
-   protected String accountLogin;
-   @Column(length=100)
-   protected @JsonIgnore String accountPassword;
-   protected java.util.Date accountCreationdate;
-   protected Boolean activated;
-   @Column(length=40)
-   protected String[] roles;
-   @Column(length=40)
-   protected String token;
+	
+	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+	
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
+	protected Long accountId;
+	@Column(length=40)
+	protected String accountLogin;
+	@Column(length=100)
+	@JsonIgnore
+	protected String accountPassword;
+	protected java.util.Date accountCreationdate;
+	protected Boolean activated;
+	@Column(length=40)
+	protected String[] roles;
+	@Column(length=40)
+	protected String token;
    
-   @OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
-   protected java.util.Collection<ConnectionHistory> connectionHistory;
-   @OneToMany(mappedBy="account",targetEntity=Consultation.class)
-   protected java.util.Collection<Consultation> consultation;
-   @OneToMany(mappedBy="account",targetEntity=Booking.class)
-   protected java.util.Collection<Booking> booking;
-   @OneToMany(mappedBy="account",targetEntity=Picture.class)
-   protected java.util.Collection<Picture> picture;
-   
-   @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Tvg.class)
-   protected Tvg tvg;
-   @OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Motorist.class)
-   protected Motorist motorist;
+	@OneToMany(mappedBy="account",targetEntity=ConnectionHistory.class)
+	protected java.util.Collection<ConnectionHistory> connectionHistory;
+	@OneToMany(mappedBy="account",targetEntity=Consultation.class)
+	protected java.util.Collection<Consultation> consultation;
+	@OneToMany(mappedBy="account",targetEntity=Booking.class)
+	protected java.util.Collection<Booking> booking;
+	@OneToMany(mappedBy="account",targetEntity=Picture.class)
+	protected java.util.Collection<Picture> picture;
+	
+	@OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Tvg.class)
+	protected Tvg tvg;
+	@OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="account", targetEntity=Motorist.class)
+	protected Motorist motorist;
    	
 	public Account() {
 		super();
@@ -91,7 +93,7 @@ public class Account implements Serializable{
 		StringBuilder sb = new StringBuilder( 20 );
 		   for( int i = 0; i < 20; i++ ) 
 		      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-		this.token = accountLogin+"|"+sb.toString();
+		this.token = accountLogin+"_"+sb.toString();
 	}
 
 	public String getAccountLogin() {

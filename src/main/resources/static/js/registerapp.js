@@ -439,7 +439,9 @@ class TvgPSModal extends Component {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {  scroHeader llBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
+    this.state = {  scrollBackground: 'nav-bg', 
+                    logo: '../media/LogoCarCare.png', 
+                    id: 'navbar-brand-logocarcare' };
     this.handleScroll = this.handleScroll.bind(this);
   }
   componentWillMount() {
@@ -760,12 +762,12 @@ class RegisterMotoristPanel extends Component{
     fetch('/sessionLP', myInit)
     .then((response) => response.json()) 
     .then((responseData) => { 
-      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
+      if(_.isEmpty(responseData.login) || _.isEmpty(responseData.password) || _.isEmpty(responseData.signupas)){
         $('.sessionVariables').submit();
       }else{
-        this.setState({login: (JSON.parse(responseData)).login,
-                      password: (JSON.parse(responseData)).password,
-                      signupas: (JSON.parse(responseData)).signupas
+        this.setState({login: responseData.login,
+                      password: responseData.password,
+                      signupas: responseData.signupas
                       });
       }
     });
@@ -796,7 +798,7 @@ class RegisterMotoristPanel extends Component{
           <div className="card">
             <div className="icon-reg"><i className="ion-clipboard"></i></div>
             <h1 className="title">Joining the community</h1>
-            <form action="signupmotorist" method="post">
+            <form action="/signupmotorist" method="post">
               <input name="login" type="hidden" value={this.state.login}/>
               <input name="password" type="hidden" value={this.state.password}/>
               <input name="signupas" type="hidden" value={this.state.signupas}/>
@@ -1230,12 +1232,12 @@ class RegisterTvgPanel extends Component{
     fetch('sessionLP', myInit)
     .then((response) => response.json()) 
     .then((responseData) => { 
-      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
+      if(_.isEmpty(responseData.login) || _.isEmpty(responseData.password) || _.isEmpty(responseData.signupas)){
         $('.sessionVariables').submit();
       }else{
-        this.setState({login: (JSON.parse(responseData)).login,
-                        password: (JSON.parse(responseData)).password,
-                        signupas: (JSON.parse(responseData)).signupas
+        this.setState({login: responseData.login,
+                        password: responseData.password,
+                        signupas: responseData.signupas
                       });
       }
     });
@@ -1268,7 +1270,7 @@ class RegisterTvgPanel extends Component{
           <div className="card">
             <div className="icon-reg"><i className="ion-clipboard"></i></div>
             <h1 className="title">Joining the community</h1>
-            <form action="signuptvg" method="post">
+            <form action="/signuptvg" method="post">
               <input name="login" type="hidden" value={this.state.login}/>
               <input name="password" type="hidden" value={this.state.password}/>
               <input name="signupas" type="hidden" value={this.state.signupas}/>
@@ -1421,11 +1423,8 @@ class FirstSection extends Component {
       RegisterPanel: null
     };
   }
-  render() {
-
+  componentWillMount(){
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
     myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
                    headers: myHeaders,
@@ -1435,17 +1434,19 @@ class FirstSection extends Component {
     fetch('sessionLP', myInit)
     .then((response) => response.json()) 
     .then((responseData) => { 
-      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
+      console.log(responseData.login);
+      if(_.isEmpty(responseData.login) || _.isEmpty(responseData.password) || _.isEmpty(responseData.signupas)){
         $('.sessionVariables').submit();
       }else{
-        if((JSON.parse(responseData)).signupas === 'tvg'){
+        if(responseData.signupas == 'tvg'){
           this.setState({RegisterPanel: <RegisterTvgPanel />});
         }else{
           this.setState({RegisterPanel: <RegisterMotoristPanel />});
         }
       }
     });
-
+  }
+  render() {
     return (
       <section className="firstsection row">
         <a href="#" className="col disabled register-firstsection Aligner">
@@ -1545,8 +1546,6 @@ class RegisterContainerFluid extends Component{
   componentWillMount(){
 
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
     myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
                    headers: myHeaders,
@@ -1556,7 +1555,7 @@ class RegisterContainerFluid extends Component{
     fetch('sessionLP', myInit)
     .then((response) => response.json()) 
     .then((responseData) => { 
-      if(_.isEmpty((JSON.parse(responseData)).login) || _.isEmpty((JSON.parse(responseData)).password) || _.isEmpty((JSON.parse(responseData)).signupas)){
+      if(_.isEmpty(responseData.login) || _.isEmpty(responseData.password) || _.isEmpty(responseData.signupas)){
         $('.sessionVariables').submit();
       }
     });
@@ -1565,7 +1564,7 @@ class RegisterContainerFluid extends Component{
   render() {
     return (
       <div className="container-fluid">
-        <form className="sessionVariables" action="signup" method="post">
+        <form className="sessionVariables" action="/signup" method="post">
           <input name="login" type="hidden" value=""/>
           <input name="password" type="hidden" value=""/>
           <input name="signupas" type="hidden" value=""/>

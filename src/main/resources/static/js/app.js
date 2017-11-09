@@ -793,7 +793,7 @@ class LoginModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Join the community<i className="ion-compose"></i></h4>
                       <p className="card-text">fill in the form below to get instant access</p>
-                      <form action="signup" method="post">
+                      <form action="/signup" method="post">
 
                         <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.login)}`}>
                           <span className={`tooltip tooltip-${this.state.formErrors.login}`}><span>{this.state.formErrors.login}</span></span>
@@ -805,7 +805,7 @@ class LoginModal extends Component {
                         </div>
 
                         <div className={`form-group ${this.errorClass(this.state.formErrors.passwordnew)}`}>
-                          <input value={this.state.passwordnew} onChange={(event) => this.handleUserInput(event)} type="passwordnew" className="form-control" id="exampleInputpasswordnew1" aria-describedby="passwordnewHelp" placeholder="Password" name="passwordnew" required/>
+                          <input value={this.state.passwordnew} onChange={(event) => this.handleUserInput(event)} type="password" className="form-control" id="exampleInputpasswordnew1" aria-describedby="passwordnewHelp" placeholder="Password" name="passwordnew" required/>
                           <div className="invalid-feedback">
                             A password has to have more than 6 characters.
                           </div>

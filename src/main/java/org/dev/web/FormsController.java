@@ -44,7 +44,25 @@ public class FormsController {
     @Autowired
     private AccountMetier iAccountMetier;
     
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    @RequestMapping(value = "/validateEmail", method = RequestMethod.GET)
+	public void validateEmail(String accountLogin) {
+        try{
+        	Account accountValidated = iAccountMetier.getAccountByUsername(accountLogin);
+        	accountValidated.setActivated(true);
+        	iAccountMetier.updateAccount(accountValidated);
+        }
+        catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+	}
+    
+    @RequestMapping(value = "/authRedirection", method = RequestMethod.POST)
+    public void redirect(HttpServletResponse response) throws IOException {
+    	SecurityContextHolder.clearContext();
+		response.sendRedirect("/success?incoming=activate");
+    }
+    
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public Account getLogged() throws IOException{
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
@@ -53,11 +71,11 @@ public class FormsController {
     
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
     public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
-    										@RequestParam(name = "password", required = true) String password, 
+    										@RequestParam(name = "passwordnew", required = true) String passwordnew, 
     										@RequestParam(name = "signupas", required = true) String signupas,
     										HttpServletResponse response) throws IOException {
         try {
-        	if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
+        	if(login.equals(passwordnew) || login.length() < 6 || passwordnew.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
         		response.sendRedirect("/?error=invalidForm");
         	else {
         		Tvg tvgInConsult = iTVGMetier.consulteTVGByLogin(login);
@@ -65,14 +83,14 @@ public class FormsController {
         			response.sendRedirect("/?error=repeatedLogin");
         		}else {
         			httpSession.setAttribute("login", login);
-                	httpSession.setAttribute("password", password);
+                	httpSession.setAttribute("password", passwordnew);
                 	httpSession.setAttribute("signupas", signupas);
                 	response.sendRedirect("/register");
         		}
         	}
         } catch (Exception e) {
         	model.addAttribute("error", e);
-        	response.sendRedirect("/?error=" + e.getMessage());
+        	response.sendRedirect("/?errorcatched=" + e.getMessage());
         }
     }
 	
@@ -152,7 +170,7 @@ public class FormsController {
         		if(!isValidDateStr(tvgCreationdate))
         			response.sendRedirect("/register?error="+error);
         		else {
-        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, (new SimpleDateFormat("YYYY-MM-DD").parse(tvgCreationdate)), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_TVG"));
+        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, (new SimpleDateFormat("YYYY-MM-DD").parse(tvgCreationdate)), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_TVG"));
         			model.addAttribute("TVG", tvgInCreation);
         			emailValidation(tvgInCreation.getAccount(), tvgEmail);
                 	response.sendRedirect("/success?emailValidation=" + tvgEmail);
@@ -191,7 +209,7 @@ public class FormsController {
     				response.sendRedirect("/register?error="+error+":"+vehicleFirstCirculation);
     			else {
     				try {
-    					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
+    					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
             			model.addAttribute("MOTORIST", motoristInCreation);
             			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
                     	response.sendRedirect("/success?emailValidation=" + ipersonEmail);

@@ -8,4 +8,5 @@ import org.dev.entities.Tvg;
 public interface AccountMetier {
 	public Account getAccountByUsername(String username);
 	public Collection<Account> getAllAccount();
+	public void updateAccount(Account account);
 }

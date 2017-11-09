@@ -514,7 +514,36 @@ class SuccessPanel extends Component {
                 <h6>Thank You for your trust</h6>
                 <p>A confirmation message was sent to your Email</p>
                 <p>Please Click the link in that message to validate your account</p>
-                <form>
+                <form action="emailvalidation" method="post">
+                  <button type="submit" className="btn btn-primary">Re-Send Confirmation</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+class PleaseCheck extends Component {
+  render() {
+    return (
+      <div className="success">
+        <div className="container">
+          <div className="card">
+            <div className="container">
+              <figure className="chart" data-percent="75">
+                <svg width="200" height="200">
+                  <circle className="outer" cx="95" cy="95" r="85" transform="rotate(-10, 95, 95)"/>
+                </svg>
+                <div className="check"></div>
+              </figure>
+              <div className="container container-text">
+                <h4>Registration Pending</h4>
+                <h6>Please Check your Email</h6>
+                <p>A confirmation message was sent to your Email</p>
+                <p>Please Click the link in that message to validate your account</p>
+                <form action="emailvalidation" method="post">
                   <button type="submit" className="btn btn-primary">Re-Send Confirmation</button>
                 </form>
               </div>
@@ -554,7 +583,8 @@ class FirstSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      SuccessPanelChoice: null
+      SuccessPanelChoice: null,
+      accountLogged: []
     };
   }
   getUrlParameter(sParam) {
@@ -573,24 +603,44 @@ class FirstSection extends Component {
   }
   componentWillMount(){
     if(this.getUrlParameter('incoming') != undefined){
-      this.setState({SuccessPanelChoice: <EmailValidated />});
-      const value = this.getUrlParameter('incoming').split('|');
-
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Accept", "application/json");
-      myHeaders.append("x-my-custom-header", "INDEED");
-      var myInit = { method: 'GET',
-                     headers: myHeaders,
-                     mode: 'cors',
-                     cache: 'default',
-                     credentials: 'same-origin' };
-      fetch('/api/accounts', myInit)
-      .then((response) => response.json()) 
-      .then((responseData) => { 
-        var account = _.findWhere(responseData._embedded.accounts, {accountLogin: value[0]});
-      });
-
+      if(this.getUrlParameter('incoming') == 'activate'){
+        this.setState({SuccessPanelChoice: <PleaseCheck />});
+      }else{
+        const value = this.getUrlParameter('incoming').split('_');
+        
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("x-my-custom-header", "INDEED");
+        var myInit = { method: 'GET',
+                        headers: myHeaders,
+                        mode: 'cors',
+                        cache: 'default',
+                        credentials: 'same-origin' };
+        fetch('/api/accounts', myInit)
+        .then((response) => response.json()) 
+        .then((responseData) => {
+          var account = _.findWhere(responseData._embedded.accounts, {accountLogin: value[0]});
+          if(account != undefined){
+            if(account.token == value[0]+"_"+value[1]){
+              this.setState({SuccessPanelChoice: <EmailValidated />});
+              
+              var putHeaders = new Headers();
+              putHeaders.append("Content-Type", "application/json");
+              putHeaders.append("Accept", "application/json");
+              putHeaders.append("x-my-custom-header", "INDEED");
+              var myInit = { method: 'GET',
+                              headers: putHeaders,
+                              mode: 'cors',
+                              cache: 'default',
+                              credentials: 'same-origin' };
+              fetch('/validateEmail?accountLogin='+account.accountLogin, myInit)
+              .then((responseA) => responseA.json());
+    
+            }
+          }
+        });
+      }
     }else{
       this.setState({SuccessPanelChoice: <SuccessPanel />});
     }

@@ -72,6 +72,13 @@ public abstract class IPerson implements Serializable {
 		this.ipersonBirthday = ipersonBirthday;
 	}
 	
+	public String getIpersonCountry() {
+		return ipersonCountry;
+	}
+	public void setIpersonCountry(String ipersonCountry) {
+		this.ipersonCountry = ipersonCountry;
+	}
+	
 	public String getIpersonCity() {
 		return ipersonCity;
 	}
