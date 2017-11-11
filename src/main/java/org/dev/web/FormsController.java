@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import org.dev.entities.Account;
 import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
+import org.dev.entities.Vehicle;
 import org.dev.mail.MailSender;
 import org.dev.metier.AccountMetier;
 import org.dev.metier.MotoristMetier;
@@ -44,9 +45,21 @@ public class FormsController {
     @Autowired
     private AccountMetier iAccountMetier;
     
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model, String error, String logout) {
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.");
+
+        if (logout != null)
+            model.addAttribute("message", "You have been logged out successfully.");
+
+        return "login";
+    }
+    
     @RequestMapping(value = "/validateEmail", method = RequestMethod.GET)
 	public void validateEmail(String accountLogin) {
         try{
+        	SecurityContextHolder.clearContext();
         	Account accountValidated = iAccountMetier.getAccountByUsername(accountLogin);
         	accountValidated.setActivated(true);
         	iAccountMetier.updateAccount(accountValidated);
@@ -210,7 +223,6 @@ public class FormsController {
     			else {
     				try {
     					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
-            			model.addAttribute("MOTORIST", motoristInCreation);
             			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
                     	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
     				} catch (ParseException e) {

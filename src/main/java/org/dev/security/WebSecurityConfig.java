@@ -3,9 +3,11 @@ package org.dev.security;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import org.dev.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -34,20 +37,18 @@ import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private SpringDataJpaUserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(Account.PASSWORD_ENCODER);
-	}
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
 
-	// Needed by Spring Security OAuth
-	@Override
-	@Bean
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -69,6 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .formLogin()
 	        	.loginPage("/index")
 	            .defaultSuccessUrl("/profil", true)
+	            .usernameParameter("username")
+	            .passwordParameter("password")
 	            .failureHandler(handleAuthenticationFailure())
 	            .permitAll()
 	            .and()
@@ -108,7 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        									HttpServletResponse httpResponse,
 	                                            AuthenticationException authenticationException) throws IOException, ServletException {
 	        	
-	            setDefaultFailureUrl("/index?error="+authenticationException.getLocalizedMessage());
+	            setDefaultFailureUrl("/index?error="+authenticationException.getMessage());
 	            super.onAuthenticationFailure(httpRequest, httpResponse, authenticationException);
 	        }
 	    };

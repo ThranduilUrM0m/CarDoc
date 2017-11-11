@@ -38,8 +38,6 @@ import lombok.ToString;
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
 public class Account implements Serializable{
 	
-	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
 	protected Long accountId;
 	@Column(length=40)
@@ -78,9 +76,9 @@ public class Account implements Serializable{
 			Collection<Booking> booking, Collection<Picture> picture, Tvg tvg, Motorist motorist, String... roles) {
 		super();
 		this.accountLogin = accountLogin;
-		this.setAccountPassword(accountPassword);
+		this.accountPassword = accountPassword;
 		this.accountCreationdate = new Date();
-		this.activated = false;
+		this.activated = activated;
 		this.connectionHistory = connectionHistory;
 		this.consultation = consultation;
 		this.booking = booking;
@@ -125,7 +123,7 @@ public class Account implements Serializable{
 	}
 
 	public void setAccountPassword(String accountPassword) {
-		this.accountPassword = PASSWORD_ENCODER.encode(accountPassword);
+		this.accountPassword = accountPassword;
 	}
 
 	public java.util.Date getAccountCreationdate() {

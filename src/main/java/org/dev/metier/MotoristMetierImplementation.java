@@ -9,31 +9,33 @@ import org.dev.dao.TvgRepository;
 import org.dev.dao.VehicleRepository;
 import org.dev.entities.Account;
 import org.dev.entities.Motorist;
-import org.dev.entities.Tvg;
 import org.dev.entities.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class MotoristMetierImplementation implements MotoristMetier{
-	@Autowired
-	protected MotoristRepository motoristRep;
+	
 	@Autowired
 	protected AccountRepository accountRep;
 	@Autowired
-	protected VehicleMetier iVehicleMetier;
+	protected MotoristRepository motoristRep;
+	@Autowired
+	protected VehicleRepository vehicleRep;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public Motorist createMotorist(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry, String ipersonCity,
 			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone, String motoristMatricule,
 			Account account, String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
 			String vehicleRegistration) {
-		// TODO Auto-generated method stub
-		Account accountInCreation = new Account(
+		this.accountRep.save(new Account(
 				account.getAccountLogin(),
-				account.getAccountPassword(),
+				bCryptPasswordEncoder.encode(account.getAccountPassword()),
 				account.getAccountCreationdate(),
 				account.getActivated(),
 				account.getConnectionHistory(),
@@ -43,8 +45,8 @@ public class MotoristMetierImplementation implements MotoristMetier{
 				account.getTvg(),
 				account.getMotorist(),
 				account.getRoles()
-				);
-		Motorist motoristInCreation = new Motorist(
+				));
+		this.motoristRep.save(new Motorist(
 				ipersonLastname,
 				ipersonFirstname,
 				ipersonBirthday,
@@ -55,14 +57,22 @@ public class MotoristMetierImplementation implements MotoristMetier{
 				ipersonPhone,
 				motoristMatricule,
 				null,
-				accountInCreation
-				);
-		accountInCreation.setMotorist(motoristInCreation);
-		accountRep.save(accountInCreation);
-		motoristRep.save(motoristInCreation);
-		Vehicle vehicleInCreation = iVehicleMetier.createVehicle(vehicleBrand, vehicleType, vehicleFirstCirculation, vehicleRegistration, motoristInCreation);
-		motoristInCreation.setVehicle(iVehicleMetier.consulteVehicles(motoristInCreation));
-		return motoristInCreation;
+				this.accountRep.findByAccountLogin(account.getAccountLogin())
+				));
+		this.vehicleRep.save(new Vehicle(
+				vehicleBrand, 
+				vehicleType, 
+				vehicleFirstCirculation, 
+				vehicleRegistration, 
+				this.motoristRep.findByAccountLogin(account.getAccountLogin())
+				));
+		this.accountRep
+			.findByAccountLogin(account.getAccountLogin())
+				.setMotorist(this.motoristRep.findByAccountLogin(account.getAccountLogin()));
+		this.motoristRep
+			.findByAccountLogin(account.getAccountLogin())
+				.setVehicle(this.vehicleRep.findByMotorist(this.motoristRep.findByAccountLogin(account.getAccountLogin())));
+		return this.motoristRep.findByAccountLogin(account.getAccountLogin());
 	}
 
 	@Override
@@ -73,7 +83,7 @@ public class MotoristMetierImplementation implements MotoristMetier{
 	}
 
 	@Override
-	public Motorist consulteMotoristByLogin(String login) {
+	public Motorist getMotoristByLogin(String login) {
 		Motorist motoristInConsult = motoristRep.findByAccountLogin(login);
 		return motoristInConsult;
 	}
