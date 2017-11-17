@@ -10,10 +10,10 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.dev.dao.VehicleRepository;
 import org.dev.entities.Account;
 import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
-import org.dev.entities.Vehicle;
 import org.dev.mail.MailSender;
 import org.dev.metier.AccountMetier;
 import org.dev.metier.MotoristMetier;
@@ -22,17 +22,13 @@ import org.hibernate.validator.constraints.Email;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class FormsController {
@@ -49,10 +45,8 @@ public class FormsController {
     public String login(Model model, String error, String logout) {
         if (error != null)
             model.addAttribute("error", "Your username and password is invalid.");
-
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");
-
         return "login";
     }
     
@@ -222,7 +216,7 @@ public class FormsController {
     				response.sendRedirect("/register?error="+error+":"+vehicleFirstCirculation);
     			else {
     				try {
-    					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
+    					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
             			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
                     	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
     				} catch (ParseException e) {

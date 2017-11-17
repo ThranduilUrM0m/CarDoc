@@ -61,80 +61,90 @@ class ContactUsModal extends Component {
     );
   }
 }
-class VehicleModal extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div className="vehicle modal fade" id="vehicleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body row">
-              <div className="col">
-                <div className="container">
-                  <div className="card container">
-                    <div className="card-body">
-                      <h4 className="card-title">Your Vehicles<i className="ion-model-s"></i></h4>
-                      <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
-                        <div className="carousel-inner">
-                          <div className="carousel-item active">
-
-                          </div>
-                          <div className="carousel-item">
-
-                          </div>
-                          <div className="carousel-item">
-
-                          </div>
-                        </div>
-                        <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span className="sr-only">Previous</span>
-                        </a>
-                        <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span className="sr-only">Next</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer">
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {  scrollBackground: 'nav-bg', logo: '../media/CarCareBlack.png', id: 'navbar-brand-carcare' };
+    this.state = {  
+      scrollBackground: 'nav-bg', 
+      logo: '../media/CarCareBlack.png', 
+      id: 'navbar-brand-carcare',
+      account: '',
+      motoristUsername: '',
+      motoristFullName: '',
+      motoristPicture: []
+    };
+  }
+  loadAccountFromServer(){
+    var self = this;
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/auth', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      if(responseData.activated != false){
+        var max = null;
+        self.setState({account: responseData});
+        self.setState({motoristUsername: responseData.accountLogin});
+        self.setState({motoristFullName: (responseData.motorist.ipersonLastname).toUpperCase()+" "+responseData.motorist.ipersonFirstname});
+        responseData.picture.forEach(function(picture) {
+          if (max === null || picture.insertDate > max.insertDate) {
+            max = picture;
+          }
+        });
+        self.setState({motoristPicture: max});
+      }else{
+        $('.sessionVariables').submit();
+      }
+    });
+  }
+  componentDidMount(){
+    this.loadAccountFromServer();
   }
   render() {
+    var picture = 'http://www.pgconnects.com/sanfrancisco/wp-content/uploads/sites/5/2015/04/generic-profile-grey-380x380.jpg'
+    if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
+      picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
-      <nav id={this.state.scrollBackground} className="navbar navbar-profil navbar-expand-sm">
-        <a className="navbar-brand" id={this.state.id} href="#">
-          <img src={this.state.logo} alt="LOGO" />
-        </a>
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <a className="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i className="material-icons">search</i></a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#"><i className="material-icons">sort</i></a>
-          </li>
-        </ul>
-      </nav>
+      <header role="banner">
+        
+        <nav id={this.state.scrollBackground} className="navbar navbar-profil navbar-expand-sm">
+          <a className="navbar-brand" id={this.state.id} href="#">
+            <img src={this.state.logo} alt="LOGO" />
+          </a>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <a className="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i className="material-icons">search</i></a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                <button type="button" className="drawer-toggle drawer-hamburger">
+                  <span className="sr-only">toggle navigation</span>
+                  <span className="drawer-hamburger-icon"></span>
+                </button>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <nav className="drawer-nav" role="navigation">
+          <ul className="drawer-menu">
+            <li><a className="drawer-brand" href="#"><span>{this.state.motoristUsername}</span></a></li>
+            <li><a className="drawer-menu-item" href="#"><div style={{backgroundImage: "url(" + picture + ")"}} id="profil-picture"></div></a></li>
+            <li><a className="drawer-menu-item disabled" href="#"><span>{this.state.motoristFullName}</span></a></li>
+          </ul>
+          <ul className="drawer-menu">
+            <li className="active"><a className="drawer-menu-item" href="#"><span><i className="ion-ios-home"></i><i>Profil</i></span></a><div className="bar"></div></li>
+            <li><a className="drawer-menu-item" href="#"><span><i className="ion-ios-bookmarks"></i><i>Reservation</i></span></a><div className="bar"></div></li>
+            <li><a className="drawer-menu-item" href="#"><span><i className="ion-person"></i><i>About</i></span></a><div className="bar"></div></li>
+            <li><a className="drawer-menu-item" href="#"><span><i className="ion-stats-bars"></i><i>Statistics</i></span></a><div className="bar"></div></li>
+            <li><a className="drawer-menu-item" href="/logout"><span><i className="ion-log-out"></i><i>Logout</i></span></a><div className="bar"></div></li>
+          </ul>
+        </nav>
+      </header>
     );
   }
 }
@@ -153,9 +163,50 @@ class TvgContentBottom extends Component {
   }
 }
 class MotoristContentTop extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      motoristUsername: '',
+      motoristFullName: '',
+      motoristCountry: '',
+      motoristCity: ''
+    };
+  }
+  componentDidMount(){
+    var self = this;
+    self.setState({motoristUsername: self.props.account.accountLogin});
+    self.setState({motoristFullName: (self.props.account.motorist.ipersonLastname).toUpperCase()+" "+self.props.account.motorist.ipersonFirstname});
+    
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/COUNTRIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      self.setState({motoristCountry: _.findWhere(responseData, {code: self.props.account.motorist.ipersonCountry}).name});
+    });
+
+    self.setState({motoristCity: self.props.account.motorist.ipersonCity});
+  }
   render() {
     return (
-      <div className="row"></div>
+      <div className="row">
+        <div className="col-9">
+          <div className="accountInfoContainer">
+            <h2>{this.state.motoristFullName}</h2>
+            <h5>{this.state.motoristUsername}</h5>
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="accountLocationContainer">
+            <h1>{this.state.motoristCountry}</h1>
+            <h4>{this.state.motoristCity}</h4>
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -165,7 +216,7 @@ class VehicleModalLauncher extends Component {
   }
   render() {
     return (
-      <div onLoad={this.updateState} className={"carousel-item clash-card barbarian"}>
+      <div onLoad={this.updateState} data-toggle="modal" data-target="#vehicleModal" data-vehiclebrand={this.props.vehicle.vehicleBrand} data-vehicletype={this.props.vehicle.vehicleType} data-vehiclefirstcirculation={this.props.vehicle.vehicleFirstCirculation} data-vehicleregistration={this.props.vehicle.vehicleRegistration} className={"carousel-item clash-card barbarian"}>
         <div className={"clash-card__image clash-card__image--barbarian"}>
           <img src={"https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png"} alt="barbarian" />
         </div>
@@ -175,31 +226,322 @@ class VehicleModalLauncher extends Component {
     );
   }
 }
+class VehicleModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      vehicleBrand: '',
+  	  vehicleType: '',
+  	  vehicleFirstCirculation: '',
+      vehicleRegistration : '',
+      formErrors: {
+  	    vehicleBrand: '',
+  	    vehicleType: '',
+  	    vehicleFirstCirculation: '',
+  	    vehicleRegistration : ''
+      },
+      vehicleBrandValid: false,
+  	  vehicleTypeValid: false,
+  	  vehicleFirstCirculationValid: false,
+  	  vehicleRegistrationValid: false,
+      formValid: false
+    }
+  }
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let vehicleBrandValid = this.state.vehicleBrandValid;
+  	let vehicleTypeValid = this.state.vehicleTypeValid;
+  	let vehicleFirstCirculationValid = this.state.vehicleFirstCirculationValid;
+  	let vehicleRegistrationValid = this.state.vehicleRegistrationValid;
+
+    switch(fieldName) {
+      case 'vehicleBrand':
+        vehicleBrandValid = value.length >= 1;
+        fieldValidationErrors.vehicleBrand = vehicleBrandValid ? '' : ' is invalid';
+        break;
+      case 'vehicleType':
+        vehicleTypeValid = value === 'Car (Light vehicles)' || value === 'Gas-powered vehicles' || value === 'Collection vehicles' || value === 'Utilities' || value === 'Electric vehicles' || value === 'Specific vehicles';
+        fieldValidationErrors.vehicleType = vehicleTypeValid ? '' : ' is invalid';
+        break;
+      case 'vehicleFirstCirculation':
+        vehicleFirstCirculationValid = moment(value, 'YYYY-MM-DD', true).isValid();
+        fieldValidationErrors.vehicleFirstCirculation = vehicleFirstCirculationValid ? '' : ' is invalid';
+        break;
+      case 'vehicleRegistration':
+        vehicleRegistrationValid = value.length >= 1;
+        fieldValidationErrors.vehicleRegistration = vehicleRegistrationValid ? '' : ' is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                  vehicleBrandValid: vehicleBrandValid,
+                  vehicleTypeValid: vehicleTypeValid,
+                  vehicleFirstCirculationValid: vehicleFirstCirculationValid,
+                  vehicleRegistrationValid: vehicleRegistrationValid
+                  }, this.validateForm);
+  }
+  validateForm() {
+    this.setState({formValid: this.state.vehicleBrandValid &&
+                              this.state.vehicleTypeValid &&
+                              this.state.vehicleFirstCirculationValid &&
+                              this.state.vehicleRegistrationValid});
+  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
+  }
+  errorClass(error) {
+   return(error.length === 0 ? '' : 'has-error');
+  }
+  handleBlur(e){
+    const name = e.target.name;
+    if(name == 'vehicleFirstCirculation'){
+      e.target.type = 'text';
+    }
+  }
+  handleFocus(e){
+    const name = e.target.name;
+    if(name == 'vehicleFirstCirculation'){
+      e.target.type = 'date';
+    }
+  }
+  handleReadOnly(form, x) {
+    $.each($(form).serializeArray(), function(_, field) {
+      var $self = $('input[name='+field.name+'], select[name='+field.name+']')
+      // get its parent label element
+      , $label = $self.prev()
+      // get its parent element
+      , $parent = $self.parent()
+      // create an overlay
+      , $overlay = $('<div class="overlayDisable"></div>')
+      // get the modal footer
+      , $footer = $('#vehicleModal .modal-footer');
+
+      //disable the element
+      $self.prop('disabled', x);
+      // style the parent
+      $parent.css( "position", "relative" );
+      // style the overlay
+      $overlay
+        .css({
+          // position the overlay in the same real estate as the original parent element 
+            position: "absolute"
+          , top: $label.outerHeight()
+          , width: $self.outerWidth()
+          , height: $self.outerHeight()
+          , zIndex: 10000
+          // IE needs a color in order for the layer to respond to mouse events
+          , backgroundColor: "#fff"
+          // set the opacity to 0, so the element is transparent
+          , opacity: 0
+        })
+        .dblclick(() => {
+          $(form).find('.overlayDisable').remove();
+          $(form).find('input, textarea, button, select').prop("disabled", false);
+          $self.focus();
+
+          //handle submit buttons
+          $footer.find('#updateVehicle')
+            .css({
+                opacity: 1
+              , zIndex: 10000
+            });
+          $footer.find('#addVehicle')
+            .css({
+                opacity: 0
+            });
+
+          //handle alert overlay
+          $(form).find('.alertOverlay')
+            .fadeIn('fast', function(){
+              var el = $(this);
+              setTimeout(function(){
+                  el.fadeOut('fast',
+                      function(){
+                          $(this).remove();
+                      });
+              }, 400);
+            }); 
+        });
+      // style the button on footer
+      $footer.find('#updateVehicle')
+        .css({
+            opacity: 0
+          , transition: "all 0.15s"
+        });
+      $footer.find('#addVehicle')
+        .css({
+            position: "absolute"
+          , transition: "all 0.15s"
+        });
+      // insert the overlay
+      $overlay.insertAfter($self);
+    });
+
+    // create an alert temp overlay
+    var $alertOverlay = $('<div class="alert alert-success alertOverlay">You\'re Now Updating</div>');
+    // style the alert overlay
+    $alertOverlay
+      .css({
+          position: "absolute"
+        , top: 0
+        , width: $(form).outerWidth()
+        , height: $(form).outerHeight()
+        , display: "flex"
+        , justifyContent: "center"
+        , alignItems: "center"
+        , fontSize: "5rem"
+        , display: "none"
+      });
+    $(form)
+      .css({
+        position: "relative"
+      })
+      .append($alertOverlay);
+  }
+  componentDidMount() {
+    $('#vehicleModal').on('shown.bs.modal', (event) => {
+      this.handleReadOnly(vehicleForm, true);
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var vehicleBrandIn = button.data('vehiclebrand') // Extract info from data-* attributes
+      var vehicleTypeIn = button.data('vehicletype') // Extract info from data-* attributes
+      var vehicleFirstCirculationIn = button.data('vehiclefirstcirculation') // Extract info from data-* attributes
+      var vehicleRegistrationIn = button.data('vehicleregistration') // Extract info from data-* attributes
+      
+      this.setState({
+        vehicleBrand: vehicleBrandIn,
+        vehicleType: vehicleTypeIn,
+        vehicleFirstCirculation: moment(new Date(vehicleFirstCirculationIn)).format('YYYY-MM-DD'),
+        vehicleRegistration : vehicleRegistrationIn,
+        formErrors: {
+          vehicleBrand: '',
+          vehicleType: '',
+          vehicleFirstCirculation: '',
+          vehicleRegistration : ''
+        },
+        vehicleBrandValid: true,
+        vehicleTypeValid: true,
+        vehicleFirstCirculationValid: true,
+        vehicleRegistrationValid: true,
+        formValid: true
+      });
+
+    });
+  }
+  render() {
+    return (
+      <div className="vehicle modal fade" id="vehicleModal" tabindex="-1" role="dialog" aria-labelledby="vehicleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="vehicleModalLabel">Vehicle {this.state.vehicleBrand}</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form id="vehicleForm">
+
+                <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleBrand)}`}>
+                  <label for="vehicleBrand" className="col-form-label">Brand:</label>
+                  <input value={this.state.vehicleBrand} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="vehicleBrand" aria-describedby="vehicleBrandHelp" name="vehicleBrand" required/>
+                  <div className="bar"></div>
+                  <div className="invalid-feedback">
+                    Please provide a valid Brand.
+                  </div>
+                  <small id="vehicleBrandHelp" className="form-text text-muted"></small>
+                </div>
+
+                <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleType)}`}>
+                  <label for="vehicleType" className="col-form-label">Type:</label>
+                  <select value={this.state.vehicleType} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="vehicleType" aria-describedby="vehicleTypeHelp" name="vehicleType" required>
+                    <option value=""></option>
+                    <option value="Car (Light vehicles)">Car (Light vehicles)</option>
+                    <option value="Gas-powered vehicles">Gas-powered vehicles</option>
+                    <option value="Collection vehicles">Collection vehicles</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Electric vehicles">Electric vehicles</option>
+                    <option value="Specific vehicles">Specific vehicles</option>
+                  </select>
+                  <div className="bar"></div>
+                  <div className="invalid-feedback">
+                    Please provide a valid Vehicle Type.
+                  </div>
+                  <small id="vehicleTypeHelp" className="form-text text-muted"></small>
+                </div>
+
+                <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleFirstCirculation)}`}>
+                  <label for="vehicleFirstCirculation" className="col-form-label">First Circulation:</label>
+                  <input value={this.state.vehicleFirstCirculation} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="vehicleFirstCirculation" aria-describedby="vehicleFirstCirculationHelp" name="vehicleFirstCirculation" required/>
+                  <div className="bar"></div>
+                  <div className="invalid-feedback">
+                    Please provide a valid Date.
+                  </div>
+                  <small id="vehicleFirstCirculationHelp" className="form-text text-muted"></small>
+                </div>
+
+                <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleRegistration)}`}>
+                  <label for="vehicleRegistration" className="col-form-label">Registration:</label>
+                  <input value={this.state.vehicleRegistration} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="vehicleRegistration" aria-describedby="vehicleRegistrationHelp" name="vehicleRegistration" required/>
+                  <div className="bar"></div>
+                  <div className="invalid-feedback">
+                    Please provide a valid Registration.
+                  </div>
+                  <small id="vehicleRegistrationHelp" className="form-text text-muted"></small>
+                </div>
+
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" onClick={(event) => this.handleSubmit(event)} className="btn btn-primary" id="updateVehicle" disabled={!this.state.formValid}>Update Vehicle</button>
+              <button type="button" onClick={(event) => this.handleSubmit(event)} className="btn btn-outline-primary" id="addVehicle" >Add A Vehicle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class MotoristContentBottom extends Component {
   constructor(props){
     super(props);
     this.state = {
+      motoristPicture: [],
       rows: []
     };
   }
   componentDidMount(){
     var self = this;
+    var max = null;
+    var min = null;
+
     self.props.account.motorist.vehicle.forEach(function(vehicle) {
       self.setState(prevState => ({
         rows: [...prevState.rows, <VehicleModalLauncher vehicle={vehicle} />]
       }));
     });
+
+    self.props.account.picture.forEach(function(picture) {
+      if (max === null || picture.insertDate > max.insertDate) {
+        max = picture;
+      }
+    });
+    
+    self.setState({motoristPicture: max});
   }
   render(){
+    var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
+    if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
+      picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return(
       <div className="row">
         <div className="col-9">
-
           <div id="carouselExampleControls" data-ride="carousel" className="carousel slide vehiclesCarousel">
             <div className="wrapper carousel-inner">
-              
               {this.state.rows}
-
             </div>
             <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
               <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -215,7 +557,7 @@ class MotoristContentBottom extends Component {
           <div className="card">
             <div className="card__image" id="card-2">
               <div className="image-overlay"></div>
-              <img src="http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg" alt="" />
+              <img src={picture} alt="" />
             </div>
           </div>
         </div>
@@ -319,6 +661,7 @@ class FirstSection extends Component {
           <ProfilContent account={this.state.accountType} />
         </a>
         <ContactUsModal />
+        <VehicleModal />
       </section>
     );
   }
@@ -398,8 +741,10 @@ class ContainerFluid extends Component{
     return (
       <div className="container-fluid">
         <Header />
-        <FirstSection contactinfo={["(212) 6 54 52 84 92 | Marjane 1, 2", <sup>ème</sup>,  " tranche n°51, Meknès Maroc."]} />
-        <Footer contactinfo={["TheOPDude Inc.",<br/>,"Marjane 1, 2",<sup>ème</sup>," tranche n°51",<br/>,"Meknès Maroc, 50000."]} />
+        <main role="main">
+          <FirstSection contactinfo={["(212) 6 54 52 84 92 | Marjane 1, 2", <sup>ème</sup>,  " tranche n°51, Meknès Maroc."]} />
+          <Footer contactinfo={["TheOPDude Inc.",<br/>,"Marjane 1, 2",<sup>ème</sup>," tranche n°51",<br/>,"Meknès Maroc, 50000."]} />
+        </main>
       </div>
     );
   }

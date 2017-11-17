@@ -76,6 +76,13 @@ public class Vehicle implements Serializable {
 		this.motorist = motorist;
 	}
 	
+	@Override
+	public String toString() {
+		return "Vehicle [vehicleBrand=" + vehicleBrand + ", vehicleType=" + vehicleType + ", vehicleFirstCirculation="
+				+ vehicleFirstCirculation + ", vehicleRegistration=" + vehicleRegistration + ", motorist=" + motorist
+				+ "]";
+	}
+	
 	public Vehicle() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -234,9 +234,9 @@ var Motorist = React.createClass({
 
   render: function() {
     var active = this.props.active === true ? 'active' : '' ;
-    var picture = 'def.png'
-    if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
-      picture = this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
+    var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
+    if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
+      picture = this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
       <div className={"carousel-item "+active}>
         <div className="card">
@@ -424,7 +424,7 @@ var Tvg = React.createClass({
 
   render: function() {
     var active = this.props.active === true ? 'active' : '' ;
-    var picture = 'def.png'
+    var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
       picture = this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (

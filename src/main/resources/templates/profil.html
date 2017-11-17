@@ -9,8 +9,12 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 		<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../static/css/main.css" th:href="@{css/main.css}"/>
+
+		<!-- drawer.css -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css"/>
+
 	</head>
-	<body class="body-profil">
+	<body class="body-profil drawer drawer--right">
 		<div id="react"></div>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -24,13 +28,19 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 		<script src="https://use.fontawesome.com/f61b4ca99d.js"></script>
 		<script src="https://use.typekit.net/bkt6ydm.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+		<!-- iScroll -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+		<!-- drawer.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
 		<script>
 			try{
 				Typekit.load({
 					async: true
 				});
 				$(function () {
-				  	$('[data-toggle="tooltip"]').tooltip();
+					$('[data-toggle="tooltip"]').tooltip();
+					$('.drawer').drawer();
 				});
 			}catch(e){
 				console.log(e);

@@ -773,7 +773,6 @@ class RegisterMotoristPanel extends Component{
     });
 
   }
-
   handleBlur(e){
     const name = e.target.name;
     if(name == 'ipersonBirthday' || name == 'vehicleFirstCirculation'){
@@ -908,6 +907,7 @@ class RegisterMotoristPanel extends Component{
                     </div>
                     <small id="vehicleBrandHelp" className="form-text text-muted"></small>
                   </div>
+
                   <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleType)}`}>
                     <select value={this.props.vehicleType} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputvehicleType" aria-describedby="vehicleTypeHelp" name="vehicleType" required>
                       <option value=""></option>
@@ -925,6 +925,7 @@ class RegisterMotoristPanel extends Component{
                     </div>
                     <small id="vehicleTypeHelp" className="form-text text-muted"></small>
                   </div>
+                  
                 </div>
                 <div className="col">
                   <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleFirstCirculation)}`}>
@@ -1576,6 +1577,7 @@ class RegisterContainerFluid extends Component{
     );
   }
 }
+
 ReactDOM.render(
   <RegisterContainerFluid />,
   document.getElementById('reactregister')

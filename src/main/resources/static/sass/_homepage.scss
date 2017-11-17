@@ -54,6 +54,28 @@
 	&-profil{
 		position: absolute;
 		width: 100%;
+		ul li:not(:first-of-type) a{
+			padding-top: 0.1rem !important;
+		}
+		.drawer-hamburger {
+			position: initial;
+			top: initial;
+			display: initial;
+			box-sizing: initial;
+			width: 1rem;
+			padding: 0;
+			&-icon, &-icon:after, &-icon:before{
+				background-color: $gray;
+			}
+			&-icon{
+				&:before{
+					top: -0.35rem;
+				}
+				&:after{
+					top: 0.4rem;
+				}
+			}
+		}
 	}
 }
 .login{

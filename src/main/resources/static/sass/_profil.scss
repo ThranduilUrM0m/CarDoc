@@ -1,3 +1,142 @@
+.drawer--right.drawer-open .drawer-nav{
+    right: 0 !important;
+}
+.drawer-nav{
+    background-color: $darkgray !important;
+    width: 25rem !important;
+    right: -25rem !important;
+    & a:hover{
+        text-decoration: none;
+    }
+    .drawer-menu{
+        li{
+            position: relative;
+            .bar{
+                width: 0px;
+                -webkit-transition: width .15s;
+                transition: width .15s;
+                height: 2px;
+                position: absolute;
+                display: block;
+                background: rgba( $white, .5 );
+                bottom: 0;
+                left: 0;
+            }
+            &:hover{
+                .bar{
+                    width: 100%;
+                }
+            }
+        }
+        #profil-picture{
+            box-shadow: 0px 0px 90px #fff;
+            display: inline-block;
+            width: 150px;
+            margin-top: 0;
+            height: 150px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .drawer-brand{
+            span{
+                display: flex;
+                justify-content: center;
+                &::after{
+                    content: "\00A0 \2014\2014\2014";
+                    position: absolute;
+                    right: 0;
+                }
+            }
+        }
+        .drawer-menu-item{
+            span{
+                display: flex;
+                justify-content: center;
+            }
+        }
+        &:nth-of-type(1){
+            border-bottom: 1px solid $gray;
+        }
+        &:not(:first-of-type){
+            li{
+                &::before{
+                    content: " ";
+                    width: 0px;
+                    -webkit-transition: width .15s;
+                    transition: width .15s;
+                    height: 100%;
+                    position: absolute;
+                    display: block;
+                    background: rgba( $white, .5 );
+                    left: -1rem;
+                }
+                &::after{
+                    content: " ";
+                    width: 0px;
+                    -webkit-transition: width .15s;
+                    transition: width .15s;
+                    -webkit-transition: left .15s;
+                    transition: left .15s;
+                    height: 100%;
+                    position: absolute;
+                    display: block;
+                    background: $thirdgray;
+                    left: -1rem;
+                    top: 0;
+                    z-index: -1;
+                }
+                & span{
+                    -webkit-transition: padding-right .15s;
+                    transition: padding-right .15s;
+                }
+                &.active{
+                    &::before{
+                        width: 1rem;
+                    }
+                }
+                &:hover span{
+                    padding-right: 20%;
+                }
+                &:hover:after{
+                    left: 0;
+                    width: 90%;
+                }
+                &:hover:before{
+                    width: 1rem;
+                }
+            }
+            padding-left: 1rem;
+            .drawer-menu-item{
+                padding-top: 0;
+                padding-bottom: 0;
+                span{
+                    justify-content: flex-start;
+                    i:first-of-type{
+                        font-size: 2rem;
+                        margin-right: auto;
+                    }
+                    i:not(:first-of-type){
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-style: normal;
+                        font-weight: 550;
+                    }
+                }
+            }
+            .drawer-brand{
+                img{
+                    height: 3rem;
+                }
+            }
+        }
+    }
+}
 .profil-firstsection{
     background-color: $white;
     background-image: linear-gradient(-90deg, $white 0%, $thirdgray 100%);
@@ -25,9 +164,38 @@
         height: 100%;
         .row{
             height: 50%;
+            &:first-of-type{
+                .col-3{
+                    display: flex;
+                    .accountLocationContainer{
+                        margin: 1rem;
+                        margin-top: auto;
+                        margin-left: auto;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+            }
             .col-9{
                 *, *:before, *:after {
                   box-sizing: border-box;
+                }
+                &:first-of-type{
+                    display: flex;
+                    .accountInfoContainer{
+                        position: relative;
+                        margin: 1rem;
+                        margin-top: auto;
+                        float: left;
+                        left: 10%;
+                        display: flex;
+                        flex-direction: column;
+                        h2{
+                            &::before{
+                                content: "\2014\2014\2014 \00A0";
+                            }
+                        }
+                    }
                 }
                 .vehiclesCarousel{
                     width: 30rem;
@@ -45,23 +213,12 @@
                             background: white;
                             width: 100%;
                             text-align: left;
-                            z-index: 9998;
                             cursor: pointer;
                             &__image {
                                 position: relative;
                                 height: 10rem;
                                 &--barbarian {
                                     background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian-bg.jpg');
-                                    img {
-                                        width: auto;
-                                        position: absolute;
-                                        top: -50%;
-                                        left: 50%;
-                                        transform: translate(-50%, 0);
-                                    }
-                                }
-                                &--archer {
-                                    background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/archer-bg.jpg');
                                     img {
                                         width: auto;
                                         position: absolute;
@@ -80,9 +237,6 @@
                                 margin-left: .5rem;
                                 &--barbarian {
                                     color: $barbarian;
-                                }
-                                &--archer {
-                                    color: $archer;
                                 }
                             }
                             &__unit-name {
