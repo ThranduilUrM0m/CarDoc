@@ -104,6 +104,9 @@ class Header extends Component {
   componentDidMount(){
     this.loadAccountFromServer();
   }
+  handleClick(event){
+    console.log('Clicked');
+  }
   render() {
     var picture = 'http://www.pgconnects.com/sanfrancisco/wp-content/uploads/sites/5/2015/04/generic-profile-grey-380x380.jpg'
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
@@ -132,8 +135,8 @@ class Header extends Component {
 
         <nav className="drawer-nav" role="navigation">
           <ul className="drawer-menu">
-            <li><a className="drawer-brand" href="#"><span>{this.state.motoristUsername}</span></a></li>
-            <li><a className="drawer-menu-item" href="#"><div style={{backgroundImage: "url(" + picture + ")"}} id="profil-picture"></div></a></li>
+            <li><a className="drawer-brand disabled" href="#"><span>{this.state.motoristUsername}</span></a></li>
+            <li><a className="drawer-menu-item disabled" href="#"><div style={{backgroundImage: "url(" + picture + ")"}} id="profil-picture" onClick={(event) => this.handleClick(event)}></div></a></li>
             <li><a className="drawer-menu-item disabled" href="#"><span>{this.state.motoristFullName}</span></a></li>
           </ul>
           <ul className="drawer-menu">
@@ -144,6 +147,7 @@ class Header extends Component {
             <li><a className="drawer-menu-item" href="/logout"><span><i className="ion-log-out"></i><i>Logout</i></span></a><div className="bar"></div></li>
           </ul>
         </nav>
+
       </header>
     );
   }
@@ -216,7 +220,7 @@ class VehicleModalLauncher extends Component {
   }
   render() {
     return (
-      <div onLoad={this.updateState} data-toggle="modal" data-target="#vehicleModal" data-vehiclebrand={this.props.vehicle.vehicleBrand} data-vehicletype={this.props.vehicle.vehicleType} data-vehiclefirstcirculation={this.props.vehicle.vehicleFirstCirculation} data-vehicleregistration={this.props.vehicle.vehicleRegistration} className={"carousel-item clash-card barbarian"}>
+      <div onLoad={this.updateState} data-toggle="modal" data-target="#vehicleModal" data-vehicleid={this.props.vehicle.vehicleId} data-vehiclebrand={this.props.vehicle.vehicleBrand} data-vehicletype={this.props.vehicle.vehicleType} data-vehiclefirstcirculation={this.props.vehicle.vehicleFirstCirculation} data-vehicleregistration={this.props.vehicle.vehicleRegistration} className={"carousel-item clash-card barbarian"}>
         <div className={"clash-card__image clash-card__image--barbarian"}>
           <img src={"https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png"} alt="barbarian" />
         </div>
@@ -230,6 +234,7 @@ class VehicleModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      vehicleId: '',
       vehicleBrand: '',
   	  vehicleType: '',
   	  vehicleFirstCirculation: '',
@@ -292,6 +297,72 @@ class VehicleModal extends Component {
     const value = e.target.value;
     this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
+  handleSubmit (form, e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    switch(name) {
+      case 'addVehicleButton':
+        // empty all states
+        this.setState({
+          vehicleBrand: '',
+          vehicleType: '',
+          vehicleFirstCirculation: '',
+          vehicleRegistration : '',
+          formErrors: {
+            vehicleBrand: '',
+            vehicleType: '',
+            vehicleFirstCirculation: '',
+            vehicleRegistration : ''
+          },
+          vehicleBrandValid: false,
+          vehicleTypeValid: false,
+          vehicleFirstCirculationValid: false,
+          vehicleRegistrationValid: false,
+          formValid: false
+        });
+        // handle alert overlay
+        this.handleOverlay(vehicleForm, 'Adding');
+        // remove all overlays
+        $('.overlayDisable').remove();
+        // enable inputs
+        $(form).find('input, select').prop('disabled', false);
+        // switch buttons
+        this.handleButtonDisplayed('.modal-footer', 'SubmitAddVehicle');
+        // take off delete button
+        $('.modal-footer').find('button#deleteButton')
+          .css({
+            display: "none"
+          });
+        break;
+      case 'SubmitAddVehicleButton':
+        $(form)
+          .attr('action', "/vehicleAdd")
+            .submit();
+        break;
+      case 'updateVehicleButton':
+        var input = $("<input/>")
+          .attr("type", "hidden")
+          .attr("name", "dataId")
+          .val(this.state.vehicleId);
+        $(form)
+          .attr('action', "/vehicleUpdate")
+          .append($(input))
+            .submit();
+        break;
+      case 'deleteVehicleButton':
+        var input = $("<input/>")
+          .attr("type", "hidden")
+          .attr("name", "dataId")
+          .val(this.state.vehicleId);
+        $(form)
+          .attr('action', "/vehicleDelete")
+          .append($(input))
+            .submit();
+        break;
+      default:
+        break;
+    }
+  }
   errorClass(error) {
    return(error.length === 0 ? '' : 'has-error');
   }
@@ -307,27 +378,59 @@ class VehicleModal extends Component {
       e.target.type = 'date';
     }
   }
-  handleReadOnly(form, x) {
+  handleOverlay(form, Choice) {
+    var $alertOverlay = $('<div class="alert alert-success alertOverlay">You\'re Now '+Choice+'</div>');
+      // style the alert overlay
+      $alertOverlay
+        .css({
+          position: "absolute"
+          , top: 0
+          , width: $(form).outerWidth()
+          , height: $(form).outerHeight()
+          , display: "flex"
+          , justifyContent: "center"
+          , alignItems: "center"
+          , fontSize: "5rem"
+          , display: "none"
+        });
+      $(form)
+        .css({
+          position: "relative"
+        })
+        .append($alertOverlay);
+      $alertOverlay
+        .fadeIn('fast', function(){
+          var el = $(this);
+          setTimeout(function(){
+            el.fadeOut('fast',
+            function(){
+              $(this).remove();
+            });
+          }, 400);
+        })
+  }
+  handleInputsOverlay(form){
+    var reactThis = this;
     $.each($(form).serializeArray(), function(_, field) {
-      var $self = $('input[name='+field.name+'], select[name='+field.name+']')
-      // get its parent label element
-      , $label = $self.prev()
-      // get its parent element
-      , $parent = $self.parent()
+      var $self = $('input[name='+field.name+'], select[name='+field.name+']'),
       // create an overlay
-      , $overlay = $('<div class="overlayDisable"></div>')
-      // get the modal footer
-      , $footer = $('#vehicleModal .modal-footer');
-
+      $overlay = $('<div class="overlayDisable"></div>'),
+      // get its parent label element
+      $label = $self.prev(),
+      // get its parent element
+      $parent = $self.parent();
+      
       //disable the element
-      $self.prop('disabled', x);
+      $self.prop('disabled', true);
+
       // style the parent
       $parent.css( "position", "relative" );
+      
       // style the overlay
       $overlay
         .css({
           // position the overlay in the same real estate as the original parent element 
-            position: "absolute"
+          position: "absolute"
           , top: $label.outerHeight()
           , width: $self.outerWidth()
           , height: $self.outerHeight()
@@ -338,79 +441,61 @@ class VehicleModal extends Component {
           , opacity: 0
         })
         .dblclick(() => {
-          $(form).find('.overlayDisable').remove();
-          $(form).find('input, textarea, button, select').prop("disabled", false);
+          // enable all inputs
+          $(form).find('input, select').prop('disabled', false);
+
+          // focus on the particular input
           $self.focus();
-
-          //handle submit buttons
-          $footer.find('#updateVehicle')
-            .css({
-                opacity: 1
-              , zIndex: 10000
-            });
-          $footer.find('#addVehicle')
-            .css({
-                opacity: 0
-            });
-
+          
           //handle alert overlay
-          $(form).find('.alertOverlay')
-            .fadeIn('fast', function(){
-              var el = $(this);
-              setTimeout(function(){
-                  el.fadeOut('fast',
-                      function(){
-                          $(this).remove();
-                      });
-              }, 400);
-            }); 
-        });
-      // style the button on footer
-      $footer.find('#updateVehicle')
-        .css({
-            opacity: 0
-          , transition: "all 0.15s"
-        });
-      $footer.find('#addVehicle')
-        .css({
-            position: "absolute"
-          , transition: "all 0.15s"
+          reactThis.handleOverlay(vehicleForm, 'Updating');
+          
+          // remove all overlays
+          $('.overlayDisable').remove();
+
+          // change buttons
+          reactThis.handleButtonDisplayed('.modal-footer', 'updateVehicle');
+
+          // take off delete button
+          $('.modal-footer').find('button#deleteButton')
+            .css({
+              display: "none"
+            });
         });
       // insert the overlay
       $overlay.insertAfter($self);
     });
-
-    // create an alert temp overlay
-    var $alertOverlay = $('<div class="alert alert-success alertOverlay">You\'re Now Updating</div>');
-    // style the alert overlay
-    $alertOverlay
+  }
+  handleButtonDisplayed(buttonsContainer, buttonDisplayed) {
+    //handle submit buttons
+    $(buttonsContainer).find('button:not(#deleteButton)')
       .css({
-          position: "absolute"
-        , top: 0
-        , width: $(form).outerWidth()
-        , height: $(form).outerHeight()
-        , display: "flex"
-        , justifyContent: "center"
-        , alignItems: "center"
-        , fontSize: "5rem"
-        , display: "none"
+        display: "none"
       });
-    $(form)
+    $(buttonsContainer).find('button#'+buttonDisplayed+'')
       .css({
-        position: "relative"
-      })
-      .append($alertOverlay);
+        display: "initial"
+      });
   }
   componentDidMount() {
+    var self = this;
     $('#vehicleModal').on('shown.bs.modal', (event) => {
-      this.handleReadOnly(vehicleForm, true);
+      self.handleButtonDisplayed('.modal-footer', 'addVehicle');
+      $('.modal-footer').find('button#deleteButton')
+        .css({
+          display: "initial"
+        });
+        self.handleInputsOverlay(vehicleForm);
+
       var button = $(event.relatedTarget) // Button that triggered the modal
+      var vehicleIdIn = button.data('vehicleid') // Extract info from data-* attributes
       var vehicleBrandIn = button.data('vehiclebrand') // Extract info from data-* attributes
       var vehicleTypeIn = button.data('vehicletype') // Extract info from data-* attributes
       var vehicleFirstCirculationIn = button.data('vehiclefirstcirculation') // Extract info from data-* attributes
       var vehicleRegistrationIn = button.data('vehicleregistration') // Extract info from data-* attributes
       
-      this.setState({
+      self.setState({
+        vehicleId: vehicleIdIn,
         vehicleBrand: vehicleBrandIn,
         vehicleType: vehicleTypeIn,
         vehicleFirstCirculation: moment(new Date(vehicleFirstCirculationIn)).format('YYYY-MM-DD'),
@@ -442,7 +527,7 @@ class VehicleModal extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form id="vehicleForm">
+              <form id="vehicleForm" action="" method="post">
 
                 <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleBrand)}`}>
                   <label for="vehicleBrand" className="col-form-label">Brand:</label>
@@ -495,9 +580,10 @@ class VehicleModal extends Component {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" onClick={(event) => this.handleSubmit(event)} className="btn btn-primary" id="updateVehicle" disabled={!this.state.formValid}>Update Vehicle</button>
-              <button type="button" onClick={(event) => this.handleSubmit(event)} className="btn btn-outline-primary" id="addVehicle" >Add A Vehicle</button>
+              <button type="button" onClick={(event) => this.handleSubmit(vehicleForm, event)} name="deleteVehicleButton" className="btn btn-outline-danger" id="deleteButton" >Delete</button>
+              <button type="button" onClick={(event) => this.handleSubmit(vehicleForm, event)} name="updateVehicleButton" className="btn btn-primary" id="updateVehicle" disabled={!this.state.formValid}>Update Vehicle</button>
+              <button type="button" onClick={(event) => this.handleSubmit(vehicleForm, event)} name="SubmitAddVehicleButton" className="btn btn-primary" id="SubmitAddVehicle" disabled={!this.state.formValid}>Add Vehicle</button>
+              <button type="button" onClick={(event) => this.handleSubmit(vehicleForm, event)} name="addVehicleButton" className="btn btn-outline-primary" id="addVehicle" >Add A Vehicle</button>
             </div>
           </div>
         </div>

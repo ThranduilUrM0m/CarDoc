@@ -14,10 +14,12 @@ import org.dev.dao.VehicleRepository;
 import org.dev.entities.Account;
 import org.dev.entities.Motorist;
 import org.dev.entities.Tvg;
+import org.dev.entities.Vehicle;
 import org.dev.mail.MailSender;
 import org.dev.metier.AccountMetier;
 import org.dev.metier.MotoristMetier;
 import org.dev.metier.TVGMetier;
+import org.dev.metier.VehicleMetier;
 import org.hibernate.validator.constraints.Email;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ public class FormsController {
     private MotoristMetier iMotoristMetier;
     @Autowired
     private AccountMetier iAccountMetier;
+    @Autowired
+    private VehicleMetier iVehicleMetier;
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
@@ -215,15 +219,89 @@ public class FormsController {
     			if(!isValidDateStr(vehicleFirstCirculation))
     				response.sendRedirect("/register?error="+error+":"+vehicleFirstCirculation);
     			else {
-    				try {
-    					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
-            			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
-                    	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
-    				} catch (ParseException e) {
-    					response.sendRedirect("/register?Parseerror=" + e);
-					}
+    				if((!vehicleType.toLowerCase().equals("car (light vehicles)") && !vehicleType.toLowerCase().equals("gas-powered vehicles") && !vehicleType.toLowerCase().equals("collection vehicles") && !vehicleType.toLowerCase().equals("utilities") && !vehicleType.toLowerCase().equals("electric vehicles") && !vehicleType.toLowerCase().equals("specific vehicles")))
+    					response.sendRedirect("/profil?error=Vehicle_Type_Error");
+    				else {
+    					try {
+        					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
+                			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
+                        	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
+        				} catch (ParseException e) {
+        					response.sendRedirect("/register?Parseerror=" + e);
+    					}
+    				}
     			}
     		}
     	}
 	}
+
+	@RequestMapping(value = "/vehicleAdd", method = RequestMethod.POST)
+	public void saveVehicle(Model model, 
+							@RequestParam(name = "vehicleBrand", required = true) String vehicleBrand,
+							@RequestParam(name = "vehicleType", required = true)  String vehicleType,
+							@RequestParam(name = "vehicleFirstCirculation", required = true) String vehicleFirstCirculation,
+							@RequestParam(name = "vehicleRegistration", required = true) String vehicleRegistration,
+							HttpServletResponse response) throws IOException {
+		if(!isValidDateStr(vehicleFirstCirculation))
+			response.sendRedirect("/profil?error="+error+":"+vehicleFirstCirculation);
+		else {
+			if((!vehicleType.toLowerCase().equals("car (light vehicles)") && !vehicleType.toLowerCase().equals("gas-powered vehicles") && !vehicleType.toLowerCase().equals("collection vehicles") && !vehicleType.toLowerCase().equals("utilities") && !vehicleType.toLowerCase().equals("electric vehicles") && !vehicleType.toLowerCase().equals("specific vehicles")))
+				response.sendRedirect("/profil?error=Vehicle_Type_Error");
+			else {
+				try {
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
+					Vehicle vehicleInCreation = iVehicleMetier.createVehicle(vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration, accountLogged.getMotorist());
+	            	response.sendRedirect("/profil");
+				} catch (ParseException e) {
+					response.sendRedirect("/profil?Parseerror=" + e);
+				}
+			}
+		}
+	}
+	
+	@RequestMapping(value = "/vehicleUpdate", method = RequestMethod.POST)
+	public void updateVehicle(	Model model, 
+								@RequestParam(name = "dataId", required = true) String vehicleId,
+								@RequestParam(name = "vehicleBrand", required = true) String vehicleBrand,
+								@RequestParam(name = "vehicleType", required = true)  String vehicleType,
+								@RequestParam(name = "vehicleFirstCirculation", required = true) String vehicleFirstCirculation,
+								@RequestParam(name = "vehicleRegistration", required = true) String vehicleRegistration,
+								HttpServletResponse response) throws IOException {
+		if(!isValidDateStr(vehicleFirstCirculation))
+			response.sendRedirect("/profil?error="+error+":"+vehicleFirstCirculation);
+		else {
+			if((!vehicleType.toLowerCase().equals("car (light vehicles)") && !vehicleType.toLowerCase().equals("gas-powered vehicles") && !vehicleType.toLowerCase().equals("collection vehicles") && !vehicleType.toLowerCase().equals("utilities") && !vehicleType.toLowerCase().equals("electric vehicles") && !vehicleType.toLowerCase().equals("specific vehicles")))
+				response.sendRedirect("/profil?error=Vehicle_Type_Error");
+			else {
+				try {
+					Vehicle vehicleUpdating = iVehicleMetier.getVehicle(Long.valueOf(vehicleId).longValue());
+					
+					vehicleUpdating.setVehicleBrand(vehicleBrand);
+					vehicleUpdating.setVehicleType(vehicleType);
+					vehicleUpdating.setVehicleFirstCirculation((new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)));
+					vehicleUpdating.setVehicleRegistration(vehicleRegistration);
+					
+		        	iVehicleMetier.updateVehicle(vehicleUpdating);
+		        	
+					response.sendRedirect("/profil");
+				} catch (ParseException e) {
+					response.sendRedirect("/profil?Parseerror=" + e);
+				}
+			}
+		}
+	}
+	
+	@RequestMapping(value = "/vehicleDelete", method = RequestMethod.POST)
+	public void deleteVehicle(	Model model, 
+								@RequestParam(name = "dataId", required = true) String vehicleId,
+								HttpServletResponse response) throws IOException {
+		try {
+        	iVehicleMetier.deleteVehicle(Long.valueOf(vehicleId).longValue());
+			response.sendRedirect("/profil");
+		} catch (Exception e) {
+			response.sendRedirect("/profil?Parseerror=" + e);
+		}
+	}
+
 }

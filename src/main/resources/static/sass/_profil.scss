@@ -31,9 +31,9 @@
         #profil-picture{
             box-shadow: 0px 0px 90px #fff;
             display: inline-block;
-            width: 150px;
             margin-top: 0;
-            height: 150px;
+            height: 9rem;
+            width: 9rem;
             border-radius: 50%;
             background-repeat: no-repeat;
             background-position: center center;
@@ -41,6 +41,30 @@
             display: block;
             margin-left: auto;
             margin-right: auto;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            &::after{
+                font-family: FontAwesome;
+                font-size: 2rem;
+                content: "\f030";
+                width: 100%;
+                height: 50%;
+                position: absolute;
+                display: flex;
+                justify-content : center;
+                background: rgba( $black, .5 );
+                color: $white;
+                left: 0;
+                top: 100%;
+                border-bottom-left-radius: 18rem;
+                border-bottom-right-radius: 18rem;
+            }
+            &:hover:after{
+                top: 50%;
+                -webkit-transition: top .15s;
+                transition: top .15s;
+            }
         }
         .drawer-brand{
             span{
@@ -135,6 +159,13 @@
                 }
             }
         }
+    }
+}
+.modal-footer{
+    button{
+        -webkit-transition: display .15s;
+        transition: display .15s;
+        margin-left: 0.5rem !important;
     }
 }
 .profil-firstsection{

@@ -76,7 +76,7 @@ public class MotoristMetierImplementation implements MotoristMetier{
 	}
 
 	@Override
-	public Motorist deleteTVG(Motorist inMotorist) {
+	public Motorist deleteMotorist(Motorist inMotorist) {
 		Motorist motoristInDeletion = motoristRep.findOne(inMotorist.getIpersonId());
 		motoristRep.delete(motoristInDeletion);
 		return motoristInDeletion;

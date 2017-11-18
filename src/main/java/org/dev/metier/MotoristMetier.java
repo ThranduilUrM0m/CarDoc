@@ -11,7 +11,7 @@ public interface MotoristMetier {
 			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone, String motoristMatricule,
 			Account account, String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
 			String vehicleRegistration);
-	public Motorist deleteTVG(Motorist inMotorist);
+	public Motorist deleteMotorist(Motorist inMotorist);
 	public Motorist getMotoristByLogin(String login);
 	public Collection<Motorist> getAllMotorist();
 }
