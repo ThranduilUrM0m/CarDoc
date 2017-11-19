@@ -136,7 +136,7 @@ class Header extends Component {
         <nav className="drawer-nav" role="navigation">
           <ul className="drawer-menu">
             <li><a className="drawer-brand disabled" href="#"><span>{this.state.motoristUsername}</span></a></li>
-            <li><a className="drawer-menu-item disabled" href="#"><div style={{backgroundImage: "url(" + picture + ")"}} id="profil-picture" onClick={(event) => this.handleClick(event)}></div></a></li>
+            <li><a className="drawer-menu-item disabled" href="#"><div style={{backgroundImage: "url(" + picture + ")"}} id="profil-picture" data-toggle="modal" data-target="#pictureModal"></div></a></li>
             <li><a className="drawer-menu-item disabled" href="#"><span>{this.state.motoristFullName}</span></a></li>
           </ul>
           <ul className="drawer-menu">
@@ -591,6 +591,43 @@ class VehicleModal extends Component {
     );
   }
 }
+class PictureModal extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div className="picture modal fade" id="pictureModal" tabindex="-1" role="dialog" aria-labelledby="pictureModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="vehicleModalLabel">Update Picture</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body row">
+              <div className="col">
+                <div className="card">
+                  <div className="card-body">
+                    
+                  </div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="card">
+                  <div className="card-body">
+                    <i className="ion-plus-round"></i> Upload New
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class MotoristContentBottom extends Component {
   constructor(props){
     super(props);
@@ -748,6 +785,7 @@ class FirstSection extends Component {
         </a>
         <ContactUsModal />
         <VehicleModal />
+        <PictureModal />
       </section>
     );
   }
