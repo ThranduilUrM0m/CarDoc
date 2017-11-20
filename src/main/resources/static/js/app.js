@@ -1,42 +1,38 @@
-const {connect, Provider} = ReactRedux; // import {connect, Provider} from 'react-redux';
-const {createStore, compose} = Redux; // import {createStore} from 'redux';
-const {Component} = React; // import {Component} from 'react';
+const {Component} = React;
 
 // Table Data
-var TableData = React.createClass({
-  render: function() {
+class TableData extends Component {
+  render() {
     return (
-      <p> {this.props.data} < /p>
+      <p> {this.props.data} </p>
     );
   }
-});
+}
 
 // Table Element
-var TableTitle = React.createClass({
-  render: function() {
+class TableTitle extends Component {
+  render() {
     return (
       <div>
         <h2> {this.props.title}</h2>
       </div>
     );
   }
-});
+}
 
-var SearchMatch = React.createClass({
-  render: function() {
+class SearchMatch extends Component {
+  render() {
     return (
       <div>
         <p> Match: {this.props.match}</p>
       </div>
     );
   }
-});
+}
 
 // Table
-var Table = React.createClass({
-
-  render: function() {
-
+class Table extends Component {
+  render() {
     // We need to get each row and store it in an array
     var rowsTitle = [];
     var search = [];
@@ -58,66 +54,56 @@ var Table = React.createClass({
         key = row.title.toLowerCase();
       }
 
-
-
       rowsTitle.push( <TableTitle title = {row.title} />);
       if (searchterm != '')
         rowsTitle.push( <SearchMatch match ={key} />);
       rowsTitle.push( <TableData data = {row.content} />);
 
-
     });
-
-    // Then render all. Render using childs. Send them prop.title and prop.data
     return (
       <div>
         {rowsTitle}
       </div>
     );
   }
-});
+}
 
 // Search
-var Search = React.createClass({
-
-  filterList: function(event) {
+class Search extends Component {
+  filterList(event) {
     this.props.userInput(event.target.value);
-  },
-
-  render: function() {
+  }
+  render() {
     return (
-      <input type="text" placeholder="Start Typing" value = {this.props.searchTerm} onChange = {this.filterList} autoFocus>
+      <input type="text" placeholder="Start Typing" value={this.props.searchTerm} onChange={this.filterList} autoFocus>
       </input>
     );
   }
-});
+}
 
 // App
-var App = React.createClass({
-
-  getInitialState: function() {
-    return {
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       filterText: '',
       filterText2: ''
     };
-  },
-
-  handleUserInput: function(filter) {
+  }
+  handleUserInput(filter) {
     this.setState({
       filterText: filter
     });
-  },
-
-  render: function() {
-
+  }
+  render(){
     return (
       <div>
           <Search searchTerm = {this.state.filterText} userInput = {this.handleUserInput} />
           <Table searchTerm = {this.state.filterText} data = {this.props.data} />
       </div>
     );
+  }
 }
-});
 
 // JSON
 var DATA = [{
@@ -134,17 +120,18 @@ var DATA = [{
     "content": "This is the Numbers content area where information about Numbers is shown"
 }];
 
-var Motorist = React.createClass({
-  getInitialState: function () {
-    return {
+class Motorist extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       motoristAccount: [],
       motoristPicture: [],
       motoristVehicles: [],
       motoristBookings: [],
       motoristControls: 0
     };
-  },
-  loadDataFromServer: function () {
+  }
+  loadDataFromServer() {
     fetch(_.values(this.props.motoristCarousel._links.vehicle), {
       headers : { 
       'Content-Type': 'application/json',
@@ -226,22 +213,20 @@ var Motorist = React.createClass({
         this.setState({motoristPicture: max});
       });
     });
-
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     this.loadDataFromServer();
-  },
-
-  render: function() {
+  }
+  render(){
     var active = this.props.active === true ? 'active' : '' ;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
-      picture = this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
+      picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
       <div className={"carousel-item "+active}>
         <div className="card">
           <div className="card-body">
-            <img className="img-thumbnail rounded-circle" src={'../media/'+picture} alt="Card image cap"/>
+            <img className="img-thumbnail rounded-circle" src={picture} alt="Card image cap"/>
             <h4 className="card-title text-center">{this.props.motoristCarousel.ipersonLastname+' '+this.props.motoristCarousel.ipersonFirstname}</h4>
             <p className="card-text text-center">{this.props.motoristCarousel.ipersonCity}</p>
             <table className="table table-bordered">
@@ -270,9 +255,9 @@ var Motorist = React.createClass({
       </div>
     );
   }
-});
-var MotoristCarousel = React.createClass({
-  render: function() {
+}
+class MotoristCarousel extends Component {
+  render(){
     var rows = [];
     var active = true;
     this.props.motoristsCarousels.forEach(function(motoristCarousel) {
@@ -287,10 +272,15 @@ var MotoristCarousel = React.createClass({
       </div>
     );
   }
-});
-var MotoristCarouselApp = React.createClass({
-
-  loadMotoristsFromServer: function () {
+}
+class MotoristCarouselApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      motoristsCarousels: []
+    };
+  }
+  loadMotoristsFromServer(){
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
@@ -305,32 +295,27 @@ var MotoristCarouselApp = React.createClass({
     .then((responseData) => { 
       this.setState({motoristsCarousels: responseData._embedded.motorists});
     });
-  },
-
-  getInitialState: function () {
-    return {motoristsCarousels: []};
-  },
-
-  componentDidMount: function () {
+  }
+  componentDidMount(){
     this.loadMotoristsFromServer();
-  },
-
-  render() {
+  }
+  render(){
     return ( <MotoristCarousel motoristsCarousels={this.state.motoristsCarousels}/> );
   }
-});
+}
 
-var Tvg = React.createClass({
-  getInitialState: function () {
-    return {
+class Tvg extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       tvgAccount: [],
       tvgPicture: [],
       tvgEmployees: [],
       tvgBookings: [],
       tvgControls: []
     };
-  },
-  loadDataFromServer: function () {
+  }
+  loadDataFromServer() {
     fetch(_.values(this.props.tvgCarousel._links.account), {
       headers : { 
       'Content-Type': 'application/json',
@@ -400,7 +385,7 @@ var Tvg = React.createClass({
         },
         credentials: 'same-origin'
       })
-      .then((responseP) => response.json()) 
+      .then((responseP) => responseP.json()) 
       .then((responseDataP) => {
         var max = null;
         var min = null;
@@ -416,22 +401,20 @@ var Tvg = React.createClass({
         this.setState({tvgPicture: max});
       });
     });
-
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     this.loadDataFromServer();
-  },
-
-  render: function() {
+  }
+  render() {
     var active = this.props.active === true ? 'active' : '' ;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
-      picture = this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
+      picture = '../media/'+this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (
       <div className={"carousel-item "+active}>
         <div className="card">
           <div className="card-body">
-            <img className="img-thumbnail rounded-circle" src={'../media/'+picture} alt="Card image cap"/>
+            <img className="img-thumbnail rounded-circle" src={picture} alt="Card image cap"/>
             <h4 className="card-title text-center">{this.props.tvgCarousel.tvgLegalname}</h4>
             <p className="card-text text-center">{this.props.tvgCarousel.tvgLegaladresse}</p>
             <table className="table table-bordered">
@@ -460,9 +443,9 @@ var Tvg = React.createClass({
       </div>
     );
   }
-});
-var TvgCarousel = React.createClass({
-  render: function() {
+}
+class TvgCarousel extends Component {
+  render() {
     var rows = [];
     var active = true;
     this.props.tvgsCarousels.forEach(function(tvgCarousel) {
@@ -477,10 +460,15 @@ var TvgCarousel = React.createClass({
       </div>
     );
   }
-});
-var TvgCarouselApp = React.createClass({
-
-  loadTvgsFromServer: function () {
+}
+class TvgCarouselApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tvgsCarousels: []
+    };
+  }
+  loadTvgsFromServer() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
@@ -495,24 +483,17 @@ var TvgCarouselApp = React.createClass({
     .then((responseData) => {
       this.setState({tvgsCarousels: responseData._embedded.tvgs});
     });
-
-  },
-
-  getInitialState: function () {
-    return {tvgsCarousels: []};
-  },
-
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     this.loadTvgsFromServer();
-  },
-
+  }
   render() {
     return ( <TvgCarousel tvgsCarousels={this.state.tvgsCarousels}/> );
   }
-});
+}
 
-var TvgTable = React.createClass({
-  render: function() {
+class TvgTable extends Component {
+  render() {
     var tvgCounter = _.size(this.props.tvgs);
     var countriesCounter = _.size(_.countBy(this.props.tvgs, function(tvg) { return tvg.tvgCountry; }));
     var citiesCounter = _.size(_.countBy(this.props.tvgs, function(tvg) { return tvg.tvgCity; }));
@@ -536,9 +517,15 @@ var TvgTable = React.createClass({
       </ul>
     );
   }
-});
-var TvgApp = React.createClass({
-  loadTvgsFromServer: function () {
+}
+class TvgApp extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      tvgs: []
+    };
+  }
+  loadTvgsFromServer() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
@@ -553,20 +540,15 @@ var TvgApp = React.createClass({
     .then((responseData) => {
       this.setState({tvgs: responseData._embedded.tvgs});
     });
-  },
-
-  getInitialState: function () {
-    return {tvgs: []};
-  },
-
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     this.loadTvgsFromServer();
-  },
-
+  }
   render() {
     return ( <TvgTable tvgs={this.state.tvgs}/> );
   }
-});
+}
+
 class ContactUsModalLauncher extends Component {
   render() {
     return (
