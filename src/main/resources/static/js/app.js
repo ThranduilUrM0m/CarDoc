@@ -156,7 +156,6 @@ class Motorist extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       this.setState({motoristAccount: responseData});
-      
       fetch(_.values(responseData._links.booking), {
         headers : { 
         'Content-Type': 'application/json',
@@ -218,58 +217,67 @@ class Motorist extends Component {
     this.loadDataFromServer();
   }
   render(){
-    var active = this.props.active === true ? 'active' : '' ;
+    var active = this.props.active === true ? ' active' : '' ;
+    var thumb1 = this.props.thumb1 === true ? ' thumb-1' : '' ;
+    var index = this.props.index;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
       picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
-      <div className={"carousel-item "+active}>
-        <div className="card">
-          <div className="card-body">
-            <img className="img-thumbnail rounded-circle" src={picture} alt="Card image cap"/>
-            <h4 className="card-title text-center">{this.props.motoristCarousel.ipersonLastname+' '+this.props.motoristCarousel.ipersonFirstname}</h4>
-            <p className="card-text text-center">{this.props.motoristCarousel.ipersonCity}</p>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td className="text-center"><span>{this.state.motoristVehicles}</span><br/><span>Vehicles</span></td>
-                  <td className="text-center"><span>{this.state.motoristBookings}</span><br/><span>Bookings</span></td>
-                  <td className="text-center"><span>{this.state.motoristControls}</span><br/><span>Controls</span></td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="lastdivider dropdown-divider"></div>
-            <ul className="nav socialmediamotorist justify-content-center">
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
-              </li>
-            </ul>
+      <li className={"video-thumb"+thumb1+""+active} index={index.toString()} last={this.props.last}>
+        <div className="video-thumb-wrapper">
+          <div className="video-thumbnail">
+            <img className="video-thumb-img thumbnail-filter" src={picture} alt=""/>
           </div>
+          <div className="video-info-container">
+            <article className="video-info-container-title">{this.props.motoristCarousel.ipersonLastname+' '+this.props.motoristCarousel.ipersonFirstname}</article>
+            <article className="video-info-container-subtitle">{this.props.motoristCarousel.ipersonCity}</article>
+            <div className="video-stats">
+              <article className="stats-item item-views">{this.state.motoristVehicles} vehicles</article>
+              <article className="stats-item item-views">{this.state.motoristBookings} bookings</article>
+              <article className="stats-item item-views">{this.state.motoristControls} controls</article>
+            </div>
+          </div>
+          <ul className="nav socialmediamotorist justify-content-center">
+            <li className="nav-item">
+              <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
+            </li>
+          </ul>
         </div>
-      </div>
+      </li>
     );
   }
 }
 class MotoristCarousel extends Component {
+  constructor(props){
+    super(props);
+  }
   render(){
     var rows = [];
     var active = true;
+    var thumb1 = true;
+    var index = 1;
+    var self = this;
     this.props.motoristsCarousels.forEach(function(motoristCarousel) {
-      rows.push(<Motorist motoristCarousel={motoristCarousel} active={active} />);
+      rows.push(<Motorist motoristCarousel={motoristCarousel} active={active} thumb1={thumb1} index={index} last={_.size(self.props.motoristsCarousels)} />);
       if(active == true){
         active = false
       }
+      if(thumb1 == true){
+        thumb1 = false
+      }
+      index++;
     });
     return (
-      <div className="carousel-inner">
+      <ul className="video-thumbs position-1" id={_.size(rows)} current-thumb="1" start-x="" dragging="false">
         {rows}
-      </div>
+      </ul>
     );
   }
 }
@@ -406,58 +414,67 @@ class Tvg extends Component {
     this.loadDataFromServer();
   }
   render() {
-    var active = this.props.active === true ? 'active' : '' ;
+    var active = this.props.active === true ? ' active' : '' ;
+    var thumb1 = this.props.thumb1 === true ? ' thumb-1' : '' ;
+    var index = this.props.index;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
       picture = '../media/'+this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (
-      <div className={"carousel-item "+active}>
-        <div className="card">
-          <div className="card-body">
-            <img className="img-thumbnail rounded-circle" src={picture} alt="Card image cap"/>
-            <h4 className="card-title text-center">{this.props.tvgCarousel.tvgLegalname}</h4>
-            <p className="card-text text-center">{this.props.tvgCarousel.tvgLegaladresse}</p>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td className="text-center"><span>{this.state.tvgEmployees}</span><br/><span>Employees</span></td>
-                  <td className="text-center"><span>{this.state.tvgBookings}</span><br/><span>Bookings</span></td>
-                  <td className="text-center"><span>{this.state.tvgControls}</span><br/><span>Controls</span></td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="lastdivider dropdown-divider"></div>
-            <ul className="nav socialmediatvg justify-content-center">
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
-              </li>
-            </ul>
+      <li className={"video-thumb"+thumb1+""+active} index={index.toString()} last={this.props.last}>
+        <div className="video-thumb-wrapper">
+          <div className="video-thumbnail">
+            <img className="video-thumb-img thumbnail-filter" src={picture} alt=""/>
           </div>
+          <div className="video-info-container">
+            <article className="video-thumb-title">{this.props.tvgCarousel.tvgLegalname}</article>
+            <article className="video-thumb-subtitle">{this.props.tvgCarousel.tvgLegaladresse}</article>
+            <div className="video-stats">
+              <article className="stats-item item-views">{this.state.tvgEmployees} employees</article>
+              <article className="stats-item item-views">{this.state.tvgBookings} bookings</article>
+              <article className="stats-item item-views">{this.state.tvgControls} controls</article>
+            </div>
+          </div>
+          <ul className="nav socialmediamotorist justify-content-center">
+            <li className="nav-item">
+              <a className="nav-link" href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#"><i className="fa fa-facebook-square" aria-hidden="true"></i></a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#"><i className="fa fa-snapchat-square" aria-hidden="true"></i></a>
+            </li>
+          </ul>
         </div>
-      </div>
+      </li>
     );
   }
 }
 class TvgCarousel extends Component {
+  constructor(props){
+    super(props);
+  }
   render() {
     var rows = [];
     var active = true;
+    var thumb1 = true;
+    var index = 1;
+    var self = this;
     this.props.tvgsCarousels.forEach(function(tvgCarousel) {
-      rows.push(<Tvg tvgCarousel={tvgCarousel} active={active} />);
+      rows.push(<Tvg tvgCarousel={tvgCarousel} active={active} thumb1={thumb1} index={index} last={_.size(self.props.motoristsCarousels)} />);
       if(active == true){
         active = false
       }
+      if(thumb1 == true){
+        thumb1 = false
+      }
+      index++;
     });
     return (
-      <div className="carousel-inner">
+      <ul className="video-thumbs position-1" id={_.size(rows)} current-thumb="1" start-x="" dragging="false">
         {rows}
-      </div>
+      </ul>
     );
   }
 }
@@ -1183,20 +1200,76 @@ class FirstSection extends Component {
   }
 }
 class SecondSection extends Component {
+  componentDidMount(){
+    $(document).on("DOMNodeInserted",function(event){
+      var target = $(event.target);
+      if(target[0].tagName == 'LI'){
+        if(($(target[0]).attr("class")).includes("video-thumb")){
+          if($(target[0]).attr("index") == $(target[0]).attr("last")){
+            $(document).on('swipeleft', '.secondsection .video-thumbs-frame', (event) => {
+
+              var currentThumb = parseInt($('.secondsection .video-thumbs').attr('current-thumb'));
+              var totalThumbsInit = $('.secondsection .video-thumbs .video-thumb').length;
+              var totalThumbs = parseInt(totalThumbsInit);
+              var activeClasses = $('.secondsection .video-thumbs').attr('class');
+              var splitClasses = activeClasses.split(' ');
+              var thisClass = splitClasses[1];
+              
+              $('.secondsection .video-thumb').removeClass('active');
+            
+              if (currentThumb < totalThumbs) {
+                var nextThumb = parseInt(currentThumb + 1);
+                var nextClass = 'position-' + nextThumb;
+                $('.secondsection .video-thumbs').attr('current-thumb', nextThumb);
+                $('.secondsection .video-thumbs').removeClass(thisClass);
+                $('.secondsection .video-thumbs').addClass(nextClass);
+                $('.secondsection .video-thumb[index='+nextThumb+']').addClass('active');
+              } else if (currentThumb == totalThumbs) {
+                var nextThumb = 1;
+                var nextClass = 'position-1';
+                $('.secondsection .video-thumbs').attr('current-thumb', nextThumb);
+                $('.secondsection .video-thumbs').removeClass(thisClass);
+                $('.secondsection .video-thumbs').addClass(nextClass);
+                $('.secondsection .video-thumb[index='+nextThumb+']').addClass('active');
+              }
+            });
+            $(document).on('swiperight', '.secondsection .video-thumbs-frame', (event) => {
+              var currentThumb = parseInt($('.secondsection .video-thumbs').attr('current-thumb'));
+              var totalThumbsInit = $('.secondsection .video-thumb').length;
+              var totalThumbs = parseInt(totalThumbsInit);
+              var activeClasses = $('.secondsection .video-thumbs').attr('class');
+              var splitClasses = activeClasses.split(' ');
+              var thisClass = splitClasses[1];
+            
+              $('.secondsection .video-thumb').removeClass('active');
+              
+              if (currentThumb > 1) {
+                var prevThumb = parseInt(currentThumb - 1);
+                var prevClass = 'position-' + prevThumb;
+                $('.secondsection .video-thumbs').attr('current-thumb', prevThumb);
+                $('.secondsection .video-thumbs').removeClass(thisClass);
+                $('.secondsection .video-thumbs').addClass(prevClass);
+                $('.secondsection .video-thumb[index='+prevThumb+']').addClass('active');
+              } else if (currentThumb == 1) {
+                var prevThumb = totalThumbs;
+                var prevClass = 'position-' + totalThumbs;
+                $('.secondsection .video-thumbs').attr('current-thumb', prevThumb);
+                $('.secondsection .video-thumbs').removeClass(thisClass);
+                $('.secondsection .video-thumbs').addClass(prevClass);
+                $('.secondsection .video-thumb[index='+prevThumb+']').addClass('active');
+              }
+            });
+          }
+        }
+      }
+    });
+  }
   render() {
     return (
       <section className="secondsection row">
-        <div className="leftsecondsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 row">
-          <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+        <div className="leftsecondsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div className="video-thumbs-frame">
             <TvgCarouselApp />
-            <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span className="ion-arrow-left-b" aria-hidden="true"></span>
-              <span className="sr-only">Previous</span>
-            </a>
-            <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span className="ion-arrow-right-b" aria-hidden="true"></span>
-              <span className="sr-only">Next</span>
-            </a>
           </div>
         </div>
         <div className="rightsecondsection col row">
@@ -1222,6 +1295,70 @@ class SecondSection extends Component {
   }
 }
 class ThirdSection extends Component {
+  componentDidMount(){
+    $(document).on("DOMNodeInserted",function(event){
+      var target = $(event.target);
+      if(target[0].tagName == 'LI'){
+        if(($(target[0]).attr("class")).includes("video-thumb")){
+          if($(target[0]).attr("index") == $(target[0]).attr("last")){
+            $(document).on('swipeleft', '.thirdsection .video-thumbs-frame', (event) => {
+
+              var currentThumb = parseInt($('.thirdsection .video-thumbs').attr('current-thumb'));
+              var totalThumbsInit = $('.thirdsection .video-thumbs .video-thumb').length;
+              var totalThumbs = parseInt(totalThumbsInit);
+              var activeClasses = $('.thirdsection .video-thumbs').attr('class');
+              var splitClasses = activeClasses.split(' ');
+              var thisClass = splitClasses[1];
+              
+              $('.thirdsection .video-thumb').removeClass('active');
+            
+              if (currentThumb < totalThumbs) {
+                var nextThumb = parseInt(currentThumb + 1);
+                var nextClass = 'position-' + nextThumb;
+                $('.thirdsection .video-thumbs').attr('current-thumb', nextThumb);
+                $('.thirdsection .video-thumbs').removeClass(thisClass);
+                $('.thirdsection .video-thumbs').addClass(nextClass);
+                $('.thirdsection .video-thumb[index='+nextThumb+']').addClass('active');
+              } else if (currentThumb == totalThumbs) {
+                var nextThumb = 1;
+                var nextClass = 'position-1';
+                $('.thirdsection .video-thumbs').attr('current-thumb', nextThumb);
+                $('.thirdsection .video-thumbs').removeClass(thisClass);
+                $('.thirdsection .video-thumbs').addClass(nextClass);
+                $('.thirdsection .video-thumb[index='+nextThumb+']').addClass('active');
+              }
+            });
+            $(document).on('swiperight', '.thirdsection .video-thumbs-frame', (event) => {
+              var currentThumb = parseInt($('.thirdsection .video-thumbs').attr('current-thumb'));
+              var totalThumbsInit = $('.thirdsection .video-thumb').length;
+              var totalThumbs = parseInt(totalThumbsInit);
+              var activeClasses = $('.thirdsection .video-thumbs').attr('class');
+              var splitClasses = activeClasses.split(' ');
+              var thisClass = splitClasses[1];
+            
+              $('.thirdsection .video-thumb').removeClass('active');
+
+              if (currentThumb > 1) {
+                var prevThumb = parseInt(currentThumb - 1);
+                var prevClass = 'position-' + prevThumb;
+                $('.thirdsection .video-thumbs').attr('current-thumb', prevThumb);
+                $('.thirdsection .video-thumbs').removeClass(thisClass);
+                $('.thirdsection .video-thumbs').addClass(prevClass);
+                $('.thirdsection .video-thumb[index='+prevThumb+']').addClass('active');
+              } else if (currentThumb == 1) {
+                var prevThumb = totalThumbs;
+                var prevClass = 'position-' + totalThumbs;
+                $('.thirdsection .video-thumbs').attr('current-thumb', prevThumb);
+                $('.thirdsection .video-thumbs').removeClass(thisClass);
+                $('.thirdsection .video-thumbs').addClass(prevClass);
+                $('.thirdsection .video-thumb[index='+prevThumb+']').addClass('active');
+              }
+            });
+          }
+        }
+      }
+    });
+  }
   render() {
     return (
       <section className="thirdsection row">
@@ -1243,16 +1380,8 @@ class ThirdSection extends Component {
           </div>
         </div>
         <div className="rightthirdsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-          <div id="carouselExampleControls2" className="carousel slide" data-ride="carousel">
+          <div className="video-thumbs-frame">
             <MotoristCarouselApp />
-            <a className="carousel-control-prev" href="#carouselExampleControls2" role="button" data-slide="prev">
-              <span className="ion-arrow-left-b" aria-hidden="true"></span>
-              <span className="sr-only">Previous</span>
-            </a>
-            <a className="carousel-control-next" href="#carouselExampleControls2" role="button" data-slide="next">
-              <span className="ion-arrow-right-b" aria-hidden="true"></span>
-              <span className="sr-only">Next</span>
-            </a>
           </div>
         </div>
       </section>
