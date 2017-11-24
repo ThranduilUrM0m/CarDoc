@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/text/replacement.css",
+	"sources": [
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/text/replacement.scss",
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/text/replacement.scss"
+	],
+	"sourcesContent": [
+		"@warn \"This import is deprecated. Use 'compass/typography/text/replacement' instead.\";\n\n@import \"../../typography/text/replacement\";\n",
+		"// Indicates the direction you prefer to move your text\n// when hiding it.\n//\n// `left` is more robust, especially in older browsers.\n// `right` seems have better runtime performance.\n$hide-text-direction: left !default;\n\n// Hides html text and replaces it with an image.\n// If you use this on an inline element, you will need to change the display to block or inline-block.\n// Also, if the size of the image differs significantly from the font size, you'll need to set the width and/or height.\n//\n// Parameters:\n//\n// * `img` -- the relative path from the project image directory to the image, or a url literal.\n// * `x` -- the x position of the background image.\n// * `y` -- the y position of the background image.\n@mixin replace-text($img, $x: 50%, $y: 50%) {\n  @include hide-text;\n  background: {\n    @if is-url($img) {\n      image: $img;\n    } @else {\n      image: image-url($img);\n    }\n    repeat: no-repeat;\n    position: $x $y;\n  };\n}\n\n// Like the `replace-text` mixin, but also sets the width\n// and height of the element according the dimensions of the image.\n//\n// If you set `$inline` to true, then an inline image (data uri) will be used.\n@mixin replace-text-with-dimensions($img, $x: 50%, $y: 50%, $inline: false) {\n  @include replace-text(if($inline, inline-image($img), $img), $x, $y);\n  width: image-width($img);\n  height: image-height($img);\n}\n\n// Hides text in an element so you can see the background.\n//\n// The direction indicates how the text should be moved out of view.\n//\n// See `$hide-text-direction` for more information and to set this globally\n// for your application.\n@mixin hide-text($direction: $hide-text-direction) {\n  @if $direction == left {\n    $approximate-em-value: 12px / 1em;\n    $wider-than-any-screen: -9999em;\n    text-indent: $wider-than-any-screen * $approximate-em-value;\n    overflow: hidden;\n    text-align: left;\n  } @else {\n    // slightly wider than the box prevents issues with inline-block elements\n    text-indent: 110%;\n    white-space: nowrap;\n    overflow: hidden;\n  }\n}\n\n// Hides text in an element by squishing the text into oblivion.\n// Use this if you need to hide text contained in an inline element\n// but still have it read by a screen reader.\n@mixin squish-text {\n  font: 0/0 serif;\n  text-shadow: none;\n  color: transparent;\n}\n"
+	],
+	"mappings": "",
+	"names": []
+}

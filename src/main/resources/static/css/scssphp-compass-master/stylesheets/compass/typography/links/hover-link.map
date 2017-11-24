@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/links/hover-link.css",
+	"sources": [
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/links/hover-link.scss"
+	],
+	"sourcesContent": [
+		"// a link that only has an underline when you hover over it\n@mixin hover-link {\n  text-decoration: none;\n  &:hover {\n    text-decoration: underline; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

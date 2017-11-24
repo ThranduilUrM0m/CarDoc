@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/general/float.css",
+	"sources": [
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/general/float.scss"
+	],
+	"sourcesContent": [
+		"// Implementation of float:left with fix for the\n// [double-margin bug in IE5/6](http://www.positioniseverything.net/explorer/doubled-margin.html)\n@mixin float-left {\n  @include float(left); }\n\n// Implementation of float:right with fix for the\n// [double-margin bug in IE5/6](http://www.positioniseverything.net/explorer/doubled-margin.html)\n@mixin float-right {\n  @include float(right); }\n\n// Direction independent float mixin that fixes the\n// [double-margin bug in IE5/6](http://www.positioniseverything.net/explorer/doubled-margin.html)\n@mixin float($side: left) {\n  display: inline;\n  float: unquote($side); }\n\n// Resets floated elements back to their default of `float: none` and defaults\n// to `display: block` unless you pass `inline` as an argument\n//\n// Usage Example:\n//\n//     body.homepage\n//       #footer li\n//         +float-left\n//     body.signup\n//       #footer li\n//         +reset-float\n@mixin reset-float($display: block) {\n  float: none;\n  display: $display; }"
+	],
+	"mappings": "",
+	"names": []
+}

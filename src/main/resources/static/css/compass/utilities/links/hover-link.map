@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/utilities/links/hover-link.css",
+	"sources": [
+		"../../../../sass/compass/utilities/links/hover-link.scss",
+		"../../../../sass/compass/typography/links/hover-link.scss"
+	],
+	"sourcesContent": [
+		"@warn \"This import is deprecated. Use 'compass/typography/links/hover-link' instead.\";\n\n@import \"../../typography/links/hover-link\";\n",
+		"// a link that only has an underline when you hover over it\n@mixin hover-link {\n  text-decoration: none;\n  &:hover {\n    text-decoration: underline; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

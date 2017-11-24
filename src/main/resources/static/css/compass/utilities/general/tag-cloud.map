@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/utilities/general/tag-cloud.css",
+	"sources": [
+		"../../../../sass/compass/utilities/general/tag-cloud.scss"
+	],
+	"sourcesContent": [
+		"// Emits styles for a tag cloud\n@mixin tag-cloud($base-size: 1em) {\n  font-size: $base-size;\n  line-height: 1.2 * $base-size;\n  .xxs, .xs, .s, .l, .xl, .xxl {\n    line-height: 1.2 * $base-size; }\n  .xxs {\n    font-size: $base-size / 2; }\n  .xs {\n    font-size: 2 * $base-size / 3; }\n  .s {\n    font-size: 3 * $base-size / 4; }\n  .l {\n    font-size: 4 * $base-size / 3; }\n  .xl {\n    font-size: 3 * $base-size / 2; }\n  .xxl {\n    font-size: 2 * $base-size; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

@@ -1,3 +1,23 @@
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+
+$theme: #454cad;
+$dark-text: #5f6982;
+
+@mixin for-size($size) {
+    @if $size == phone-only {
+        @media (max-width: 599px) { @content; }
+    } @else if $size == tablet-portrait-up {
+        @media (min-width: 600px) { @content; }
+    } @else if $size == tablet-landscape-up {
+        @media (min-width: 900px) { @content; }
+    } @else if $size == desktop-up {
+        @media (min-width: 1200px) { @content; }
+    } @else if $size == big-desktop-up {
+        @media (min-width: 1800px) { @content; }
+    }
+}
+
 .drawer--right.drawer-open .drawer-nav{
     right: 0 !important;
 }
@@ -168,6 +188,207 @@
         margin-left: 0.5rem !important;
     }
 }
+#pictureModal{
+    .modal-dialog{
+        width: 80%;
+        max-width: 80%;
+        img {
+            vertical-align: bottom;
+        }
+        .gallery {
+            @include clearfix;
+            width: 100%;
+            height: 60vh;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            padding-left: 25px;
+            overflow-y: scroll;
+            &:hover > li {
+                @include opacity(0.5);
+            }
+            li {
+                position: relative;
+                background: #FFFFFF;
+                margin: 0 25px 25px 0;
+                transition: all .2s ease-in-out;
+                overflow: hidden;
+                display: inline-block;
+                img {
+                    backface-visibility: hidden;
+                    transition: all .2s ease-in-out;
+                    width: 200px;
+                    height: 150px;
+                    object-fit: cover;
+                    &:hover {
+                        @include scale(1.1);
+                    }
+                }
+                &:hover {
+                    @include opacity(1);
+                    cursor: pointer;
+                }
+                &:hover > li {
+                    box-shadow: 1px 1px 1px 5px #0093d0;
+                }
+            }
+        }
+        .lightbox {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0,0,0,0.7);
+            padding: 75px;
+            text-align: center;
+            display: none;
+            cursor: -webkit-zoom-out;
+            cursor: -moz-zoom-out;
+            z-index: 1;
+            figure {
+                display: block;
+                position: relative;
+                width: 100%;
+                height: 100%;
+                white-space: no-wrap;
+                background-repeat: no-repeat;
+                background-position: center; 
+                background-size: contain;
+            }
+        }
+        .col:not(:first-of-type){
+            margin-top: 0.5rem;
+            .card{
+                box-shadow: none;
+                .card-body{
+                    padding: 0;
+                    .uploader {
+                        margin: 0;
+                        width: 100%;
+                        height: 100%;
+                        label {
+                            float: left;
+                            clear: both;
+                            width: 100%;
+                            margin: 0;
+                            padding: 2rem 1.5rem;
+                            text-align: center;
+                            background: #fff;
+                            border-radius: 7px;
+                            outline: 2px dashed #92b0b3;
+                            outline-offset: -2px;
+                            transition: all .2s ease;
+                            user-select: none;
+                            &:hover {
+                                border-color: $theme;
+                            }
+                            &.hover {
+                                border: 3px solid $theme;
+                                box-shadow: inset 0 0 0 6px #eee;
+                                #start {
+                                    i.fa {
+                                        transform: scale(0.8);
+                                        opacity: 0.3;
+                                    }
+                                }
+                            }
+                        }
+                        #start {
+                            float: left;
+                            clear: both;
+                            width: 100%;
+                            &.hidden {
+                                display: none;
+                            }
+                            i.fa {
+                                font-size: 50px;
+                                margin-bottom: 1rem;
+                                transition: all .2s ease-in-out;
+                            }
+                        }
+                        #response {
+                            float: left;
+                            clear: both;
+                            width: 100%;
+                            &.hidden {
+                                display: none;
+                            }
+                            #messages {
+                                margin-bottom: .5rem;
+                            }
+                        }
+                        #file-image {
+                            display: inline;
+                            margin: 0 auto .5rem auto;
+                            max-width: 180px;
+                            &.hidden {
+                                display: none;
+                            }
+                        }
+                        #notimage {
+                            display: block;
+                            float: left;
+                            clear: both;
+                            width: 100%;
+                            &.hidden {
+                                display: none;
+                            }
+                        }
+                        .progress {
+                            // appearance: none;
+                            display: inline;
+                            clear: both;
+                            margin: 0 auto;
+                            max-width: 180px;
+                            border: 0;
+                            border-radius: 4px;
+                            background-color: #eee;
+                            overflow: hidden;
+                        }
+                        .progress[value]::-webkit-progress-bar {
+                            border-radius: 4px;
+                            background-color: #eee;
+                        }
+                        .progress[value]::-webkit-progress-value {
+                            background: linear-gradient(to right, darken($theme,8%) 0%, $theme 50%);
+                            border-radius: 4px; 
+                        }
+                        .progress[value]::-moz-progress-bar {
+                            background: linear-gradient(to right, darken($theme,8%) 0%, $theme 50%);
+                            border-radius: 4px; 
+                        }
+                        input[type="file"] {
+                            display: none;
+                        }
+                        div {
+                            margin: 0;
+                        }
+                        .btn {
+                            text-transform: initial;
+                            color: #555;
+                            padding: 0;
+                            line-height: 40px;
+                            width: 16.5rem;
+                            margin: 0.5rem auto;
+                            display: block;
+                            border: 2px solid #555;
+                            &:hover, &:focus {
+                                color: lighten(#555, 20%);
+                                border-color: lighten(#555, 20%);
+                            }
+                            & span:before {
+                                content: "\f093";
+                                margin-right: 0.5rem;
+                                font-family: "FontAwesome";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 .profil-firstsection{
     background-color: $white;
     background-image: linear-gradient(-90deg, $white 0%, $thirdgray 100%);
@@ -319,25 +540,26 @@
                 }
 
                 .card__image {
-                  position: relative;
-                  display: block;
-                  width: 100%;
-                  height: 100%;
-                  overflow: hidden;
-
-                  &:hover {
-                    cursor: pointer;
-                    &:after {
-                      bottom: 0;
-                      color: rgba(255,255,255,1);
-                      transition: (all .15s);
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: cover;
+                    &:hover {
+                        cursor: pointer;
+                        &:after {
+                            bottom: 0;
+                            color: rgba(255,255,255,1);
+                            transition: (all .15s);
+                        }
+                        .image-overlay {
+                            background-color: rgba(35,155,55,.33);
+                            transition: (all .15s);
+                        }
                     }
-                    .image-overlay {
-                      background-color: rgba(35,155,55,.33);
-                      transition: (all .15s);
-                    }
-                  }
-
                   &:after {
                     display: flex;
                     justify-content: center;

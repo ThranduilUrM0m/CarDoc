@@ -4,7 +4,7 @@ const {Component} = React; // import {Component} from 'react';
 var TableData = React.createClass({
   render: function() {
     return (
-      <p> {this.props.data} < /p>
+      <p> {this.props.data} </p>
     );
   }
 });
@@ -439,7 +439,10 @@ class TvgPSModal extends Component {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {  scrollBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
+    this.state = {  scrollBackground: 'nav-bg', 
+                    logo: '../media/LogoCarCare.png', 
+                    id: 'navbar-brand-logocarcare' 
+                  };
     this.handleScroll = this.handleScroll.bind(this);
   }
   componentWillMount() {
@@ -482,7 +485,7 @@ class Header extends Component {
     return (
       <nav id={this.state.scrollBackground} className="navbar navbar-expand-sm fixed-top">
         <a className="navbar-brand" id={this.state.id} href="/">
-          <img src={this.state.logo} alt="LOGO" />
+          <img src={this.state.logo} alt="LOGO"/>
         </a>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">

@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/color.css",
+	"sources": [
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/color.scss",
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/color/contrast.scss"
+	],
+	"sourcesContent": [
+		"@import \"color/contrast\";",
+		"$contrasted-dark-default:   #000 !default;\n$contrasted-light-default:  #fff !default;\n$contrasted-lightness-threshold: 30% !default;\n\n// Returns the `$light` color when the `$color` is dark\n// and the `$dark` color when the `$color` is light.\n// The `$threshold` is a percent between `0%` and `100%` and it determines\n// when the lightness of `$color` changes from \"dark\" to \"light\".\n@function contrast-color(\n  $color,\n  $dark: $contrasted-dark-default,\n  $light: $contrasted-light-default,\n  $threshold: $contrasted-lightness-threshold\n) {\n  @return if(lightness($color) < $threshold, $light, $dark)\n}\n\n// Sets the specified background color and calculates a dark or light contrasted text color.\n// The arguments are passed through to the [contrast-color function](#function-contrast-color).\n@mixin contrasted(\n  $background-color,\n  $dark: $contrasted-dark-default,\n  $light: $contrasted-light-default,\n  $threshold: $contrasted-lightness-threshold\n) {\n  background-color: $background-color;\n  color: contrast-color($background-color, $dark, $light, $threshold);\n}"
+	],
+	"mappings": "",
+	"names": []
+}

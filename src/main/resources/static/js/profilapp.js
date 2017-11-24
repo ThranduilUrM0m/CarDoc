@@ -33,7 +33,7 @@ class ContactUsModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Stay Connected<i className="ion-email"></i></h4>
                       <p className="card-text">Suggestions and Complaints are Welcome</p>
-                      <form>
+                      <form data-ajax="false" id="contactusForm">
                         <div className="form-group">
                           <input type="email" className="form-control" id="exampleInputEmailContact1" aria-describedby="loginHelp" placeholder="Login"/>
                         </div>
@@ -104,13 +104,10 @@ class Header extends Component {
   componentDidMount(){
     this.loadAccountFromServer();
   }
-  handleClick(event){
-    console.log('Clicked');
-  }
   render() {
-    var picture = 'http://www.pgconnects.com/sanfrancisco/wp-content/uploads/sites/5/2015/04/generic-profile-grey-380x380.jpg'
+    var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
-      picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
+      picture = '../media/pictures/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
       <header role="banner">
         
@@ -379,7 +376,7 @@ class VehicleModal extends Component {
     }
   }
   handleOverlay(form, Choice) {
-    var $alertOverlay = $('<div class="alert alert-success alertOverlay">You\'re Now '+Choice+'</div>');
+    var $alertOverlay = $('<div className="alert alert-success alertOverlay">You\'re Now '+Choice+'</div>');
       // style the alert overlay
       $alertOverlay
         .css({
@@ -414,7 +411,7 @@ class VehicleModal extends Component {
     $.each($(form).serializeArray(), function(_, field) {
       var $self = $('input[name='+field.name+'], select[name='+field.name+']'),
       // create an overlay
-      $overlay = $('<div class="overlayDisable"></div>'),
+      $overlay = $('<div className="overlayDisable"></div>'),
       // get its parent label element
       $label = $self.prev(),
       // get its parent element
@@ -527,7 +524,7 @@ class VehicleModal extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form id="vehicleForm" action="" method="post">
+              <form data-ajax="false" id="vehicleForm" action="" method="post">
 
                 <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleBrand)}`}>
                   <label for="vehicleBrand" className="col-form-label">Brand:</label>
@@ -594,6 +591,265 @@ class VehicleModal extends Component {
 class PictureModal extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      pictures: []
+    }
+  }
+  loadPicturesFromServer(){
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/auth', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      this.setState({
+        pictures: responseData.picture
+      });
+      // how many milliseconds is a long press?
+      var longpress = 3000;
+      // holds the start time
+      var start;
+      // Cache vars
+      var $gallery = $('.gallery'),
+      $lightbox = $('.lightbox'),
+      $figure = $('figure'),
+      $close = $('.close');
+      // Toggle lightbox
+      function toggleLightbox(url) {
+        if ($lightbox.is('.open')) {
+          $lightbox
+            .removeClass('open')
+            .fadeOut(200);
+        } else {
+          $figure.css('background-image', 'url(' + url + ')');
+          $lightbox
+            .addClass('open')
+            .fadeIn(200);
+        }
+      }
+      // Close 
+      $lightbox.on('click', toggleLightbox);
+      var pics = _.sortBy(responseData.picture, 'insertDate').reverse();
+      pics.forEach(function(picture) {
+        var picturePath = '../media/pictures/'+picture.pictureName+'.'+picture.pictureExtension;
+        var item = $('<li className="item" data-picture="'+picture.pictureId+'" data-full="'+picturePath+'"><img src="'+picturePath+'" /></li>');
+        var afterIt = $('<i class="fa fa-search-plus" aria-hidden="true"></i>');
+        var beforeIt = $('<i class="fa fa-trash" aria-hidden="true"></i>');
+        afterIt
+          .css({
+            position: "absolute",
+            top: "0.8rem",
+            left: "1rem",
+            fontSize: "2rem",
+            color: "gray"
+          })
+          .hover(() => {
+            afterIt.css({
+              textShadow: "3px 6px 3px #272634",
+              color: "white"
+            });
+          },() => {
+            afterIt.css({
+              textShadow: "none",
+              color: "gray"
+            });
+          })
+          .click(() => {
+            var full = item.attr('data-full');
+            toggleLightbox(full);
+          });
+        beforeIt
+          .css({
+            position: "absolute",
+            top: "0.8rem",
+            right: "1rem",
+            fontSize: "2rem",
+            color: "gray"
+          })
+          .hover(() => {
+            beforeIt.css({
+              textShadow: "3px 6px 3px #272634",
+              color: "white"
+            });
+          },() => {
+            beforeIt.css({
+              textShadow: "none",
+              color: "gray"
+            });
+          })
+          .click(() => {
+            var pictureId = item.attr('data-picture'),
+            formData = new FormData(),
+            myHeaders = new Headers(),
+            myInit = {  method: 'POST',
+                        body: formData,
+                        headers: myHeaders,
+                        mode: 'cors',
+                        cache: 'default',
+                        credentials: 'same-origin' 
+                      };
+            formData.append("pictureId", pictureId);
+            // u got the id now just change its insertdate
+            fetch('/deleteFile', myInit)
+            .then((responseS) => {
+              document.location.reload(true);
+            });
+          });
+        item
+          .click(() => {
+            var pictureId = item.attr('data-picture'),
+                formData = new FormData(),
+                myHeaders = new Headers(),
+                myInit = {  method: 'POST',
+                            body: formData,
+                            headers: myHeaders,
+                            mode: 'cors',
+                            cache: 'default',
+                            credentials: 'same-origin' 
+                          };
+
+            formData.append("pictureId", pictureId);
+            // u got the id now just change its insertdate
+            fetch('/selectFile', myInit)
+            .then((responseS) => {
+              document.location.reload(true);
+            });
+          });
+        item.append(afterIt);
+        item.append(beforeIt);
+        $gallery.append(item);
+      });
+    });
+  }
+  componentDidMount(){
+    this.loadPicturesFromServer();
+    
+    // Upload Option
+    function ekUpload(){
+      function Init() {    
+        var fileSelect    = document.getElementById('file-upload'),
+            fileDrag      = document.getElementById('file-drag'),
+            submitButton  = document.getElementById('submit-button');
+        fileSelect.addEventListener('change', fileSelectHandler, false);
+        // Is XHR2 available?
+        var xhr = new XMLHttpRequest();
+        if (xhr.upload) {
+          // File Drop
+          fileDrag.addEventListener('dragover', fileDragHover, false);
+          fileDrag.addEventListener('dragleave', fileDragHover, false);
+          fileDrag.addEventListener('drop', fileSelectHandler, false);
+        }
+      }
+    
+      function fileDragHover(e) {
+        var fileDrag = document.getElementById('file-drag');
+        e.stopPropagation();
+        e.preventDefault();
+        fileDrag.className = (e.type === 'dragover' ? 'hover' : 'modal-body file-upload');
+      }
+    
+      function fileSelectHandler(e) {
+        // Fetch FileList object
+        var files = e.target.files || e.dataTransfer.files;
+        // Cancel event and hover styling
+        fileDragHover(e);
+        // Process all File objects
+        for (var i = 0, f; f = files[i]; i++) {
+          parseFile(f);
+          uploadFile(f);
+        }
+      }
+    
+      // Output
+      function output(msg) {
+        // Response
+        var m = document.getElementById('messages');
+        m.innerHTML = msg;
+      }
+    
+      function parseFile(file) {
+        output(
+          '<strong>' + encodeURI(file.name) + '</strong>'
+        );
+        var imageName = file.name;
+        var isGood = (/\.(?=gif|jpg|png|jpeg)/gi).test(imageName);
+        if (isGood) {
+          document.getElementById('start').classList.add("hidden");
+          document.getElementById('response').classList.remove("hidden");
+          document.getElementById('notimage').classList.add("hidden");
+          document.getElementById('file-image').classList.remove("hidden");
+          document.getElementById('file-image').src = URL.createObjectURL(file);
+        }
+        else {
+          document.getElementById('file-image').classList.add("hidden");
+          document.getElementById('notimage').classList.remove("hidden");
+          document.getElementById('start').classList.remove("hidden");
+          document.getElementById('response').classList.add("hidden");
+          document.getElementById("file-upload-form").reset();
+        }
+      }
+    
+      function setProgressMaxValue(e) {
+        var pBar = document.getElementById('file-progress');
+        if (e.lengthComputable) {
+          pBar.max = e.total;
+        }
+      }
+    
+      function updateFileProgress(e) {
+        var pBar = document.getElementById('file-progress');
+        if (e.lengthComputable) {
+          pBar.value = e.loaded;
+        }
+      }
+    
+      function uploadFile(file) {
+        var fileInput = document.getElementById('class-roster-file'),
+            pBar = document.getElementById('file-progress'),
+            fileSizeLimit = 1024,
+            formData = new FormData(); // In MB
+        formData.append("uploadfile", file);
+        if (file.size <= fileSizeLimit * 1024 * 1024){
+          // Progress bar
+          pBar.style.display = 'inline';
+          $.ajax({
+            xhr: function() {
+              var xhr = new window.XMLHttpRequest();
+              xhr.upload.addEventListener('loadstart', setProgressMaxValue, false);
+              xhr.upload.addEventListener('progress', updateFileProgress, false);
+              return xhr;
+            },
+            url: "/uploadFile",
+            type: "POST",
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function () {
+              // Handle upload success
+              document.location.reload(true);
+            },
+            error: function () {
+              // Handle upload error
+              $("#upload-file-message").text("File not uploaded (perhaps it's too much big)");
+            }
+          });
+        }
+      }
+    
+      // Check for the various File API support.
+      if (window.File && window.FileList && window.FileReader) {
+        Init();
+      } else {
+        document.getElementById('file-drag').style.display = 'none';
+      }
+    }
+    ekUpload();
+  
   }
   render() {
     return (
@@ -607,17 +863,37 @@ class PictureModal extends Component {
               </button>
             </div>
             <div className="modal-body row">
-              <div className="col">
+              <div className="col-12">
                 <div className="card">
                   <div className="card-body">
-                    
+                    <ul className="gallery"></ul>
+                    <div className="lightbox" >
+                      <figure></figure>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="col">
                 <div className="card">
                   <div className="card-body">
-                    <i className="ion-plus-round"></i> Upload New
+                    <form action="/uploadFile" method="POST" className="uploader" id="file-upload-form">
+                      <input id="file-upload" type="file" name="fileUpload" accept="image/*"/>
+                      <label for="file-upload" id="file-drag">
+                        <img id="file-image" src="#" alt="Preview" className="hidden"/>
+                        <div id="start">
+                          <i className="fa fa-download" aria-hidden="true"></i>
+                          <div>Select a file or drag here</div>
+                          <div id="notimage" className="hidden">Please select an image</div>
+                          <span id="file-upload-btn" className="btn btn-primary"><span className="js-fileName">Choose a file</span></span>
+                        </div>
+                        <div id="response" className="hidden">
+                          <div id="messages" className="upload-file-message"></div>
+                          <progress className="progress" id="file-progress" value="0">
+                            <span>0</span>%
+                          </progress>
+                        </div>
+                      </label>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -658,7 +934,7 @@ class MotoristContentBottom extends Component {
   render(){
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
-      picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
+      picture = '../media/pictures/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return(
       <div className="row">
         <div className="col-9">
@@ -678,9 +954,8 @@ class MotoristContentBottom extends Component {
         </div>
         <div className="col-3">
           <div className="card">
-            <div className="card__image" id="card-2">
+            <div className="card__image" id="card-2" style={{backgroundImage: "url(" + picture + ")"}}>
               <div className="image-overlay"></div>
-              <img src={picture} alt="" />
             </div>
           </div>
         </div>
@@ -729,7 +1004,7 @@ class ProfilContent extends Component {
   render() {
     return (
       <div className="profil-content">
-        <form className="sessionVariables" action="/authRedirection" method="post"></form>
+        <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
         {this.state.ContentTOP}
         {this.state.ContentBOTTOM}
       </div>
@@ -754,9 +1029,15 @@ class FirstSection extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       if(responseData.activated != false){
-        this.setState({
-          accountType: responseData.token.split("|")[0]
-        });
+        if(responseData.motorist == undefined){
+          this.setState({
+            accountType: 'tvg'
+          });
+        }else{
+          this.setState({
+            accountType: 'motorist'
+          });
+        }
       }else{
         $('.sessionVariables').submit();
       }
@@ -765,7 +1046,7 @@ class FirstSection extends Component {
   render() {
     return (
       <section className="firstsection row">
-        <form className="sessionVariables" action="/authRedirection" method="post"></form>
+        <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
         <a href="#" className="col disabled profil-firstsection">
           <ul className="nav nav-social flex-column">
             <li className="nav-item">

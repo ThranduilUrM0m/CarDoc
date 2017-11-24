@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/links/unstyled-link.css",
+	"sources": [
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/links/unstyled-link.scss",
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/links/unstyled-link.scss"
+	],
+	"sourcesContent": [
+		"@warn \"This import is deprecated. Use 'compass/typography/links/unstyled-link' instead.\";\n\n@import \"../../typography/links/unstyled-link\";\n",
+		"// A link that looks and acts like the text it is contained within\n@mixin unstyled-link {\n  color: inherit;\n  text-decoration: inherit;\n  cursor: inherit;\n  &:active, &:focus {\n    outline: none; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

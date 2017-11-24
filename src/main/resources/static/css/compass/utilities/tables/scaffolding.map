@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/utilities/tables/scaffolding.css",
+	"sources": [
+		"../../../../sass/compass/utilities/tables/scaffolding.scss"
+	],
+	"sourcesContent": [
+		"@mixin table-scaffolding {\n  th {\n    text-align: center;\n    font-weight: bold; }\n  td,\n  th {\n    padding: 2px;\n    &.numeric {\n      text-align: right; } } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

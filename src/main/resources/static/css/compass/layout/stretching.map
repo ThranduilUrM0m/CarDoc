@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../sass/compass/layout/stretching.css",
+	"sources": [
+		"../../../sass/compass/layout/stretching.scss"
+	],
+	"sourcesContent": [
+		"\n// stretch element height to specified top and bottom position\n\n@mixin stretch-y($offset-top:0, $offset-bottom:0) {\n  @include stretch($offset-top, false, $offset-bottom, false);\n}\n\n\n// stretch element width to specified left and right position\n\n@mixin stretch-x($offset-left:0, $offset-right:0) {\n  @include stretch(false, $offset-right, false, $offset-left);\n}\n\n\n// shorthand to stretch element height and width\n\n@mixin stretch($offset-top:0, $offset-right:0, $offset-bottom:0, $offset-left:0) {\n  position: absolute;\n  @if $offset-top { top: $offset-top; }\n  @if $offset-bottom { bottom: $offset-bottom; }\n  @if $offset-left { left: $offset-left; }\n  @if $offset-right { right: $offset-right; }\n}"
+	],
+	"mappings": "",
+	"names": []
+}

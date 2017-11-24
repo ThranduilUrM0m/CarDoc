@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../sass/scssphp-compass-master/stylesheets/lemonade.css",
+	"sources": [
+		"../../../sass/scssphp-compass-master/stylesheets/lemonade.scss"
+	],
+	"sourcesContent": [
+		"@mixin image-dimensions($file) {\n  height: image-height($file);\n  width: image-width($file);\n}\n\n@mixin sprite-image($file) {\n  background: sprite-image($file) $repeat;\n}\n\n@mixin sized-sprite-image($file) {\n  background: sprite-image($file);  \n  @include image-dimensions($file);\n}\n\n@mixin sprite-folder($folder, $image-dimensions: false) {\n  .#{$folder} {\n    @if $image-dimensions {\n      background: sprite-url($folder);\n    }\n    @else {\n      background: sprite-url($folder) no-repeat;\n    }\n  }\n  @for $i from 0 to sprite-files-in-folder($folder) {\n    $file: sprite-file-from-folder($folder, $i);\n    .#{$folder}-#{image-basename($file)} {\n      @extend .#{$folder};\n      background-position: sprite-position(sprite-file-from-folder($folder, $i));\n      @if $image-dimensions {\n        @include image-dimensions($file);\n      }\n    }\n  }\n}\n\n@mixin sized-sprite-folder($folder) {\n  @include sprite-folder($folder, true);\n}"
+	],
+	"mappings": "",
+	"names": []
+}

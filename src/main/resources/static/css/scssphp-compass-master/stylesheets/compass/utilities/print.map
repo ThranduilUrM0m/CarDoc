@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/print.css",
+	"sources": [
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/print.scss"
+	],
+	"sourcesContent": [
+		"// Classes that are useful for controlling what gets printed.\n// You must mix `+print-utilities` into your print stylesheet\n// and `+print-utilities(screen)` into your screen stylesheet.\n// Note: these aren't semantic.\n@mixin print-utilities($media: print) {\n  @if $media == print {\n    .noprint, .no-print { display: none; }\n    #{elements-of-type(block)} {\n      &.print-only { display: block; }\n    }\n    #{elements-of-type(inline)} {\n      &.print-only {  display: inline; }\n    }\n  } @else {\n    .print-only { display: none; }\n  }\n}\n"
+	],
+	"mappings": "",
+	"names": []
+}

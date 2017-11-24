@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/tables/alternating-rows-and-columns.css",
+	"sources": [
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/tables/alternating-rows-and-columns.scss"
+	],
+	"sourcesContent": [
+		"@mixin alternating-rows-and-columns($even-row-color, $odd-row-color, $dark-intersection, $header-color: white, $footer-color: white) {\n  th {\n    background-color: $header-color;\n    &.even, &:nth-child(2n) {\n      background-color: $header-color - $dark-intersection; } }\n  tr {\n    &.odd, &:nth-child(2n+1) {\n      td {\n       background-color: $odd-row-color;\n       &.even, &:nth-child(2n) {\n         background-color: $odd-row-color - $dark-intersection; } } }\n    }\n  tr.even {\n    td {\n      background-color: $even-row-color;\n      &.even, &:nth-child(2n) {\n        background-color: $even-row-color - $dark-intersection; } } }\n  tfoot {\n    th, td {\n      background-color: $footer-color;\n      &.even, &:nth-child(2n) {\n        background-color: $footer-color - $dark-intersection; } } } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

@@ -1,0 +1,18 @@
+{
+	"version": 3,
+	"file": "../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/links.css",
+	"sources": [
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/utilities/links.scss",
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/links/hover-link.scss",
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/links/link-colors.scss",
+		"../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/links/unstyled-link.scss"
+	],
+	"sourcesContent": [
+		"@warn \"This import is deprecated. Use 'compass/typography/links' instead.\";\n\n@import \"../typography/links/hover-link\";\n@import \"../typography/links/link-colors\";\n@import \"../typography/links/unstyled-link\";\n",
+		"// a link that only has an underline when you hover over it\n@mixin hover-link {\n  text-decoration: none;\n  &:hover {\n    text-decoration: underline; } }\n",
+		"// Set all the colors for a link with one mixin call.\n// Order of arguments is:\n//\n// 1. normal\n// 2. hover\n// 3. active\n// 4. visited\n// 5. focus\n//\n// Those states not specified will inherit.\n// Mixin to an anchor link like so:\n//     a\n//       +link-colors(#00c, #0cc, #c0c, #ccc, #cc0)\n\n@mixin link-colors($normal, $hover: false, $active: false, $visited: false, $focus: false) {\n  color: $normal;\n  @if $visited {\n    &:visited {\n      color: $visited; } }\n  @if $focus {\n    &:focus {\n      color: $focus; } }\n  @if $hover {\n    &:hover {\n      color: $hover; } }\n  @if $active {\n    &:active {\n      color: $active; } } }\n",
+		"// A link that looks and acts like the text it is contained within\n@mixin unstyled-link {\n  color: inherit;\n  text-decoration: inherit;\n  cursor: inherit;\n  &:active, &:focus {\n    outline: none; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

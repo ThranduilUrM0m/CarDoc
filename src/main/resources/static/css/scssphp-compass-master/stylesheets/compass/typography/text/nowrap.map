@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/text/nowrap.css",
+	"sources": [
+		"../../../../../../sass/scssphp-compass-master/stylesheets/compass/typography/text/nowrap.scss"
+	],
+	"sourcesContent": [
+		"// When remembering whether or not there's a hyphen in white-space is too hard\n@mixin nowrap { white-space: nowrap; }\n"
+	],
+	"mappings": "",
+	"names": []
+}

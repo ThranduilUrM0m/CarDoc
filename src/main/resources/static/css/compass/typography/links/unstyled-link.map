@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/typography/links/unstyled-link.css",
+	"sources": [
+		"../../../../sass/compass/typography/links/unstyled-link.scss"
+	],
+	"sourcesContent": [
+		"// A link that looks and acts like the text it is contained within\n@mixin unstyled-link {\n  color: inherit;\n  text-decoration: inherit;\n  cursor: inherit;\n  &:active, &:focus {\n    outline: none; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/utilities/lists/bullets.css",
+	"sources": [
+		"../../../../sass/compass/utilities/lists/bullets.scss",
+		"../../../../sass/compass/typography/lists/bullets.scss"
+	],
+	"sourcesContent": [
+		"@warn \"This import is deprecated. Use 'compass/typography/lists/bullets' instead.\";\n\n@import \"../../typography/lists/bullets\";\n",
+		"// Turn off the bullet for an element of a list\n@mixin no-bullet {\n  list-style-image : none;\n  list-style-type  : none;\n  margin-left      : 0;\n}\n\n// turns off the bullets for an entire list\n@mixin no-bullets {\n  list-style: none;\n  li { @include no-bullet; }\n}\n\n// Make a list(ul/ol) have an image bullet.\n//\n// The mixin should be used like this for an icon that is 5x7:\n//\n//     ul.pretty\n//       +pretty-bullets(\"my-icon.png\", 5px, 7px)\n//\n// Additionally, if the image dimensions are not provided,\n// The image dimensions will be extracted from the image itself.\n//\n//     ul.pretty\n//       +pretty-bullets(\"my-icon.png\")\n//\n@mixin pretty-bullets($bullet-icon, $width: image-width($bullet-icon), $height: image-height($bullet-icon), $line-height: 18px, $padding: 14px) {\n  margin-left: 0;\n  li {\n    padding-left: $padding;\n    background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;\n    list-style-type: none;\n  }\n}\n"
+	],
+	"mappings": "",
+	"names": []
+}

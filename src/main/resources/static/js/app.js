@@ -222,7 +222,7 @@ class Motorist extends Component {
     var index = this.props.index;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
-      picture = '../media/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
+      picture = '../media/pictures/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
       <li className={"video-thumb"+thumb1+""+active} index={index.toString()} last={this.props.last}>
         <div className="video-thumb-wrapper">
@@ -419,7 +419,7 @@ class Tvg extends Component {
     var index = this.props.index;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
-      picture = '../media/'+this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
+      picture = '../media/pictures/'+this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (
       <li className={"video-thumb"+thumb1+""+active} index={index.toString()} last={this.props.last}>
         <div className="video-thumb-wrapper">
@@ -599,7 +599,7 @@ class ContactUsModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Stay Connected<i className="ion-email"></i></h4>
                       <p className="card-text">Suggestions and Complaints are Welcome</p>
-                      <form>
+                      <form data-ajax="false" id="contactusForm">
                         <div className="form-group">
                           <input type="email" className="form-control" id="exampleInputEmailContact1" aria-describedby="loginHelp" placeholder="Login"/>
                         </div>
@@ -753,7 +753,7 @@ class LoginModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Login to your profile<i className="ion-log-in"></i></h4>
                       <p className="card-text">Enter username and password to log in</p>
-                      <form name="f" action="/index" method="post">
+                      <form data-ajax="false" id="loginForm" name="f" action="/index" method="post">
 
                         <div className={`form-group ${this.errorClass(this.state.formErrorsL.username)}`}>
                           <input value={this.state.username} onChange={(event) => this.handleUserInputL(event)} type="text" className="form-control" id="exampleInputLogin2" aria-describedby="usernameHelp" placeholder="Login" name="username" required/>
@@ -771,15 +771,6 @@ class LoginModal extends Component {
                           <small id="passwordHelp" className="form-text text-muted"></small>
                         </div>
 
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="switch_checkbox"/>
-                            <span className="switch"></span>
-                            <span className="toggle"></span>
-                            <span className="label">Remember Me</span>
-                          </label>
-                        </div>
-
                         <button type="submit" className="btn btn-outline-primary" disabled={!this.state.formLValid}>Login</button>
                       </form>
                     </div>
@@ -792,7 +783,7 @@ class LoginModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Join the community<i className="ion-compose"></i></h4>
                       <p className="card-text">fill in the form below to get instant access</p>
-                      <form action="/signup" method="post">
+                      <form data-ajax="false" id="signupForm" action="/signup" method="post">
 
                         <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.login)}`}>
                           <span className={`tooltip tooltip-${this.state.formErrors.login}`}><span>{this.state.formErrors.login}</span></span>
@@ -850,7 +841,7 @@ class SearchModal extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form>
+              <form id="searchForm">
                 <App data = {DATA} />
               </form>
             </div>

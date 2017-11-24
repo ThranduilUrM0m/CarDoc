@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../sass/compass/layout/sticky-footer.css",
+	"sources": [
+		"../../../sass/compass/layout/sticky-footer.scss"
+	],
+	"sourcesContent": [
+		"// Based on a [blog post by Ryan Fait](http://ryanfait.com/resources/footer-stick-to-bottom-of-page/).\n//\n// Must be mixed into the top level of your stylesheet.\n//\n// Footer element must be outside of root wrapper element.\n//\n// Footer must be a fixed height.\n\n@mixin sticky-footer($footer-height, $root-selector: unquote(\"#root\"), $root-footer-selector: unquote(\"#root_footer\"), $footer-selector: unquote(\"#footer\")) {\n  html, body {\n    height: 100%; }\n  #{$root-selector} {\n    clear: both;\n    min-height: 100%;\n    height: auto !important;\n    height: 100%;\n    margin-bottom: -$footer-height;\n    #{$root-footer-selector} {\n      height: $footer-height; } }\n  #{$footer-selector} {\n    clear: both;\n    position: relative;\n    height: $footer-height; } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

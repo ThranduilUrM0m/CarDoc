@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/utilities/text/nowrap.css",
+	"sources": [
+		"../../../../sass/compass/utilities/text/nowrap.scss",
+		"../../../../sass/compass/typography/text/nowrap.scss"
+	],
+	"sourcesContent": [
+		"@warn \"This import is deprecated. Use 'compass/typography/text/nowrap' instead.\";\n\n@import \"../../typography/text/nowrap\";\n",
+		"// When remembering whether or not there's a hyphen in white-space is too hard\n@mixin nowrap { white-space: nowrap; }\n"
+	],
+	"mappings": "",
+	"names": []
+}

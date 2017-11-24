@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/utilities/tables/borders.css",
+	"sources": [
+		"../../../../sass/compass/utilities/tables/borders.scss"
+	],
+	"sourcesContent": [
+		"@mixin outer-table-borders($width: 2px, $color: black) {\n  border: $width solid $color;\n  thead {\n    th {\n      border-bottom: $width solid $color; } }\n  tfoot {\n    th, td {\n      border-top: $width solid $color; } }\n  th {\n    &:first-child {\n      border-right: $width solid $color; } } }\n\n@mixin inner-table-borders($width: 2px, $color: black) {\n  th, td {\n    border: {\n      right: $width solid $color;\n      bottom: $width solid $color;\n      left-width: 0px;\n      top-width: 0px; };\n    &:last-child,\n    &.last {\n      border-right-width: 0px; } }\n\n// IE8 ignores rules that are included on the same line as :last-child\n// see http://www.richardscarrott.co.uk/posts/view/ie8-last-child-bug for details\n\n  tbody, tfoot {\n    tr:last-child {\n      th, td {\n        border-bottom-width: 0px; } }\n    tr.last {\n      th, td {\n        border-bottom-width: 0px; } } } }\n"
+	],
+	"mappings": "",
+	"names": []
+}

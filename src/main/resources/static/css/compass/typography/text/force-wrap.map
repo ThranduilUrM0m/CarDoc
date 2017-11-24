@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../../sass/compass/typography/text/force-wrap.css",
+	"sources": [
+		"../../../../sass/compass/typography/text/force-wrap.scss"
+	],
+	"sourcesContent": [
+		"// Prevent long urls and text from breaking layouts\n// [originally from perishablepress.com](http://perishablepress.com/press/2010/06/01/wrapping-content/)\n@mixin force-wrap {\n  white-space: pre;           // CSS 2.0\n  white-space: pre-wrap;      // CSS 2.1\n  white-space: pre-line;      // CSS 3.0\n  white-space: -pre-wrap;     // Opera 4-6\n  white-space: -o-pre-wrap;   // Opera 7\n  white-space: -moz-pre-wrap; // Mozilla\n  white-space: -hp-pre-wrap;  // HP Printers\n  word-wrap: break-word;      // IE 5+\n}\n"
+	],
+	"mappings": "",
+	"names": []
+}
