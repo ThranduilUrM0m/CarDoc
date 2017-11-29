@@ -412,6 +412,26 @@ $default-color-bg:    $white;
     }
 }
 #bookingModal{
+    padding: 0;
+    .modal-dialog{
+        margin: 0;
+        padding: 0;
+        .modal-content{
+            height: 100vh;
+            width: 100vw;
+            .modal-body{
+                padding: 20px 24px 0 !important;
+                .container{
+                    text-align: center;
+                }
+            }
+            .modal-footer{
+                button{
+                    font-size: 1.5rem;
+                }
+            }
+        }
+      }
     @import "react-multistep-master/_progtracker.scss";
     .grid-cell {
         width: 100%;

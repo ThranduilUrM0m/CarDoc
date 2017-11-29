@@ -1058,12 +1058,20 @@ class MultiStep extends Component {
 
   render() {
     return (
-      <div className="container" onKeyDown={this.handleKeyDown}>
-        <ol className="progtrckr">
-          {this.renderSteps()}
-        </ol>
-        {this.props.steps[this.state.compState].component}
-        <div style={this.props.showNavigation ? {} : this.hidden}>
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="bookingModalLabel">Book a Control</h5>
+          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body" onKeyDown={this.handleKeyDown}>
+          <ol className="progtrckr">
+            {this.renderSteps()}
+          </ol>
+          {this.props.steps[this.state.compState].component}
+        </div>
+        <div className="modal-footer" style={this.props.showNavigation ? {} : this.hidden}>
           <button style={this.state.showPreviousBtn ? {} : this.hidden}
                   className="multistep__btn--prev btn btn-info"
                   onClick={this.previous}>Previous</button>
@@ -1167,73 +1175,73 @@ class StepTwo extends Component {
       store
     };
   }
-  handleCenterChanged(event) {
-    store.firstName = event.target.value
+  handleCenterChanged(value) {
+    store.centre = value
     this.setState(store)  
   }
   componentDidMount(){
-    var rsr = Raphael('map', '1912', '1939');
-    
+    var rsr = Raphael('map', '40%', '40%');
+    rsr.setViewBox(0, 0, '1912', '1939' );
     var regions = [];
     
     // Tanger-Tétouan-Al Hoceïma
     var TangerTetouanAlhouceima = rsr.path("M1365.1,47.3l-8.2,28.8l-6.7,22.9l-11.8,32.6 l-7.7,19.8l9.8,2.8l8.2-2.1h6.2l8.2,6.2l12.1,0.8l7.2,0.3l-1.8,10.5l0.5,8l0.5,7.7l7.2,5.1l4.9-6.9l22.9,17.7l0.3,9.5l12.1,4.6 l7.8-3.7l7.8-4l-1.7-14.9l2.2-14.4h19.5l18-6.7l4.4,14.9l32.4,6.4l12.3-4.1l8.2-12.3l3.3,7.4l11,0.8l7.2-11.8l12.6,0.3l13.1-8.7 l-1-19.8l-1-19.3l-11.3-11l-38,15.1l-19.3-1l-38.8-12.6l-16.9-17.5l-12.1-13.4l-13.9-16.7l-4.6-5.9l-2.1-13.4l2.8-6.2l5.1-8.5 l-5.4,1.5l-4.1-3.1l-15.1,1l-9,10.5l-11-1.8l-7.2,8.5L1365.1,47.3z")
-    TangerTetouanAlhouceima.attr({fill: '#FF0000','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'TangerTetouanAlhouceima', 'region': 'Tanger-Tetouan-Al Hoceima'});
+    TangerTetouanAlhouceima.attr({class:'tooltipTop', fill: '#FF0000','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'TangerTetouanAlhouceima', 'region': 'Tanger-Tetouan-Al Hoceima'});
     regions.push(TangerTetouanAlhouceima);
     
     // L'Oriental
     var Oriental = rsr.path("M1584.9,125.6l10.6-13.1l4.4-0.7l25.4,12.3 l18.9,0.7l7.3-5.1l4.4-8h7.3l8.7-21.8l6.5,19.6l-0.7,10.9l9.5,13.6l9.2-0.5l-8.7-13.4l15.4,12.3l9.8,4.1h9.8l9.8-11.3l13.9,4.6 l10.8,3.6l-0.5,7.7l15.9,12.8l10.3-2.6l-1,8.2l7.2,4.1l1.5,6.2l16.9,6.2l-10.3,15.9l8.7,14.4l7.2,1.5l-9.2,14.4l7.7,9.2l-1.5,11.3 l7.7,22.1l-4.1,26.7l3.1,10.8l-4.1,9.2l9.2,15.9l2.1,17.5l-5.1,16.9l8.2,17.5l11.8,12.3l2.6,11.8l-6.2,7.2l10.3,19.5l11.8-0.5 l35.9,27.7l-15.4,25.2l-2.1,11.8l9.2,16.9l-10.3,9.8l-30.8-9.2l-36.5,3.1l-21.1-6.2l-9.2,5.6l-0.5,7.7l-13.9-3.6l-2.6,9.8 l-14.4-15.4l-11.8,1.5l-8.7,7.7l-16.9-3.1l-14.9,10.3l8.2,5.1l-5.6,10.3l5.6,10.8l-12.3,8.7l-33.4,6.2l-5.1-6.7l18.5-9.8l-8.2-4.1 l-8.7-17.5l0.5-15.9l9.2-9.2l-24.6,8.2l-15.9-10.3l-13.9,12.3l2.6-11.8l-15.4-2.1l0.5-10.3l-3.6-11.3l-16.4-12.3l4.6-6.2l-10.4-8.2 l3.3-2.9v-5.8l8.4-8l4-12.3l15.3-18.5l2.5-6.9l13.8-13.1l14.5,5.4l15.6-0.7l14.9-6.5l16,1.1l0.7-6.2l14.9-1.5l-20.7-30.1l-12.7-8.7 l-12-0.4l-1.5-6.9l8.4-4.4l17.8-20l-1.8-5.8l-32.7-3.6l-5.1-6.5l-11.6-6.2l-31.2,35.2l-2.2,5.1l10.9,3.3l-12.3,13.8l-5.4-13.8 l-7.6,11.6l-4.7-7.3l-10.2-1.1l2.2-15.3l14.5-9.4l-4.4-7.6l9.1-7.6l6.9-16.7l1.5-24l-9.4-8.7l-2.5-7.6l9.1-0.7l-1.5-17.1l10.9-2.9 l0.4-19.6l9.4-0.7l5.1-13.8l1.1-13.4l-23.8-4.1L1584.9,125.6z")
-    Oriental.attr({fill: '#FFCC00','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'Oriental', 'region': 'Oriental'});
+    Oriental.attr({class:'tooltipTop', fill: '#FFCC00','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'Oriental', 'region': 'Oriental'});
     regions.push(Oriental);
     
     // Fès-Meknès
     var FesMeknes = rsr.path("M1587,164.6l-13.1,8.7l-12.6-0.3l-7.2,11.8 l-11-0.8l-3.3-7.4l-8.2,12.3l-12.3,4.1l-32.4-6.4l-4.4-14.9l-18,6.7H1445l-2.2,14.4l1.7,14.9l-15.7,7.7l-3.1,8.5l-22.6,6.2 L1418,247l-3.1,11.8l-12.8,8.2l-12.3-0.5l-3.1-2.6l2.1-7.7l-12.8-6.2l-11.3,13.4l11.8,12.3l13.4,7.2l-12.3,14.4l10.8,7.7l-9.2,16.4 v6.7l3.6,7.7l-10.3,8.2l13.4,9.2l14.4,3.1l10.3,7.2l-3.1,9.8l12.8,16.4l12.8-3.1l-5.1,10.3l1.5,10.3l8.2,10.8l6.2-7.8l9.4,4 l6.5-18.5l9.8,1.1l7.3-5.8l12.3,10.2l0.4,7.6l-3.3,10.9l18.9,3.6l10.9-5.4l14.9,16l8.7,13.4l5.8,10.9l12,0.4l7.3-10.5l1.5,8.7 l3.3-1.1l3.3-2.9v-5.8l8.4-8l4-12.3l15.3-18.5l2.5-6.9l13.8-13.1l14.5,5.4l5.4,1.1l4.7-2.2l5.4,0.4l14.9-6.5l16,1.1l0.7-6.2 l14.9-1.5l-20.7-30.1l-12.7-8.7l-12-0.4l-1.5-6.9l3.3-2.9l5.1-1.5l17.8-20l-1.8-5.8l-32.7-3.6l-5.1-6.5l-5.4-2.9l-6.2-3.3l-16,20 l-9.4,10.5l-5.8,4.7l-2.2,5.1l10.9,3.3l-12.3,13.8l-5.4-13.8l-7.6,11.6l-4.7-7.3l-10.2-1.1l2.2-15.3l14.5-9.4l-4.4-7.6l9.1-7.6 l6.9-16.7l1.5-24l-9.4-8.7l-2.5-7.6l9.1-0.7l-1.5-17.1l10.9-2.9l0.4-19.6l9.4-0.7l5.1-13.8l1.1-13.4L1587,164.6z")
-    FesMeknes.attr({fill: '#9832FF','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'FesMeknes', 'region': 'Fès-Meknès'});
+    FesMeknes.attr({class:'tooltipTop', fill: '#9832FF','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'FesMeknes', 'region': 'Fès-Meknès'});
     regions.push(FesMeknes);
     
     // Rabat-Salé-Kénitra
     var RabatSaleKenitra = rsr.path("M1330.7,151.3l-14.4,36.2l-9.8,19l-19.5,35.4 l-13.4,23.1l-4.6,8.2l-2.1,3.6l-18.5,13.4l-15.4,10.3l1.5,2.6l9.2,1.5l5.6,27.2l11.3-4.1l3.1,5.1l12.3,2.6l-6.7,8.2l4.1,6.2 l-4.6,10.3v14.4l18.5,3.1l13.4,9.8l17.5-13.9l-8.7-6.7l6.7-11.3l2.1-11.3l19,5.1l-5.1,13.4l9.2-2.1l6.7,8.7l14.4-4.6l15.4,2.1 l-5.6-22.6l10.3-8.2l-3.6-7.7v-6.7l9.2-16.4l-10.8-7.7l12.3-14.4l-13.4-7.2l-11.8-12.3l11.3-13.4l12.8,6.2l-2.1,7.7l3.1,2.6 l12.3,0.5l12.8-8.2l3.1-11.8l-14.9-16.9l22.6-6.2l3.1-8.5l-12.1-4.6l-0.3-9.5l-22.9-17.7l-4.9,6.9l-7.2-5.1l-1-15.7l1.8-10.5 l-19.3-1l-8.2-6.2h-6.2l-8.2,2.1L1330.7,151.3z")
-    RabatSaleKenitra.attr({fill: '#00FFFF','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'RabatSaleKenitra', 'region': 'Rabat-Salé-Kénitra'});
+    RabatSaleKenitra.attr({class:'tooltipTop', fill: '#00FFFF','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'RabatSaleKenitra', 'region': 'Rabat-Salé-Kénitra'});
     regions.push(RabatSaleKenitra);
     
     // Béni Mellal-Khénifra
     var BenimellalKhenifra = rsr.path("M1269.1,374.4l-8.2,2.1l-3.6,29.3h-6.7 l-8.7,34.4l5.6,9.2l0.5,13.4l-6.2,21.6l-6.2,5.6l2.6,18l-2.6,15.9l8.7,11.3l-3.1,9.8l8.2,5.6l-5.6,10.8l-13.9,3.1l-9.2-6.7 l-11.3,13.9l8.7,2.6l6.7,11.8h9.8l-6.7,18.5l5.6,9.8l9.2-6.7l4.1,8.7l28.8-3.1l0.5-20.5l13.4,4.1l12.3-7.2l6.2,1.5l12.3-11.8 l27.2-7.7l15.9-18.5l7.7,1l6.7-11.3l-3.6-8.2l-6.7-1.5l5.6-14.4l13.9-0.5l5.6-13.9l11.3-2.1l12.8,4.6l-6.6-8.3l3.8-8.6l-10.6-2.7 l4.7-11.4l11.3-0.7l-0.5-12.3l7.7,3.6l6.2-13.9l-2.1-22.6l6.7-11.8l-8.2-10.8l-1.5-10.3l5.1-10.3l-12.8,3.1l-12.8-16.4l3.1-9.8 l-10.3-7.2l-14.4-3.1l-13.4-9.2l5.6,22.6l-15.4-2.1l-14.4,4.6l-6.7-8.7l-9.2,2.1l5.1-13.4l-19-5.1l-2.1,11.3l-6.7,11.3l8.7,6.7 l-17.5,13.9l-13.4-9.8L1269.1,374.4z")
-    BenimellalKhenifra.attr({fill: '#EB0000','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'BenimellalKhenifra', 'region': 'Béni Mellal-Khénifra'});
+    BenimellalKhenifra.attr({class:'tooltipTop', fill: '#EB0000','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'BenimellalKhenifra', 'region': 'Béni Mellal-Khénifra'});
     regions.push(BenimellalKhenifra);
     
     // Casablanca-Settat
     var CasablancaSettat = rsr.path("M1233.2,300.5l-10.1,0.1l-10.9,12.3l-7.6,5.4 l-13.8,9.1l-12.7-2.5l-47.9,27.6l-17.1,1.1l-18.2,19.2l-11.6-7.3l-8.7,12l-4,14.9l-12.7,12.3l-10.5,10.5l-8.4,5.8l-10.5,9.8 l8.7,11.3v3.3l-5.8,1.5l-1.1,5.4l13.8,12.3l24.7-4.7l8.4,9.4l-1.5,9.1l5.4,10.2h5.8l12.7-2.5l2.5-9.4l8.7-1.5l24.7-17.4l-8.4-12 l6.9-5.4l1.1-10.2l3.3-9.4l8,12.7l5.1,12l17.8,3.3l6.2,15.6l2.5,4.4l7.6,7.6l23.2-5.4l2.9,9.8l15.6,8l8.4,1.3l6.2-5.6l6.2-21.6 l-0.5-13.4l-5.6-9.2l8.7-34.4h6.7l3.6-29.3l0,0l8.2-2.1V360l4.6-10.3l-4.1-6.2l6.7-8.2l-12.3-2.6l-3.1-5.1l-11.3,4.1l-5.6-27.2 l-9.2-1.5L1233.2,300.5z")
-    CasablancaSettat.attr({fill: '#0000E1','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'CasablancaSettat', 'region': 'Casablanca-Settat'});
+    CasablancaSettat.attr({class:'tooltipTop', fill: '#0000E1','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'CasablancaSettat', 'region': 'Casablanca-Settat'});
     regions.push(CasablancaSettat);
     
     // Marrakech-Safi
     var MarrakechSafi = rsr.path("M1028.4,430.9l-12.3,17.8l-13.8,4.4l7.3,11.6 l-10.9,17.4l7.3,5.1l-5.1,8.7l3.6,6.5l-8,8.7l-3.6,12.3l-37,37.8l1.5,15.3l-26.1,23.2l10.9,8.7l-7.3,24.7l0.7,26.1l5.1,5.8l2.9,16 l11.6-1.5l4.4-9.4l5.8-5.1l7.3,10.2l17.4-9.4l8,15.3l4.4-2.2l0.7-5.1l3.6,2.2l18.2,2.9l2.9-10.9l16.7-13.1l7.3,10.2l-2.2,13.1 l11.6-8l24,1.5l8.7,4.4l22.5-13.8l16,9.4l4.4-3.6l5.1-15.3l18.2-16l7.3,1.5l16.7-10.9l12.3-0.7l4.4-6.5h8l14.5-5.8l-2.2-11.6 l7.2,1.8l6.7-18.5h-9.8l-6.7-11.8l-8.7-2.6l11.3-13.9l9.2,6.7l13.9-3.1l5.6-10.8l-8.2-5.6l3.1-9.8l-8.7-11.3l2.6-15.9l-2.6-18 l-8.4-1.3l-15.6-8l-2.9-9.8l-23.2,5.4l-7.6-7.6l-2.5-4.4l-6.2-15.6l-17.8-3.3l-5.1-12l-8-12.7l-3.3,9.4l-1.1,10.2l-6.9,5.4l8.4,12 l-24.7,17.4l-8.7,1.5l-2.5,9.4l-12.7,2.5h-5.8l-5.4-10.2l1.5-9.1l-8.4-9.4l-24.7,4.7l-13.8-12.3l1.1-5.4l5.8-1.5v-3.3L1028.4,430.9 z")
-    MarrakechSafi.attr({fill: '#00DF39','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'MarrakechSafi', 'region': 'Marrakesh-Safi'});
+    MarrakechSafi.attr({class:'tooltipTop', fill: '#00DF39','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'MarrakechSafi', 'region': 'Marrakesh-Safi'});
     regions.push(MarrakechSafi);
     
     // Drâa-Tafilalet
     var DraaTafilalet = rsr.path("M1437.5,418l-6.7,11.8l2.1,22.6l-6.2,13.9 l-7.7-3.6l0.5,12.3l-11.3,0.7l-4.7,11.4l10.6,2.7l-3.8,8.6l6.6,8.3l-12.8-4.6l-11.3,2.1l-5.6,13.9l-13.9,0.5l-5.6,14.4l6.7,1.5 l3.6,8.2l-6.7,11.3l-7.7-1l-15.9,18.5l-27.2,7.7l-12.3,11.8l-6.2-1.5l-12.3,7.2l-13.4-4.1l-0.5,20.5l-28.8,3.1l-4.1-8.7l-9.2,6.7 l-5.6-9.8l-7.2-1.8l2.2,11.6l-14.5,5.8h-8l-4.4,6.5l-12.3,0.7l-16.7,10.9l-5.8,8l-0.5,6l9.3,0.5l-5.1,4.7l-0.4,19.2l13.4-0.4 l-5.1,2.5l-8.5,14l15.4,0.2l-0.5,9.4l11.1,14.3l-9.3,1.1l-2.9,6.2l-11.3,2.4l1.5,10.7l0.9,1.8l4.4-3.8l7.3,14.5l-7.6,9.3l16.9-0.2 l4,5.3l3.4,0.7l5.1-2.5l10,8.9l0.2-3.4l-3.4-10.2l5.1-3.8l5.4-9.8l4-10.3l16.2,14.2l13.3-7.8l4.7,4.2l0.7-16.5l5.6,4.9l16.2-8.9 l2.4,11.8l10.2,0.7l7.6,9.3l-10.7,10l-0.2,6.5l8.9,6.9l-0.7,3.6l-5.8,6.7l4,5.8l8.2-4.4l8.4,2.4l-14.2,15.6l5.6,10.2l-7.4,9.4 l7.6,6.9l-2.7,20.2l1.3,2l18.3,2l6.7,6l17.8,0.5l26.5-5.3l1.6-6.2l7.8,0.5l-3.3,8.7l12.3-1.5l-1.3,8.5l9.1,0.5l1.5-7.3l0.2-4.2 l10.3-21.8l12.9-10.9l6.5-11.1l9.8-3.4l1.5-9.4l15.3-8.4l8.7-11.3l79-53.7l46.5-10.3l0.2-9.3l26.9-33l5.8-13.1l-5.4,1.6l-6.4-3.4 l-2-9.3l-6.5,4.4l-2.7-7.4l-8.9,2.5l5.6-13.8l-3.6-15.1l11.6-2.4l-2.9-12.2l4.7-5.6l7.3,5.8l20.5-13.3l4.7-8.5h28.9l0.2-9.1 l-12.8,2.2l-5.1-6.7l18.5-9.8l-8.2-4.1l-8.7-17.5l0.5-15.9l9.2-9.2l-24.6,8.2l-15.9-10.3l-13.9,12.3l2.6-11.8l-15.4-2.1l0.5-10.3 l-3.6-11.3l-16.4-12.3l4.6-6.2l-10.4-8.2l-3.3,1.1l-1.5-8.7l-7.3,10.5l-12-0.4l-5.8-10.9l-8.7-13.4l-14.9-16l-10.9,5.4l-18.9-3.6 l3.3-10.9l-0.4-7.6l-12.3-10.2l-7.3,5.8l-9.8-1.1l-6.5,18.5l-9.4-4L1437.5,418z")
-    DraaTafilalet.attr({fill: '#FF6600','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'DraaTafilalet', 'region': 'Drâa-Tafilalet'});
+    DraaTafilalet.attr({class:'tooltipTop', fill: '#FF6600','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'DraaTafilalet', 'region': 'Drâa-Tafilalet'});
     regions.push(DraaTafilalet);
     
     // Souss-Massa
     var SoussMassa = rsr.path("M1167.1,638.2l-5.8,8l-0.5,6l9.3,0.5 l-5.1,4.7l-0.4,19.2l13.4-0.4l-5.1,2.5l-8.5,14l15.4,0.2l-0.5,9.4l11.1,14.3l-9.3,1.1l-2.9,6.2l-11.3,2.4l1.5,10.7l0.9,1.8l4.4-3.8 l7.3,14.5l-7.6,9.3l16.9-0.2l4,5.3l3.4,0.7l5.1-2.5l10,8.9l0.2-3.4l-3.4-10.2l5.1-3.8l5.4-9.8l4-10.3l16.2,14.2l13.3-7.8l4.7,4.2 l0.7-16.5l5.6,4.9l16.2-8.9l2.4,11.8l10.2,0.7l7.6,9.3l-10.7,10l-0.2,6.5l8.9,6.9l-0.7,3.6l-5.8,6.7l4,5.8l8.2-4.4l8.4,2.4 l-14.2,15.6l5.6,10.2l-7.4,9.4l7.6,6.9l-2.7,20.2l-13.6,1.3l-7.4,7.3l-18.5-1.3l-32.3-5.8l-27.1,12.7l-18.9,3.4l-37.2,22.9 l-72.1,55.4l-20.3,11.1l-1.8,48.5l-27.4-35.8l-0.7-10.7l-12.5-4.2v-10.5l-7.3,2.4l-4-8.2l6.7-14l-10.7,1.5l2.2-8l-5.8-4l-0.5-8.2 l12-4l-0.4-7.1l5.1-0.9v-10l-5.8-6.2l-0.9-9.1l-1.5-6.4l-10.2-13.1l-12.5-1.3l-5.8,10.9l-4.4-6l-3.1,6.7l-5.1-10.2l-10.7,9.6 l-6.5-7.8l-13.1,7.4l-7.4-5.1l-1.5-17.1l-9.3,8.4l-5.1-16.2l20.9-19.2l19.6-35.9l9.6-38.1l-0.5-4.5l-18.7-21.2l-9.4-5.4l3.1-7.6 l2.5-8.2l4-9.6l-1.8-14.5l5.1,5.8l2.9,16l11.6-1.5l4.4-9.4l5.8-5.1l7.3,10.2l17.4-9.4l8,15.3l4.4-2.2l0.7-5.1l21.8,5.1l2.9-10.9 l16.7-13.1l7.3,10.2l-2.2,13.1l11.6-8l24,1.5l8.7,4.4l22.5-13.8l16,9.4l4.4-3.6l5.1-15.3l18.2-16L1167.1,638.2z")
-    SoussMassa.attr({fill: '#FF6600','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'SoussMassa', 'region': 'Souss-Massa'});
+    SoussMassa.attr({class:'tooltipTop', fill: '#808000','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'SoussMassa', 'region': 'Souss-Massa'});
     regions.push(SoussMassa);
     
     // Guelmim-Oued Noun
     var GoulmimOuedNoun = rsr.path("M906.2,823.8l5.1,16.2l9.3-8.4l1.5,17.1 l7.4,5.1l13.1-7.4l6.5,7.8l10.7-9.6l5.1,10.2l3.1-6.7l4.4,6l5.8-10.9l12.5,1.3l10.2,13.1l1.5,6.4l0.9,9.1l5.8,6.2v10l-5.1,0.9 l0.4,7.1l-12,4l0.5,8.2l5.8,4l-2.2,8l10.7-1.5l-6.7,14l4,8.2l7.3-2.4V950l12.5,4.2l0.7,10.7l27.4,35.8l-4.1,171.3l-12.8-2.1 l-17.5-7.7l-34.4-55.5l-7.2-2.1l-7.2,7.7l-15.4,0.5l-22.6-7.2l-16.4-27.7l-19,4.6l-9.8-6.7l-10.8-14.4l-2.6-1.5l-14.9-2.6 l-15.4,4.4l-6.7-3.9l-55.5-1.3l-10.5,6.4l-18.2-9.8l-23.6-1l-11.3-29.5l-9.8-10.5L703,995l36.2-11.6l8-15.9l18.7-19.3l13.4-5.6 l6.4-12.1l32.6-12.3l8.5-3.9l24.9-15.1l17.5-25.2l16.2-6.7l1.3-9.5l7.4-5.9l5.1-7.7L906.2,823.8z")
-    GoulmimOuedNoun.attr({fill: '#C83737','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'GoulmimOuedNoun', 'region': 'Guelmim-Oued Noun'});
+    GoulmimOuedNoun.attr({class:'tooltipTop', fill: '#C83737','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'GoulmimOuedNoun', 'region': 'Guelmim-Oued Noun'});
     regions.push(GoulmimOuedNoun);
     
     // Laâyoune-Sakia El Hamra
     var LaayouneSakiaElhamra = rsr.path("M1048.3,1171.9l-5.6,122.2l-377.9-17.5 l-10.3,192.1l-22.6-7.2l-39,9.2l-45.2-16.4h-32.9l-22.6-6.2l-26.7,14.4l-60.6-20.5l-10.3,6.2l-12.3-3.1l-5.1,7.7l-8.7-7.2 l-15.9,10.3l-6.7-7.7l-4.1-12.8l-6.7-6.2l-9.8,3.6l-7.2-8.7l0.5-15.4l7.7-15.4l3.6-15.4l-6.2-14.4l6.7-9.8l-1-7.2l7.7-16.9 l9.8-10.3l3.6-16.9l4.6-4.6l0.5-12.8l11.3-8.2l9.8-17.2l-2.1-16.4l5.9-12.6l11.3-4.9l6.4,2.8l14.4-10.8l2.1-9.2l12.6,2.3l35.4-17.2 l11.8-10.3l9.8-7.2l10.8-25.2l10.3-16.2l1.3-14.6l17.7-15.4l13.1-49l14.6-4.1l15.4-27.2l63.2-7.7l10.8-2.6l30.8-8l30.8-11l3.9,17.2 l9.8,10.5l11.3,29.5l23.6,1l18.2,9.8l10.5-6.4l55.5,1.3l6.7,3.9l15.4-4.4l14.9,2.6l2.6,1.5l10.8,14.4l9.8,6.7l19-4.6l16.4,27.7 l22.6,7.2l15.4-0.5l7.2-7.7l7.2,2.1l34.4,55.5l17.5,7.7L1048.3,1171.9z")
-    LaayouneSakiaElhamra.attr({fill: '#008000','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'LaayouneSakiaElhamra', 'region': 'Laâyoune-Sakia El Hamra'});
+    LaayouneSakiaElhamra.attr({class:'tooltipTop', fill: '#008000','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'LaayouneSakiaElhamra', 'region': 'Laâyoune-Sakia El Hamra'});
     regions.push(LaayouneSakiaElhamra);
     
     // Dakhla-Oued Ed-Dahab
     var DakhlaOuedEddahab = rsr.path("M654.5,1468.7l-8,130.3l-18.9,1.5 l-24.7,13.8l-23.2,2.2l-25.4,17.4l-32.7,13.8l-16,33.4l7.3,28.3l2.9,152.5l-471.3-31.2l-8,29.8L27,1875l0.7,24.7l-4.4-0.7l-4.4-5.1 l2.2-4.4l-1.5-11.6l2.2-8l8-15.3l4.4-27.6l2.9-12.3l7.3-22.5l-3.8-11.8l7.4-3.1l-2.3-7.7l6.7-7.7l12.6-31.6l7.7-4.1l3.3-9.2 l10.3-7.7l6.9,5.1l10-1.3l9.2-12.6l3.1-15.4l10-3.6l1.5-26.7l8.5-6.7l-1.8-6.4l3.9-6.4l13.6-1.3l6.7-12.1l-8.2-9.5l9.5-11.3 l9.8-15.4l14.6-13.4l-3.1-10l18.7-18l8-9l7.4-12.6l-2.1-7.2l-8.2,2.6l-15.9,24.4l-8.7,3.6v-5.9l8.7-10.5l6.7-11.8l10.8-10.5 l26.7-4.4l0.3-10l21.6-19l12.8-3.6l0.5-7.7l17.5-15.9l17.2-6.2l4.4-11l11.3-5.6l7.2,8.7l9.8-3.6l6.7,6.2l4.1,12.8l6.7,7.7 l15.9-10.3l8.7,7.2l5.1-7.7l12.3,3.1l10.3-6.2l60.6,20.5l26.7-14.4l22.6,6.2h32.9l45.2,16.4l39-9.2L654.5,1468.7z")
-    DakhlaOuedEddahab.attr({fill: '#FF00FF','stroke-width': '0','stroke-opacity': '1'}).data({'id': 'DakhlaOuedEddahab', 'region': 'Dakhla-Oued Ed-Dahab'});
+    DakhlaOuedEddahab.attr({class:'tooltipTop', fill: '#FF00FF','stroke-width': '0','stroke-opacity': '1','data-toggle':'tooltip','data-placement':'top','title':'Tooltip on top'}).data({'id': 'DakhlaOuedEddahab', 'region': 'Dakhla-Oued Ed-Dahab'});
     regions.push(DakhlaOuedEddahab);
     
     var rsrGroups = [regions];
@@ -1244,23 +1252,21 @@ class StepTwo extends Component {
       regions[i].mouseover(function(e){
         this.node.style.opacity = 1;
         this.node.style.cursor = 'pointer';
-        this.node.click(function(e){
-          document.getElementById('region-selected').innerHTML = this.data('region');
-          document.getElementById('region-selected').toggleClass('selected');
-        });
-        document.getElementById('region-hovered').innerHTML = this.data('region');
+        this.node.childNodes[0].innerHTML = this.data('region');
       });
       regions[i].mouseout(function(e){
         this.node.style.opacity = 0.4;
+      });
+      // Clicking
+      regions[i].click(function(e){
+        document.getElementById('region-selected').innerHTML = this.data('region');
       });
     }
   }
   render() {
     return (
-      <div>
-        <div id="region-selected"></div>
-        <div id="region-hovered"></div>
-        <div id="map" className="morocco"></div>
+      <div className="container">
+        <div id="map" className="container"></div>
       </div>
     );
   }
@@ -1292,23 +1298,13 @@ class BookingModal extends Component {
   }
   render() {
     const steps = [
-      {name: 'StepOne', component: <StepOne/>},
-      {name: 'StepTwo', component: <StepTwo/>}
+      {name: 'Vehicle', component: <StepOne/>},
+      {name: 'Centre', component: <StepTwo/>}
     ];
     return (
       <div className="booking modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="bookingModalLabel">Book a Control</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <MultiStep showNavigation={true} initialStep={1} steps={steps}/>
-            </div>
-          </div>
+          <MultiStep showNavigation={true} initialStep={1} steps={steps}/>
         </div>
       </div>
     );
@@ -2037,6 +2033,7 @@ class Statistics extends Component {
 class App extends Component {
   componentDidMount(){
     $('.drawer').drawer();
+    $('.tooltipTop').tooltip({'placement': 'top'});
   }
   render() {
     return (
