@@ -18,14 +18,17 @@
 		<div id="react"></div>
 		<!-- Jquery -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="http://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
-		<!-- Jquery -->
+		<!-- iScroll -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+		<!-- drawer.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
 		<!-- React -->
 		<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 		<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+		<script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+		<script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-		<!-- React -->
+		<!-- Random -->
 		<script src="https://unpkg.com/popper.js@1.12.5/dist/umd/popper.js" integrity="sha384-KlVcf2tswD0JOTQnzU4uwqXcbAy57PvV48YUiLjqpk/MJ2wExQhg9tuozn5A1iVw" crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.3/dist/js/bootstrap-material-design.js" integrity="sha384-hC7RwS0Uz+TOt6rNG8GX0xYCJ2EydZt1HeElNwQqW+3udRol4XwyBfISrNDgQcGA" crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/tooltip.js@1.1.5/dist/umd/tooltip.js"></script>
@@ -34,12 +37,13 @@
 		<script src="https://use.fontawesome.com/f61b4ca99d.js"></script>
 		<script src="https://use.typekit.net/bkt6ydm.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-		<!-- drawer.js -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
-		<!-- iScroll -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
 		<!-- Dropzone.js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/min/dropzone.min.js"></script>
+		<!-- TweenMax.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script>
+		<!-- Raphael.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+		
 		<script>
 			try{
 				Typekit.load({
@@ -47,7 +51,6 @@
 				});
 				$(function () {
 					$('[data-toggle="tooltip"]').tooltip();
-					$('.drawer').drawer();
 				});
 			}catch(e){
 				console.log(e);

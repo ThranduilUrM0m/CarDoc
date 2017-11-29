@@ -1,0 +1,48 @@
+ol.progtrckr {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 2.2rem;
+  text-align: center;
+}
+ol.progtrckr li {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  line-height: 4.5rem;
+  padding: 0 0.7rem;
+  cursor: pointer;
+}
+ol.progtrckr li span {
+  padding: 1.5rem;
+}
+@media (max-width: 650px) {
+  .progtrckr li span {
+    display: none;
+  }
+}
+.progtrckr em {
+  display: none;
+  font-weight: 700;
+  padding: 1rem;
+}
+@media (max-width: 650px) {
+  .progtrckr em {
+    display: inline;
+  }
+}
+
+ol.progtrckr li.progtrckr-todo {
+  color: silver;
+  border-bottom: 4px solid silver;
+}
+ol.progtrckr li.progtrckr-doing {
+  color: black;
+  border-bottom: 4px solid #33C3F0;
+}
+ol.progtrckr li.progtrckr-done {
+  color: black;
+  border-bottom: 4px solid #33C3F0;
+}
+ol.progtrckr li:after {
+  content: "\00a0\00a0";
+}

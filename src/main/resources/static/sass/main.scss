@@ -2,6 +2,7 @@ $white: #fff;
 $black: #000;
 $gray: #999;
 $darkgray: #1e1e1e;
+$p8gray: rgba(153, 153, 153, 4/5);
 $halfgray: rgba(153, 153, 153, 1/2);
 $thirdgray: rgba(153, 153, 153, 1/3);
 $barbarian: #EC9B3B;
@@ -103,4 +104,11 @@ a.disabled {
 /* optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
   background: #FF0000;
+}
+
+#routing{
+  position: absolute;
+  top: 50vh;
+  width: 50vw;
+  z-index: 10000;
 }

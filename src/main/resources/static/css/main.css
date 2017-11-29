@@ -1,20 +1,20 @@
-/* line 22, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 23, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 body {
   padding: 0;
   overflow-x: hidden;
 }
 
-/* line 25, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 26, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 body .container-fluid {
   padding: 0;
 }
 
-/* line 29, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 30, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 body * {
   color: #999;
 }
 
-/* line 32, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 33, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .body-homepage::before {
   content: '';
   position: absolute;
@@ -32,7 +32,7 @@ body * {
   transform: rotate(65deg);
 }
 
-/* line 47, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 48, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .body-register::before, .body-success::before {
   content: '';
   position: absolute;
@@ -49,41 +49,41 @@ body * {
   transform: rotate(65deg);
 }
 
-/* line 61, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 62, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .Aligner {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* line 65, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 66, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .Aligner .bar {
   width: 95%;
   height: 1px;
   background-color: rgba(153, 153, 153, 0.333333);
 }
 
-/* line 71, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 72, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .Aligner-item {
   max-width: 50%;
 }
 
-/* line 74, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 75, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .Aligner-item--top {
   align-self: flex-start;
 }
 
-/* line 77, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 78, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .Aligner-item--bottom {
   align-self: flex-end;
 }
 
-/* line 80, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 81, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 .has-error input {
   background-image: linear-gradient(0deg, #d50000 2px, rgba(213, 0, 0, 0) 0), linear-gradient(0deg, rgba(0, 0, 0, 0.26) 1px, transparent 0) !important;
 }
 
-/* line 83, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 84, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 a.disabled {
   cursor: default;
 }
@@ -484,12 +484,12 @@ a.disabled {
 }
 
 /* line 289, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
-.firstsection .register-firstsection, .firstsection .success-firstsection, .firstsection .profil-firstsection {
+.firstsection .register-firstsection, .firstsection .success-firstsection, .firstsection .profil-firstsection, .firstsection .reservation-firstsection {
   text-decoration: none;
 }
 
 /* line 291, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
-.firstsection .register-firstsection .linetop, .firstsection .success-firstsection .linetop, .firstsection .profil-firstsection .linetop {
+.firstsection .register-firstsection .linetop, .firstsection .success-firstsection .linetop, .firstsection .profil-firstsection .linetop, .firstsection .reservation-firstsection .linetop {
   position: absolute;
   top: 7vh;
   left: 0;
@@ -498,7 +498,7 @@ a.disabled {
 }
 
 /* line 298, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
-.firstsection .register-firstsection .linebottom, .firstsection .success-firstsection .linebottom, .firstsection .profil-firstsection .linebottom {
+.firstsection .register-firstsection .linebottom, .firstsection .success-firstsection .linebottom, .firstsection .profil-firstsection .linebottom, .firstsection .reservation-firstsection .linebottom {
   position: absolute;
   top: 72vh;
   left: 0;
@@ -507,7 +507,7 @@ a.disabled {
 }
 
 /* line 305, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
-.firstsection .register-firstsection ul.nav-social, .firstsection .success-firstsection ul.nav-social, .firstsection .profil-firstsection ul.nav-social {
+.firstsection .register-firstsection ul.nav-social, .firstsection .success-firstsection ul.nav-social, .firstsection .profil-firstsection ul.nav-social, .firstsection .reservation-firstsection ul.nav-social {
   position: absolute;
   left: 0;
   top: 63%;
@@ -515,7 +515,7 @@ a.disabled {
 }
 
 /* line 310, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
-.firstsection .register-firstsection ul.nav-social .nav-link, .firstsection .success-firstsection ul.nav-social .nav-link, .firstsection .profil-firstsection ul.nav-social .nav-link {
+.firstsection .register-firstsection ul.nav-social .nav-link, .firstsection .success-firstsection ul.nav-social .nav-link, .firstsection .profil-firstsection ul.nav-social .nav-link, .firstsection .reservation-firstsection ul.nav-social .nav-link {
   padding: 0;
   font-size: 1.25rem;
 }
@@ -1955,29 +1955,42 @@ a.disabled {
   }
 }
 
-/* line 21, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+@keyframes stroke_fill {
+  0% {
+    stroke-dashoffset: 900;
+  }
+  50% {
+    stroke-dashoffset: 350;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* line 42, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer--right.drawer-open .drawer-nav {
   right: 0 !important;
 }
 
-/* line 24, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 45, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav {
   background-color: #1e1e1e !important;
   width: 25rem !important;
   right: -25rem !important;
+  z-index: 1000;
 }
 
-/* line 28, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 50, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav a:hover {
   text-decoration: none;
 }
 
-/* line 32, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 54, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu li {
   position: relative;
 }
 
-/* line 34, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 56, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu li .bar {
   width: 0px;
   -webkit-transition: width .15s;
@@ -1990,12 +2003,12 @@ a.disabled {
   left: 0;
 }
 
-/* line 46, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 68, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu li:hover .bar {
   width: 100%;
 }
 
-/* line 51, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 73, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu #profil-picture {
   box-shadow: 0px 0px 90px #fff;
   display: inline-block;
@@ -2014,7 +2027,7 @@ a.disabled {
   overflow: hidden;
 }
 
-/* line 67, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 89, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu #profil-picture::after {
   font-family: FontAwesome;
   font-size: 2rem;
@@ -2024,51 +2037,51 @@ a.disabled {
   position: absolute;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
+  background: rgba(25, 25, 25, 0.5);
+  color: #fff;
   left: 0;
   top: 100%;
   border-bottom-left-radius: 18rem;
   border-bottom-right-radius: 18rem;
 }
 
-/* line 83, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 105, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu #profil-picture:hover:after {
   top: 50%;
   -webkit-transition: top .15s;
   transition: top .15s;
 }
 
-/* line 90, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 112, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu .drawer-brand span {
   display: flex;
   justify-content: center;
 }
 
-/* line 93, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 115, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu .drawer-brand span::after {
   content: "\00A0 \2014\2014\2014";
   position: absolute;
   right: 0;
 }
 
-/* line 101, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 123, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu .drawer-menu-item span {
   display: flex;
   justify-content: center;
 }
 
-/* line 106, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 128, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:nth-of-type(1) {
   border-bottom: 1px solid #666666;
 }
 
-/* line 109, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 131, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) {
   padding-left: 1rem;
 }
 
-/* line 111, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 133, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li::before {
   content: " ";
   width: 0px;
@@ -2081,7 +2094,7 @@ a.disabled {
   left: -1rem;
 }
 
-/* line 122, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 144, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li::after {
   content: " ";
   width: 0px;
@@ -2098,51 +2111,51 @@ a.disabled {
   z-index: -1;
 }
 
-/* line 137, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 159, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li span {
   -webkit-transition: padding-right .15s;
   transition: padding-right .15s;
 }
 
-/* line 142, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 164, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li.active::before {
   width: 1rem;
 }
 
-/* line 146, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 168, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li:hover span {
   padding-right: 20%;
 }
 
-/* line 149, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 171, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li:hover:after {
   left: 0;
   width: 90%;
 }
 
-/* line 153, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 175, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) li:hover:before {
   width: 1rem;
 }
 
-/* line 158, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 180, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) .drawer-menu-item {
   padding-top: 0;
   padding-bottom: 0;
 }
 
-/* line 161, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 183, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) .drawer-menu-item span {
   justify-content: flex-start;
 }
 
-/* line 163, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 185, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) .drawer-menu-item span i:first-of-type {
   font-size: 2rem;
   margin-right: auto;
 }
 
-/* line 167, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 189, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) .drawer-menu-item span i:not(:first-of-type) {
   display: flex;
   align-items: center;
@@ -2151,30 +2164,30 @@ a.disabled {
   font-weight: 550;
 }
 
-/* line 177, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 199, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .drawer-nav .drawer-menu:not(:first-of-type) .drawer-brand img {
   height: 3rem;
 }
 
-/* line 185, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 207, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .modal-footer button {
   -webkit-transition: display .15s;
   transition: display .15s;
   margin-left: 0.5rem !important;
 }
 
-/* line 192, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 214, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog {
   width: 80%;
   max-width: 80%;
 }
 
-/* line 195, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 217, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog img {
   vertical-align: bottom;
 }
 
-/* line 198, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 220, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery {
   overflow: hidden;
   *zoom: 1;
@@ -2187,13 +2200,13 @@ a.disabled {
   overflow-y: scroll;
 }
 
-/* line 207, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 229, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery:hover > li {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;
 }
 
-/* line 210, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 232, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery li {
   position: relative;
   background: #FFFFFF;
@@ -2203,7 +2216,7 @@ a.disabled {
   display: inline-block;
 }
 
-/* line 217, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 239, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery li img {
   backface-visibility: hidden;
   transition: all .2s ease-in-out;
@@ -2212,7 +2225,7 @@ a.disabled {
   object-fit: cover;
 }
 
-/* line 223, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 245, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery li img:hover {
   -webkit-transform: scale(1.1, 1.1);
   -moz-transform: scale(1.1, 1.1);
@@ -2221,19 +2234,19 @@ a.disabled {
   transform: scale(1.1, 1.1);
 }
 
-/* line 227, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 249, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery li:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
   cursor: pointer;
 }
 
-/* line 231, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 253, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .gallery li:hover > li {
   box-shadow: 1px 1px 1px 5px #0093d0;
 }
 
-/* line 236, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 258, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .lightbox {
   position: fixed;
   top: 0;
@@ -2249,7 +2262,7 @@ a.disabled {
   z-index: 1;
 }
 
-/* line 249, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 271, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .lightbox figure {
   display: block;
   position: relative;
@@ -2261,29 +2274,29 @@ a.disabled {
   background-size: contain;
 }
 
-/* line 260, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 282, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) {
   margin-top: 0.5rem;
 }
 
-/* line 262, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 284, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card {
   box-shadow: none;
 }
 
-/* line 264, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 286, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body {
   padding: 0;
 }
 
-/* line 266, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 288, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader {
   margin: 0;
   width: 100%;
   height: 100%;
 }
 
-/* line 270, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 292, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader label {
   float: left;
   clear: both;
@@ -2299,72 +2312,72 @@ a.disabled {
   user-select: none;
 }
 
-/* line 283, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 305, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader label:hover {
   border-color: #454cad;
 }
 
-/* line 286, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 308, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader label.hover {
   border: 3px solid #454cad;
   box-shadow: inset 0 0 0 6px #eee;
 }
 
-/* line 290, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 312, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader label.hover #start i.fa {
   transform: scale(0.8);
   opacity: 0.3;
 }
 
-/* line 297, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 319, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #start {
   float: left;
   clear: both;
   width: 100%;
 }
 
-/* line 301, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 323, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #start.hidden {
   display: none;
 }
 
-/* line 304, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 326, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #start i.fa {
   font-size: 50px;
   margin-bottom: 1rem;
   transition: all .2s ease-in-out;
 }
 
-/* line 310, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 332, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #response {
   float: left;
   clear: both;
   width: 100%;
 }
 
-/* line 314, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 336, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #response.hidden {
   display: none;
 }
 
-/* line 317, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 339, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #response #messages {
   margin-bottom: .5rem;
 }
 
-/* line 321, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 343, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #file-image {
   display: inline;
   margin: 0 auto .5rem auto;
   max-width: 180px;
 }
 
-/* line 325, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 347, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #file-image.hidden {
   display: none;
 }
 
-/* line 329, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 351, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #notimage {
   display: block;
   float: left;
@@ -2372,12 +2385,12 @@ a.disabled {
   width: 100%;
 }
 
-/* line 334, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 356, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader #notimage.hidden {
   display: none;
 }
 
-/* line 338, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 360, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .progress {
   display: inline;
   clear: both;
@@ -2389,35 +2402,35 @@ a.disabled {
   overflow: hidden;
 }
 
-/* line 349, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 371, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .progress[value]::-webkit-progress-bar {
   border-radius: 4px;
   background-color: #eee;
 }
 
-/* line 353, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 375, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .progress[value]::-webkit-progress-value {
   background: linear-gradient(to right, #393f90 0%, #454cad 50%);
   border-radius: 4px;
 }
 
-/* line 357, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 379, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .progress[value]::-moz-progress-bar {
   background: linear-gradient(to right, #393f90 0%, #454cad 50%);
   border-radius: 4px;
 }
 
-/* line 361, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 383, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader input[type="file"] {
   display: none;
 }
 
-/* line 364, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 386, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader div {
   margin: 0;
 }
 
-/* line 367, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 389, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .btn {
   text-transform: initial;
   color: #555;
@@ -2429,31 +2442,154 @@ a.disabled {
   border: 2px solid #555;
 }
 
-/* line 376, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 398, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .btn:hover, #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .btn:focus {
   color: #888888;
   border-color: #888888;
 }
 
-/* line 380, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 402, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 #pictureModal .modal-dialog .col:not(:first-of-type) .card .card-body .uploader .btn span:before {
   content: "\f093";
   margin-right: 0.5rem;
   font-family: "FontAwesome";
 }
 
-/* line 392, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
-.profil-firstsection {
-  background-color: #ffffff;
-  background-image: linear-gradient(-90deg, #ffffff 0%, rgba(153, 153, 153, 0.333333) 100%);
-  -webkit-box-shadow: 0px 20px 60px -30px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 20px 60px -30px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 20px 60px -30px rgba(0, 0, 0, 0.75);
+/* line 1, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 2.2rem;
+  text-align: center;
 }
 
-/* line 398, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
-.profil-firstsection .nav-social {
-  background-color: #ffffff;
+/* line 7, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr li {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  line-height: 4.5rem;
+  padding: 0 0.7rem;
+  cursor: pointer;
+}
+
+/* line 15, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr li span {
+  padding: 1.5rem;
+}
+
+@media (max-width: 650px) {
+  /* line 19, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+  #bookingModal .progtrckr li span {
+    display: none;
+  }
+}
+
+/* line 23, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal .progtrckr em {
+  display: none;
+  font-weight: 700;
+  padding: 1rem;
+}
+
+@media (max-width: 650px) {
+  /* line 29, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+  #bookingModal .progtrckr em {
+    display: inline;
+  }
+}
+
+/* line 34, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr li.progtrckr-todo {
+  color: silver;
+  border-bottom: 4px solid silver;
+}
+
+/* line 38, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr li.progtrckr-doing {
+  color: black;
+  border-bottom: 4px solid #33C3F0;
+}
+
+/* line 42, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr li.progtrckr-done {
+  color: black;
+  border-bottom: 4px solid #33C3F0;
+}
+
+/* line 46, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/react-multistep-master/_progtracker.scss */
+#bookingModal ol.progtrckr li:after {
+  content: "\00a0\00a0";
+}
+
+/* line 416, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-rendering: auto;
+}
+
+/* line 425, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell .cell {
+  border-radius: 3px;
+  margin: 1rem;
+  background: #E3486A;
+  color: #293f54;
+  width: 8rem;
+  height: 8rem;
+  box-shadow: 0px 8px 32px 0px rgba(153, 153, 153, 0.8);
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+/* line 438, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell .cell:hover {
+  box-shadow: 0px 3px 12px 0px rgba(153, 153, 153, 0.5);
+}
+
+/* line 441, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell .cell--selected {
+  box-shadow: 0px 3px 12px 0px rgba(153, 153, 153, 0.5);
+}
+
+/* line 443, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell .cell--selected .cell--text {
+  height: 100%;
+}
+
+/* line 447, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell .cell--text {
+  display: flex;
+  transition: all 0.2s ease-out;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background-color: white;
+  margin: 0;
+  padding: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+/* line 461, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+#bookingModal .grid-cell .cell--text--title {
+  font-weight: 700;
+}
+
+/* line 469, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .nav-social {
+  background-color: #fff;
   top: 50% !important;
   left: -0.4% !important;
   transform: translate(0%, -50%);
@@ -2462,34 +2598,197 @@ a.disabled {
   box-shadow: -10px 0px 32px -20px rgba(0, 0, 0, 0.75);
 }
 
-/* line 406, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 477, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .nav-social .contactusmodallauncher {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+/* line 482, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .nav-social i {
+  font-size: 2.5rem;
+}
+
+/* line 486, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content {
+  height: 100%;
+}
+
+/* line 488, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+/* line 491, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card {
+  cursor: pointer;
+  background-color: #1e1e1e;
+  transition: all .2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+/* line 499, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card i {
+  flex: 1 1 auto;
+  font-size: 15rem;
+  text-align: center;
+}
+
+/* line 504, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st0-lamp {
+  fill: #191919;
+}
+
+/* line 505, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st1-lamp {
+  fill: #8F9995;
+}
+
+/* line 506, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st2-lamp {
+  opacity: 0.7;
+  fill: url(#SVGID_1_);
+}
+
+/* line 507, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st3-lamp {
+  fill: #D8D9DA;
+}
+
+/* line 508, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st0 {
+  fill: #FFFFFF;
+}
+
+/* line 509, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st1 {
+  fill: #DC4844;
+}
+
+/* line 510, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st2 {
+  fill: #BF3A37;
+}
+
+/* line 511, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st3 {
+  fill: #EBEBEB;
+}
+
+/* line 512, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st4 {
+  fill: #BABABA;
+}
+
+/* line 513, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .st5 {
+  fill: #E7E6E6;
+}
+
+/* line 514, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .lamp {
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+/* line 521, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .lamp--left {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+/* line 529, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .calendar {
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 998;
+  margin-top: 50%;
+}
+
+/* line 538, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .calendar #Layer_5 .st1 {
+  animation: stroke_fill 4s linear forwards;
+  stroke-dasharray: 324.774;
+  stroke-dashoffset: 324.774;
+}
+
+/* line 545, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card .card-title {
+  border-bottom: 0.4rem solid #666666;
+}
+
+/* line 548, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.reservation-firstsection .reservation-content .col .card:hover {
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+  -ms-transform: scale(1.1, 1.1);
+  -o-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+}
+
+/* line 555, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.profil-firstsection {
+  background-color: #fff;
+  background-image: linear-gradient(-90deg, #fff 0%, rgba(153, 153, 153, 0.333333) 100%);
+  -webkit-box-shadow: 0px 20px 60px -30px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 20px 60px -30px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 20px 60px -30px rgba(0, 0, 0, 0.75);
+}
+
+/* line 561, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+.profil-firstsection .nav-social {
+  background-color: #fff;
+  top: 50% !important;
+  left: -0.4% !important;
+  transform: translate(0%, -50%);
+  -webkit-box-shadow: -10px 0px 32px -20px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -10px 0px 32px -20px rgba(0, 0, 0, 0.75);
+  box-shadow: -10px 0px 32px -20px rgba(0, 0, 0, 0.75);
+}
+
+/* line 569, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .nav-social .contactusmodallauncher {
   position: relative;
   top: 0;
   left: 0;
 }
 
-/* line 411, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 574, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .nav-social i {
   font-size: 2.5rem;
 }
 
-/* line 415, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 578, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content {
   height: 100%;
 }
 
-/* line 417, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 580, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row {
   height: 50%;
 }
 
-/* line 420, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 583, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row:first-of-type .col-3 {
   display: flex;
 }
 
-/* line 422, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 585, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row:first-of-type .col-3 .accountLocationContainer {
   margin: 1rem;
   margin-top: auto;
@@ -2498,17 +2797,17 @@ a.disabled {
   flex-direction: column;
 }
 
-/* line 432, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 595, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 *, .profil-firstsection .profil-content .row .col-9 *:before, .profil-firstsection .profil-content .row .col-9 *:after {
   box-sizing: border-box;
 }
 
-/* line 435, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 598, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9:first-of-type {
   display: flex;
 }
 
-/* line 437, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 600, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9:first-of-type .accountInfoContainer {
   position: relative;
   margin: 1rem;
@@ -2519,12 +2818,12 @@ a.disabled {
   flex-direction: column;
 }
 
-/* line 446, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 609, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9:first-of-type .accountInfoContainer h2::before {
   content: "\2014\2014\2014 \00A0";
 }
 
-/* line 452, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 615, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel {
   width: 30rem;
   margin: 1rem;
@@ -2534,17 +2833,17 @@ a.disabled {
   flex-direction: column;
 }
 
-/* line 459, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 622, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper {
   box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);
 }
 
-/* line 461, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 624, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper:focus {
   outline: 0;
 }
 
-/* line 464, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 627, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card {
   background: white;
   width: 100%;
@@ -2552,18 +2851,18 @@ a.disabled {
   cursor: pointer;
 }
 
-/* line 469, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 632, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card__image {
   position: relative;
   height: 10rem;
 }
 
-/* line 472, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 635, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card__image--barbarian {
   background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian-bg.jpg");
 }
 
-/* line 474, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 637, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card__image--barbarian img {
   width: auto;
   position: absolute;
@@ -2572,7 +2871,7 @@ a.disabled {
   transform: translate(-50%, 0);
 }
 
-/* line 483, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 646, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card__level {
   text-transform: uppercase;
   font-size: .8rem;
@@ -2582,12 +2881,12 @@ a.disabled {
   margin-left: .5rem;
 }
 
-/* line 490, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 653, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card__level--barbarian {
   color: #EC9B3B;
 }
 
-/* line 494, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 657, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clash-card__unit-name {
   font-size: 1.5rem;
   color: black;
@@ -2595,7 +2894,7 @@ a.disabled {
   margin-left: .5rem;
 }
 
-/* line 501, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 664, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .wrapper .clearfix:after {
   visibility: hidden;
   display: block;
@@ -2605,29 +2904,29 @@ a.disabled {
   height: 0;
 }
 
-/* line 510, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 673, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .carousel-control-prev {
   left: -4rem;
   z-index: 999;
 }
 
-/* line 513, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 676, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .carousel-control-prev span {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M4 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
 }
 
-/* line 518, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 681, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .carousel-control-next {
   right: -4rem;
   z-index: 999;
 }
 
-/* line 521, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 684, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-9 .vehiclesCarousel .carousel-control-next span {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
 
-/* line 528, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 691, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card {
   float: right;
   display: flex;
@@ -2642,7 +2941,7 @@ a.disabled {
   box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);
 }
 
-/* line 542, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 704, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image {
   position: relative;
   display: block;
@@ -2654,25 +2953,25 @@ a.disabled {
   background-size: cover;
 }
 
-/* line 551, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 713, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image:hover {
   cursor: pointer;
 }
 
-/* line 553, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 715, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image:hover:after {
   bottom: 0;
   color: white;
   transition: all 0.15s;
 }
 
-/* line 558, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 720, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image:hover .image-overlay {
   background-color: rgba(35, 155, 55, 0.33);
   transition: all 0.15s;
 }
 
-/* line 563, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 725, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image:after {
   display: flex;
   justify-content: center;
@@ -2690,7 +2989,7 @@ a.disabled {
   transition: all 0.15s;
 }
 
-/* line 580, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 741, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image .image-overlay {
   display: block;
   position: absolute;
@@ -2703,7 +3002,7 @@ a.disabled {
   transition: backgroundColor, 0.15s;
 }
 
-/* line 592, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
+/* line 752, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_profil.scss */
 .profil-firstsection .profil-content .row .col-3 .card__image img {
   display: block;
   height: 100%;
@@ -2778,12 +3077,12 @@ a.disabled {
 .video-thumbs-frame .video-thumbs .video-thumb {
   position: relative;
   display: inline-block;
-  background: #ffffff;
+  background: #fff;
   width: 20rem;
   height: 25rem;
   margin-left: -10rem;
   margin-right: 1rem;
-  margin-top: calc((34% - 20rem)/2);
+  margin-top: calc((34% - 23rem)/2);
   margin-bottom: 0;
   border-radius: 2px;
   box-shadow: 0px 8px 32px 0px rgba(153, 153, 153, 0.333333);
@@ -2913,12 +3212,12 @@ a.disabled {
   width: 100%;
 }
 
-/* line 96, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 97, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 [type=reset], [type=submit], button, html [type=button] {
   -webkit-appearance: none;
 }
 
-/* line 99, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 100, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 ::-webkit-scrollbar {
   width: 0px;
   /* remove scrollbar space */
@@ -2927,9 +3226,17 @@ a.disabled {
 }
 
 /* optional: show position indicator in red */
-/* line 104, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+/* line 105, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
 ::-webkit-scrollbar-thumb {
   background: #FF0000;
+}
+
+/* line 109, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/main.scss */
+#routing {
+  position: absolute;
+  top: 50vh;
+  width: 50vw;
+  z-index: 10000;
 }
 
 /*# sourceMappingURL=../css/main.map */

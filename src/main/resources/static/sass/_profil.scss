@@ -3,6 +3,16 @@
 
 $theme: #454cad;
 $dark-text: #5f6982;
+$black:               #191919;
+$white:               #fff;
+$beige:               #f4f4ed;
+$green:               #399e71;
+$brown:               #8f6749;
+$brown-light:         #b58a6b;
+$saumon:              #ee896f;
+$saumon-bg:           #c66947;
+
+$default-color-bg:    $white;
 
 @mixin for-size($size) {
     @if $size == phone-only {
@@ -17,6 +27,17 @@ $dark-text: #5f6982;
         @media (min-width: 1800px) { @content; }
     }
 }
+@keyframes stroke_fill {
+    0% {
+        stroke-dashoffset: 900;
+    }
+    50% {
+        stroke-dashoffset: 350;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
 
 .drawer--right.drawer-open .drawer-nav{
     right: 0 !important;
@@ -25,6 +46,7 @@ $dark-text: #5f6982;
     background-color: $darkgray !important;
     width: 25rem !important;
     right: -25rem !important;
+    z-index: 1000;
     & a:hover{
         text-decoration: none;
     }
@@ -389,6 +411,147 @@ $dark-text: #5f6982;
         }
     }
 }
+#bookingModal{
+    @import "react-multistep-master/_progtracker.scss";
+    .grid-cell {
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+        letter-spacing: normal;
+        word-spacing: normal;
+        text-rendering: auto;
+        .cell{
+            border-radius: 3px;
+            margin: 1rem;
+            background: #E3486A;
+            color: #293f54;
+            width: 8rem;
+            height: 8rem;
+            box-shadow: 0px 8px 32px 0px rgba(153, 153, 153, 0.8);
+            transition: all 0.2s ease-out;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            &:hover{
+                box-shadow: 0px 3px 12px 0px $halfgray;
+            }
+            &--selected{
+                box-shadow: 0px 3px 12px 0px $halfgray;
+                .cell--text{
+                    height: 100%;
+                }
+            }
+            &--text{
+                display: flex;
+                transition: all 0.2s ease-out;
+                flex-direction: column-reverse;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                background-color: white;
+                margin: 0;
+                padding: 0.4rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-size: 0.7rem;
+                text-align: center;
+                &--title{
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+}
+.reservation-firstsection{
+    .nav-social{
+        background-color: $white;
+        top: 50% !important;
+        left: -0.4% !important;
+        transform: translate(0%, -50%);
+        -webkit-box-shadow: -10px 0px 32px -20px rgba(0,0,0,0.75);
+        -moz-box-shadow: -10px 0px 32px -20px rgba(0,0,0,0.75);
+        box-shadow: -10px 0px 32px -20px rgba(0,0,0,0.75);
+        .contactusmodallauncher{
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+        i{
+            font-size: 2.5rem;
+        }
+    }
+    .reservation-content{
+        height: 100%;
+        .col{
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
+            .card{
+                cursor: pointer;
+                background-color: $darkgray;
+                transition: all .2s ease-in-out;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                height: 100%;
+                i{
+                    flex: 1 1 auto;
+                    font-size: 15rem;
+                    text-align: center;
+                }
+                .st0-lamp{fill:#191919;}
+                .st1-lamp{fill:#8F9995;}
+                .st2-lamp{opacity:0.7;fill:url(#SVGID_1_);}
+                .st3-lamp{fill:#D8D9DA;}
+                .st0{fill:#FFFFFF;}
+                .st1{fill:#DC4844;}
+                .st2{fill:#BF3A37;}
+                .st3{fill:#EBEBEB;}
+                .st4{fill:#BABABA;}
+                .st5{fill:#E7E6E6;}
+                .lamp {
+                    height: 100%;
+                    pointer-events: none;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    z-index: 999;
+                    &--left {
+                      height: 100%;
+                      left: 0;
+                      position: absolute;
+                      top: 0;
+                      width: 100%;
+                    }
+                }
+                .calendar{
+                    height: 100%;
+                    pointer-events: none;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    z-index: 998;
+                    margin-top: 50%;
+                    #Layer_5{
+                        .st1{
+                            animation: stroke_fill 4s linear forwards;
+                            stroke-dasharray: 324.774;
+                            stroke-dashoffset: 324.774;
+                        }
+                    }
+                }
+                .card-title{
+                    border-bottom: 0.4rem solid $gray;
+                }
+                &:hover{
+                    @include scale(1.1);
+                }
+            }
+        }
+    }
+}
 .profil-firstsection{
     background-color: $white;
     background-image: linear-gradient(-90deg, $white 0%, $thirdgray 100%);
@@ -538,7 +701,6 @@ $dark-text: #5f6982;
                     background: #fff;
                     box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);
                 }
-
                 .card__image {
                     position: relative;
                     display: block;
@@ -560,40 +722,37 @@ $dark-text: #5f6982;
                             transition: (all .15s);
                         }
                     }
-                  &:after {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    bottom: -10rem;
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    font-family: "FontAwesome";
-                    font-size: 1rem;
-                    text-align: center;
-                    content: "\f00c";
-                    color: rgba(255, 255, 255, 0);
-                    color: #fff;
-                    transition: (all .15s);
-                  }
-
-                  .image-overlay {
-                    display: block;
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    top: 0;
-                    left: 0;
-                    content: "";
-                    background-color: rgba (255,255,255,0);
-                    transition: (backgroundColor, .15s);
-                  }
-
-                  img {
-                    display: block;
-                    height: 100%;
-                  }
-
+                    &:after {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        bottom: -10rem;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        font-family: "FontAwesome";
+                        font-size: 1rem;
+                        text-align: center;
+                        content: "\f00c";
+                        color: rgba(255, 255, 255, 0);
+                        color: #fff;
+                        transition: (all .15s);
+                    }
+                    .image-overlay {
+                        display: block;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                        content: "";
+                        background-color: rgba (255,255,255,0);
+                        transition: (backgroundColor, .15s);
+                    }
+                    img {
+                        display: block;
+                        height: 100%;
+                    }
                 }
             }
         }
