@@ -433,54 +433,55 @@ $default-color-bg:    $white;
         }
       }
     @import "react-multistep-master/_progtracker.scss";
-    .grid-cell {
-        width: 100%;
-        display: block;
-        margin: 0 auto;
-        padding: 0;
+}
+.grid-cell {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-rendering: auto;
+    .cell{
+        border-radius: 3px;
+        margin: 1rem;
+        background: #E3486A;
+        color: #293f54;
+        width: 8rem;
+        height: 8rem;
+        box-shadow: 0px 8px 32px 0px rgba(153, 153, 153, 0.8);
+        transition: all 0.2s ease-out;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
         text-align: center;
-        letter-spacing: normal;
-        word-spacing: normal;
-        text-rendering: auto;
-        .cell{
-            border-radius: 3px;
-            margin: 1rem;
-            background: #E3486A;
-            color: #293f54;
-            width: 8rem;
-            height: 8rem;
-            box-shadow: 0px 8px 32px 0px rgba(153, 153, 153, 0.8);
+        &:hover{
+            box-shadow: 0px 3px 12px 0px $halfgray;
+        }
+        &--selected{
+            box-shadow: 0px 3px 12px 0px $halfgray;
+            .cell--text{
+                height: 100%;
+            }
+        }
+        &--text{
+            width: 100%;
+            display: flex;
             transition: all 0.2s ease-out;
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            background-color: white;
+            margin: 0;
+            padding: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.7rem;
             text-align: center;
-            &:hover{
-                box-shadow: 0px 3px 12px 0px $halfgray;
-            }
-            &--selected{
-                box-shadow: 0px 3px 12px 0px $halfgray;
-                .cell--text{
-                    height: 100%;
-                }
-            }
-            &--text{
-                display: flex;
-                transition: all 0.2s ease-out;
-                flex-direction: column-reverse;
-                align-items: center;
-                justify-content: center;
-                position: absolute;
-                background-color: white;
-                margin: 0;
-                padding: 0.4rem;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                font-size: 0.7rem;
-                text-align: center;
-                &--title{
-                    font-weight: 700;
-                }
+            &--title{
+                font-weight: 700;
             }
         }
     }

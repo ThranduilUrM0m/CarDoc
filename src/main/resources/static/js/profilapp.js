@@ -1088,6 +1088,7 @@ const store = {
   vehicle: '', 
   vehicles: [],
   centre: '',
+  centres: [],
   date: '' 
 }
 class VehicleChoice extends Component {
@@ -1127,6 +1128,106 @@ class VehicleChoice extends Component {
           <span className="cell--text--title" data-vehicle={this.props.vehicle.vehicleId}>{this.props.vehicle.vehicleBrand}</span>
           <br/>{this.props.vehicle.vehicleType}
         </p>
+      </div>
+    );
+  }
+}
+class TvgChoice extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      store
+    };
+  }
+  handleCenterChanged(event) {
+    // store updated
+    var centre = $(event.target).find('span.cell--text--title');
+    store.centre = centre.data('tvg');
+    this.setState(store);
+    console.log('mok');
+    // animation du box
+    if($(event.target).hasClass('cell')){
+      if($(event.target).hasClass('cell--selected')){
+        $(event.target).removeClass('cell--selected');
+      }else{
+        $('.cell').removeClass('cell--selected');
+        $(event.target).toggleClass('cell--selected');
+      }
+    }else{
+      if($(event.target).closest('.cell').hasClass('cell--selected')){
+        $(event.target).closest('.cell').removeClass('cell--selected');
+      }else{
+        $('.cell').removeClass('cell--selected');
+        $(event.target).closest('.cell').toggleClass('cell--selected');
+      }
+    }
+  }
+  render(){
+    return(
+      <div onClick={(event) => this.handleCenterChanged(event)} className="cell" ng-repeat="c in color.colors">
+        <p className="cell--text">
+          <span className="cell--text--title" data-tvg={this.props.tvg.tvgId}><b>{this.props.tvg.tvgLegalname}</b></span>
+          <br/>{this.props.tvg.tvgCity}
+        </p>
+      </div>
+    );
+  }
+}
+class CentresByRegionModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {store};
+  }
+  loadCentersFromServer(){
+    var self = this;
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/tvgs', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      store.centres = [];
+      self.setState(store);
+      var region = $('#centresByRegionModal').data('region');
+      var centersFoundByRegion = _.where(responseData._embedded.tvgs, {tvgRegion: region});
+      centersFoundByRegion.forEach(function(tvg) {
+        store.centres.push(<TvgChoice tvg={tvg} />);
+        self.setState(store);
+      });
+    });
+  }
+  componentDidMount() {
+    var self = this;
+    $('#centresByRegionModal').on('shown.bs.modal', function () {
+      self.loadCentersFromServer();
+    });
+  }
+  render() {
+    var centers = 'Nothing To Show Here :('
+    if(this.state.store.centres != '' && this.state.store.centres != null)
+      centers = this.state.store.centres;
+    return (
+      <div className="centresByRegion modal fade" id="centresByRegionModal" data-region="inada" tabindex="-1" role="dialog" aria-labelledby="centresByRegionModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="centresByRegionModalLabel"></h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="grid-cell">
+                {centers}
+              </div>
+            </div>
+            <div className="modal-footer">
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -1174,10 +1275,6 @@ class StepTwo extends Component {
     this.state = {
       store
     };
-  }
-  handleCenterChanged(value) {
-    store.centre = value
-    this.setState(store)  
   }
   componentDidMount(){
     var rsr = Raphael('map', '40%', '40%');
@@ -1250,16 +1347,21 @@ class StepTwo extends Component {
       regions[i].node.style.opacity = 0.4;
       // Showing off
       regions[i].mouseover(function(e){
-        this.node.style.opacity = 1;
+        this.node.style.opacity = 0.8;
         this.node.style.cursor = 'pointer';
         this.node.childNodes[0].innerHTML = this.data('region');
       });
       regions[i].mouseout(function(e){
-        this.node.style.opacity = 0.4;
+        if(this.node.style.opacity != 1){
+          this.node.style.opacity = 0.4;
+        }
       });
       // Clicking
       regions[i].click(function(e){
-        document.getElementById('region-selected').innerHTML = this.data('region');
+        this.node.style.opacity = 1;
+        var region = this.data('region');
+        $('#centresByRegionModal').data('region', region);
+        $('#centresByRegionModal').modal('show');
       });
     }
   }
@@ -1815,6 +1917,7 @@ class FirstSectionReservation extends Component {
         <VehicleModal />
         <PictureModal />
         <BookingModal />
+        <CentresByRegionModal />
       </section>
     );
   }

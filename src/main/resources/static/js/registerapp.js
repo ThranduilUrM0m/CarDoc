@@ -4,7 +4,7 @@ const {Component} = React; // import {Component} from 'react';
 var TableData = React.createClass({
   render: function() {
     return (
-      <p> {this.props.data} < /p>
+      <p> {this.props.data} </p>
     );
   }
 });
