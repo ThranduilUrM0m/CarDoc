@@ -1091,6 +1091,7 @@ const store = {
   centres: [],
   date: '' 
 }
+/* The Choices */
 class VehicleChoice extends Component {
   constructor(props){
     super(props);
@@ -1144,7 +1145,7 @@ class TvgChoice extends Component {
     var centre = $(event.target).find('span.cell--text--title');
     store.centre = centre.data('tvg');
     this.setState(store);
-    console.log('mok');
+
     // animation du box
     if($(event.target).hasClass('cell')){
       if($(event.target).hasClass('cell--selected')){
@@ -1173,6 +1174,8 @@ class TvgChoice extends Component {
     );
   }
 }
+/* The Choices */
+/* The Modals */
 class CentresByRegionModal extends Component {
   constructor(props) {
     super(props);
@@ -1232,6 +1235,8 @@ class CentresByRegionModal extends Component {
     );
   }
 }
+/* The Modals */
+/* The Steps */
 class StepOne extends Component {
   constructor(props){
     super(props);
@@ -1373,6 +1378,85 @@ class StepTwo extends Component {
     );
   }
 }
+class StepThree extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      store
+    };
+  }
+  componentDidMount(){
+    var self = this;
+    if(store.centre != ''){
+      YUI().use(
+        'aui-scheduler',
+        function(Y) {
+          var events = [
+            {
+              color: "#8d8",
+              content: 'Tits Out For Harambe',
+              disabled: true,
+              meeting: true,
+              reminder: true,
+              startDate: new Date(2017, 11, 1, 12),
+              endDate: new Date(2017, 11, 1, 13)
+            }
+          ];
+
+          var myHeaders = new Headers();
+          var myInit = { method: 'GET',
+                         headers: myHeaders,
+                         mode: 'cors',
+                         cache: 'default',
+                         credentials: 'same-origin' };
+          fetch('/api/bookings', myInit)
+          .then((response) => response.json()) 
+          .then((responseData) => {
+            //find the booking for the store.center selected, and push them into events
+            var color = randomColor(),
+                content = '',
+                endDate = '',
+                startDate = '';
+            console.log(_.keys(responseData._embedded.bookings));
+            //events.push({color: '', content: '', disabled: true, endDate: '', meeting: false, reminder: false, startDate: ''});
+          });
+
+          var dayView = new Y.SchedulerDayView();
+          var weekView = new Y.SchedulerWeekView();
+          var monthView = new Y.SchedulerMonthView();
+          var eventRecorder = new Y.SchedulerEventRecorder();
+      
+          new Y.Scheduler(
+            {
+              activeView: weekView,
+              boundingBox: '#myScheduler',
+              date: new Date(),
+              eventRecorder: eventRecorder,
+              items: events,
+              render: true,
+              views: [dayView, weekView, monthView]
+            }
+          );
+        }
+      );
+    }else{
+      $('#myScheduler').text('You Have to Choose a Center First !');
+    }
+    $(document).on('DOMNodeInserted', '.scheduler-base', () => {
+      $('.scheduler-base-icon-next span').attr('class', 'fa fa-chevron-right');
+      $('.scheduler-base-icon-prev span').attr('class', 'fa fa-chevron-left');
+    })
+  }
+  render(){
+    return(
+      <div id="wrapper">
+        <div id="myScheduler"></div>
+      </div>
+    );
+  }
+}
+/* The Steps */
+/* Steps Container */
 class BookingModal extends Component {
   constructor(props) {
     super(props);
@@ -1401,7 +1485,8 @@ class BookingModal extends Component {
   render() {
     const steps = [
       {name: 'Vehicle', component: <StepOne/>},
-      {name: 'Centre', component: <StepTwo/>}
+      {name: 'Centre', component: <StepTwo/>},
+      {name: 'Date', component: <StepThree/>}
     ];
     return (
       <div className="booking modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
@@ -1412,6 +1497,7 @@ class BookingModal extends Component {
     );
   }
 }
+/* Steps Container */
 class MotoristContentBottom extends Component {
   constructor(props){
     super(props);
@@ -1480,6 +1566,7 @@ class ProfilContent extends Component {
     };
   }
   loadAccountFromServer(){
+    var self = this;
     var myHeaders = new Headers();
     var myInit = { method: 'GET',
                    headers: myHeaders,
@@ -1489,14 +1576,15 @@ class ProfilContent extends Component {
     fetch('/auth', myInit)
     .then((response) => response.json()) 
     .then((responseData) => {
+      console.log(responseData);
       if(responseData.activated != false){
-        if(this.props.account === 'tvg'){
-          this.setState({
+        if(responseData.motorist === undefined || responseData.motorist === null){
+          self.setState({
             ContentTOP: <TvgContentTop account={responseData} />,
             ContentBOTTOM: <TvgContentBottom account={responseData} />
           });
         }else{
-          this.setState({
+          self.setState({
             ContentTOP: <MotoristContentTop account={responseData} />,
             ContentBOTTOM: <MotoristContentBottom account={responseData} />
           });

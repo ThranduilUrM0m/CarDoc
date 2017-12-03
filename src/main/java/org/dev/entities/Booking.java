@@ -32,17 +32,18 @@ public class Booking implements Serializable{
    protected java.util.Date bookingCreationdate;
    protected boolean bookingIsCanceled;
    
-   @ManyToOne(optional=false) @JoinColumn(name="accountId", referencedColumnName="accountId")
+   @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="accountId", referencedColumnName="accountId")
    protected Account account;
+   @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="vehicleId", referencedColumnName="vehicleId")
+   protected Vehicle vehicle;
+   @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
+   protected Tvg tvg;
    
    @OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="booking", targetEntity=Control.class)
    protected Control control;
    
    @OneToMany(mappedBy="booking",targetEntity=Consultation.class)
    protected java.util.Collection<Consultation> consultation;
-   
-   @ManyToOne(optional=false) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
-   protected Tvg tvg;
    
    public Long getBookingId() {
       return bookingId;
@@ -101,7 +102,7 @@ public class Booking implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	public Booking(Date bookingDate, Date bookingCreationdate, boolean bookingIsCanceled,
-			Account account, Control control, Collection<Consultation> consultation, Tvg tvg) {
+			Account account, Vehicle vehicle, Control control, Collection<Consultation> consultation, Tvg tvg) {
 		super();
 		this.bookingDate = bookingDate;
 		this.bookingCreationdate = bookingCreationdate;
@@ -110,5 +111,6 @@ public class Booking implements Serializable{
 		this.control = control;
 		this.consultation = consultation;
 		this.tvg = tvg;
+		this.vehicle = vehicle;
 	}
 }

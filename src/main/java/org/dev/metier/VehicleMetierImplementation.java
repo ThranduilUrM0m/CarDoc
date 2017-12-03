@@ -26,7 +26,8 @@ public class VehicleMetierImplementation implements VehicleMetier{
 				vehicleType, 
 				vehicleFirstCirculation, 
 				vehicleRegistration, 
-				motorist
+				motorist,
+				null
 				));
 		this.motoristRep
 			.findOne(motorist.getIpersonId())

@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.dev.metier.IEmployingStrategy;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -60,7 +62,8 @@ public class Tvg implements Serializable {
 
    @OneToMany(mappedBy="tvg",targetEntity=Employee.class)
    protected java.util.Collection<Employee> employee;
-   
+   @OneToMany(mappedBy="tvg",targetEntity=Booking.class,cascade = CascadeType.ALL) @LazyCollection(LazyCollectionOption.FALSE)
+   protected java.util.Collection<Booking> booking;
    @OneToMany(mappedBy="tvg",targetEntity=Control.class)
    protected java.util.Collection<Control> control;
    
@@ -185,7 +188,7 @@ public class Tvg implements Serializable {
 	}
 	public Tvg(String tvgLegalname, String tvgLegaladresse, Date tvgCreationdate, String tvgCity,
 			String tvgCountry, String tvgRegion, String tvgEmail, String tvgPhone, String tvgDaystartA, String tvgDaystartB,
-			String tvgDayendA, String tvgDayendB, boolean tvgAvailable,	Collection<Employee> employee, Collection<Control> control, Account account) {
+			String tvgDayendA, String tvgDayendB, boolean tvgAvailable,	Collection<Employee> employee, Collection<Control> control, Account account, Collection<Booking> booking) {
 		super();
 		this.tvgLegalname = tvgLegalname;
 		this.tvgLegaladresse = tvgLegaladresse;
@@ -203,5 +206,6 @@ public class Tvg implements Serializable {
 		this.employee = employee;
 		this.control = control;
 		this.account = account;
+		this.booking = booking;
 	}
 }

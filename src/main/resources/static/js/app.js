@@ -164,7 +164,7 @@ class Motorist extends Component {
         },
         credentials: 'same-origin'
       })
-      .then((response) => response.json()) 
+      .then((responseB) => responseB.json()) 
       .then((responseDataB) => {
         this.setState({motoristBookings: _.size(_.where(responseDataB._embedded.bookings, {bookingIsCanceled: false}))});
         for (var i = 0; i < responseDataB._embedded.bookings.length; i++) {
@@ -178,7 +178,7 @@ class Motorist extends Component {
             },
             credentials: 'same-origin'
           })
-          .then((response) => response.json()) 
+          .then((responseC) => responseC.json()) 
           .then((responseDataC) => {
             if(responseDataC.controlConfirmed == true){
               this.setState({motoristControls: this.state.motoristControls + 1});
@@ -196,7 +196,7 @@ class Motorist extends Component {
         },
         credentials: 'same-origin'
       })
-      .then((response) => response.json()) 
+      .then((responseP) => responseP.json()) 
       .then((responseDataP) => {
         var max = null;
         var min = null;
@@ -319,11 +319,44 @@ class Tvg extends Component {
       tvgAccount: [],
       tvgPicture: [],
       tvgEmployees: [],
-      tvgBookings: [],
+      tvgBookings: 0,
       tvgControls: []
     };
   }
   loadDataFromServer() {
+    var self = this;
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/bookings', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      responseData._embedded.bookings.forEach(function(booking) {
+        fetch(_.values(booking._links.account), {
+          headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'x-my-custom-header': 'INDEED'
+          },
+          credentials: 'same-origin'
+        })
+        .then((responseA) => responseA.json()) 
+        .then((responseDataA) => {
+          if(responseDataA.accountId == self.props.tvgCarousel._links.account.accountId){
+            self.setState(prevState => {
+              return {tvgBookings: prevState.tvgBookings + 1}
+           })
+          }
+        });
+      });
+    });
+
     fetch(_.values(this.props.tvgCarousel._links.account), {
       headers : { 
       'Content-Type': 'application/json',
@@ -334,18 +367,7 @@ class Tvg extends Component {
     })
     .then((response) => response.json()) 
     .then((responseData) => {
-      fetch(_.values(responseData._links.booking), {
-        headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-my-custom-header': 'INDEED'
-        },
-        credentials: 'same-origin'
-      })
-      .then((responseS) => responseS.json()) 
-      .then((responseDataS) => { 
-        this.setState({tvgBookings: _.size(responseDataS._embedded.bookings)});
-      });
+      
     });
 
     fetch(_.values(this.props.tvgCarousel._links.control), {
@@ -1141,7 +1163,6 @@ class LeftFirstSection extends Component {
     return (
       <div className="Aligner-item">
         <div data-toggle="modal" data-target="#motoristPSModal" className="carbg"></div>
-        <h1>MOTORIST</h1>
       </div>
     );
   }
@@ -1150,7 +1171,6 @@ class RightFirstSection extends Component {
   render() {
     return (
       <div className="jumbotron rightfirstsection Aligner">
-        <h1 className="Aligner-item">TVG</h1>
         <TvgApp />
       </div>
     );

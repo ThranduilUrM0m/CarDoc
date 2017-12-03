@@ -420,9 +420,32 @@ $default-color-bg:    $white;
             height: 100vh;
             width: 100vw;
             .modal-body{
+                overflow: scroll;
+                max-height: 82%;
                 padding: 20px 24px 0 !important;
                 .container{
                     text-align: center;
+                }
+                #myScheduler{
+                    .scheduler-view-content{
+                        overflow: scroll;
+                    }
+                    .scheduler-view-day .scheduler-view-table {
+                        margin: 0 0 0 60px;
+                    }
+                    .yui3-widget-bd{
+                        .scheduler-view-scrollable{
+                            display: initial;
+                        }
+                    }
+                    .yui3-widget-hd{
+                        .scheduler-base-hd{
+                            margin: 0;
+                            .scheduler-base-views{
+                                margin-left: auto;
+                            }
+                        }
+                    }
                 }
             }
             .modal-footer{
@@ -444,6 +467,7 @@ $default-color-bg:    $white;
     word-spacing: normal;
     text-rendering: auto;
     .cell{
+        transition: all .2s;
         border-radius: 3px;
         margin: 1rem;
         background: #E3486A;
@@ -460,12 +484,13 @@ $default-color-bg:    $white;
             box-shadow: 0px 3px 12px 0px $halfgray;
         }
         &--selected{
-            box-shadow: 0px 3px 12px 0px $halfgray;
+            box-shadow: 0px 3px 12px 0px $darkgray;
             .cell--text{
                 height: 100%;
             }
         }
         &--text{
+            transition: all .4s;
             width: 100%;
             display: flex;
             transition: all 0.2s ease-out;

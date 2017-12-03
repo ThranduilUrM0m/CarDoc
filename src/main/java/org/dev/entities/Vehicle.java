@@ -8,13 +8,16 @@ package org.dev.entities;
 import java.io.Serializable;
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -34,6 +37,8 @@ public class Vehicle implements Serializable {
 
    @ManyToOne(optional=true) @JoinColumn(name="motoristMatricule", referencedColumnName="motoristMatricule")
    protected Motorist motorist;
+   @OneToMany(mappedBy="vehicle",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   protected java.util.Collection<Booking> booking;
    
    public Long getVehicleId() {
 	   return vehicleId;
@@ -88,12 +93,13 @@ public class Vehicle implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	public Vehicle(String vehicleBrand, String vehicleType, Date vehicleFirstCirculation,
-			String vehicleRegistration, Motorist motorist) {
+			String vehicleRegistration, Motorist motorist, Collection<Booking> booking) {
 		super();
 		this.vehicleBrand = vehicleBrand;
 		this.vehicleType = vehicleType;
 		this.vehicleFirstCirculation = vehicleFirstCirculation;
 		this.vehicleRegistration = vehicleRegistration;
 		this.motorist = motorist;
+		this.booking = booking;
 	}
 }
