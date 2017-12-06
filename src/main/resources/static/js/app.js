@@ -357,19 +357,6 @@ class Tvg extends Component {
       });
     });
 
-    fetch(_.values(this.props.tvgCarousel._links.account), {
-      headers : { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'x-my-custom-header': 'INDEED'
-      },
-      credentials: 'same-origin'
-    })
-    .then((response) => response.json()) 
-    .then((responseData) => {
-      
-    });
-
     fetch(_.values(this.props.tvgCarousel._links.control), {
       headers : { 
       'Content-Type': 'application/json',

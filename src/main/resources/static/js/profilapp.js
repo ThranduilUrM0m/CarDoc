@@ -1085,6 +1085,8 @@ class MultiStep extends Component {
 }
 /** Multistep **/
 const store = { 
+  events: [],
+  accountId: [],
   vehicle: '', 
   vehicles: [],
   centre: '',
@@ -1142,9 +1144,20 @@ class TvgChoice extends Component {
   }
   handleCenterChanged(event) {
     // store updated
-    var centre = $(event.target).find('span.cell--text--title');
-    store.centre = centre.data('tvg');
-    this.setState(store);
+    var centreCard = $(event.target).find('span.cell--text--title');
+    fetch('/api/tvgs', {
+      headers : { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'x-my-custom-header': 'INDEED'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      store.centre = _.findWhere(responseData._embedded.tvgs, {tvgId: centreCard.data('tvg')});
+      this.setState(store);
+    });
 
     // animation du box
     if($(event.target).hasClass('cell')){
@@ -1255,6 +1268,7 @@ class StepOne extends Component {
     fetch('/auth', myInit)
     .then((response) => response.json()) 
     .then((responseData) => {
+      store.accountId = responseData.accountId;
       store.vehicles = [];
       self.setState(store);
       responseData.motorist.vehicle.forEach(function(vehicle) {
@@ -1387,60 +1401,124 @@ class StepThree extends Component {
   }
   componentDidMount(){
     var self = this;
-    if(store.centre != ''){
+    if(store.centre != '' && store.vehicle != ''){
+      fetch('/api/bookings', {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
+        },
+        credentials: 'same-origin'
+      })
+      .then((response) => response.json()) 
+      .then((responseData) => {
+        responseData._embedded.bookings.forEach(function(booking) {
+          
+          fetch(_.values(booking._links.tvg), {
+            headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'x-my-custom-header': 'INDEED'
+            },
+            credentials: 'same-origin'
+          })
+          .then((responseT) => responseT.json()) 
+          .then((responseDataT) => {
+            if(responseDataT.tvgId == store.centre.tvgId){
+
+              fetch(_.values(booking._links.vehicle), {
+                headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-my-custom-header': 'INDEED'
+                },
+                credentials: 'same-origin'
+              })
+              .then((responseV) => responseV.json()) 
+              .then((responseDataV) => {
+
+                var color = randomColor(),
+                    content = responseDataV.vehicleBrand,
+                    year = parseInt(moment(new Date(booking.bookingDate)).format('YYYY')),
+                    month = parseInt(moment(new Date(booking.bookingDate)).add(-1, 'months').format('MM')),
+                    day = parseInt(moment(new Date(booking.bookingDate)).format('DD')),
+                    hour = parseInt(moment(new Date(booking.bookingDate)).format('HH')),
+                    hourEnd = parseInt(moment(new Date(booking.bookingDate)).add(1, 'hours').format('HH')),
+                    startDate = new Date(year, month, day, hour),
+                    endDate = new Date(year, month, day, hourEnd);
+                var eventElement = {color: color, content: content, disabled: true, endDate: endDate, meeting: false, reminder: false, startDate: startDate};
+                store.events.push(eventElement);
+                self.setState(store);
+
+              });
+
+            }
+          });
+  
+        });
+  
+      });
+
       YUI().use(
         'aui-scheduler',
         function(Y) {
-          var events = [
-            {
-              color: "#8d8",
-              content: 'Tits Out For Harambe',
-              disabled: true,
-              meeting: true,
-              reminder: true,
-              startDate: new Date(2017, 11, 1, 12),
-              endDate: new Date(2017, 11, 1, 13)
-            }
-          ];
-
-          var myHeaders = new Headers();
-          var myInit = { method: 'GET',
-                         headers: myHeaders,
-                         mode: 'cors',
-                         cache: 'default',
-                         credentials: 'same-origin' };
-          fetch('/api/bookings', myInit)
-          .then((response) => response.json()) 
-          .then((responseData) => {
-            //find the booking for the store.center selected, and push them into events
-            var color = randomColor(),
-                content = '',
-                endDate = '',
-                startDate = '';
-            console.log(_.keys(responseData._embedded.bookings));
-            //events.push({color: '', content: '', disabled: true, endDate: '', meeting: false, reminder: false, startDate: ''});
-          });
-
+          var events = self.state.store.events;
+          
           var dayView = new Y.SchedulerDayView();
           var weekView = new Y.SchedulerWeekView();
           var monthView = new Y.SchedulerMonthView();
-          var eventRecorder = new Y.SchedulerEventRecorder();
-      
-          new Y.Scheduler(
-            {
-              activeView: weekView,
-              boundingBox: '#myScheduler',
-              date: new Date(),
-              eventRecorder: eventRecorder,
-              items: events,
-              render: true,
-              views: [dayView, weekView, monthView]
+          var eventRecorder = new Y.SchedulerEventRecorder({
+            on:{
+              save: function (event) {
+                var starting = parseInt(((moment(this.get('startDate')).format('h:mm')).split(':'))[0]+''+((moment(this.get('startDate')).format('h:mm')).split(':'))[1]),
+                    tvgDaystartA = parseInt(((store.centre.tvgDaystartA).split(':'))[0]+''+((store.centre.tvgDaystartA).split(':'))[1]),
+                    tvgDayendA = parseInt(((store.centre.tvgDayendA).split(':'))[0]+''+((store.centre.tvgDayendA).split(':'))[1]),
+                    tvgDaystartB = parseInt(((store.centre.tvgDaystartB).split(':'))[0]+''+((store.centre.tvgDaystartB).split(':'))[1]),
+                    tvgDayendB = parseInt(((store.centre.tvgDayendB).split(':'))[0]+''+((store.centre.tvgDayendB).split(':'))[1]);
+                if((starting >= tvgDaystartA && starting < tvgDayendA) || (starting >= tvgDaystartB && starting < tvgDayendB)){
+                  var isNew = this.isNew(),
+                      bookingDate = moment(this.get('startDate')).format('YYYY-MM-DD HH:mm'),
+                      nendDate = this.get('endDate'),
+                      vehicleId = store.vehicle,
+                      tvgId = store.centre.tvgId;
+                  // save with the vars
+                  var $bookingDate = $('<input name="bookingDate" value="' + bookingDate + '" />'),
+                      $vehicleId = $('<input name="vehicleId" value="' + vehicleId + '" />'),
+                      $tvgId = $('<input name="tvgId" value="' + tvgId + '" />');
+                  var $form = $('<form action="/addBooking" method="POST"></form>');
+                  $form.append($bookingDate);
+                  $form.append($vehicleId);
+                  $form.append($tvgId);
+                  $(document.body).append($form);
+                  $form.submit();
+                }else{
+                  this.hidePopover();
+                  alert('Oops, Can\'t book on a non Opened hour for this Center\n['+store.centre.tvgDaystartA+' to '+store.centre.tvgDayendA+' & '+store.centre.tvgDaystartB+' to '+store.centre.tvgDayendB+']\nminus One Hour On Closing');
+                  event.halt();
+                }
+              },
+              edit: function (event) {
+                  alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
+              },
+              delete: function (event) {
+                  alert('Delete Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
+              }
             }
-          );
+          });
+
+          new Y.Scheduler({
+            activeView: monthView,
+            boundingBox: '#myScheduler',
+            date: new Date(),
+            eventRecorder: eventRecorder,
+            items: events,
+            render: true,
+            views: [dayView, weekView, monthView]
+          });
         }
       );
     }else{
-      $('#myScheduler').text('You Have to Choose a Center First !');
+      $('#myScheduler').text('You Have to Choose a Center & a Vehicle First !');
     }
     $(document).on('DOMNodeInserted', '.scheduler-base', () => {
       $('.scheduler-base-icon-next span').attr('class', 'fa fa-chevron-right');
@@ -1461,26 +1539,8 @@ class BookingModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: []
+      store
     }
-  }
-  loadAccountFromServer(){
-    var myHeaders = new Headers();
-    var myInit = { method: 'GET',
-                   headers: myHeaders,
-                   mode: 'cors',
-                   cache: 'default',
-                   credentials: 'same-origin' };
-    fetch('/auth', myInit)
-    .then((response) => response.json()) 
-    .then((responseData) => {
-      this.setState({
-        account: responseData
-      });
-    });
-  }
-  componentDidMount() {
-    this.loadAccountFromServer();
   }
   render() {
     const steps = [
@@ -1576,7 +1636,6 @@ class ProfilContent extends Component {
     fetch('/auth', myInit)
     .then((response) => response.json()) 
     .then((responseData) => {
-      console.log(responseData);
       if(responseData.activated != false){
         if(responseData.motorist === undefined || responseData.motorist === null){
           self.setState({
@@ -1622,7 +1681,7 @@ class ReservationContent extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       if(responseData.activated != false){
-        console.log('Ready To Work Sir !');
+        //console.log('Ready To Work Sir !');
       }else{
         $('.sessionVariables').submit();
       }
@@ -1974,7 +2033,7 @@ class FirstSectionReservation extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       if(responseData.activated != false){
-        console.log('account active');
+        //console.log('account active');
       }else{
         $('.sessionVariables').submit();
       }
@@ -2025,7 +2084,7 @@ class FirstSectionAbout extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       if(responseData.activated != false){
-        console.log('account active');
+        //console.log('account active');
       }else{
         $('.sessionVariables').submit();
       }
@@ -2074,7 +2133,7 @@ class FirstSectionStatistics extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       if(responseData.activated != false){
-        console.log('account active');
+        //console.log('account active');
       }else{
         $('.sessionVariables').submit();
       }

@@ -79,5 +79,10 @@ public class TVGMetierImplementation implements TVGMetier {
 	public Collection<Tvg> getAllTVG() {
 		Collection<Tvg> tvgs = tvgRep.findAll();
 		return tvgs;
-	}	
+	}
+	
+	@Override
+	public Tvg getTvg(long tvgId) {
+		return this.tvgRep.findOne(tvgId);
+	}
 }

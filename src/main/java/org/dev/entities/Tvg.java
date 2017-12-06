@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 @Data
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@tvgId")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="tvgId")
 @Entity
 public class Tvg implements Serializable {
 	

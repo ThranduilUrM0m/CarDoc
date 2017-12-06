@@ -16,4 +16,5 @@ public interface TVGMetier {
 	public Tvg deleteTVG(Tvg inTVG);
 	public Tvg consulteTVGByLogin(String login);
 	public Collection<Tvg> getAllTVG();
+	public Tvg getTvg(long tvgId);
 }

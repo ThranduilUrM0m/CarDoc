@@ -24,49 +24,51 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@bookingId")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="bookingId")
 public class Booking implements Serializable{
-   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
-   protected Long bookingId;
-   protected java.util.Date bookingDate;
-   protected java.util.Date bookingCreationdate;
-   protected boolean bookingIsCanceled;
    
-   @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="accountId", referencedColumnName="accountId")
-   protected Account account;
-   @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="vehicleId", referencedColumnName="vehicleId")
-   protected Vehicle vehicle;
-   @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
-   protected Tvg tvg;
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
+	protected Long bookingId;
+	
+	protected java.util.Date bookingDate;	
+	protected java.util.Date bookingCreationdate;
+	protected boolean bookingIsCanceled;
    
-   @OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="booking", targetEntity=Control.class)
-   protected Control control;
+	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="accountId", referencedColumnName="accountId")
+	protected Account account;
+	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="vehicleId", referencedColumnName="vehicleId")	
+	protected Vehicle vehicle;
+	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
+	protected Tvg tvg;
+	
+	@OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="booking", targetEntity=Control.class)
+	protected Control control;
+	
+	@OneToMany(mappedBy="booking",targetEntity=Consultation.class)
+	protected java.util.Collection<Consultation> consultation;
+	
+	public Long getBookingId() {
+		return bookingId;
+	}
+	public void setBookingId(Long newBookingId) {
+		bookingId = newBookingId;
+	}	
    
-   @OneToMany(mappedBy="booking",targetEntity=Consultation.class)
-   protected java.util.Collection<Consultation> consultation;
+	public java.util.Date getBookingDate() {
+		return bookingDate;
+	}
+	public void setBookingDate(java.util.Date newBookingDate) {
+		bookingDate = newBookingDate;
+	}
    
-   public Long getBookingId() {
-      return bookingId;
-   }
-   public void setBookingId(Long newBookingId) {
-      bookingId = newBookingId;
-   }
+	public java.util.Date getBookingCreationdate() {
+		return bookingCreationdate;
+	}
+	public void setBookingCreationdate(java.util.Date newBookingCreationdate) {
+		bookingCreationdate = newBookingCreationdate;
+	}
    
-   public java.util.Date getBookingDate() {
-      return bookingDate;
-   }
-   public void setBookingDate(java.util.Date newBookingDate) {
-      bookingDate = newBookingDate;
-   }
-   
-   public java.util.Date getBookingCreationdate() {
-      return bookingCreationdate;
-   }
-   public void setBookingCreationdate(java.util.Date newBookingCreationdate) {
-      bookingCreationdate = newBookingCreationdate;
-   }
-   
-   	public boolean isBookingIsCanceled() {
+	public boolean isBookingIsCanceled() {
 		return bookingIsCanceled;
 	}
 	public void setBookingIsCanceled(boolean bookingIsCanceled) {
@@ -90,6 +92,7 @@ public class Booking implements Serializable{
 	public void setConsultation(java.util.Collection<Consultation> consultation) {
 		this.consultation = consultation;
 	}
+	
 	public Tvg getTvg() {
 		return tvg;
 	}

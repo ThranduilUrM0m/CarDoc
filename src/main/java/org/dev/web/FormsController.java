@@ -5,10 +5,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +17,15 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.dev.dao.VehicleRepository;
 import org.dev.entities.Account;
+import org.dev.entities.Booking;
 import org.dev.entities.Motorist;
 import org.dev.entities.Picture;
 import org.dev.entities.Tvg;
 import org.dev.entities.Vehicle;
 import org.dev.mail.MailSender;
 import org.dev.metier.AccountMetier;
+import org.dev.metier.BookingMetier;
 import org.dev.metier.MotoristMetier;
 import org.dev.metier.PictureMetier;
 import org.dev.metier.TVGMetier;
@@ -48,6 +50,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class FormsController {
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-M-dd hh:mm");
 	@Autowired 
 	private HttpSession httpSession;
     @Autowired
@@ -60,6 +64,8 @@ public class FormsController {
     private VehicleMetier iVehicleMetier;
     @Autowired
     private PictureMetier iPictureMetier;
+    @Autowired
+    private BookingMetier iBookingMetier;
     
     @Autowired
     private Environment env;
@@ -92,7 +98,7 @@ public class FormsController {
         // Save the file Info in Database
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
-    	Picture pictureInCreation = iPictureMetier.createPicture(filename.split("\\.")[0], filename.split("\\.")[1], new Date(), accountLogged);
+    	Picture pictureInCreation = iPictureMetier.createPicture(filename.split("\\.")[0], filename.split("\\.")[1], new java.sql.Date(Calendar.getInstance().getTime().getTime()), accountLogged);
         return new ResponseEntity<>(HttpStatus.OK);
       }
       catch (Exception e) {
@@ -107,7 +113,7 @@ public class FormsController {
       try {
         // Save the file Info in Database
     	Picture pictureSelected = iPictureMetier.getPicture(Long.valueOf(pictureId).longValue());
-    	pictureSelected.setInsertDate(new Date());
+    	pictureSelected.setInsertDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
     	iPictureMetier.updatePicture(pictureSelected);
       }
       catch (Exception e) {
@@ -174,6 +180,11 @@ public class FormsController {
     	return accountLogged;
     }
     
+    @RequestMapping(value = "/bookings", method = RequestMethod.GET)
+    public Collection<Booking> getBookings() throws IOException{
+    	return iBookingMetier.getAllBooking();
+    }
+    
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
     public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
     										@RequestParam(name = "passwordnew", required = true) String passwordnew, 
@@ -237,9 +248,9 @@ public class FormsController {
 		Date testDate = null;
 		Boolean testDateB = false;
 		try{
-		    testDate = new SimpleDateFormat("YYYY-MM-DD").parse(date);
+		    testDate = sdf.parse(date);
 		    try {
-		    	testDateB = new SimpleDateFormat("YYYY-MM-DD").format(testDate).equals(date);
+		    	testDateB = sdf.format(testDate).equals(date);
 				return true;
 		    } catch(Exception e) {
 		    	error = e.getMessage();
@@ -275,7 +286,7 @@ public class FormsController {
         		if(!isValidDateStr(tvgCreationdate))
         			response.sendRedirect("/register?error="+error);
         		else {
-        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, (new SimpleDateFormat("YYYY-MM-DD").parse(tvgCreationdate)), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_TVG"));
+        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, sdf.parse(tvgCreationdate), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_TVG"));
         			model.addAttribute("TVG", tvgInCreation);
         			emailValidation(tvgInCreation.getAccount(), tvgEmail);
                 	response.sendRedirect("/success?emailValidation=" + tvgEmail);
@@ -317,7 +328,7 @@ public class FormsController {
     					response.sendRedirect("/profil?error=Vehicle_Type_Error");
     				else {
     					try {
-        					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (new SimpleDateFormat("YYYY-MM-DD").parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new Date(), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration);
+        					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (sdf.parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (sdf.parse(vehicleFirstCirculation)), vehicleRegistration);
                 			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
                         	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
         				} catch (ParseException e) {
@@ -329,6 +340,28 @@ public class FormsController {
     	}
 	}
 
+	@RequestMapping(value = "/addBooking", method = RequestMethod.POST)
+	public void saveBooking(Model model, 
+							@RequestParam(name = "bookingDate", required = true) String bookingDate,
+							@RequestParam(name = "vehicleId", required = true) String vehicleId,
+							@RequestParam(name = "tvgId", required = true) String tvgId,
+							HttpServletResponse response) throws IOException {
+		if(!isValidDateStr(bookingDate))
+			response.sendRedirect("/profil?error="+error+":"+bookingDate);
+		else {
+			try {
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
+		    	long vId = Long.valueOf(vehicleId).longValue();
+		    	long tId = Long.valueOf(tvgId).longValue();
+				iBookingMetier.createBooking((sdfTime.parse(bookingDate)), new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, accountLogged, iVehicleMetier.getVehicle(vId), null, null, iTVGMetier.getTvg(tId));
+            	response.sendRedirect("/profil");
+			} catch (ParseException e) {
+				response.sendRedirect("/profil?Parseerror=" + e);
+			}
+		}
+	}
+	
 	@RequestMapping(value = "/vehicleAdd", method = RequestMethod.POST)
 	public void saveVehicle(Model model, 
 							@RequestParam(name = "vehicleBrand", required = true) String vehicleBrand,
@@ -345,7 +378,7 @@ public class FormsController {
 				try {
 					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
-					Vehicle vehicleInCreation = iVehicleMetier.createVehicle(vehicleBrand, vehicleType, (new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)), vehicleRegistration, accountLogged.getMotorist());
+					Vehicle vehicleInCreation = iVehicleMetier.createVehicle(vehicleBrand, vehicleType, (sdf.parse(vehicleFirstCirculation)), vehicleRegistration, accountLogged.getMotorist());
 	            	response.sendRedirect("/profil");
 				} catch (ParseException e) {
 					response.sendRedirect("/profil?Parseerror=" + e);
@@ -373,7 +406,7 @@ public class FormsController {
 					
 					vehicleUpdating.setVehicleBrand(vehicleBrand);
 					vehicleUpdating.setVehicleType(vehicleType);
-					vehicleUpdating.setVehicleFirstCirculation((new SimpleDateFormat("YYYY-MM-DD").parse(vehicleFirstCirculation)));
+					vehicleUpdating.setVehicleFirstCirculation((sdf.parse(vehicleFirstCirculation)));
 					vehicleUpdating.setVehicleRegistration(vehicleRegistration);
 					
 		        	iVehicleMetier.updateVehicle(vehicleUpdating);
