@@ -41,7 +41,7 @@ public class Booking implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
 	protected Tvg tvg;
 	
-	@OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="booking", targetEntity=Control.class)
+	@OneToOne(optional=false, mappedBy="booking", targetEntity=Control.class)
 	protected Control control;
 	
 	@OneToMany(mappedBy="booking",targetEntity=Consultation.class)

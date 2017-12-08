@@ -40,7 +40,7 @@ public class DatabaseLoader implements CommandLineRunner {
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
 //		this.accountRep.save(new Account("motorist", bCryptPasswordEncoder.encode("root1234"), new java.sql.Date(Calendar.getInstance().getTime().getTime()), true, null, null, null, null, null, null, "ROLE_MOTORIST"));
 //		this.accountRep.save(new Account("tvgCenter", bCryptPasswordEncoder.encode("root4321"), new java.sql.Date(Calendar.getInstance().getTime().getTime()), true, null, null, null, null, null, null, "ROLE_TVG"));
-//		this.tvgRep.save(new Tvg("CityCenter", "Marjane", sdf.parse("2005-03-31 10:20:56"), "Meknès", "MA", "Fès-Meknès", "Citycenter@gmail.com", "05xxxxxxxx", "08:00", "12:00", "14:00", "18:00", true, null, null, accountRep.findOne((long) 2), null));
+//		this.tvgRep.save(new Tvg("CityCenter", "Marjane", sdf.parse("2005-03-31 10:20:56"), "Meknès", "MA", "Fès-Meknès", "Citycenter@gmail.com", "05xxxxxxxx", "08:00", "14:00", "12:00", "18:00", true, null, null, accountRep.findOne((long) 2), null));
 //		this.motoristRep.save(new Motorist("Mahdaoui", "Abdessamad", sdf.parse("1995-03-31 00:00:00"), "MA", "Meknes", "DXXXXXX", "mahdaoui21@gmail.com", "0600456165", "Matricule", null, accountRep.findOne((long) 1)));
 //		this.vehicleRep.save(new Vehicle("Peaugot", "Car (Light vehicles)", sdf.parse("2015-01-01 00:00:00"), "RegistrationX", motoristRep.findOne((long) 1), null));
 //		this.vehicleRep.save(new Vehicle("Reanult", "Car (Light vehicles)", sdf.parse("2015-10-10 00:00:00"), "RegistrationY", motoristRep.findOne((long) 1), null));

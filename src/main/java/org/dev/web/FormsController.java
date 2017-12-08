@@ -180,11 +180,6 @@ public class FormsController {
     	return accountLogged;
     }
     
-    @RequestMapping(value = "/bookings", method = RequestMethod.GET)
-    public Collection<Booking> getBookings() throws IOException{
-    	return iBookingMetier.getAllBooking();
-    }
-    
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
     public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
     										@RequestParam(name = "passwordnew", required = true) String passwordnew, 
@@ -340,23 +335,65 @@ public class FormsController {
     	}
 	}
 
+	public boolean isBetween(int fromIncoming, int toIncoming, Date dateIncoming) {
+		int from = fromIncoming;
+	    int to = toIncoming;
+	    Calendar c = Calendar.getInstance();
+	    c.setTime(dateIncoming);
+	    int t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
+	    return to > from && t >= from && t <= to || to < from && (t >= from || t <= to);
+	}
+	
 	@RequestMapping(value = "/addBooking", method = RequestMethod.POST)
 	public void saveBooking(Model model, 
 							@RequestParam(name = "bookingDate", required = true) String bookingDate,
 							@RequestParam(name = "vehicleId", required = true) String vehicleId,
 							@RequestParam(name = "tvgId", required = true) String tvgId,
+							HttpServletResponse response) throws IOException, NumberFormatException, ParseException {
+		if(!isValidDateStr(bookingDate))
+			response.sendRedirect("/profil?error="+error+":"+bookingDate);
+		else {
+			if(iBookingMetier.getBookingByBookingDate(sdfTime.parse(bookingDate)) == null) {
+				try {
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
+			    	long vId = Long.valueOf(vehicleId).longValue();
+			    	long tId = Long.valueOf(tvgId).longValue();
+			    	
+			    	int DaystartA = Integer.parseInt(iTVGMetier.getTvg(tId).getTvgDaystartA().split(":")[0]+iTVGMetier.getTvg(tId).getTvgDaystartA().split(":")[1]);
+			    	int DayendA = Integer.parseInt(iTVGMetier.getTvg(tId).getTvgDayendA().split(":")[0]+iTVGMetier.getTvg(tId).getTvgDayendA().split(":")[1]);
+			    	int DaystartB = Integer.parseInt(iTVGMetier.getTvg(tId).getTvgDaystartB().split(":")[0]+iTVGMetier.getTvg(tId).getTvgDaystartB().split(":")[1]);
+			    	int DayendB = Integer.parseInt(iTVGMetier.getTvg(tId).getTvgDayendB().split(":")[0]+iTVGMetier.getTvg(tId).getTvgDayendB().split(":")[1]);
+			    	
+			    	if(isBetween(DaystartA, DayendA, sdfTime.parse(bookingDate)) || isBetween(DaystartB, DayendB, sdfTime.parse(bookingDate))) {
+			    		iBookingMetier.createBooking((sdfTime.parse(bookingDate)), new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, accountLogged, iVehicleMetier.getVehicle(vId), null, null, iTVGMetier.getTvg(tId));
+		            	response.sendRedirect("/profil");
+			    	} else {
+			    		System.err.println(isBetween(DaystartA, DayendA, sdfTime.parse(bookingDate))+" FUCK A");
+			    		System.err.println(isBetween(DaystartB, DayendB, sdfTime.parse(bookingDate))+" FUCK B");
+			    		response.sendRedirect("/profil?Timeerror=booking_out_of_boundaries:"+bookingDate);
+			    	}
+				} catch (ParseException e) {
+					response.sendRedirect("/profil?Parseerror=" + e);
+				}
+			}else {
+				response.sendRedirect("/profil?error=booking_crushing:"+bookingDate);
+			}
+		}
+	}
+	
+	@RequestMapping(value = "/deleteBooking", method = RequestMethod.POST)
+	public void deleteBooking(Model model, 
+							@RequestParam(name = "bookingDate", required = true) String bookingDate,
 							HttpServletResponse response) throws IOException {
 		if(!isValidDateStr(bookingDate))
 			response.sendRedirect("/profil?error="+error+":"+bookingDate);
 		else {
 			try {
-				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
-		    	long vId = Long.valueOf(vehicleId).longValue();
-		    	long tId = Long.valueOf(tvgId).longValue();
-				iBookingMetier.createBooking((sdfTime.parse(bookingDate)), new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, accountLogged, iVehicleMetier.getVehicle(vId), null, null, iTVGMetier.getTvg(tId));
-            	response.sendRedirect("/profil");
-			} catch (ParseException e) {
+				Date bDate = sdfTime.parse(bookingDate);
+				iBookingMetier.deleteBooking(bDate);
+				response.sendRedirect("/profil");
+			} catch (Exception e) {
 				response.sendRedirect("/profil?Parseerror=" + e);
 			}
 		}

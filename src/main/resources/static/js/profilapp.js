@@ -1087,6 +1087,10 @@ class MultiStep extends Component {
 const store = { 
   events: [],
   accountId: [],
+  accountLogin: '',
+  tvgId: [],
+  bookings: [],
+  hasOwnBooking: false,
   vehicle: '', 
   vehicles: [],
   centre: '',
@@ -1102,25 +1106,34 @@ class VehicleChoice extends Component {
     };
   }
   handleVehicleChanged(event) {
-    // store updated
-    var vehicle = $(event.target).find('span.cell--text--title');
-    store.vehicle = vehicle.data('vehicle');
-    this.setState(store);
-
     // animation du box
     if($(event.target).hasClass('cell')){
       if($(event.target).hasClass('cell--selected')){
         $(event.target).removeClass('cell--selected');
+        // store updated
+        store.vehicle = '';
+        this.setState(store);
       }else{
         $('.cell').removeClass('cell--selected');
         $(event.target).toggleClass('cell--selected');
+        // store updated
+        var vehicle = $(event.target).find('span.cell--text--title');
+        store.vehicle = vehicle.data('vehicle');
+        this.setState(store);
       }
     }else{
       if($(event.target).closest('.cell').hasClass('cell--selected')){
         $(event.target).closest('.cell').removeClass('cell--selected');
+        // store updated
+        store.vehicle = '';
+        this.setState(store);
       }else{
         $('.cell').removeClass('cell--selected');
         $(event.target).closest('.cell').toggleClass('cell--selected');
+        // store updated
+        var vehicle = $(event.target).find('span.cell--text--title');
+        store.vehicle = vehicle.data('vehicle');
+        this.setState(store);
       }
     }
   }
@@ -1143,36 +1156,56 @@ class TvgChoice extends Component {
     };
   }
   handleCenterChanged(event) {
-    // store updated
-    var centreCard = $(event.target).find('span.cell--text--title');
-    fetch('/api/tvgs', {
-      headers : { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'x-my-custom-header': 'INDEED'
-      },
-      credentials: 'same-origin'
-    })
-    .then((response) => response.json()) 
-    .then((responseData) => {
-      store.centre = _.findWhere(responseData._embedded.tvgs, {tvgId: centreCard.data('tvg')});
-      this.setState(store);
-    });
-
     // animation du box
     if($(event.target).hasClass('cell')){
       if($(event.target).hasClass('cell--selected')){
         $(event.target).removeClass('cell--selected');
+        // store updated
+        store.centre = '';
+        this.setState(store);
       }else{
         $('.cell').removeClass('cell--selected');
         $(event.target).toggleClass('cell--selected');
+        // store updated
+        var centreCard = $(event.target).find('span.cell--text--title');
+        fetch('/api/tvgs', {
+          headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'x-my-custom-header': 'INDEED'
+          },
+          credentials: 'same-origin'
+        })
+        .then((response) => response.json()) 
+        .then((responseData) => {
+          store.centre = _.findWhere(responseData._embedded.tvgs, {tvgId: centreCard.data('tvg')});
+          this.setState(store);
+        });
       }
     }else{
       if($(event.target).closest('.cell').hasClass('cell--selected')){
         $(event.target).closest('.cell').removeClass('cell--selected');
+        // store updated
+        store.centre = '';
+        this.setState(store);
       }else{
         $('.cell').removeClass('cell--selected');
         $(event.target).closest('.cell').toggleClass('cell--selected');
+        // store updated
+        var centreCard = $(event.target).find('span.cell--text--title');
+        fetch('/api/tvgs', {
+          headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'x-my-custom-header': 'INDEED'
+          },
+          credentials: 'same-origin'
+        })
+        .then((response) => response.json()) 
+        .then((responseData) => {
+          store.centre = _.findWhere(responseData._embedded.tvgs, {tvgId: centreCard.data('tvg')});
+          this.setState(store);
+        });
       }
     }
   }
@@ -1269,11 +1302,40 @@ class StepOne extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       store.accountId = responseData.accountId;
+      store.accountLogin = responseData.accountLogin;
       store.vehicles = [];
       self.setState(store);
       responseData.motorist.vehicle.forEach(function(vehicle) {
         store.vehicles.push(<VehicleChoice vehicle={vehicle} />);
         self.setState(store);
+      });
+      fetch('/api/bookings', {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
+        },
+        credentials: 'same-origin'
+      })
+      .then((responseB) => responseB.json()) 
+      .then((responseDataB) => {
+        responseDataB._embedded.bookings.forEach(function(booking) {
+          fetch(_.values(booking._links.account), {
+            headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'x-my-custom-header': 'INDEED'
+            },
+            credentials: 'same-origin'
+          })
+          .then((responseA) => responseA.json()) 
+          .then((responseDataA) => {
+            if(responseDataA.accountLogin === responseData.accountLogin){
+              store.hasOwnBooking = true;
+              self.setState(store);
+            }
+          });
+        });
       });
     });
   }
@@ -1401,6 +1463,7 @@ class StepThree extends Component {
   }
   componentDidMount(){
     var self = this;
+    console.log(store.centre);
     if(store.centre != '' && store.vehicle != ''){
       fetch('/api/bookings', {
         headers : { 
@@ -1424,8 +1487,9 @@ class StepThree extends Component {
           })
           .then((responseT) => responseT.json()) 
           .then((responseDataT) => {
+            
             if(responseDataT.tvgId == store.centre.tvgId){
-
+              
               fetch(_.values(booking._links.vehicle), {
                 headers : { 
                 'Content-Type': 'application/json',
@@ -1448,6 +1512,7 @@ class StepThree extends Component {
                     endDate = new Date(year, month, day, hourEnd);
                 var eventElement = {color: color, content: content, disabled: true, endDate: endDate, meeting: false, reminder: false, startDate: startDate};
                 store.events.push(eventElement);
+                store.bookings.push(booking);
                 self.setState(store);
 
               });
@@ -1470,44 +1535,191 @@ class StepThree extends Component {
           var eventRecorder = new Y.SchedulerEventRecorder({
             on:{
               save: function (event) {
-                var starting = parseInt(((moment(this.get('startDate')).format('h:mm')).split(':'))[0]+''+((moment(this.get('startDate')).format('h:mm')).split(':'))[1]),
+                var starting = parseInt(((moment(this.get('startDate'), ["h:mm A"]).format("HH:mm")).split(':'))[0]+''+((moment(this.get('startDate'), ["h:mm A"]).format("HH:mm")).split(':'))[1]),
                     tvgDaystartA = parseInt(((store.centre.tvgDaystartA).split(':'))[0]+''+((store.centre.tvgDaystartA).split(':'))[1]),
                     tvgDayendA = parseInt(((store.centre.tvgDayendA).split(':'))[0]+''+((store.centre.tvgDayendA).split(':'))[1]),
                     tvgDaystartB = parseInt(((store.centre.tvgDaystartB).split(':'))[0]+''+((store.centre.tvgDaystartB).split(':'))[1]),
                     tvgDayendB = parseInt(((store.centre.tvgDayendB).split(':'))[0]+''+((store.centre.tvgDayendB).split(':'))[1]);
                 if((starting >= tvgDaystartA && starting < tvgDayendA) || (starting >= tvgDaystartB && starting < tvgDayendB)){
-                  var isNew = this.isNew(),
-                      bookingDate = moment(this.get('startDate')).format('YYYY-MM-DD HH:mm'),
-                      nendDate = this.get('endDate'),
-                      vehicleId = store.vehicle,
-                      tvgId = store.centre.tvgId;
-                  // save with the vars
-                  var $bookingDate = $('<input name="bookingDate" value="' + bookingDate + '" />'),
-                      $vehicleId = $('<input name="vehicleId" value="' + vehicleId + '" />'),
-                      $tvgId = $('<input name="tvgId" value="' + tvgId + '" />');
-                  var $form = $('<form action="/addBooking" method="POST"></form>');
-                  $form.append($bookingDate);
-                  $form.append($vehicleId);
-                  $form.append($tvgId);
-                  $(document.body).append($form);
-                  $form.submit();
+                  if(_.findWhere(store.bookings, {bookingDate: moment(this.get('startDate')).format("YYYY-MM-DDTHH:mm:ss.SSSZZ")}) == undefined){
+                    var isNew = this.isNew(),
+                        bookingDate = moment(this.get('startDate')).format('YYYY-MM-DD HH:mm'),
+                        nendDate = this.get('endDate'),
+                        vehicleId = store.vehicle,
+                        tvgId = store.centre.tvgId;
+                    // save with the vars
+                    var $bookingDate = $('<input type="hidden" name="bookingDate" value="' + bookingDate + '" />'),
+                        $vehicleId = $('<input type="hidden" name="vehicleId" value="' + vehicleId + '" />'),
+                        $tvgId = $('<input type="hidden" name="tvgId" value="' + tvgId + '" />');
+                    var $form = $('<form action="/addBooking" method="POST"></form>');
+                    $form.append($bookingDate);
+                    $form.append($vehicleId);
+                    $form.append($tvgId);
+                    $(document.body).append($form);
+                    $form.submit();
+                  }else{
+                    this.hidePopover();
+                    alert('Oops, Can\'t book on a existing Date');
+                    event.halt();
+                  }
                 }else{
                   this.hidePopover();
-                  alert('Oops, Can\'t book on a non Opened hour for this Center\n['+store.centre.tvgDaystartA+' to '+store.centre.tvgDayendA+' & '+store.centre.tvgDaystartB+' to '+store.centre.tvgDayendB+']\nminus One Hour On Closing');
+                  alert('Oops, Can\'t book on a non Opened hour ['+moment(this.get('startDate'), ["h:mm A"]).format("HH:mm")+'] for this Center\n['+store.centre.tvgDaystartA+' to '+store.centre.tvgDayendA+' & '+store.centre.tvgDaystartB+' to '+store.centre.tvgDayendB+']\nminus One Hour On Closing');
                   event.halt();
                 }
               },
-              edit: function (event) {
-                  alert('Edit Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
-              },
               delete: function (event) {
-                  alert('Delete Event:' + this.isNew() + ' --- ' + this.getContentNode().val());
+                this.hidePopover();
+                event.halt();
+                var bookingDateOld = event.details[0].schedulerEvent._state.data.startDate.value,
+                    $bookingDate = $('<input type="hidden" name="bookingDate" value="' + moment(bookingDateOld).format('YYYY-MM-DD HH:mm') + '" />'),
+                    $form = $('<form action="/deleteBooking" method="POST"></form>');
+                var b = _.findWhere(store.bookings, {bookingDate: moment(bookingDateOld).format("YYYY-MM-DDTHH:mm:ss.SSSZZ")});
+                $form.append($bookingDate);
+                fetch(_.values(b._links.account), {
+                  headers : { 
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'x-my-custom-header': 'INDEED'
+                  },
+                  credentials: 'same-origin'
+                })
+                .then((responseA) => responseA.json()) 
+                .then((responseDataA) => {
+                  if(responseDataA.accountLogin == store.accountLogin){
+                    $(document.body).append($form);
+                    $form.submit();
+                  }else{
+                    alert('Oops, You can\'t delete this event cuz it\'s not yours');
+                  }
+                });
               }
             }
           });
 
           new Y.Scheduler({
-            activeView: monthView,
+            activeView: weekView,
+            boundingBox: '#myScheduler',
+            date: new Date(),
+            eventRecorder: eventRecorder,
+            items: events,
+            render: true,
+            views: [dayView, weekView, monthView]
+          });
+        }
+      );
+    }else if(store.hasOwnBooking){
+      fetch('/api/bookings', {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
+        },
+        credentials: 'same-origin'
+      })
+      .then((response) => response.json()) 
+      .then((responseData) => {
+        responseData._embedded.bookings.forEach(function(booking) {
+          fetch(_.values(booking._links.vehicle), {
+            headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'x-my-custom-header': 'INDEED'
+            },
+            credentials: 'same-origin'
+          })
+          .then((responseV) => responseV.json()) 
+          .then((responseDataV) => {
+            var color = randomColor(),
+                content = responseDataV.vehicleBrand,
+                year = parseInt(moment(new Date(booking.bookingDate)).format('YYYY')),
+                month = parseInt(moment(new Date(booking.bookingDate)).add(-1, 'months').format('MM')),
+                day = parseInt(moment(new Date(booking.bookingDate)).format('DD')),
+                hour = parseInt(moment(new Date(booking.bookingDate)).format('HH')),
+                hourEnd = parseInt(moment(new Date(booking.bookingDate)).add(1, 'hours').format('HH')),
+                startDate = new Date(year, month, day, hour),
+                endDate = new Date(year, month, day, hourEnd);
+            var eventElement = {color: color, content: content, disabled: true, endDate: endDate, meeting: false, reminder: false, startDate: startDate};
+            store.events.push(eventElement);
+            store.bookings.push(booking);
+            self.setState(store);
+          });
+
+          fetch(_.values(booking._links.account), {
+            headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'x-my-custom-header': 'INDEED'
+            },
+            credentials: 'same-origin'
+          })
+          .then((responseA) => responseA.json()) 
+          .then((responseDataA) => {
+            if(responseDataA.accountLogin == store.accountLogin){
+              fetch(_.values(booking._links.tvg), {
+                headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-my-custom-header': 'INDEED'
+                },
+                credentials: 'same-origin'
+              })
+              .then((responseT) => responseT.json()) 
+              .then((responseDataT) => {
+                store.centre = responseDataT;
+                self.setState(store);
+              });
+            }
+          });
+        });
+      });
+      
+      YUI().use(
+        'aui-scheduler',
+        function(Y) {
+          var events = self.state.store.events;
+          
+          var dayView = new Y.SchedulerDayView();
+          var weekView = new Y.SchedulerWeekView();
+          var monthView = new Y.SchedulerMonthView();
+          var eventRecorder = new Y.SchedulerEventRecorder({
+            on:{
+              save: function (event) {
+                this.hidePopover();
+                alert('Oops, You need to Choose A Center & A Vehicle');
+                event.halt();
+              },
+              delete: function (event) {
+                this.hidePopover();
+                event.halt();
+                var bookingDateOld = event.details[0].schedulerEvent._state.data.startDate.value,
+                    $bookingDate = $('<input type="hidden" name="bookingDate" value="' + moment(bookingDateOld).format('YYYY-MM-DD HH:mm') + '" />'),
+                    $form = $('<form action="/deleteBooking" method="POST"></form>');
+                var b = _.findWhere(store.bookings, {bookingDate: moment(bookingDateOld).format("YYYY-MM-DDTHH:mm:ss.SSSZZ")});
+                $form.append($bookingDate);
+                fetch(_.values(b._links.account), {
+                  headers : { 
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'x-my-custom-header': 'INDEED'
+                  },
+                  credentials: 'same-origin'
+                })
+                .then((responseA) => responseA.json()) 
+                .then((responseDataA) => {
+                  if(responseDataA.accountLogin == store.accountLogin){
+                    $(document.body).append($form);
+                    $form.submit();
+                  }else{
+                    alert('Oops, You can\'t delete this event cuz it\'s not yours');
+                  }
+                });
+              }
+            }
+          });
+
+          new Y.Scheduler({
+            activeView: weekView,
             boundingBox: '#myScheduler',
             date: new Date(),
             eventRecorder: eventRecorder,

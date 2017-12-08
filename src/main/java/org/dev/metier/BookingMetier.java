@@ -14,4 +14,6 @@ public interface BookingMetier {
 	public void createBooking(Date bookingDate, Date bookingCreationdate, boolean bookingIsCanceled,
 			Account account, Vehicle vehicle, Control control, Collection<Consultation> consultation, Tvg tvg);
 	public Collection<Booking> getAllBooking();
+	public Booking getBookingByBookingDate(java.util.Date bookingDate);
+	public void deleteBooking(Date bookingDate);
 }

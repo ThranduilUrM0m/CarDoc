@@ -50,4 +50,16 @@ public class BookingMetierImplementation implements BookingMetier{
 		this.accountRep.findOne(account.getAccountId()).setBooking(this.bookingRep.findByAccount(this.accountRep.findOne(account.getAccountId())));
 	}
 
+	@Override
+	public Booking getBookingByBookingDate(java.util.Date bookingDate) {
+		return this.bookingRep.findByBookingDate(bookingDate);
+	}
+
+	@Override
+	public void deleteBooking(java.util.Date bookingDate) {
+		// TODO Auto-generated method stub
+		System.err.println(this.getBookingByBookingDate(bookingDate).getBookingCreationdate());
+		this.bookingRep.delete(this.getBookingByBookingDate(bookingDate));
+	}
+
 }

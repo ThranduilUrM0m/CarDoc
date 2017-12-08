@@ -57,7 +57,7 @@ public class Account implements Serializable{
 	protected java.util.Collection<ConnectionHistory> connectionHistory;
 	@OneToMany(mappedBy="account",targetEntity=Consultation.class)
 	protected java.util.Collection<Consultation> consultation;
-	@OneToMany(mappedBy="account",targetEntity=Booking.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="account",targetEntity=Booking.class,fetch = FetchType.EAGER)
 	protected java.util.Collection<Booking> booking;
 	@OneToMany(mappedBy="account",targetEntity=Picture.class)
 	protected java.util.Collection<Picture> picture;
