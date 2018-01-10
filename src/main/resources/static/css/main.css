@@ -89,11 +89,21 @@ a.disabled {
 }
 
 /* line 1, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+[data-notify="progressbar"] {
+  margin-bottom: 0px;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 5px;
+}
+
+/* line 9, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .ui-select span {
   display: none;
 }
 
-/* line 4, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 12, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 #nav-bg-shadow {
   z-index: 1000;
   background: #000;
@@ -104,7 +114,7 @@ a.disabled {
   transition: background 1s ease-in-out;
 }
 
-/* line 12, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 20, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 #nav-bg-shadow i {
   color: #fff;
   -webkit-transition: background 1s ease-in-out;
@@ -114,7 +124,7 @@ a.disabled {
   transition: background 1s ease-in-out;
 }
 
-/* line 21, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 29, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -123,7 +133,7 @@ a.disabled {
   padding-bottom: 0 !important;
 }
 
-/* line 27, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 35, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar #navbar-brand-carcare {
   padding: 0;
   position: absolute;
@@ -131,13 +141,13 @@ a.disabled {
   transition: all .5s ease-in-out;
 }
 
-/* line 32, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 40, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar #navbar-brand-carcare img {
   height: 1.5rem;
   transition: all .5s ease-in-out;
 }
 
-/* line 37, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 45, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar #navbar-brand-logocarcare {
   padding: 0;
   position: absolute;
@@ -145,41 +155,41 @@ a.disabled {
   transition: all .5s ease-in-out;
 }
 
-/* line 42, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 50, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar #navbar-brand-logocarcare img {
   height: 3rem;
   transition: all .5s ease-in-out;
 }
 
-/* line 46, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 54, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar #navbar-brand-logocarcare * {
   transition: all .5s ease-in-out;
 }
 
-/* line 50, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 58, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar .form-group {
   margin: 0;
 }
 
-/* line 53, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 61, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar .nav-link {
   padding-top: .25rem !important;
   padding-bottom: 0 !important;
   transition: all .5s ease-in-out;
 }
 
-/* line 58, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 66, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar-profil {
   position: absolute;
   width: 100%;
 }
 
-/* line 61, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 69, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar-profil ul li:not(:first-of-type) a {
   padding-top: 0.1rem !important;
 }
 
-/* line 64, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 72, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar-profil .drawer-hamburger {
   position: initial;
   top: initial;
@@ -189,85 +199,97 @@ a.disabled {
   padding: 0;
 }
 
-/* line 71, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 79, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar-profil .drawer-hamburger-icon, .navbar-profil .drawer-hamburger-icon:after, .navbar-profil .drawer-hamburger-icon:before {
   background-color: #999;
 }
 
-/* line 75, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 83, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar-profil .drawer-hamburger-icon:before {
   top: -0.35rem;
 }
 
-/* line 78, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 86, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .navbar-profil .drawer-hamburger-icon:after {
   top: 0.4rem;
 }
 
-/* line 85, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 93, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login {
   padding: 0;
 }
 
-/* line 87, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 95, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .btn-primary {
   color: #fff !important;
   background-color: #2196f3 !important;
   border-color: #2196f3 !important;
 }
 
-/* line 92, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 100, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .modal-dialog {
   margin: 0;
   padding: 0;
 }
 
-/* line 95, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 103, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .modal-dialog .modal-content {
   height: 100vh;
   width: 100vw;
 }
 
-/* line 99, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 107, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .modal-dialog .modal-content .modal-body > div:first-of-type {
   border-right: 1px solid rgba(153, 153, 153, 0.333333);
 }
 
-/* line 103, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 111, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .modal-dialog .modal-content .modal-body .col > .container {
   padding-right: 5rem;
   padding-left: 5rem;
 }
 
-/* line 108, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 116, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .modal-dialog .modal-content .modal-body .card {
   background: rgba(153, 153, 153, 0.333333);
 }
 
-/* line 111, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 119, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .login .modal-dialog .modal-content .modal-body .card .card-body i {
   float: right;
   font-size: 3rem;
 }
 
-/* line 121, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 123, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+.login .modal-dialog .modal-content .modal-body .card .card-body .has-tooltip {
+  position: relative;
+}
+
+/* line 125, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+.login .modal-dialog .modal-content .modal-body .card .card-body .has-tooltip .tooltip {
+  width: max-content;
+  top: -50%;
+  left: initial;
+}
+
+/* line 137, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search {
   padding: 0;
 }
 
-/* line 123, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 139, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog {
   margin: 0;
   padding: 0;
 }
 
-/* line 126, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 142, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content {
   height: 100vh;
   width: 100vw;
 }
 
-/* line 130, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 146, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content .modal-body input {
   border: 0;
   background: transparent;
@@ -279,58 +301,58 @@ a.disabled {
   padding-bottom: 1rem;
 }
 
-/* line 140, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 156, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content .modal-body textarea, .search .modal-dialog .modal-content .modal-body input {
   outline: none;
 }
 
-/* line 141, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 157, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content .modal-body ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   font-size: 3rem;
   color: #999;
 }
 
-/* line 145, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 161, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content .modal-body ::-moz-placeholder {
   /* Firefox 19+ */
   font-size: 3rem;
   color: #999;
 }
 
-/* line 149, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 165, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content .modal-body :-ms-input-placeholder {
   /* IE 10+ */
   font-size: 3rem;
   color: #999;
 }
 
-/* line 153, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 169, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .search .modal-dialog .modal-content .modal-body :-moz-placeholder {
   /* Firefox 18- */
   font-size: 3rem;
   color: #999;
 }
 
-/* line 161, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 177, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps, .motoristps {
   padding: 0;
 }
 
-/* line 162, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 178, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .badge-light, .motoristps .badge-light {
   color: #111 !important;
   background-color: #f8f9fa;
 }
 
-/* line 166, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 182, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .badge-pill, .motoristps .badge-pill {
   padding-right: .6em;
   padding-left: .6em;
   border-radius: 10rem;
 }
 
-/* line 171, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 187, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .badge, .motoristps .badge {
   display: inline-block;
   padding: .25em .4em;
@@ -344,20 +366,20 @@ a.disabled {
   border-radius: .25rem;
 }
 
-/* line 184, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 200, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog, .motoristps .modal-dialog {
   margin: 0;
   padding: 0;
 }
 
-/* line 187, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 203, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content, .motoristps .modal-dialog .modal-content {
   height: 100vh;
   width: 100vw;
   background: #1e1e1e;
 }
 
-/* line 192, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 208, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card, .motoristps .modal-dialog .modal-content .modal-body .card {
   width: 100%;
   height: 100%;
@@ -367,17 +389,17 @@ a.disabled {
   background: #1e1e1e;
 }
 
-/* line 193, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 209, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card:not(first-of-type), .motoristps .modal-dialog .modal-content .modal-body .card:not(first-of-type) {
   overflow: auto;
 }
 
-/* line 196, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 212, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card::-webkit-scrollbar, .motoristps .modal-dialog .modal-content .modal-body .card::-webkit-scrollbar {
   display: none;
 }
 
-/* line 205, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 221, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card .card-body, .motoristps .modal-dialog .modal-content .modal-body .card .card-body {
   background-color: #1e1e1e;
   position: absolute;
@@ -388,17 +410,17 @@ a.disabled {
   transition: all .5s ease-in-out;
 }
 
-/* line 213, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 229, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card .card-body *, .motoristps .modal-dialog .modal-content .modal-body .card .card-body * {
   color: #fff;
 }
 
-/* line 216, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 232, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card .card-body:hover, .motoristps .modal-dialog .modal-content .modal-body .card .card-body:hover {
   transform: rotateY(180deg);
 }
 
-/* line 219, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 235, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card .card-body .card-face, .motoristps .modal-dialog .modal-content .modal-body .card .card-body .card-face {
   backface-visibility: hidden;
   height: 100%;
@@ -406,51 +428,51 @@ a.disabled {
   position: absolute;
 }
 
-/* line 224, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 240, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card .card-body .card-face:not(.active), .motoristps .modal-dialog .modal-content .modal-body .card .card-body .card-face:not(.active) {
   transform: rotateY(180deg);
 }
 
-/* line 227, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 243, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .tvgps .modal-dialog .modal-content .modal-body .card .card-body .card-face h1, .motoristps .modal-dialog .modal-content .modal-body .card .card-body .card-face h1 {
   font-weight: bolder;
   font-size: 5rem;
 }
 
-/* line 238, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 254, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactus {
   padding: 0;
 }
 
-/* line 240, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 256, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactus .modal-dialog {
   margin: 0;
   padding: 0;
 }
 
-/* line 243, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 259, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactus .modal-dialog .modal-content {
   height: 100vh;
   width: 100vw;
 }
 
-/* line 247, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 263, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactus .modal-dialog .modal-content .modal-body > div:first-of-type {
   border-right: 1px solid rgba(153, 153, 153, 0.333333);
 }
 
-/* line 252, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 268, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactus .modal-dialog .modal-content .modal-body .card .card-body i {
   float: right;
   font-size: 3rem;
 }
 
-/* line 256, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 272, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactus .modal-dialog .modal-content .modal-body .card .card-body button {
   float: right;
 }
 
-/* line 265, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 281, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactusmodallauncher {
   position: fixed;
   z-index: 995;
@@ -458,18 +480,18 @@ a.disabled {
   left: 2vw;
 }
 
-/* line 270, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 286, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .contactusmodallauncher i {
   font-size: 2.5rem;
 }
 
-/* line 274, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 290, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection {
   height: 100vh;
   padding: 2rem;
 }
 
-/* line 277, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 293, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection:before {
   content: "";
   position: absolute;
@@ -483,12 +505,12 @@ a.disabled {
   opacity: .02;
 }
 
-/* line 289, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 305, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .register-firstsection, .firstsection .success-firstsection, .firstsection .profil-firstsection, .firstsection .reservation-firstsection {
   text-decoration: none;
 }
 
-/* line 291, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 307, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .register-firstsection .linetop, .firstsection .success-firstsection .linetop, .firstsection .profil-firstsection .linetop, .firstsection .reservation-firstsection .linetop {
   position: absolute;
   top: 7vh;
@@ -497,7 +519,7 @@ a.disabled {
   border-left: 0.4rem solid rgba(153, 153, 153, 0.333333);
 }
 
-/* line 298, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 314, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .register-firstsection .linebottom, .firstsection .success-firstsection .linebottom, .firstsection .profil-firstsection .linebottom, .firstsection .reservation-firstsection .linebottom {
   position: absolute;
   top: 72vh;
@@ -506,7 +528,7 @@ a.disabled {
   border-left: 0.4rem solid rgba(153, 153, 153, 0.333333);
 }
 
-/* line 305, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 321, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .register-firstsection ul.nav-social, .firstsection .success-firstsection ul.nav-social, .firstsection .profil-firstsection ul.nav-social, .firstsection .reservation-firstsection ul.nav-social {
   position: absolute;
   left: 0;
@@ -514,19 +536,19 @@ a.disabled {
   z-index: 999;
 }
 
-/* line 310, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 326, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .register-firstsection ul.nav-social .nav-link, .firstsection .success-firstsection ul.nav-social .nav-link, .firstsection .profil-firstsection ul.nav-social .nav-link, .firstsection .reservation-firstsection ul.nav-social .nav-link {
   padding: 0;
   font-size: 1.25rem;
 }
 
-/* line 316, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 332, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection {
   text-decoration: none;
   cursor: default;
 }
 
-/* line 319, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 335, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection .carbg {
   cursor: pointer;
   background-image: url("../media/motorist.png");
@@ -541,7 +563,7 @@ a.disabled {
   transform: translate(-50%, -50%);
 }
 
-/* line 332, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 348, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection .linetop {
   position: absolute;
   top: 7vh;
@@ -550,7 +572,7 @@ a.disabled {
   border-left: 0.4rem solid rgba(153, 153, 153, 0.333333);
 }
 
-/* line 339, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 355, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection .linebottom {
   position: absolute;
   top: 72vh;
@@ -559,20 +581,20 @@ a.disabled {
   border-left: 0.4rem solid rgba(153, 153, 153, 0.333333);
 }
 
-/* line 346, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 362, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection ul {
   position: absolute;
   left: 0;
   top: 63%;
 }
 
-/* line 350, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 366, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection ul .nav-link {
   padding: 0;
   font-size: 1.25rem;
 }
 
-/* line 355, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 371, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .leftfirstsection .contactinfo {
   font-size: 0.7rem;
   margin: 0;
@@ -581,12 +603,12 @@ a.disabled {
   bottom: 0;
 }
 
-/* line 363, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 379, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .col:not(first-of-type) {
   text-decoration: none;
 }
 
-/* line 366, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 382, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .rightfirstsection {
   height: 100%;
   padding: 0;
@@ -597,19 +619,19 @@ a.disabled {
   background-size: cover;
 }
 
-/* line 374, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 390, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers {
   position: absolute;
   bottom: 0;
   right: 1.2vw;
 }
 
-/* line 378, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 394, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers li {
   text-align: right;
 }
 
-/* line 381, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 397, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers button {
   cursor: text;
   font-size: 2rem;
@@ -617,35 +639,35 @@ a.disabled {
   text-decoration: none;
 }
 
-/* line 387, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 403, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .firstsection .rightfirstsection .statisticsnumbers button:hover {
   text-decoration: none;
 }
 
-/* line 393, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 409, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection {
   height: 80vh;
   margin: 0;
 }
 
-/* line 396, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 412, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection {
   padding: 0;
 }
 
-/* line 398, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 414, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel {
   vertical-align: middle;
   padding: 3rem;
   padding-top: 1rem;
 }
 
-/* line 402, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 418, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card {
   height: 75vh;
 }
 
-/* line 404, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 420, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card img {
   width: 50%;
   display: block;
@@ -653,47 +675,47 @@ a.disabled {
   margin-bottom: 3rem;
 }
 
-/* line 410, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 426, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card .table {
   border-collapse: collapse;
   border-style: hidden;
 }
 
-/* line 414, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 430, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card .lastdivider {
   margin-top: 4.5rem;
 }
 
-/* line 417, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 433, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .card .socialmediatvg a {
   font-size: 1.5rem;
   padding-top: 0;
 }
 
-/* line 422, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 438, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .leftsecondsection .carousel .carousel-control-next span, .secondsection .leftsecondsection .carousel .carousel-control-prev span {
   color: rgba(153, 153, 153, 0.5);
   font-size: 3rem;
 }
 
-/* line 428, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 444, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .rightsecondsection {
   background-color: #999;
   background-image: linear-gradient(200deg, #999 0%, #fff 100%);
 }
 
-/* line 430, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 446, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .rightsecondsection img {
   height: 100%;
   float: right;
 }
 
-/* line 434, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 450, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .rightsecondsection p {
   font-size: .8rem;
 }
 
-/* line 437, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 453, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .secondsection .rightsecondsection h3 {
   position: absolute;
   font-size: 20rem;
@@ -701,30 +723,30 @@ a.disabled {
   border: 1px solid;
 }
 
-/* line 445, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 461, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection {
   height: 80vh;
   margin: 0;
 }
 
-/* line 448, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 464, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .leftthirdsection {
   background-color: #999;
   background-image: linear-gradient(20deg, #999 0%, #fff 100%);
 }
 
-/* line 450, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 466, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .leftthirdsection img {
   height: 100%;
   float: left;
 }
 
-/* line 454, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 470, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .leftthirdsection p {
   font-size: .8rem;
 }
 
-/* line 457, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 473, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .leftthirdsection h3 {
   position: absolute;
   font-size: 8rem;
@@ -732,24 +754,24 @@ a.disabled {
   border: 1px solid;
 }
 
-/* line 464, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 480, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection {
   padding: 0;
 }
 
-/* line 466, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 482, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel {
   vertical-align: middle;
   padding: 3rem;
   padding-top: 1rem;
 }
 
-/* line 470, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 486, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card {
   height: 75vh;
 }
 
-/* line 472, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 488, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card img {
   width: 50%;
   display: block;
@@ -757,63 +779,63 @@ a.disabled {
   margin-bottom: 3rem;
 }
 
-/* line 478, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 494, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card .table {
   border-collapse: collapse;
   border-style: hidden;
 }
 
-/* line 482, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 498, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card .lastdivider {
   margin-top: 4.5rem;
 }
 
-/* line 485, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 501, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .card .socialmediamotorist a {
   font-size: 1.5rem;
   padding-top: 0;
 }
 
-/* line 490, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 506, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .thirdsection .rightthirdsection .carousel .carousel-control-next span, .thirdsection .rightthirdsection .carousel .carousel-control-prev span {
   color: rgba(153, 153, 153, 0.5);
   font-size: 3rem;
 }
 
-/* line 497, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 513, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer {
   height: 51vh;
   background: #000;
   z-index: 997;
 }
 
-/* line 501, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 517, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer .container {
   height: 100%;
 }
 
-/* line 503, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 519, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer .container .row:first-of-type {
   height: 45vh;
   padding-top: 8vh;
 }
 
-/* line 506, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 522, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer .container .row:first-of-type h5 {
   margin-bottom: 1rem;
 }
 
-/* line 509, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 525, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer .container .row:first-of-type i {
   font-size: 3rem;
 }
 
-/* line 512, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 528, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer .container .row:first-of-type p {
   font-size: .9rem;
 }
 
-/* line 517, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
+/* line 533, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer .container .row:not(first-of-type) a {
   font-size: .8rem;
 }
@@ -1739,12 +1761,11 @@ a.disabled {
   position: relative;
   background: rgba(0, 0, 0, 0.6);
   padding: 0px 8px;
-  left: -50%;
   font-size: 14px;
   color: #fff;
 }
 
-/* line 24, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_tooltip.scss */
+/* line 23, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_tooltip.scss */
 .has-tooltip .tooltip span:after {
   top: 100%;
   border: solid transparent;

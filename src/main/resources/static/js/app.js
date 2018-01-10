@@ -647,8 +647,8 @@ class LoginModal extends Component {
       signupas: '',
       formErrors: {login: '', passwordnew: '', signupas: ''},
       formErrorsL: {username: '', password: ''},
-      repeatedLogin: [],
       loginValid: false,
+      loginRepeated: false,
       usernameValid: false,
       passwordnewValid: false,
       passwordValid: false,
@@ -665,13 +665,9 @@ class LoginModal extends Component {
 
     switch(fieldName) {
       case 'login':
-        loginValid = value.length >= 6 && value != this.state.passwordnew && this.state.repeatedLogin === undefined;
-        if(this.state.repeatedLogin != undefined){
-          fieldValidationErrors.login = 'Login already exists';
-        }
-        else {
-          fieldValidationErrors.login = loginValid ? '' : ' is invalid';
-        }
+        loginValid = value.length >= 6 && value != this.state.passwordnew;
+        fieldValidationErrors.login = loginValid ? '' : ' is invalid';
+        $('#exists').fadeTo("fast" , 0);
         break;
       case 'passwordnew':
         passwordnewValid = value.length >= 6 && value != this.state.login;
@@ -690,27 +686,42 @@ class LoginModal extends Component {
                     signupasValid: signupasValid
                   }, this.validateForm);
   }
-  validateForm() {
-    this.setState({formValid: this.state.loginValid && this.state.passwordnewValid && this.state.signupasValid});
-  }
-  handleUserInput (e) {
-    const name = e.target.name;
-    const value = e.target.value;
+  validateLogin(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let loginRepeated = this.state.loginRepeated;
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept", "application/json");
     myHeaders.append("x-my-custom-header", "INDEED");
     var myInit = { method: 'GET',
-                   headers: myHeaders,
-                   mode: 'cors',
-                   cache: 'default',
-                   credentials: 'same-origin' };
+                  headers: myHeaders,
+                  mode: 'cors',
+                  cache: 'default',
+                  credentials: 'same-origin' };
     fetch('/api/accounts', myInit)
     .then((response) => response.json()) 
     .then((responseData) => {
-      this.setState({repeatedLogin: _.findWhere(responseData._embedded.accounts, {accountLogin: value})});
-      this.setState({[name]: value}, () => { this.validateField(name, value) });
+      loginRepeated = _.findWhere(responseData._embedded.accounts, {accountLogin: value}) === undefined;
+      fieldValidationErrors.login = loginRepeated ? '' : ' Already exists';
+      this.setState({formErrors: fieldValidationErrors,
+        loginRepeated: loginRepeated
+      }, this.validateForm);
+      $('#exists').fadeTo("slow" , 1);
     });
+  }
+  validateForm() {
+    this.setState({formValid: this.state.loginValid && this.state.passwordnewValid && this.state.signupasValid && this.state.loginRepeated});
+  }
+  handleBlur(e){
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateLogin(name, value) });
+  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
   validateFieldL(fieldName, value) {
     let fieldLValidationErrors = this.state.formErrorsL;
@@ -762,6 +773,7 @@ class LoginModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Login to your profile<i className="ion-log-in"></i></h4>
                       <p className="card-text">Enter username and password to log in</p>
+                      
                       <form data-ajax="false" id="loginForm" name="f" action="/index" method="post">
 
                         <div className={`form-group ${this.errorClass(this.state.formErrorsL.username)}`}>
@@ -782,6 +794,7 @@ class LoginModal extends Component {
 
                         <button type="submit" className="btn btn-outline-primary" disabled={!this.state.formLValid}>Login</button>
                       </form>
+
                     </div>
                   </div>
                 </div>
@@ -792,11 +805,12 @@ class LoginModal extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Join the community<i className="ion-compose"></i></h4>
                       <p className="card-text">fill in the form below to get instant access</p>
+                      
                       <form data-ajax="false" id="signupForm" action="/signup" method="post">
 
                         <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.login)}`}>
-                          <span className={`tooltip tooltip-${this.state.formErrors.login}`}><span>{this.state.formErrors.login}</span></span>
-                          <input value={this.state.login} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login" name="login" required/>
+                          <span id="exists" className={`tooltip tooltip-${this.state.formErrors.login}`}><span>{this.state.formErrors.login}</span></span>
+                          <input value={this.state.login} onBlur={(event) => this.handleBlur(event)} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" placeholder="Login" name="login" required/>
                           <div className="invalid-feedback">
                             Please provide a valid login.
                           </div>
@@ -825,6 +839,7 @@ class LoginModal extends Component {
 
                         <button type="submit" className="btn btn-outline-primary" disabled={!this.state.formValid}>Register</button>
                       </form>
+
                     </div>
                   </div>
                 </div>

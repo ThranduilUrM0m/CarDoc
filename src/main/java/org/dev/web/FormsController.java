@@ -189,8 +189,8 @@ public class FormsController {
         	if(login.equals(passwordnew) || login.length() < 6 || passwordnew.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
         		response.sendRedirect("/?error=invalidForm");
         	else {
-        		Tvg tvgInConsult = iTVGMetier.consulteTVGByLogin(login);
-        		if(tvgInConsult != null) {
+        		Account accountInConsult = iAccountMetier.getAccountByUsername(login);
+        		if(accountInConsult != null) {
         			response.sendRedirect("/?error=repeatedLogin");
         		}else {
         			httpSession.setAttribute("login", login);
