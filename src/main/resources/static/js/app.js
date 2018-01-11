@@ -585,46 +585,137 @@ class ContactUsModalLauncher extends Component {
 class ContactUsModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'signupas'};
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      email: '',
+      fullname: '',
+      phone: '',
+      content: '',
+      formErrors: {
+  	    email: '',
+  	    fullname: '',
+        phone: '',
+        content: ''
+      },
+      emailValid: false,
+  	  fullnameValid: false,
+      phoneValid: false,
+      contentValid: false,
+      formValid: false
+    }
   }
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let emailValid = this.state.emailValid;
+  	let fullnameValid = this.state.fullnameValid;
+    let phoneValid = this.state.phoneValid;
+    let contentValid = this.state.contentValid;
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let phoneReg = /^([0|\+[0-9]{1,5})?([0-9]{10})$/;
+
+    switch(fieldName) {
+      case 'email':
+        emailValid = reg.test(value);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        break;
+      case 'fullname':
+        fullnameValid = value.length >= 2;
+        fieldValidationErrors.fullname = fullnameValid ? '' : ' is invalid';
+        break;
+      case 'phone':
+        phoneValid = phoneReg.test(value);
+        fieldValidationErrors.phone = phoneValid ? '' : ' is invalid';
+        break;
+      case 'content':
+        contentValid = value.length >= 6;
+        fieldValidationErrors.content = contentValid ? '' : ' is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                  emailValid: emailValid,
+                  fullnameValid: fullnameValid,
+                  phoneValid: phoneValid,
+                  contentValid: contentValid
+                  }, this.validateForm);
+  }
+  validateForm() {
+    this.setState({formValid: this.state.emailValid &&
+                              this.state.fullnameValid &&
+                              this.state.phoneValid &&
+                              this.state.contentValid});
+  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
+  }
+  errorClass(error) {
+    return(error.length === 0 ? '' : 'has-error');
   }
   render() {
     return (
       <div className="contactus modal fade" id="contactusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+          <div className="modal-header">
+            <i className="ion-email"></i>
+            <h5 className="modal-title">Stay Connected</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
             <div className="modal-body row">
               <div className="col">
                 <div className="container">
-                  <div className="card container">
-                    <div className="card-body">
-                      <h4 className="card-title">Stay Connected<i className="ion-email"></i></h4>
-                      <p className="card-text">Suggestions and Complaints are Welcome</p>
-                      <form data-ajax="false" id="contactusForm">
-                        <div className="form-group">
-                          <input type="email" className="form-control" id="exampleInputEmailContact1" aria-describedby="loginHelp" placeholder="Login"/>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputNameContact1" placeholder="Your Name"/>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputPhoneContact1" placeholder="Your Phone"/>
-                        </div>
-                        <div className="form-group">
-                          <textarea className="form-control" id="exampleFormControlMessageContact1" placeholder="Message" rows="5"></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
-                      </form>
+                  <form data-ajax="false" id="contactusForm">
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.email)}`}>
+                      <label for="email" className="col-form-label">Email:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.email}</span></span>
+                      <input value={this.state.email} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="emailHelp" className="form-text text-muted"></small>
                     </div>
-                  </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.fullname)}`}>
+                      <label for="fullname" className="col-form-label">Full Name:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
+                      <input value={this.state.fullname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="fullname" aria-describedby="fullnameHelp" name="fullname" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Full Name.
+                      </div>
+                      <small id="fullnameHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.phone)}`}>
+                      <label for="phone" className="col-form-label">Phone:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.email}</span></span>
+                      <input value={this.state.phone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="phone" aria-describedby="phoneHelp" name="phone" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="phoneHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.content)}`}>
+                      <label for="content" className="col-form-label">Message Content:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.content}`}><span>{this.state.formErrors.content}</span></span>
+                      <textarea value={this.state.content} onChange={(event) => this.handleUserInput(event)} rows="5" className="form-control" id="content" aria-describedby="contentHelp" name="content" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Message.
+                      </div>
+                      <small id="contentHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -707,7 +798,9 @@ class LoginModal extends Component {
       this.setState({formErrors: fieldValidationErrors,
         loginRepeated: loginRepeated
       }, this.validateForm);
-      $('#exists').fadeTo("slow" , 1);
+      if(loginRepeated === false){
+        $('#exists').fadeTo("slow" , 1);
+      }
     });
   }
   validateForm() {

@@ -255,27 +255,18 @@
 	}
 }
 .contactus{
-	padding: 0;
 	.modal-dialog{
-	  margin: 0;
-	  padding: 0;
 		.modal-content{
-			height: 100vh;
-			width: 100vw;
+			i{
+				float: right;
+				font-size: 3rem;
+			}
+			h5{
+				margin-left: 1rem;
+			}
 			.modal-body{
-				> div:first-of-type {
-					border-right: 1px solid $thirdgray;
-				}
-				.card{
-					.card-body{
-						i{
-							float: right;
-							font-size: 3rem;
-						}
-						button{
-							float: right;
-						}
-					}
+				button{
+					float: right;
 				}
 			}
 		}
