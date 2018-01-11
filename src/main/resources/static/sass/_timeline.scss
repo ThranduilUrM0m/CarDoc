@@ -2,35 +2,38 @@ $primary-color: #FF6B6B;
 $primary-color-hover: scale-color($primary-color, $lightness: 32%);
 
 .card-face{
-  .row {
-      padding: 0 0 4em 0;
-      &:nth-child(even) {
-          background: #F1F4F5;
-      }
-  }
-  .example-title {
-    text-align: center;
-    margin-bottom: 60px;
-    padding: 3em 0;
-    border-bottom: 1px solid #E4EAEC;
-    p {
-        margin: 0 auto;
-        font-size: 16px;
-        max-width: 400px;
+    .row {
+        padding: 0 0 4em 0;
+        width: 100%;
+        margin: 0;
+        &:nth-child(even) {
+            background: #F1F4F5;
+        }
     }
-  }
-  .timeline {
-      line-height: 1.4em;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      h1, h2, h3, h4, h5, h6 {
-          line-height: inherit;
-      }
-  }
-  .timeline-item {
+    .example-title {
+        text-align: center;
+        margin-bottom: 60px;
+        padding: 3em 0;
+        border-bottom: 1px solid #E4EAEC;
+        p {
+            margin: 0 auto;
+            font-size: 16px;
+            max-width: 400px;
+        }
+    }
+    .timeline {
+        line-height: 1.4em;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        h1, h2, h3, h4, h5, h6 {
+            line-height: inherit;
+        }
+    }
+    .timeline-item {
         padding-left: 40px;
+        padding-top: 0.2rem !important;
         position: relative;
         &:last-child {
             padding-bottom: 0;
@@ -41,8 +44,14 @@ $primary-color-hover: scale-color($primary-color, $lightness: 32%);
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 0 .5em 0;
+        margin-top: -1% !important;
         text-transform: uppercase;
         white-space: nowrap;
+        .btn{
+            margin-bottom: 0;
+            margin-left: 0.5rem;
+            cursor: default;
+        }
     }
     .timeline-marker {
         position: absolute;
@@ -168,6 +177,7 @@ $primary-color-hover: scale-color($primary-color, $lightness: 32%);
                 }
                 .timeline-item.period {
                     padding: 50px 0 90px;
+                    padding-top: 50px !important;
                 }
                 .period .timeline-marker:after {
                     height: 30px;

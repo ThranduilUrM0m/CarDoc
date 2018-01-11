@@ -929,10 +929,10 @@ class MotoristPSModal extends Component {
                               </li>
                               <li className="timeline-item">
                                   <div className="timeline-info">
+                                    <span className="badge badge-pill badge-light">2</span>
                                     <button className="btn">
                                       Profile
                                     </button>
-                                    <span className="badge badge-pill badge-light">2</span>
                                   </div>
                                   <div className="timeline-marker"></div>
                                   <div className="timeline-content">
@@ -963,10 +963,10 @@ class MotoristPSModal extends Component {
                               </li>
                               <li className="timeline-item">
                                   <div className="timeline-info">
+                                    <span className="badge badge-pill badge-light">4</span>
                                     <button className="btn">
                                       Evolve
                                     </button>
-                                    <span className="badge badge-pill badge-light">4</span>
                                   </div>
                                   <div className="timeline-marker"></div>
                                   <div className="timeline-content">
@@ -1012,10 +1012,10 @@ class TvgPSModal extends Component {
                             <ul className="timeline timeline-centered">
                                 <li className="timeline-item">
                                     <div className="timeline-info">
-                                      <span className="badge badge-pill badge-light">1</span>
                                       <button className="btn">
                                         Register
                                       </button>
+                                      <span className="badge badge-pill badge-light">1</span>
                                     </div>
                                     <div className="timeline-marker"></div>
                                     <div className="timeline-content">
@@ -1061,10 +1061,10 @@ class TvgPSModal extends Component {
                                 </li>
                                 <li className="timeline-item">
                                     <div className="timeline-info">
-                                      <span className="badge badge-pill badge-light">4</span>
                                       <button className="btn">
                                         Evolve
                                       </button>
+                                      <span className="badge badge-pill badge-light">4</span>
                                     </div>
                                     <div className="timeline-marker"></div>
                                     <div className="timeline-content">

@@ -176,25 +176,25 @@
 }
 .tvgps, .motoristps{
 	.badge-light {
-    color: #111 !important;
-    background-color: #f8f9fa;
+		color: #111 !important;
+		background-color: #f8f9fa;
 	}
 	.badge-pill {
-    padding-right: .6em;
-    padding-left: .6em;
-    border-radius: 10rem;
+		padding-right: .6em;
+		padding-left: .6em;
+		border-radius: 10rem;
 	}
 	.badge {
-    display: inline-block;
-    padding: .25em .4em;
-    font-size: 75%;
-    font-weight: 700;
-    line-height: 1;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25rem;
+		display: inline-block;
+		padding: .25em .4em;
+		font-size: 75%;
+		font-weight: 700;
+		line-height: 1;
+		color: #fff;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: baseline;
+		border-radius: .25rem;
 	}
 	padding: 0;
 	.modal-dialog{
@@ -204,6 +204,9 @@
 			height: 100vh;
 			width: 100vw;
 			background: $darkgray;
+			.modal-header{
+				height: 0;
+			}
 			.modal-body{
 				.card{
 					&:not(first-of-type){
@@ -212,40 +215,40 @@
 					&::-webkit-scrollbar {
 						display: none;
 					}
-				  width: 100%;
-				  height: 100%;
-				  margin: 0 auto;
-				  perspective: 600;
-				  position: relative;
+					width: 100%;
+					height: 100%;
+					margin: 0 auto;
+					perspective: 600;
+					position: relative;
 					background: $darkgray;
-				  .card-body{
-				    background-color: $darkgray;
-				    position: absolute;
-				    padding: 0;
-				    width: 100%;
-				    height: 100%;
-				    transform-style: preserve-3d;
-				    transition: all .5s ease-in-out;
-				    & *{
-				      color: $white;
-				    }
-				    &:hover{
-				      transform: rotateY(180deg);
-				    }
-				    .card-face{
-				      backface-visibility: hidden;
-				      height: 100%;
-				      width: 100%;
-				      position: absolute;
-				      &:not(.active){
-				        transform: rotateY(180deg);
-				      }
+				  	.card-body{
+						background-color: $darkgray;
+						position: absolute;
+						padding: 0;
+						width: 100%;
+						height: 100%;
+						transform-style: preserve-3d;
+						transition: all .5s ease-in-out;
+						& *{
+							color: $white;
+						}
+						&:hover{
+							transform: rotateY(180deg);
+						}
+						.card-face{
+							backface-visibility: hidden;
+							height: 100%;
+							width: 100%;
+							position: absolute;
+							&:not(.active){
+								transform: rotateY(180deg);
+							}
 							h1{
 								font-weight: bolder;
 								font-size: 5rem;
 							}
-				    }
-				  }
+						}
+				  	}
 				}
 			}
 		}
@@ -330,6 +333,18 @@
 		}
 	}
 	.leftfirstsection{
+		&:link {
+			color: inherit;
+		}
+		&:visited {
+			color: inherit;
+		}
+		&:hover {
+			color: inherit;
+		}
+		&:active {
+			color: inherit;
+		}
 		text-decoration: none;
 		cursor: default;
 		.carbg{
@@ -344,6 +359,18 @@
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
+			&::after{
+				font-family: 'Montserrat', sans-serif;
+				content: 'MOTORIST';
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: rotate(180deg) rotateY(180deg) translate(-50%, 50%);
+				z-index: 1;
+				font-size: 5em;
+				font-weight: bold;
+			}
+			
 		}
 		.linetop{
 			position: absolute;
@@ -380,6 +407,26 @@
 		text-decoration: none;
 	}
 	.rightfirstsection{
+		a:link &{
+			color: inherit;
+		}
+		a:visited & {
+			color: inherit;
+		}
+		a:hover & {
+			color: inherit;
+		}
+		a:active & {
+			color: inherit;
+		}
+		&::after{
+			font-family: 'Montserrat', sans-serif;
+			content: 'TVG';
+			transform: rotate(180deg) rotateY(180deg);
+			z-index: 1;
+			font-size: 5em;
+			font-weight: bold;
+		}
 		height: 100%;
 		padding: 0;
 		-moz-border-radius: 0;
