@@ -41,6 +41,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -184,7 +185,7 @@ public class FormsController {
     public void saveAccount(Model model, 	@RequestParam(name = "login", required = true) String login, 
     										@RequestParam(name = "passwordnew", required = true) String passwordnew, 
     										@RequestParam(name = "signupas", required = true) String signupas,
-    										HttpServletResponse response) throws IOException {
+    										HttpServletResponse response) throws Exception {
         try {
         	if(login.equals(passwordnew) || login.length() < 6 || passwordnew.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
         		response.sendRedirect("/?error=invalidForm");

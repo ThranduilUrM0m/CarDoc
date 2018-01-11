@@ -756,12 +756,12 @@ class LoginModal extends Component {
 
     switch(fieldName) {
       case 'login':
-        loginValid = value.length >= 6 && value != this.state.passwordnew;
+        loginValid = value.length >= 6 && value != this.state.passwordnew && value.match(/^\s*$/) != true;
         fieldValidationErrors.login = loginValid ? '' : ' is invalid';
         $('#exists').fadeTo("fast" , 0);
         break;
       case 'passwordnew':
-        passwordnewValid = value.length >= 6 && value != this.state.login;
+        passwordnewValid = value.length >= 6 && value != this.state.login && value.match(/^\s*$/) != true;
         fieldValidationErrors.passwordnew = passwordnewValid ? '' : ' is too short';
         break;
       case 'signupas':
@@ -823,11 +823,11 @@ class LoginModal extends Component {
 
     switch(fieldName) {
       case 'username':
-        usernameValid = value.length >= 6;
+        usernameValid = value.length >= 6 && value.match(/^\s*$/) != true;
         fieldLValidationErrors.username = usernameValid ? '' : ' is invalid';
         break;
       case 'password':
-        passwordValid = value.length >= 6;
+        passwordValid = value.length >= 6 && value.match(/^\s*$/) != true;
         fieldLValidationErrors.password = passwordValid ? '' : ' is too short';
         break;
       default:

@@ -542,6 +542,7 @@ class RegisterMotoristPanel extends Component{
   	  ipersonCityValid: false,
   	  ipersonNationalcardidValid: false,
   	  ipersonEmailValid: false,
+  	  ipersonEmailRepeated: false,
   	  ipersonPhoneValid: false,
   	  vehicleBrandValid: false,
   	  vehicleTypeValid: false,
@@ -593,13 +594,8 @@ class RegisterMotoristPanel extends Component{
         fieldValidationErrors.ipersonNationalcardid = ipersonNationalcardidValid ? '' : ' is invalid';
         break;
       case 'ipersonEmail':
-        ipersonEmailValid = reg.test(value) && this.state.repeatedEmail === undefined;
-        if(this.state.repeatedEmail != undefined){
-          fieldValidationErrors.ipersonEmail = 'Email already exists';
-        }
-        else {
-          fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
-        }
+        ipersonEmailValid = reg.test(value);
+        fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
         break;
       case 'ipersonPhone':
         ipersonPhoneValid = phoneReg.test(value);
@@ -639,6 +635,32 @@ class RegisterMotoristPanel extends Component{
                   vehicleRegistrationValid: vehicleRegistrationValid
                   }, this.validateForm);
   }
+  validateEmail(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let ipersonEmailRepeated = this.state.ipersonEmailRepeated;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/iPersons', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      ipersonEmailRepeated = _.findWhere(responseData._embedded.motorists, {ipersonEmail: value}) === undefined;
+      fieldValidationErrors.ipersonEmail = ipersonEmailRepeated ? '' : ' Already exists';
+      this.setState({formErrors: fieldValidationErrors,
+        ipersonEmailRepeated: ipersonEmailRepeated
+      }, this.validateForm);
+      if(ipersonEmailRepeated === false){
+        $('#exists').fadeTo("slow" , 1);
+      }
+    });
+  }
   validateForm() {
     this.setState({formValid: this.state.ipersonLastnameValid &&
                               this.state.ipersonFirstnameValid &&
@@ -651,14 +673,19 @@ class RegisterMotoristPanel extends Component{
                               this.state.vehicleBrandValid &&
                               this.state.vehicleTypeValid &&
                               this.state.vehicleFirstCirculationValid &&
-                              this.state.vehicleRegistrationValid});
+                              this.state.vehicleRegistrationValid &&
+                              this.state.ipersonEmailRepeated});
+  }
+  handleBlurEmail(e){
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateEmail(name, value) });
   }
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
     if(name == 'ipersonCountry'){
       var countrySelected = '';
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Accept", "application/json");
@@ -675,29 +702,8 @@ class RegisterMotoristPanel extends Component{
         this.loadCitiesFromJSON(countrySelected);
         this.setState({[name]: value}, () => { this.validateField(name, value) });
       });
-
     }else{
-      if(name == 'ipersonEmail'){
-
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Accept", "application/json");
-        myHeaders.append("x-my-custom-header", "INDEED");
-        var myInit = { method: 'GET',
-                       headers: myHeaders,
-                       mode: 'cors',
-                       cache: 'default',
-                       credentials: 'same-origin' };
-        fetch('/api/iPersons', myInit)
-        .then((response) => response.json()) 
-        .then((responseData) => { 
-          this.setState({repeatedEmail: _.findWhere(responseData._embedded.motorists, {ipersonEmail: value})});
-          this.setState({[name]: value}, () => { this.validateField(name, value) });
-        });
-
-      }else{
-        this.setState({[name]: value}, () => { this.validateField(name, value) });
-      }
+      this.setState({[name]: value}, () => { this.validateField(name, value) });
     }
   }
   errorClass(error) {
@@ -805,8 +811,8 @@ class RegisterMotoristPanel extends Component{
                 <div className="col">
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonLastname)}`}>
-                    <input value={this.state.ipersonLastname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonLastname" aria-describedby="ipersonLastnameHelp" name="ipersonLastname" required/>
-                    <label for="#{label}">Last Name</label>
+                    <input tabIndex="1" value={this.state.ipersonLastname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonLastname" aria-describedby="ipersonLastnameHelp" name="ipersonLastname" required/>
+                    <label for="{label}">Last Name</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please provide a valid Last Name.
@@ -814,19 +820,20 @@ class RegisterMotoristPanel extends Component{
                     <small id="ipersonLastnameHelp" className="form-text text-muted"></small>
                   </div>
 
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonFirstname)}`}>
-                    <input value={this.state.ipersonFirstname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonFirstname" aria-describedby="ipersonFirstnameHelp" name="ipersonFirstname" required/>
-                    <label for="#{label}">First Name</label>
+                  <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.ipersonEmail)}`}>
+                    <span id="exists" className={`tooltip tooltip-${this.state.formErrors.ipersonEmail}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
+                    <input tabIndex="3" value={this.state.ipersonEmail} onBlur={(event) => this.handleBlurEmail(event)} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonEmail" aria-describedby="ipersonEmailHelp" name="ipersonEmail" required/>
+                    <label for="{label}">Email</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                      Please provide a valid First Name.
+                      Please provide a valid Email.
                     </div>
-                    <small id="ipersonFirstnameHelp" className="form-text text-muted"></small>
+                    <small id="ipersonEmailHelp" className="form-text text-muted"></small>
                   </div>
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonBirthday)}`}>
-                    <input value={this.state.ipersonBirthday} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonBirthday" aria-describedby="ipersonBirthdayHelp" name="ipersonBirthday" required/>
-                    <label for="#{label}">Birthday</label>
+                    <input tabIndex="5" value={this.state.ipersonBirthday} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonBirthday" aria-describedby="ipersonBirthdayHelp" name="ipersonBirthday" required/>
+                    <label for="{label}">Birthday</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please Choose a Birthday.
@@ -835,11 +842,11 @@ class RegisterMotoristPanel extends Component{
                   </div>
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCountry)}`}>
-                    <select value={this.props.ipersonCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCountry" aria-describedby="ipersonCountryHelp" name="ipersonCountry" required>
+                    <select tabIndex="7" value={this.props.ipersonCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCountry" aria-describedby="ipersonCountryHelp" name="ipersonCountry" required>
                       <option value=""></option>
                       {rows}
                     </select>
-                    <label for="#{label}">Country</label>
+                    <label for="{label}">Country</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please Choose a Country.
@@ -848,33 +855,19 @@ class RegisterMotoristPanel extends Component{
                   </div>
                 </div>
                 <div className="col">
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCity)}`}>
-                    <select value={this.props.ipersonCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCity" aria-describedby="ipersonCityHelp" name="ipersonCity" required>
-                      <option value=""></option>
-                      {this.state.citiesWanted}
-                    </select>
-                    <label for="#{label}">City</label>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonFirstname)}`}>
+                    <input tabIndex="2" value={this.state.ipersonFirstname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonFirstname" aria-describedby="ipersonFirstnameHelp" name="ipersonFirstname" required/>
+                    <label for="{label}">First Name</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                      Please Choose a City.
+                      Please provide a valid First Name.
                     </div>
-                    <small id="ipersonCityHelp" className="form-text text-muted"></small>
-                  </div>
-
-                  <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.ipersonEmail)}`}>
-                    <span className={`tooltip tooltip-${this.state.formErrors.ipersonEmail}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
-                    <input value={this.state.ipersonEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonEmail" aria-describedby="ipersonEmailHelp" name="ipersonEmail" required/>
-                    <label for="#{label}">Email</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please provide a valid Email.
-                    </div>
-                    <small id="ipersonEmailHelp" className="form-text text-muted"></small>
+                    <small id="ipersonFirstnameHelp" className="form-text text-muted"></small>
                   </div>
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonPhone)}`}>
-                    <input value={this.state.ipersonPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonPhone" aria-describedby="ipersonPhoneHelp" name="ipersonPhone" required/>
-                    <label for="#{label}">Phone</label>
+                    <input tabIndex="4" value={this.state.ipersonPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonPhone" aria-describedby="ipersonPhoneHelp" name="ipersonPhone" required/>
+                    <label for="{label}">Phone</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please provide a valid Phone.
@@ -883,23 +876,33 @@ class RegisterMotoristPanel extends Component{
                   </div>
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonNationalcardid)}`}>
-                    <input value={this.state.ipersonNationalcardid} onChange={(event) => this.handleUserInput(event)} type="text" onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonNationalcardid" aria-describedby="ipersonNationalcardidHelp" name="ipersonNationalcardid" required/>
-                    <label for="#{label}">National Card Id</label>
+                    <input tabIndex="6" value={this.state.ipersonNationalcardid} onChange={(event) => this.handleUserInput(event)} type="text" onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonNationalcardid" aria-describedby="ipersonNationalcardidHelp" name="ipersonNationalcardid" required/>
+                    <label for="{label}">National Card Id</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please provide a valid national card id.
                     </div>
                     <small id="ipersonNationalcardidHelp" className="form-text text-muted"></small>
                   </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCity)}`}>
+                    <select tabIndex="8" value={this.props.ipersonCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCity" aria-describedby="ipersonCityHelp" name="ipersonCity" required>
+                      <option value=""></option>
+                      {this.state.citiesWanted}
+                    </select>
+                    <label for="{label}">City</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a City.
+                    </div>
+                    <small id="ipersonCityHelp" className="form-text text-muted"></small>
+                  </div>
                 </div>
-              </div>
-              <div className="row Aligner">
-                <h5>Vehicle</h5>
               </div>
               <div className="row">
                 <div className="col">
                   <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleBrand)}`}>
-                    <input value={this.state.vehicleBrand} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputvehicleBrand" aria-describedby="vehicleBrandHelp" name="vehicleBrand" required/>
+                    <input tabIndex="9" value={this.state.vehicleBrand} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputvehicleBrand" aria-describedby="vehicleBrandHelp" name="vehicleBrand" required/>
                     <label for="#{label}">Vehicle Brand</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
@@ -909,7 +912,7 @@ class RegisterMotoristPanel extends Component{
                   </div>
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleType)}`}>
-                    <select value={this.props.vehicleType} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputvehicleType" aria-describedby="vehicleTypeHelp" name="vehicleType" required>
+                    <select tabIndex="11" value={this.props.vehicleType} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputvehicleType" aria-describedby="vehicleTypeHelp" name="vehicleType" required>
                       <option value=""></option>
                       <option value="Car (Light vehicles)">Car (Light vehicles)</option>
                       <option value="Gas-powered vehicles">Gas-powered vehicles</option>
@@ -929,7 +932,7 @@ class RegisterMotoristPanel extends Component{
                 </div>
                 <div className="col">
                   <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleFirstCirculation)}`}>
-                    <input value={this.state.vehicleFirstCirculation} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputvehicleFirstCirculation" aria-describedby="vehicleFirstCirculationHelp" name="vehicleFirstCirculation" required/>
+                    <input tabIndex="10" value={this.state.vehicleFirstCirculation} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputvehicleFirstCirculation" aria-describedby="vehicleFirstCirculationHelp" name="vehicleFirstCirculation" required/>
                     <label for="#{label}">First Circulation</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
@@ -938,7 +941,7 @@ class RegisterMotoristPanel extends Component{
                     <small id="vehicleFirstCirculationHelp" className="form-text text-muted"></small>
                   </div>
                   <div className={`input-container ${this.errorClass(this.state.formErrors.vehicleRegistration)}`}>
-                    <input value={this.state.vehicleRegistration} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputvehicleRegistration" aria-describedby="vehicleRegistrationHelp" name="vehicleRegistration" required/>
+                    <input tabIndex="12" value={this.state.vehicleRegistration} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputvehicleRegistration" aria-describedby="vehicleRegistrationHelp" name="vehicleRegistration" required/>
                     <label for="#{label}">Vehicle Registration</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
@@ -1434,8 +1437,7 @@ class FirstSection extends Component {
                    credentials: 'same-origin' };
     fetch('sessionLP', myInit)
     .then((response) => response.json()) 
-    .then((responseData) => { 
-      console.log(responseData.login);
+    .then((responseData) => {
       if(_.isEmpty(responseData.login) || _.isEmpty(responseData.password) || _.isEmpty(responseData.signupas)){
         $('.sessionVariables').submit();
       }else{
@@ -1450,7 +1452,7 @@ class FirstSection extends Component {
   render() {
     return (
       <section className="firstsection row">
-        <a href="#" className="col disabled register-firstsection Aligner">
+        <a className="col disabled register-firstsection Aligner">
           <div className="linetop"></div>
           <div className="linebottom"></div>
           <ul className="nav nav-social flex-column">
