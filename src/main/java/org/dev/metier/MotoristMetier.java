@@ -13,5 +13,6 @@ public interface MotoristMetier {
 			String vehicleRegistration);
 	public Motorist deleteMotorist(Motorist inMotorist);
 	public Motorist getMotoristByLogin(String login);
+	public Motorist getMotoristByIpersonEmail(String ipersonEmail);
 	public Collection<Motorist> getAllMotorist();
 }

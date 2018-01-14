@@ -90,6 +90,12 @@ public class MotoristMetierImplementation implements MotoristMetier{
 	}
 
 	@Override
+	public Motorist getMotoristByIpersonEmail(String ipersonEmail) {
+		Motorist motoristInConsult = motoristRep.findByIpersonEmail(ipersonEmail);
+		return motoristInConsult;
+	}
+	
+	@Override
 	public Collection<Motorist> getAllMotorist() {
 		Collection<Motorist> motorists = motoristRep.findAll();
 		return motorists;

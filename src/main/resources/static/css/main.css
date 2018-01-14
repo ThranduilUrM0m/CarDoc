@@ -855,7 +855,7 @@ a:active .firstsection .rightfirstsection {
 
 /* line 551, C:/Users/Zakar/eclipse-workspace/CarDoc/src/main/resources/static/sass/_homepage.scss */
 .footer {
-  height: 51vh;
+  height: 55vh;
   background: #000;
   z-index: 997;
 }
@@ -1800,8 +1800,8 @@ a:active .firstsection .rightfirstsection {
   pointer-events: none;
   position: absolute;
   z-index: 9999;
-  left: 50%;
-  top: 20%;
+  left: 0;
+  top: -10%;
   opacity: 0;
 }
 

@@ -138,46 +138,137 @@ class ContactUsModalLauncher extends Component {
 class ContactUsModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'signupas'};
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      email: '',
+      fullname: '',
+      phone: '',
+      content: '',
+      formErrors: {
+  	    email: '',
+  	    fullname: '',
+        phone: '',
+        content: ''
+      },
+      emailValid: false,
+  	  fullnameValid: false,
+      phoneValid: false,
+      contentValid: false,
+      formValid: false
+    }
   }
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let emailValid = this.state.emailValid;
+  	let fullnameValid = this.state.fullnameValid;
+    let phoneValid = this.state.phoneValid;
+    let contentValid = this.state.contentValid;
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let phoneReg = /^([0|\+[0-9]{1,5})?([0-9]{10})$/;
+
+    switch(fieldName) {
+      case 'email':
+        emailValid = reg.test(value);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        break;
+      case 'fullname':
+        fullnameValid = value.length >= 2;
+        fieldValidationErrors.fullname = fullnameValid ? '' : ' is invalid';
+        break;
+      case 'phone':
+        phoneValid = phoneReg.test(value);
+        fieldValidationErrors.phone = phoneValid ? '' : ' is invalid';
+        break;
+      case 'content':
+        contentValid = value.length >= 6;
+        fieldValidationErrors.content = contentValid ? '' : ' is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                  emailValid: emailValid,
+                  fullnameValid: fullnameValid,
+                  phoneValid: phoneValid,
+                  contentValid: contentValid
+                  }, this.validateForm);
+  }
+  validateForm() {
+    this.setState({formValid: this.state.emailValid &&
+                              this.state.fullnameValid &&
+                              this.state.phoneValid &&
+                              this.state.contentValid});
+  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
+  }
+  errorClass(error) {
+    return(error.length === 0 ? '' : 'has-error');
   }
   render() {
     return (
       <div className="contactus modal fade" id="contactusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+          <div className="modal-header">
+            <i className="ion-email"></i>
+            <h5 className="modal-title">Stay Connected</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
             <div className="modal-body row">
               <div className="col">
                 <div className="container">
-                  <div className="card container">
-                    <div className="card-body">
-                      <h4 className="card-title">Stay Connected<i className="ion-email"></i></h4>
-                      <p className="card-text">Suggestions and Complaints are Welcome</p>
-                      <form>
-                        <div className="form-group">
-                          <input type="email" className="form-control" id="exampleInputEmailContact1" aria-describedby="loginHelp" placeholder="Login"/>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputNameContact1" placeholder="Your Name"/>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputPhoneContact1" placeholder="Your Phone"/>
-                        </div>
-                        <div className="form-group">
-                          <textarea className="form-control" id="exampleFormControlMessageContact1" placeholder="Message" rows="5"></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
-                      </form>
+                  <form data-ajax="false" id="contactusForm">
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.email)}`}>
+                      <label for="email" className="col-form-label">Email:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.email}</span></span>
+                      <input value={this.state.email} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="emailHelp" className="form-text text-muted"></small>
                     </div>
-                  </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.fullname)}`}>
+                      <label for="fullname" className="col-form-label">Full Name:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
+                      <input value={this.state.fullname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="fullname" aria-describedby="fullnameHelp" name="fullname" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Full Name.
+                      </div>
+                      <small id="fullnameHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.phone)}`}>
+                      <label for="phone" className="col-form-label">Phone:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.email}</span></span>
+                      <input value={this.state.phone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="phone" aria-describedby="phoneHelp" name="phone" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="phoneHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.content)}`}>
+                      <label for="content" className="col-form-label">Message Content:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.content}`}><span>{this.state.formErrors.content}</span></span>
+                      <textarea value={this.state.content} onChange={(event) => this.handleUserInput(event)} rows="5" className="form-control" id="content" aria-describedby="contentHelp" name="content" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Message.
+                      </div>
+                      <small id="contentHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -207,228 +298,6 @@ class SearchModal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-class MotoristPSModal extends Component {
-  render() {
-    return (
-      <div className="motoristps modal fade" id="motoristPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body row">
-              <div className="col">
-                <div className="card">
-                  <div className="card-body text-center">
-                    <div className="card-face active Aligner">
-                      <h1 className="card-title">STORIES</h1>
-                    </div>
-                    <div className="card-face">
-                      <h4 className="card-title">FACE 2</h4>
-                      <p className="card-text">Content</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col">
-                <div className="card">
-                  <div className="card-body text-center">
-                    <div className="card-face active Aligner">
-                      <h1 className="card-title">PLAN</h1>
-                    </div>
-                    <div className="card-face">
-                      <div className="row example-centered">
-                        <div className="col-12">
-                          <ul className="timeline timeline-centered">
-                              <li className="timeline-item">
-                                  <div className="timeline-info">
-                                    <button className="btn">
-                                       Register
-                                    </button>
-                                    <span className="badge badge-pill badge-light">1</span>
-                                  </div>
-                                  <div className="timeline-marker"></div>
-                                  <div className="timeline-content">
-                                      <h3 className="timeline-title">Registration</h3>
-                                      <p>First step is to join the community, describing every imposrtant aspect of your car,
-                                      with information which would help provide suggestions of the nearest centers to your location and fastest to access and get things done quickly.</p>
-                                  </div>
-                              </li>
-                              <li className="timeline-item">
-                                  <div className="timeline-info">
-                                    <button className="btn">
-                                      Profile
-                                    </button>
-                                    <span className="badge badge-pill badge-light">2</span>
-                                  </div>
-                                  <div className="timeline-marker"></div>
-                                  <div className="timeline-content">
-                                      <h3 className="timeline-title">Building</h3>
-                                      <p>Build your profile, including crucial information, location, car specs and registration,
-                                      and have your messagerie and history apps initialized for you.</p>
-                                  </div>
-                              </li>
-                              <li className="timeline-item period">
-                                  <div className="timeline-info"></div>
-                                  <div className="timeline-marker"></div>
-                                  <div className="timeline-content">
-                                      <h2 className="timeline-title">Get things Done</h2>
-                                  </div>
-                              </li>
-                              <li className="timeline-item">
-                                  <div className="timeline-info">
-                                    <button className="btn">
-                                      <span className="badge badge-pill badge-light">3</span> Centers
-                                    </button>
-                                  </div>
-                                  <div className="timeline-marker"></div>
-                                  <div className="timeline-content">
-                                      <h3 className="timeline-title">Control</h3>
-                                      <p>Choose the perfect center for your car and book from your home or work place, and follow the process before, as you are at the chosen center, and after your booking date.
-                                      get your results and drive safely and without stress. </p>
-                                  </div>
-                              </li>
-                              <li className="timeline-item">
-                                  <div className="timeline-info">
-                                    <button className="btn">
-                                      Evolve
-                                    </button>
-                                    <span className="badge badge-pill badge-light">4</span>
-                                  </div>
-                                  <div className="timeline-marker"></div>
-                                  <div className="timeline-content">
-                                      <h3 className="timeline-title">Rejoice</h3>
-                                      <p>Use data accumulated from your controls to follow on the safety of your car, and keep track of your results  .</p>
-                                  </div>
-                              </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-class TvgPSModal extends Component {
-  render() {
-    return (
-      <div className="tvgps modal fade" id="tvgPSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body row">
-              <div className="col">
-                <div className="card">
-                  <div className="card-body text-center">
-                    <div className="card-face active Aligner">
-                      <h1 className="card-title">PLAN</h1>
-                    </div>
-                    <div className="card-face">
-                      <div className="row example-centered">
-                        <div className="col-12">
-                            <ul className="timeline timeline-centered">
-                                <li className="timeline-item">
-                                    <div className="timeline-info">
-                                      <span className="badge badge-pill badge-light">1</span>
-                                      <button className="btn">
-                                        Register
-                                      </button>
-                                    </div>
-                                    <div className="timeline-marker"></div>
-                                    <div className="timeline-content">
-                                        <h3 className="timeline-title">Registration</h3>
-                                        <p>First step is to join the community, describing every important aspect of your center to that community,
-                                        with information which would lead car owners towards your profile, and eventually book at your center.</p>
-                                    </div>
-                                </li>
-                                <li className="timeline-item">
-                                    <div className="timeline-info">
-                                      <span className="badge badge-pill badge-light">2</span>
-                                      <button className="btn">
-                                        Profile
-                                      </button>
-                                    </div>
-                                    <div className="timeline-marker"></div>
-                                    <div className="timeline-content">
-                                        <h3 className="timeline-title">Building</h3>
-                                        <p>Build your profile, including crucial information, location, opening periods and availability,
-                                        and have your messagerie and statistics apps initialized for you.</p>
-                                    </div>
-                                </li>
-                                <li className="timeline-item period">
-                                    <div className="timeline-info"></div>
-                                    <div className="timeline-marker"></div>
-                                    <div className="timeline-content">
-                                        <h2 className="timeline-title">Start Working</h2>
-                                    </div>
-                                </li>
-                                <li className="timeline-item">
-                                    <div className="timeline-info">
-                                      <span className="badge badge-pill badge-light">3</span>
-                                      <button className="btn">
-                                        Calendar
-                                      </button>
-                                    </div>
-                                    <div className="timeline-marker"></div>
-                                    <div className="timeline-content">
-                                        <h3 className="timeline-title">Control</h3>
-                                        <p>Start the validation process by picking up pending processes from your real time calendar, which will be
-                                        automatically filled with car owners bookings from all arround, process their cars and fill in results. </p>
-                                    </div>
-                                </li>
-                                <li className="timeline-item">
-                                    <div className="timeline-info">
-                                      <span className="badge badge-pill badge-light">4</span>
-                                      <button className="btn">
-                                        Evolve
-                                      </button>
-                                    </div>
-                                    <div className="timeline-marker"></div>
-                                    <div className="timeline-content">
-                                        <h3 className="timeline-title">Rejoice</h3>
-                                        <p>Use data accumulated from your daily work and projected in easy to understand graphs and tables,
-                                        advance and reach more people with the help of our time managing app.</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col">
-                <div className="card">
-                  <div className="card-body text-center">
-                    <div className="card-face active Aligner">
-                      <h1 className="card-title">STORIES</h1>
-                    </div>
-                    <div className="card-face">
-                      <h4 className="card-title">FACE 2</h4>
-                      <p className="card-text">Content</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -498,6 +367,20 @@ class Header extends Component {
     );
   }
 }
+var Country = React.createClass({
+  render: function() {
+    return (
+      <option value={this.props.countryProp.code}>{this.props.countryProp.name}</option>
+    );
+  }
+});
+var City = React.createClass({
+  render: function() {
+    return (
+      <option value={this.props.cityProp.name}>{this.props.cityProp.name}</option>
+    );
+  }
+});
 class RegisterMotoristPanel extends Component{
   constructor(props) {
     super(props);
@@ -534,7 +417,6 @@ class RegisterMotoristPanel extends Component{
   	    vehicleFirstCirculation: '',
   	    vehicleRegistration : ''
       },
-      repeatedEmail: [],
       ipersonLastnameValid: false,
   	  ipersonFirstnameValid: false,
   	  ipersonBirthdayValid: false,
@@ -596,6 +478,7 @@ class RegisterMotoristPanel extends Component{
       case 'ipersonEmail':
         ipersonEmailValid = reg.test(value);
         fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
+        $('#exists').fadeTo("fast" , 0);
         break;
       case 'ipersonPhone':
         ipersonPhoneValid = phoneReg.test(value);
@@ -658,6 +541,30 @@ class RegisterMotoristPanel extends Component{
       }, this.validateForm);
       if(ipersonEmailRepeated === false){
         $('#exists').fadeTo("slow" , 1);
+      }else{
+        
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("x-my-custom-header", "INDEED");
+        var myInit = { method: 'GET',
+                       headers: myHeaders,
+                       mode: 'cors',
+                       cache: 'default',
+                       credentials: 'same-origin' };
+        fetch('/api/tvgs', myInit)
+        .then((response) => response.json()) 
+        .then((responseData) => {
+          ipersonEmailRepeated = _.findWhere(responseData._embedded.tvgs, {tvgEmail: value}) === undefined;
+          fieldValidationErrors.ipersonEmail = ipersonEmailRepeated ? '' : ' Already exists';
+          this.setState({formErrors: fieldValidationErrors,
+            ipersonEmailRepeated: ipersonEmailRepeated
+          }, this.validateForm);
+          if(ipersonEmailRepeated === false){
+            $('#exists').fadeTo("slow" , 1);
+          }
+        });
+
       }
     });
   }
@@ -952,7 +859,7 @@ class RegisterMotoristPanel extends Component{
                 </div>
               </div>
               <div className="button-container">
-                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}><i className="ion-paper-airplane"></i></button>
+                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>Sign UP</button>
               </div>
             </form>
           </div>
@@ -961,20 +868,6 @@ class RegisterMotoristPanel extends Component{
     );
   }
 }
-var Country = React.createClass({
-  render: function() {
-    return (
-      <option value={this.props.countryProp.code}>{this.props.countryProp.name}</option>
-    );
-  }
-});
-var City = React.createClass({
-  render: function() {
-    return (
-      <option value={this.props.cityProp.name}>{this.props.cityProp.name}</option>
-    );
-  }
-});
 class RegisterTvgPanel extends Component{
   constructor(props) {
     super(props);
@@ -1011,7 +904,6 @@ class RegisterTvgPanel extends Component{
         tvgDayendA: '',
         tvgDayendB: ''
       },
-      repeatedEmail: [],
       tvgLegalnameValid: false,
       tvgLegaladresseValid: false,
       tvgCreationdateValid: false,
@@ -1019,6 +911,7 @@ class RegisterTvgPanel extends Component{
       tvgCountryValid: false,
       tvgRegionValid: false,
       tvgEmailValid: false,
+  	  tvgEmailRepeated: false,
       tvgPhoneValid: false,
       tvgDaystartAValid: false,
       tvgDaystartBValid: false,
@@ -1071,32 +964,28 @@ class RegisterTvgPanel extends Component{
         fieldValidationErrors.tvgRegion = tvgRegionValid ? '' : ' is invalid';
         break;
       case 'tvgEmail':
-        tvgEmailValid = reg.test(value) && this.state.repeatedEmail === undefined;
-        if(_.findWhere(this.state.repeatedEmail, {tvgEmail: value}) != undefined){
-          fieldValidationErrors.tvgEmail = 'Email already exists';
-        }
-        else {
-          fieldValidationErrors.tvgEmail = tvgEmailValid ? '' : ' is invalid';
-        }
+        tvgEmailValid = reg.test(value);
+        fieldValidationErrors.tvgEmail = tvgEmailValid ? '' : ' is invalid';
+        $('#exists').fadeTo("fast" , 0);
         break;
       case 'tvgPhone':
         tvgPhoneValid = phoneReg.test(value);
         fieldValidationErrors.tvgPhone = tvgPhoneValid ? '' : ' is invalid';
         break;
       case 'tvgDaystartA':
-        tvgDaystartAValid = timeReg.test(value);
+        tvgDaystartAValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartB, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDaystartA = tvgDaystartAValid ? '' : ' is invalid';
         break;
       case 'tvgDaystartB':
-        tvgDaystartBValid = timeReg.test(value);
+        tvgDaystartBValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDayendA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDaystartB = tvgDaystartBValid ? '' : ' is invalid';
         break;
       case 'tvgDayendA':
-        tvgDayendAValid = timeReg.test(value);
+        tvgDayendAValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartB, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDayendA = tvgDayendAValid ? '' : ' is invalid';
         break;
       case 'tvgDayendB':
-        tvgDayendBValid = timeReg.test(value);
+        tvgDayendBValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartB, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendA, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDayendB = tvgDayendBValid ? '' : ' is invalid';
         break;
       default:
@@ -1117,6 +1006,54 @@ class RegisterTvgPanel extends Component{
                     tvgDayendBValid: tvgDayendBValid
                   }, this.validateForm);
   }
+  validateEmail(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let tvgEmailRepeated = this.state.tvgEmailRepeated;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/tvgs', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      tvgEmailRepeated = _.findWhere(responseData._embedded.tvgs, {tvgEmail: value}) === undefined;
+      fieldValidationErrors.tvgEmail = tvgEmailRepeated ? '' : ' Already exists';
+      this.setState({formErrors: fieldValidationErrors,
+        tvgEmailRepeated: tvgEmailRepeated
+      }, this.validateForm);
+      if(tvgEmailRepeated === false){
+        $('#exists').fadeTo("slow" , 1);
+      }else{
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("x-my-custom-header", "INDEED");
+        var myInit = { method: 'GET',
+                       headers: myHeaders,
+                       mode: 'cors',
+                       cache: 'default',
+                       credentials: 'same-origin' };
+        fetch('/api/iPersons', myInit)
+        .then((response) => response.json()) 
+        .then((responseData) => {
+          tvgEmailRepeated = _.findWhere(responseData._embedded.motorists, {ipersonEmail: value}) === undefined;
+          fieldValidationErrors.tvgEmail = tvgEmailRepeated ? '' : ' Already exists';
+          this.setState({formErrors: fieldValidationErrors,
+            tvgEmailRepeated: tvgEmailRepeated
+          }, this.validateForm);
+          if(tvgEmailRepeated === false){
+            $('#exists').fadeTo("slow" , 1);
+          }
+        });
+      }
+    });
+  }
   validateForm() {
     this.setState({formValid: this.state.tvgLegalnameValid &&
       this.state.tvgLegaladresseValid &&
@@ -1129,14 +1066,19 @@ class RegisterTvgPanel extends Component{
       this.state.tvgDaystartAValid &&
       this.state.tvgDaystartBValid &&
       this.state.tvgDayendAValid &&
-      this.state.tvgDayendBValid});
+      this.state.tvgDayendBValid &&
+      this.state.tvgEmailRepeated});
+  }
+  handleBlurEmail(e){
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateEmail(name, value) });
   }
   handleUserInput (e) {
     const name = e.target.name;
     const value = e.target.value;
     if(name == 'tvgCountry'){
       var countrySelected = '';
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Accept", "application/json");
@@ -1151,28 +1093,11 @@ class RegisterTvgPanel extends Component{
       .then((responseData) => { 
         countrySelected = _.first(_.where(responseData, {code: value})).code;
         this.loadCitiesFromJSON(countrySelected);
+        this.setState({[name]: value}, () => { this.validateField(name, value) });
       });
-
+    }else{
+      this.setState({[name]: value}, () => { this.validateField(name, value) });
     }
-    if(name == 'tvgEmail'){
-      
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Accept", "application/json");
-      myHeaders.append("x-my-custom-header", "INDEED");
-      var myInit = { method: 'GET',
-                     headers: myHeaders,
-                     mode: 'cors',
-                     cache: 'default',
-                     credentials: 'same-origin' };
-      fetch('/api/tvgs', myInit)
-      .then((response) => response.json()) 
-      .then((responseData) => { 
-        this.setState({repeatedEmail: _.findWhere(responseData._embedded.tvgs, {tvgEmail: value})});
-      });
-
-    }
-    this.setState({[name]: value}, () => { this.validateField(name, value) });
   }
   errorClass(error) {
    return(error.length === 0 ? '' : 'has-error');
@@ -1282,8 +1207,8 @@ class RegisterTvgPanel extends Component{
                 <div className="col">
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.tvgLegalname)}`}>
-                    <input value={this.state.tvgLegalname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegalname" aria-describedby="tvgLegalnameHelp" name="tvgLegalname" required/>
-                    <label for="#{label}">Legal Name</label>
+                    <input tabIndex="1" value={this.state.tvgLegalname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegalname" aria-describedby="tvgLegalnameHelp" name="tvgLegalname" required/>
+                    <label for="{label}">Legal Name</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please provide a valid Legal Name.
@@ -1291,67 +1216,10 @@ class RegisterTvgPanel extends Component{
                     <small id="tvgLegalnameHelp" className="form-text text-muted"></small>
                   </div>
 
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgLegaladresse)}`}>
-                    <input value={this.state.tvgLegaladresse} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegaladresse" aria-describedby="tvgLegaladresseHelp" name="tvgLegaladresse" required/>
-                    <label for="#{label}">Legal Adresse</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please provide a valid Legal Adresse.
-                    </div>
-                    <small id="tvgLegaladresseHelp" className="form-text text-muted"></small>
-                  </div>
-
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCreationdate)}`}>
-                    <input value={this.state.tvgCreationdate} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgCreationdate" aria-describedby="tvgCreationdateHelp" name="tvgCreationdate" required/>
-                    <label for="#{label}">Creation Date</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please Choose a Creation Date.
-                    </div>
-                    <small id="tvgCreationdateHelp" className="form-text text-muted"></small>
-                  </div>
-
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCountry)}`}>
-                    <select value={this.props.tvgCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCountry" aria-describedby="tvgCountryHelp" name="tvgCountry" required>
-                      <option value=""></option>
-                      {rows}
-                    </select>
-                    <label for="#{label}">Country</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please Choose a Country.
-                    </div>
-                    <small id="tvgCountryHelp" className="form-text text-muted"></small>
-                  </div>
-
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgRegion)}`}>
-                    <input value={this.state.tvgRegion} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgRegion" aria-describedby="tvgRegionHelp" name="tvgRegion" required/>
-                    <label for="#{label}">Region</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please provide a valid Region.
-                    </div>
-                    <small id="tvgRegionHelp" className="form-text text-muted"></small>
-                  </div>
-
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCity)}`}>
-                    <select value={this.props.tvgCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCity" aria-describedby="tvgCityHelp" name="tvgCity" required>
-                      <option value=""></option>
-                      {this.state.citiesWanted}
-                    </select>
-                    <label for="#{label}">City</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please Choose a City.
-                    </div>
-                    <small id="tvgCityHelp" className="form-text text-muted"></small>
-                  </div>
-                </div>
-                <div className="col">
                   <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.tvgEmail)}`}>
-                    <span className={`tooltip tooltip-${this.state.formErrors.Email}`}><span>{this.state.formErrors.Email}</span></span>
-                    <input value={this.state.tvgEmail} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgEmail" aria-describedby="tvgEmailHelp" name="tvgEmail" required/>
-                    <label for="#{label}">Email</label>
+                    <span id="exists" className={`tooltip tooltip-${this.state.formErrors.tvgEmail}`}><span>{this.state.formErrors.tvgEmail}</span></span>
+                    <input tabIndex="3" value={this.state.tvgEmail} onBlur={(event) => this.handleBlurEmail(event)} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgEmail" aria-describedby="tvgEmailHelp" name="tvgEmail" required/>
+                    <label for="{label}">Email</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please provide a valid Email.
@@ -1359,39 +1227,45 @@ class RegisterTvgPanel extends Component{
                     <small id="tvgEmailHelp" className="form-text text-muted"></small>
                   </div>
 
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgPhone)}`}>
-                    <input value={this.state.tvgPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgPhone" aria-describedby="tvgPhoneHelp" name="tvgPhone" required/>
-                    <label for="#{label}">Phone</label>
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCountry)}`}>
+                    <select tabIndex="5" value={this.props.tvgCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCountry" aria-describedby="tvgCountryHelp" name="tvgCountry" required>
+                      <option value=""></option>
+                      {rows}
+                    </select>
+                    <label for="{label}">Country</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
-                      Please provide a valid Phone number.
+                      Please Choose a Country.
                     </div>
-                    <small id="tvgPhoneHelp" className="form-text text-muted"></small>
+                    <small id="tvgCountryHelp" className="form-text text-muted"></small>
                   </div>
 
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCity)}`}>
+                    <select tabIndex="7" value={this.props.tvgCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgCity" aria-describedby="tvgCityHelp" name="tvgCity" required>
+                      <option value=""></option>
+                      {this.state.citiesWanted}
+                    </select>
+                    <label for="{label}">City</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a City.
+                    </div>
+                    <small id="tvgCityHelp" className="form-text text-muted"></small>
+                  </div>
+                  
                   <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDaystartA)}`}>
-                    <input value={this.state.tvgDaystartA} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDaystartA" aria-describedby="tvgDaystartAHelp" name="tvgDaystartA" required/>
-                    <label for="#{label}">Morning Opening</label>
+                    <input tabIndex="9" value={this.state.tvgDaystartA} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDaystartA" aria-describedby="tvgDaystartAHelp" name="tvgDaystartA" required/>
+                    <label for="{label}">Morning Opening</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please Choose a Morning Opening Hour.
                     </div>
                     <small id="tvgDaystartAHelp" className="form-text text-muted"></small>
                   </div>
-
-                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDayendA)}`}>
-                    <input value={this.state.tvgDayendA} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDayendA" aria-describedby="tvgDayendAHelp" name="tvgDayendA" required/>
-                    <label for="#{label}">Morning Closing</label>
-                    <div className="bar"></div>
-                    <div className="invalid-feedback">
-                      Please Choose a Morning Closing Hour.
-                    </div>
-                    <small id="tvgDayendAHelp" className="form-text text-muted"></small>
-                  </div>
-
+                  
                   <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDaystartB)}`}>
-                    <input value={this.state.tvgDaystartB} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDaystartB" aria-describedby="tvgDaystartBHelp" name="tvgDaystartB" required/>
-                    <label for="#{label}">Afternoon Opening</label>
+                    <input tabIndex="11" value={this.state.tvgDaystartB} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDaystartB" aria-describedby="tvgDaystartBHelp" name="tvgDaystartB" required/>
+                    <label for="{label}">Afternoon Opening</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please Choose an Afternoon Opening Hour.
@@ -1399,9 +1273,62 @@ class RegisterTvgPanel extends Component{
                     <small id="tvgDaystartBHelp" className="form-text text-muted"></small>
                   </div>
 
+                </div>
+                <div className="col">
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgLegaladresse)}`}>
+                    <input tabIndex="2" value={this.state.tvgLegaladresse} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgLegaladresse" aria-describedby="tvgLegaladresseHelp" name="tvgLegaladresse" required/>
+                    <label for="{label}">Legal Adresse</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Legal Adresse.
+                    </div>
+                    <small id="tvgLegaladresseHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgPhone)}`}>
+                    <input tabIndex="4" value={this.state.tvgPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgPhone" aria-describedby="tvgPhoneHelp" name="tvgPhone" required/>
+                    <label for="{label}">Phone</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Phone number.
+                    </div>
+                    <small id="tvgPhoneHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgRegion)}`}>
+                    <input tabIndex="6" value={this.state.tvgRegion} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgRegion" aria-describedby="tvgRegionHelp" name="tvgRegion" required/>
+                    <label for="{label}">Region</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please provide a valid Region.
+                    </div>
+                    <small id="tvgRegionHelp" className="form-text text-muted"></small>
+                  </div>
+                  
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgCreationdate)}`}>
+                    <input tabIndex="8" value={this.state.tvgCreationdate} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgCreationdate" aria-describedby="tvgCreationdateHelp" name="tvgCreationdate" required/>
+                    <label for="{label}">Creation Date</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a Creation Date.
+                    </div>
+                    <small id="tvgCreationdateHelp" className="form-text text-muted"></small>
+                  </div>
+
+                  <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDayendA)}`}>
+                    <input tabIndex="10" value={this.state.tvgDayendA} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDayendA" aria-describedby="tvgDayendAHelp" name="tvgDayendA" required/>
+                    <label for="{label}">Morning Closing</label>
+                    <div className="bar"></div>
+                    <div className="invalid-feedback">
+                      Please Choose a Morning Closing Hour.
+                    </div>
+                    <small id="tvgDayendAHelp" className="form-text text-muted"></small>
+                  </div>
+
                   <div className={`input-container ${this.errorClass(this.state.formErrors.tvgDayendB)}`}>
-                    <input value={this.state.tvgDayendB} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDayendB" aria-describedby="tvgDayendBHelp" name="tvgDayendB" required/>
-                    <label for="#{label}">Afternoon Closing</label>
+                    <input tabIndex="12" value={this.state.tvgDayendB} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputtvgDayendB" aria-describedby="tvgDayendBHelp" name="tvgDayendB" required/>
+                    <label for="{label}">Afternoon Closing</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">
                       Please Choose an Afternoon Closing Hour.
@@ -1411,7 +1338,7 @@ class RegisterTvgPanel extends Component{
                 </div>
               </div>
               <div className="button-container">
-                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}><i className="ion-paper-airplane"></i></button>
+                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>Sign UP</button>
               </div>
             </form>
           </div>

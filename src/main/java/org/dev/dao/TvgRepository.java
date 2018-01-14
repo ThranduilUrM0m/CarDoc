@@ -10,4 +10,5 @@ public interface TvgRepository extends JpaRepository<Tvg, Long> {
     		"where t.account.accountId = a.accountId\r\n" + 
     		"and a.accountLogin = :x")
     public Tvg findByAccountLogin(@Param("x") String accountLogin);
+    public Tvg findByTvgEmail(String tvgEmail);
 }

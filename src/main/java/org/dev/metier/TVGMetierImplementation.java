@@ -76,6 +76,12 @@ public class TVGMetierImplementation implements TVGMetier {
 	}
 
 	@Override
+	public Tvg consulteTVGByEmail(String tvgEmail) {
+		Tvg tvgInConsult = tvgRep.findByTvgEmail(tvgEmail);
+		return tvgInConsult;
+	}
+	
+	@Override
 	public Collection<Tvg> getAllTVG() {
 		Collection<Tvg> tvgs = tvgRep.findAll();
 		return tvgs;

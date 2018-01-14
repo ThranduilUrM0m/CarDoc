@@ -282,10 +282,16 @@ public class FormsController {
         		if(!isValidDateStr(tvgCreationdate))
         			response.sendRedirect("/register?error="+error);
         		else {
-        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, sdf.parse(tvgCreationdate), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_TVG"));
-        			model.addAttribute("TVG", tvgInCreation);
-        			emailValidation(tvgInCreation.getAccount(), tvgEmail);
-                	response.sendRedirect("/success?emailValidation=" + tvgEmail);
+        			Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(tvgEmail);
+					Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(tvgEmail);
+					if(motoristInConsult != null || tvgInConsult != null) {
+	        			response.sendRedirect("/?error=repeatedEmail");
+	        		}else {
+	        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, sdf.parse(tvgCreationdate), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_TVG"));
+	        			model.addAttribute("TVG", tvgInCreation);
+	        			emailValidation(tvgInCreation.getAccount(), tvgEmail);
+	                	response.sendRedirect("/success?emailValidation=" + tvgEmail);
+	        		}
         		}
         	}
         } catch (Exception e) {
@@ -323,13 +329,19 @@ public class FormsController {
     				if((!vehicleType.toLowerCase().equals("car (light vehicles)") && !vehicleType.toLowerCase().equals("gas-powered vehicles") && !vehicleType.toLowerCase().equals("collection vehicles") && !vehicleType.toLowerCase().equals("utilities") && !vehicleType.toLowerCase().equals("electric vehicles") && !vehicleType.toLowerCase().equals("specific vehicles")))
     					response.sendRedirect("/profil?error=Vehicle_Type_Error");
     				else {
-    					try {
-        					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (sdf.parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (sdf.parse(vehicleFirstCirculation)), vehicleRegistration);
-                			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
-                        	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
-        				} catch (ParseException e) {
-        					response.sendRedirect("/register?Parseerror=" + e);
-    					}
+    					Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(ipersonEmail);
+    					Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(ipersonEmail);
+    					if(motoristInConsult != null || tvgInConsult != null) {
+    	        			response.sendRedirect("/?error=repeatedEmail");
+    	        		}else {
+    	        			try {
+            					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (sdf.parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (sdf.parse(vehicleFirstCirculation)), vehicleRegistration);
+                    			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
+                            	response.sendRedirect("/success?emailValidation=" + ipersonEmail);
+            				} catch (ParseException e) {
+            					response.sendRedirect("/register?Parseerror=" + e);
+        					}
+    	        		}
     				}
     			}
     		}

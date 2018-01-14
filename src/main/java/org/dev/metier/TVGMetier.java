@@ -15,6 +15,7 @@ public interface TVGMetier {
 			Collection<Employee> employee, Collection<Control> control, Account account);
 	public Tvg deleteTVG(Tvg inTVG);
 	public Tvg consulteTVGByLogin(String login);
+	public Tvg consulteTVGByEmail(String tvgEmail);
 	public Collection<Tvg> getAllTVG();
 	public Tvg getTvg(long tvgId);
 }
