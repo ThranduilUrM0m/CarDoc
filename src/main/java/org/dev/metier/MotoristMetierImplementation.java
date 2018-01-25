@@ -99,5 +99,10 @@ public class MotoristMetierImplementation implements MotoristMetier{
 	public Collection<Motorist> getAllMotorist() {
 		Collection<Motorist> motorists = motoristRep.findAll();
 		return motorists;
-	}	
+	}
+
+	@Override
+	public void updateContactInfoMotorist(Motorist motoristUpdated) {
+		motoristRep.save(motoristUpdated);
+	}
 }

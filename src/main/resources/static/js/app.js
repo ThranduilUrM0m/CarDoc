@@ -224,7 +224,7 @@ class Motorist extends Component {
     if(this.state.motoristPicture != '' && this.state.motoristPicture != null)
       picture = '../media/pictures/'+this.state.motoristPicture.pictureName+'.'+this.state.motoristPicture.pictureExtension;
     return (
-      <li className={"video-thumb"+thumb1+""+active} index={index.toString()} last={this.props.last}>
+      <div className="slide">
         <div className="video-thumb-wrapper">
           <div className="video-thumbnail">
             <img className="video-thumb-img thumbnail-filter" src={picture} alt=""/>
@@ -250,7 +250,7 @@ class Motorist extends Component {
             </li>
           </ul>
         </div>
-      </li>
+      </div>
     );
   }
 }
@@ -260,24 +260,14 @@ class MotoristCarousel extends Component {
   }
   render(){
     var rows = [];
-    var active = true;
-    var thumb1 = true;
-    var index = 1;
     var self = this;
     this.props.motoristsCarousels.forEach(function(motoristCarousel) {
-      rows.push(<Motorist motoristCarousel={motoristCarousel} active={active} thumb1={thumb1} index={index} last={_.size(self.props.motoristsCarousels)} />);
-      if(active == true){
-        active = false
-      }
-      if(thumb1 == true){
-        thumb1 = false
-      }
-      index++;
+      rows.push(<Motorist motoristCarousel={motoristCarousel}/>);
     });
     return (
-      <ul className="video-thumbs position-1" id={_.size(rows)} current-thumb="1" start-x="" dragging="false">
+      <div className="handle">
         {rows}
-      </ul>
+      </div>
     );
   }
 }
@@ -423,14 +413,11 @@ class Tvg extends Component {
     this.loadDataFromServer();
   }
   render() {
-    var active = this.props.active === true ? ' active' : '' ;
-    var thumb1 = this.props.thumb1 === true ? ' thumb-1' : '' ;
-    var index = this.props.index;
     var picture = 'http://www.fubiz.net/wp-content/uploads/2014/11/Lotta-Nieminen_Google_07-640x553.jpg'
     if(this.state.tvgPicture != '' && this.state.tvgPicture != null)
       picture = '../media/pictures/'+this.state.tvgPicture.pictureName+'.'+this.state.tvgPicture.pictureExtension;
     return (
-      <li className={"video-thumb"+thumb1+""+active} index={index.toString()} last={this.props.last}>
+      <div className="slide">
         <div className="video-thumb-wrapper">
           <div className="video-thumbnail">
             <img className="video-thumb-img thumbnail-filter" src={picture} alt=""/>
@@ -456,7 +443,7 @@ class Tvg extends Component {
             </li>
           </ul>
         </div>
-      </li>
+      </div>
     );
   }
 }
@@ -466,24 +453,14 @@ class TvgCarousel extends Component {
   }
   render() {
     var rows = [];
-    var active = true;
-    var thumb1 = true;
-    var index = 1;
     var self = this;
     this.props.tvgsCarousels.forEach(function(tvgCarousel) {
-      rows.push(<Tvg tvgCarousel={tvgCarousel} active={active} thumb1={thumb1} index={index} last={_.size(self.props.motoristsCarousels)} />);
-      if(active == true){
-        active = false
-      }
-      if(thumb1 == true){
-        thumb1 = false
-      }
-      index++;
+      rows.push(<Tvg tvgCarousel={tvgCarousel} />);
     });
     return (
-      <ul className="video-thumbs position-1" id={_.size(rows)} current-thumb="1" start-x="" dragging="false">
+      <div className="handle">
         {rows}
-      </ul>
+      </div>
     );
   }
 }
@@ -1196,13 +1173,13 @@ class TvgPSModal extends Component {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {  scrollBackground: 'nav-bg', logo: '../media/LogoCarCare.png', id: 'navbar-brand-logocarcare' };
+    this.state = {  scrollBackground: 'nav-bg', logo: '../media/CarCareBlack.png', id: 'navbar-brand-logocarcare' };
     this.handleScroll = this.handleScroll.bind(this);
   }
   componentWillMount() {
     let scrollTop = window.pageYOffset,
         backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg",
-        logoValue = (scrollTop != 0) ? "../media/CarCare.png" : "../media/LogoCarCare.png",
+        logoValue = (scrollTop != 0) ? "../media/CarCare.png" : "../media/CarCareBlack.png",
         idValue = (scrollTop != 0) ? "navbar-brand-carcare" : "navbar-brand-logocarcare";
     this.setState({
       scrollBackground: backgroundValue
@@ -1223,7 +1200,7 @@ class Header extends Component {
   handleScroll(event) {
     let scrollTop = window.pageYOffset,
         backgroundValue = (scrollTop != 0) ? "nav-bg-shadow" : "nav-bg",
-        logoValue = (scrollTop != 0) ? "../media/CarCare.png" : "../media/LogoCarCare.png",
+        logoValue = (scrollTop != 0) ? "../media/CarCare.png" : "../media/CarCareBlack.png",
         idValue = (scrollTop != 0) ? "navbar-brand-carcare" : "navbar-brand-logocarcare";
     this.setState({
       scrollBackground: backgroundValue
@@ -1307,75 +1284,52 @@ class FirstSection extends Component {
 }
 class SecondSection extends Component {
   componentDidMount(){
-    $(document).on("DOMNodeInserted",function(event){
-      var target = $(event.target);
-      if(target[0].tagName == 'LI'){
-        if(($(target[0]).attr("class")).includes("video-thumb")){
-          if($(target[0]).attr("index") == $(target[0]).attr("last")){
-            $(document).on('swipeleft', '.secondsection .video-thumbs-frame', (event) => {
-
-              var currentThumb = parseInt($('.secondsection .video-thumbs').attr('current-thumb'));
-              var totalThumbsInit = $('.secondsection .video-thumbs .video-thumb').length;
-              var totalThumbs = parseInt(totalThumbsInit);
-              var activeClasses = $('.secondsection .video-thumbs').attr('class');
-              var splitClasses = activeClasses.split(' ');
-              var thisClass = splitClasses[1];
-              
-              $('.secondsection .video-thumb').removeClass('active');
-            
-              if (currentThumb < totalThumbs) {
-                var nextThumb = parseInt(currentThumb + 1);
-                var nextClass = 'position-' + nextThumb;
-                $('.secondsection .video-thumbs').attr('current-thumb', nextThumb);
-                $('.secondsection .video-thumbs').removeClass(thisClass);
-                $('.secondsection .video-thumbs').addClass(nextClass);
-                $('.secondsection .video-thumb[index='+nextThumb+']').addClass('active');
-              } else if (currentThumb == totalThumbs) {
-                var nextThumb = 1;
-                var nextClass = 'position-1';
-                $('.secondsection .video-thumbs').attr('current-thumb', nextThumb);
-                $('.secondsection .video-thumbs').removeClass(thisClass);
-                $('.secondsection .video-thumbs').addClass(nextClass);
-                $('.secondsection .video-thumb[index='+nextThumb+']').addClass('active');
-              }
-            });
-            $(document).on('swiperight', '.secondsection .video-thumbs-frame', (event) => {
-              var currentThumb = parseInt($('.secondsection .video-thumbs').attr('current-thumb'));
-              var totalThumbsInit = $('.secondsection .video-thumb').length;
-              var totalThumbs = parseInt(totalThumbsInit);
-              var activeClasses = $('.secondsection .video-thumbs').attr('class');
-              var splitClasses = activeClasses.split(' ');
-              var thisClass = splitClasses[1];
-            
-              $('.secondsection .video-thumb').removeClass('active');
-              
-              if (currentThumb > 1) {
-                var prevThumb = parseInt(currentThumb - 1);
-                var prevClass = 'position-' + prevThumb;
-                $('.secondsection .video-thumbs').attr('current-thumb', prevThumb);
-                $('.secondsection .video-thumbs').removeClass(thisClass);
-                $('.secondsection .video-thumbs').addClass(prevClass);
-                $('.secondsection .video-thumb[index='+prevThumb+']').addClass('active');
-              } else if (currentThumb == 1) {
-                var prevThumb = totalThumbs;
-                var prevClass = 'position-' + totalThumbs;
-                $('.secondsection .video-thumbs').attr('current-thumb', prevThumb);
-                $('.secondsection .video-thumbs').removeClass(thisClass);
-                $('.secondsection .video-thumbs').addClass(prevClass);
-                $('.secondsection .video-thumb[index='+prevThumb+']').addClass('active');
-              }
-            });
-          }
-        }
-      }
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/tvgs', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      $("#image-carouselTVG .handle").css("width", _.size(responseData._embedded.tvgs)+"00%");
+      $("#image-carouselTVG .handle .slide").css("width", (parseInt(_.size(responseData._embedded.tvgs)+"00")/_.size(responseData._embedded.tvgs))+"%");
+      new Dragdealer('image-carouselTVG', {
+        steps: _.size(responseData._embedded.tvgs),
+        speed: 0.3,
+        loose: true
+      });
     });
   }
   render() {
     return (
       <section className="secondsection row">
         <div className="leftsecondsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-          <div className="video-thumbs-frame">
+          <div id="image-carouselTVG" className="dragdealer">
             <TvgCarouselApp />
+          </div>
+          <div className="menu-indicator">
+            <div className="indicator-wrapper">
+              <div className="box-wrapper">
+                <div className="box-outer">
+                  <div className="box"></div>
+                  <div className="box"></div>
+                  <div className="box"></div>
+                  <div className="box"></div>
+                </div>
+              </div>
+              <div className="indicator-cursor">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.619 68.23">
+                  <title>noun_692985</title>
+                  <path d="M59.773,79.1l0.033-.176c2.062-9.136,9.688-20.832,8.023-31.685-0.45-2.583-.877-3.861-1.383-4.527-0.33-.435-0.807-0.769-2.285-0.769a4.6,4.6,0,0,0-1.063.116L63.041,47.7a1.875,1.875,0,0,1-3.749-.035l0.061-6.554c0.071-2.036-.252-2.656-0.443-2.862-0.169-.181-0.651-0.485-2.388-0.485a2.962,2.962,0,0,0-2.436.915l-0.07,5.843a1.875,1.875,0,1,1-3.749-.035l0.062-6.553c0.071-2.036-.252-2.657-0.443-2.864-0.169-.181-0.653-0.485-2.389-0.485a3.423,3.423,0,0,0-2.054.551l-0.177.17-0.025,9.4a1.875,1.875,0,0,1-3.749-.011L41.554,21.73c0.071-2.042-.25-2.66-0.443-2.869-0.169-.181-0.652-0.485-2.389-0.485a3.225,3.225,0,0,0-2.223.688,2.533,2.533,0,0,0-.654,2.17l0,0.116V54.614a1.875,1.875,0,0,1-3.75,0V47.837l-0.875.232a4.476,4.476,0,0,0-3.115,3.319A10.042,10.042,0,0,0,29.864,58.8c3.487,5.315,8.108,11.265,9.58,18.686l0.251,1.521Z" transform="translate(-24.187 -14.626)" style={{fill: '#fff'}}/>
+                  <path d="M61.32,82.856l-23.33-.1a1.875,1.875,0,0,1-1.863-1.759c-0.476-7.733-5.126-13.62-9.4-20.132-2.013-3.068-3.083-6.96-2.266-10.351,0.766-3.185,3.113-5.585,7-6.378l0.64-.087V21.35l-0.011-.659a6.017,6.017,0,0,1,1.865-4.38,6.923,6.923,0,0,1,4.769-1.685c1.871,0,3.817.263,5.136,1.683,1.293,1.391,1.519,3.4,1.445,5.492l-0.026,9.37,0.724-.2a8.546,8.546,0,0,1,1.5-.129,10.564,10.564,0,0,1,2.776.309,4.92,4.92,0,0,1,2.36,1.374,4.7,4.7,0,0,1,.782,1.153L53.7,34.519l1.325-.374a8.535,8.535,0,0,1,1.495-.129,10.564,10.564,0,0,1,2.776.309A4.922,4.922,0,0,1,61.657,35.7a5.227,5.227,0,0,1,1.235,2.486l0.015,0.11,0.288-.049a8.892,8.892,0,0,1,.966-0.052,6.109,6.109,0,0,1,5.272,2.251c1.127,1.485,1.653,3.64,2.1,6.188,1.965,12.813-7.146,26.223-8.345,34.614A1.875,1.875,0,0,1,61.32,82.856ZM59.773,79.1l0.033-.176c2.062-9.136,9.688-20.832,8.023-31.685-0.45-2.583-.877-3.861-1.383-4.527-0.33-.435-0.807-0.769-2.285-0.769a4.6,4.6,0,0,0-1.063.116L63.041,47.7a1.875,1.875,0,0,1-3.749-.035l0.061-6.554c0.071-2.036-.252-2.656-0.443-2.862-0.169-.181-0.651-0.485-2.388-0.485a2.962,2.962,0,0,0-2.436.915l-0.07,5.843a1.875,1.875,0,1,1-3.749-.035l0.062-6.553c0.071-2.036-.252-2.657-0.443-2.864-0.169-.181-0.653-0.485-2.389-0.485a3.423,3.423,0,0,0-2.054.551l-0.177.17-0.025,9.4a1.875,1.875,0,0,1-3.749-.011L41.554,21.73c0.071-2.042-.25-2.66-0.443-2.869-0.169-.181-0.652-0.485-2.389-0.485a3.225,3.225,0,0,0-2.223.688,2.533,2.533,0,0,0-.654,2.17l0,0.116V54.614a1.875,1.875,0,0,1-3.75,0V47.837l-0.875.232a4.476,4.476,0,0,0-3.115,3.319A10.042,10.042,0,0,0,29.864,58.8c3.487,5.315,8.108,11.265,9.58,18.686l0.251,1.521Z" transform="translate(-24.187 -14.626)"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
         <div className="rightsecondsection col row">
@@ -1402,67 +1356,25 @@ class SecondSection extends Component {
 }
 class ThirdSection extends Component {
   componentDidMount(){
-    $(document).on("DOMNodeInserted",function(event){
-      var target = $(event.target);
-      if(target[0].tagName == 'LI'){
-        if(($(target[0]).attr("class")).includes("video-thumb")){
-          if($(target[0]).attr("index") == $(target[0]).attr("last")){
-            $(document).on('swipeleft', '.thirdsection .video-thumbs-frame', (event) => {
-
-              var currentThumb = parseInt($('.thirdsection .video-thumbs').attr('current-thumb'));
-              var totalThumbsInit = $('.thirdsection .video-thumbs .video-thumb').length;
-              var totalThumbs = parseInt(totalThumbsInit);
-              var activeClasses = $('.thirdsection .video-thumbs').attr('class');
-              var splitClasses = activeClasses.split(' ');
-              var thisClass = splitClasses[1];
-              
-              $('.thirdsection .video-thumb').removeClass('active');
-            
-              if (currentThumb < totalThumbs) {
-                var nextThumb = parseInt(currentThumb + 1);
-                var nextClass = 'position-' + nextThumb;
-                $('.thirdsection .video-thumbs').attr('current-thumb', nextThumb);
-                $('.thirdsection .video-thumbs').removeClass(thisClass);
-                $('.thirdsection .video-thumbs').addClass(nextClass);
-                $('.thirdsection .video-thumb[index='+nextThumb+']').addClass('active');
-              } else if (currentThumb == totalThumbs) {
-                var nextThumb = 1;
-                var nextClass = 'position-1';
-                $('.thirdsection .video-thumbs').attr('current-thumb', nextThumb);
-                $('.thirdsection .video-thumbs').removeClass(thisClass);
-                $('.thirdsection .video-thumbs').addClass(nextClass);
-                $('.thirdsection .video-thumb[index='+nextThumb+']').addClass('active');
-              }
-            });
-            $(document).on('swiperight', '.thirdsection .video-thumbs-frame', (event) => {
-              var currentThumb = parseInt($('.thirdsection .video-thumbs').attr('current-thumb'));
-              var totalThumbsInit = $('.thirdsection .video-thumb').length;
-              var totalThumbs = parseInt(totalThumbsInit);
-              var activeClasses = $('.thirdsection .video-thumbs').attr('class');
-              var splitClasses = activeClasses.split(' ');
-              var thisClass = splitClasses[1];
-            
-              $('.thirdsection .video-thumb').removeClass('active');
-
-              if (currentThumb > 1) {
-                var prevThumb = parseInt(currentThumb - 1);
-                var prevClass = 'position-' + prevThumb;
-                $('.thirdsection .video-thumbs').attr('current-thumb', prevThumb);
-                $('.thirdsection .video-thumbs').removeClass(thisClass);
-                $('.thirdsection .video-thumbs').addClass(prevClass);
-                $('.thirdsection .video-thumb[index='+prevThumb+']').addClass('active');
-              } else if (currentThumb == 1) {
-                var prevThumb = totalThumbs;
-                var prevClass = 'position-' + totalThumbs;
-                $('.thirdsection .video-thumbs').attr('current-thumb', prevThumb);
-                $('.thirdsection .video-thumbs').removeClass(thisClass);
-                $('.thirdsection .video-thumbs').addClass(prevClass);
-                $('.thirdsection .video-thumb[index='+prevThumb+']').addClass('active');
-              }
-            });
-          }
-        }
-      }
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/motorists', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      $("#image-carouselMotorist .handle").css("width", _.size(responseData._embedded.motorists)+"00%");
+      $("#image-carouselMotorist .handle .slide").css("width", 100/_.size(responseData._embedded.motorists)+"%");
+      new Dragdealer('image-carouselMotorist', {
+        steps: _.size(responseData._embedded.motorists),
+        speed: 0.3,
+        loose: true
+      });
     });
   }
   render() {
@@ -1486,8 +1398,27 @@ class ThirdSection extends Component {
           </div>
         </div>
         <div className="rightthirdsection col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-          <div className="video-thumbs-frame">
+          <div id="image-carouselMotorist" className="dragdealer">
             <MotoristCarouselApp />
+          </div>
+          <div className="menu-indicator">
+            <div className="indicator-wrapper">
+              <div className="box-wrapper">
+                <div className="box-outer">
+                  <div className="box"></div>
+                  <div className="box"></div>
+                  <div className="box"></div>
+                  <div className="box"></div>
+                </div>
+              </div>
+              <div className="indicator-cursor">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.619 68.23">
+                  <title>noun_692985</title>
+                  <path d="M59.773,79.1l0.033-.176c2.062-9.136,9.688-20.832,8.023-31.685-0.45-2.583-.877-3.861-1.383-4.527-0.33-.435-0.807-0.769-2.285-0.769a4.6,4.6,0,0,0-1.063.116L63.041,47.7a1.875,1.875,0,0,1-3.749-.035l0.061-6.554c0.071-2.036-.252-2.656-0.443-2.862-0.169-.181-0.651-0.485-2.388-0.485a2.962,2.962,0,0,0-2.436.915l-0.07,5.843a1.875,1.875,0,1,1-3.749-.035l0.062-6.553c0.071-2.036-.252-2.657-0.443-2.864-0.169-.181-0.653-0.485-2.389-0.485a3.423,3.423,0,0,0-2.054.551l-0.177.17-0.025,9.4a1.875,1.875,0,0,1-3.749-.011L41.554,21.73c0.071-2.042-.25-2.66-0.443-2.869-0.169-.181-0.652-0.485-2.389-0.485a3.225,3.225,0,0,0-2.223.688,2.533,2.533,0,0,0-.654,2.17l0,0.116V54.614a1.875,1.875,0,0,1-3.75,0V47.837l-0.875.232a4.476,4.476,0,0,0-3.115,3.319A10.042,10.042,0,0,0,29.864,58.8c3.487,5.315,8.108,11.265,9.58,18.686l0.251,1.521Z" transform="translate(-24.187 -14.626)" style={{fill: '#fff'}}/>
+                  <path d="M61.32,82.856l-23.33-.1a1.875,1.875,0,0,1-1.863-1.759c-0.476-7.733-5.126-13.62-9.4-20.132-2.013-3.068-3.083-6.96-2.266-10.351,0.766-3.185,3.113-5.585,7-6.378l0.64-.087V21.35l-0.011-.659a6.017,6.017,0,0,1,1.865-4.38,6.923,6.923,0,0,1,4.769-1.685c1.871,0,3.817.263,5.136,1.683,1.293,1.391,1.519,3.4,1.445,5.492l-0.026,9.37,0.724-.2a8.546,8.546,0,0,1,1.5-.129,10.564,10.564,0,0,1,2.776.309,4.92,4.92,0,0,1,2.36,1.374,4.7,4.7,0,0,1,.782,1.153L53.7,34.519l1.325-.374a8.535,8.535,0,0,1,1.495-.129,10.564,10.564,0,0,1,2.776.309A4.922,4.922,0,0,1,61.657,35.7a5.227,5.227,0,0,1,1.235,2.486l0.015,0.11,0.288-.049a8.892,8.892,0,0,1,.966-0.052,6.109,6.109,0,0,1,5.272,2.251c1.127,1.485,1.653,3.64,2.1,6.188,1.965,12.813-7.146,26.223-8.345,34.614A1.875,1.875,0,0,1,61.32,82.856ZM59.773,79.1l0.033-.176c2.062-9.136,9.688-20.832,8.023-31.685-0.45-2.583-.877-3.861-1.383-4.527-0.33-.435-0.807-0.769-2.285-0.769a4.6,4.6,0,0,0-1.063.116L63.041,47.7a1.875,1.875,0,0,1-3.749-.035l0.061-6.554c0.071-2.036-.252-2.656-0.443-2.862-0.169-.181-0.651-0.485-2.388-0.485a2.962,2.962,0,0,0-2.436.915l-0.07,5.843a1.875,1.875,0,1,1-3.749-.035l0.062-6.553c0.071-2.036-.252-2.657-0.443-2.864-0.169-.181-0.653-0.485-2.389-0.485a3.423,3.423,0,0,0-2.054.551l-0.177.17-0.025,9.4a1.875,1.875,0,0,1-3.749-.011L41.554,21.73c0.071-2.042-.25-2.66-0.443-2.869-0.169-.181-0.652-0.485-2.389-0.485a3.225,3.225,0,0,0-2.223.688,2.533,2.533,0,0,0-.654,2.17l0,0.116V54.614a1.875,1.875,0,0,1-3.75,0V47.837l-0.875.232a4.476,4.476,0,0,0-3.115,3.319A10.042,10.042,0,0,0,29.864,58.8c3.487,5.315,8.108,11.265,9.58,18.686l0.251,1.521Z" transform="translate(-24.187 -14.626)"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </section>

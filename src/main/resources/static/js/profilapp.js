@@ -1,6 +1,20 @@
 const { Component } = React;
 const { BrowserRouter, Switch, Route, Link } = ReactRouterDOM;
 
+class Country extends Component {
+  render(){
+    return(
+      <option value={this.props.countryProp.code}>{this.props.countryProp.name}</option>
+    );
+  }
+}
+class City extends Component {
+  render(){
+    return(
+      <option value={this.props.cityProp.name}>{this.props.cityProp.name}</option>
+    );
+  }
+}
 class ContactUsModalLauncher extends Component {
   render() {
     return (
@@ -11,46 +25,137 @@ class ContactUsModalLauncher extends Component {
 class ContactUsModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'signupas'};
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      email: '',
+      fullname: '',
+      phone: '',
+      content: '',
+      formErrors: {
+  	    email: '',
+  	    fullname: '',
+        phone: '',
+        content: ''
+      },
+      emailValid: false,
+  	  fullnameValid: false,
+      phoneValid: false,
+      contentValid: false,
+      formValid: false
+    }
   }
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let emailValid = this.state.emailValid;
+  	let fullnameValid = this.state.fullnameValid;
+    let phoneValid = this.state.phoneValid;
+    let contentValid = this.state.contentValid;
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let phoneReg = /^([0|\+[0-9]{1,5})?([0-9]{10})$/;
+
+    switch(fieldName) {
+      case 'email':
+        emailValid = reg.test(value);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        break;
+      case 'fullname':
+        fullnameValid = value.length >= 2;
+        fieldValidationErrors.fullname = fullnameValid ? '' : ' is invalid';
+        break;
+      case 'phone':
+        phoneValid = phoneReg.test(value);
+        fieldValidationErrors.phone = phoneValid ? '' : ' is invalid';
+        break;
+      case 'content':
+        contentValid = value.length >= 6;
+        fieldValidationErrors.content = contentValid ? '' : ' is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                  emailValid: emailValid,
+                  fullnameValid: fullnameValid,
+                  phoneValid: phoneValid,
+                  contentValid: contentValid
+                  }, this.validateForm);
+  }
+  validateForm() {
+    this.setState({formValid: this.state.emailValid &&
+                              this.state.fullnameValid &&
+                              this.state.phoneValid &&
+                              this.state.contentValid});
+  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
+  }
+  errorClass(error) {
+    return(error.length === 0 ? '' : 'has-error');
   }
   render() {
     return (
       <div className="contactus modal fade" id="contactusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+          <div className="modal-header">
+            <i className="ion-email"></i>
+            <h5 className="modal-title">Stay Connected</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
             <div className="modal-body row">
               <div className="col">
                 <div className="container">
-                  <div className="card container">
-                    <div className="card-body">
-                      <h4 className="card-title">Stay Connected<i className="ion-email"></i></h4>
-                      <p className="card-text">Suggestions and Complaints are Welcome</p>
-                      <form data-ajax="false" id="contactusForm">
-                        <div className="form-group">
-                          <input type="email" className="form-control" id="exampleInputEmailContact1" aria-describedby="loginHelp" placeholder="Login"/>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputNameContact1" placeholder="Your Name"/>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" className="form-control" id="exampleInputPhoneContact1" placeholder="Your Phone"/>
-                        </div>
-                        <div className="form-group">
-                          <textarea className="form-control" id="exampleFormControlMessageContact1" placeholder="Message" rows="5"></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
-                      </form>
+                  <form data-ajax="false" id="contactusForm">
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.email)}`}>
+                      <label for="email" className="col-form-label">Email:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.email}</span></span>
+                      <input value={this.state.email} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="emailHelp" className="form-text text-muted"></small>
                     </div>
-                  </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.fullname)}`}>
+                      <label for="fullname" className="col-form-label">Full Name:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
+                      <input value={this.state.fullname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="fullname" aria-describedby="fullnameHelp" name="fullname" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Full Name.
+                      </div>
+                      <small id="fullnameHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.phone)}`}>
+                      <label for="phone" className="col-form-label">Phone:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.email}`}><span>{this.state.formErrors.email}</span></span>
+                      <input value={this.state.phone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="phone" aria-describedby="phoneHelp" name="phone" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="phoneHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`form-group has-tooltip ${this.errorClass(this.state.formErrors.content)}`}>
+                      <label for="content" className="col-form-label">Message Content:</label>
+                      <span className={`tooltip tooltip-${this.state.formErrors.content}`}><span>{this.state.formErrors.content}</span></span>
+                      <textarea value={this.state.content} onChange={(event) => this.handleUserInput(event)} rows="5" className="form-control" id="content" aria-describedby="contentHelp" name="content" required/>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Message.
+                      </div>
+                      <small id="contentHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <button type="submit" className="btn btn-primary"><i className="ion-paper-airplane"></i></button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -452,64 +557,40 @@ class VehicleModal extends Component {
             function(){
               $(this).remove();
             });
-          }, 400);
+          }, 1000);
         })
   }
   handleInputsOverlay(form){
-    var reactThis = this;
+    var reactSelf = this,
+        $icon = $('.fa-pencil');
+
+    $icon
+      .css({
+        float: "right",
+        cursor: "pointer"
+      })
+      .click(() => {
+        // enable all inputs
+        $(form).find('input, select').prop('disabled', false);
+        //handle alert overlay
+        reactSelf.handleOverlay(vehicleForm, 'Updating');
+        // remove icon
+        $(form).find('.fa-pencil').remove();
+        // change buttons
+        reactSelf.handleButtonDisplayed('.modal-footer', 'updateVehicle');
+        // take off delete button
+        $('.modal-footer').find('button#deleteButton').remove();
+        $icon.remove();
+      });
+
     $.each($(form).serializeArray(), function(_, field) {
       var $self = $('input[name='+field.name+'], select[name='+field.name+']'),
-      // create an overlay
-      $overlay = $('<div className="overlayDisable"></div>'),
       // get its parent label element
       $label = $self.prev(),
       // get its parent element
       $parent = $self.parent();
-      
       //disable the element
       $self.prop('disabled', true);
-
-      // style the parent
-      $parent.css( "position", "relative" );
-      
-      // style the overlay
-      $overlay
-        .css({
-          // position the overlay in the same real estate as the original parent element 
-          position: "absolute"
-          , top: $label.outerHeight()
-          , width: $self.outerWidth()
-          , height: $self.outerHeight()
-          , zIndex: 10000
-          // IE needs a color in order for the layer to respond to mouse events
-          , backgroundColor: "#fff"
-          // set the opacity to 0, so the element is transparent
-          , opacity: 0
-        })
-        .dblclick(() => {
-          // enable all inputs
-          $(form).find('input, select').prop('disabled', false);
-
-          // focus on the particular input
-          $self.focus();
-          
-          //handle alert overlay
-          reactThis.handleOverlay(vehicleForm, 'Updating');
-          
-          // remove all overlays
-          $('.overlayDisable').remove();
-
-          // change buttons
-          reactThis.handleButtonDisplayed('.modal-footer', 'updateVehicle');
-
-          // take off delete button
-          $('.modal-footer').find('button#deleteButton')
-            .css({
-              display: "none"
-            });
-        });
-      // insert the overlay
-      $overlay.insertAfter($self);
     });
   }
   handleButtonDisplayed(buttonsContainer, buttonDisplayed) {
@@ -573,6 +654,7 @@ class VehicleModal extends Component {
               </button>
             </div>
             <div className="modal-body">
+              <i className="fa fa-pencil" aria-hidden="true"></i>
               <form data-ajax="false" id="vehicleForm" action="" method="post">
 
                 <div className={`form-group ${this.errorClass(this.state.formErrors.vehicleBrand)}`}>
@@ -1221,67 +1303,6 @@ class TvgChoice extends Component {
   }
 }
 /* The Choices */
-/* The Modals */
-class CentresByRegionModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {store};
-  }
-  loadCentersFromServer(){
-    var self = this;
-    var myHeaders = new Headers();
-    var myInit = { method: 'GET',
-                   headers: myHeaders,
-                   mode: 'cors',
-                   cache: 'default',
-                   credentials: 'same-origin' };
-    fetch('/api/tvgs', myInit)
-    .then((response) => response.json()) 
-    .then((responseData) => {
-      store.centres = [];
-      self.setState(store);
-      var region = $('#centresByRegionModal').data('region');
-      var centersFoundByRegion = _.where(responseData._embedded.tvgs, {tvgRegion: region});
-      centersFoundByRegion.forEach(function(tvg) {
-        store.centres.push(<TvgChoice tvg={tvg} />);
-        self.setState(store);
-      });
-    });
-  }
-  componentDidMount() {
-    var self = this;
-    $('#centresByRegionModal').on('shown.bs.modal', function () {
-      self.loadCentersFromServer();
-    });
-  }
-  render() {
-    var centers = 'Nothing To Show Here :('
-    if(this.state.store.centres != '' && this.state.store.centres != null)
-      centers = this.state.store.centres;
-    return (
-      <div className="centresByRegion modal fade" id="centresByRegionModal" data-region="inada" tabindex="-1" role="dialog" aria-labelledby="centresByRegionModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="centresByRegionModalLabel"></h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="grid-cell">
-                {centers}
-              </div>
-            </div>
-            <div className="modal-footer">
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-/* The Modals */
 /* The Steps */
 class StepOne extends Component {
   constructor(props){
@@ -1463,7 +1484,6 @@ class StepThree extends Component {
   }
   componentDidMount(){
     var self = this;
-    console.log(store.centre);
     if(store.centre != '' && store.vehicle != ''){
       fetch('/api/bookings', {
         headers : { 
@@ -1745,8 +1765,264 @@ class StepThree extends Component {
     );
   }
 }
+
+class StepOneConsult extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      store
+    };
+  }
+  loadVehiclesFromServer(){
+    var self = this;
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/auth', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      store.accountId = responseData.accountId;
+      store.accountLogin = responseData.accountLogin;
+      store.vehicles = [];
+      self.setState(store);
+      responseData.motorist.vehicle.forEach(function(vehicle) {
+        store.vehicles.push(<VehicleChoice vehicle={vehicle} />);
+        self.setState(store);
+      });
+      fetch('/api/bookings', {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-my-custom-header': 'INDEED'
+        },
+        credentials: 'same-origin'
+      })
+      .then((responseB) => responseB.json()) 
+      .then((responseDataB) => {
+        responseDataB._embedded.bookings.forEach(function(booking) {
+          fetch(_.values(booking._links.account), {
+            headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'x-my-custom-header': 'INDEED'
+            },
+            credentials: 'same-origin'
+          })
+          .then((responseA) => responseA.json()) 
+          .then((responseDataA) => {
+            if(responseDataA.accountLogin === responseData.accountLogin){
+              store.hasOwnBooking = true;
+              self.setState(store);
+
+              /* Here is the step core */
+              fetch('/api/bookings', {
+                headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'x-my-custom-header': 'INDEED'
+                },
+                credentials: 'same-origin'
+              })
+              .then((response) => response.json()) 
+              .then((responseData) => {
+                responseData._embedded.bookings.forEach(function(booking) {
+                  fetch(_.values(booking._links.vehicle), {
+                    headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'x-my-custom-header': 'INDEED'
+                    },
+                    credentials: 'same-origin'
+                  })
+                  .then((responseV) => responseV.json()) 
+                  .then((responseDataV) => {
+                    var color = randomColor(),
+                        content = responseDataV.vehicleBrand,
+                        year = parseInt(moment(new Date(booking.bookingDate)).format('YYYY')),
+                        month = parseInt(moment(new Date(booking.bookingDate)).add(-1, 'months').format('MM')),
+                        day = parseInt(moment(new Date(booking.bookingDate)).format('DD')),
+                        hour = parseInt(moment(new Date(booking.bookingDate)).format('HH')),
+                        hourEnd = parseInt(moment(new Date(booking.bookingDate)).add(1, 'hours').format('HH')),
+                        startDate = new Date(year, month, day, hour),
+                        endDate = new Date(year, month, day, hourEnd);
+                    var eventElement = {color: color, content: content, disabled: true, endDate: endDate, meeting: false, reminder: false, startDate: startDate};
+                    store.events.push(eventElement);
+                    store.bookings.push(booking);
+                    self.setState(store);
+                  });
+        
+                  fetch(_.values(booking._links.account), {
+                    headers : { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'x-my-custom-header': 'INDEED'
+                    },
+                    credentials: 'same-origin'
+                  })
+                  .then((responseA) => responseA.json()) 
+                  .then((responseDataA) => {
+                    if(responseDataA.accountLogin == store.accountLogin){
+                      fetch(_.values(booking._links.tvg), {
+                        headers : { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'x-my-custom-header': 'INDEED'
+                        },
+                        credentials: 'same-origin'
+                      })
+                      .then((responseT) => responseT.json()) 
+                      .then((responseDataT) => {
+                        store.centre = responseDataT;
+                        self.setState(store);
+                      });
+                    }
+                  });
+                });
+              });
+              
+              YUI().use(
+                'aui-scheduler',
+                function(Y) {
+                  var events = self.state.store.events;
+                  var dayView = new Y.SchedulerDayView();
+                  var weekView = new Y.SchedulerWeekView();
+                  var monthView = new Y.SchedulerMonthView();
+                  var eventRecorder = new Y.SchedulerEventRecorder({
+                    on:{
+                      save: function (event) {
+                        this.hidePopover();
+                        alert('Oops, You Have to go Through Booking To do That');
+                        event.halt();
+                      },
+                      delete: function (event) {
+                        this.hidePopover();
+                        event.halt();
+                        var bookingDateOld = event.details[0].schedulerEvent._state.data.startDate.value,
+                            $bookingDate = $('<input type="hidden" name="bookingDate" value="' + moment(bookingDateOld).format('YYYY-MM-DD HH:mm') + '" />'),
+                            $form = $('<form action="/deleteBooking" method="POST"></form>');
+                        var b = _.findWhere(store.bookings, {bookingDate: moment(bookingDateOld).format("YYYY-MM-DDTHH:mm:ss.SSSZZ")});
+                        $form.append($bookingDate);
+                        fetch(_.values(b._links.account), {
+                          headers : { 
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json',
+                          'x-my-custom-header': 'INDEED'
+                          },
+                          credentials: 'same-origin'
+                        })
+                        .then((responseA) => responseA.json()) 
+                        .then((responseDataA) => {
+                          if(responseDataA.accountLogin == store.accountLogin){
+                            $(document.body).append($form);
+                            $form.submit();
+                          }else{
+                            alert('Oops, You can\'t delete this event cuz it\'s not yours');
+                          }
+                        });
+                      }
+                    }
+                  });
+        
+                  new Y.Scheduler({
+                    activeView: weekView,
+                    boundingBox: '#mySchedulerConsult',
+                    date: new Date(),
+                    eventRecorder: eventRecorder,
+                    items: events,
+                    render: true,
+                    views: [dayView, weekView, monthView]
+                  });
+
+                  
+                }
+              );
+              $(document).on('DOMNodeInserted', '.scheduler-base', () => {
+                $('.scheduler-base-icon-next span').attr('class', 'fa fa-chevron-right');
+                $('.scheduler-base-icon-prev span').attr('class', 'fa fa-chevron-left');
+              });
+              /* Here is the step core */
+
+            }
+          });
+        });
+      });
+    });
+  }
+  componentDidMount() {
+    this.loadVehiclesFromServer();
+  }
+  render() {
+    return (
+      <div id="wrapper">
+        <div id="mySchedulerConsult"></div>
+      </div>
+    );
+  }
+}
 /* The Steps */
-/* Steps Container */
+/* Modals */
+class CentresByRegionModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {store};
+  }
+  loadCentersFromServer(){
+    var self = this;
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/tvgs', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      store.centres = [];
+      self.setState(store);
+      var region = $('#centresByRegionModal').data('region');
+      var centersFoundByRegion = _.where(responseData._embedded.tvgs, {tvgRegion: region});
+      centersFoundByRegion.forEach(function(tvg) {
+        store.centres.push(<TvgChoice tvg={tvg} />);
+        self.setState(store);
+      });
+    });
+  }
+  componentDidMount() {
+    var self = this;
+    $('#centresByRegionModal').on('shown.bs.modal', function () {
+      self.loadCentersFromServer();
+    });
+  }
+  render() {
+    var centers = 'Nothing To Show Here :('
+    if(this.state.store.centres != '' && this.state.store.centres != null)
+      centers = this.state.store.centres;
+    return (
+      <div className="centresByRegion modal fade" id="centresByRegionModal" data-region="inada" tabindex="-1" role="dialog" aria-labelledby="centresByRegionModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="centresByRegionModalLabel"></h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="grid-cell">
+                {centers}
+              </div>
+            </div>
+            <div className="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class BookingModal extends Component {
   constructor(props) {
     super(props);
@@ -1769,7 +2045,27 @@ class BookingModal extends Component {
     );
   }
 }
-/* Steps Container */
+class ConsultingModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      store
+    }
+  }
+  render() {
+    const steps = [
+      {name: 'Bookings', component: <StepOneConsult/>}
+    ];
+    return (
+      <div className="consulting modal fade" id="consultingModal" tabindex="-1" role="dialog" aria-labelledby="consultingModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <MultiStep showNavigation={false} initialStep={1} steps={steps}/>
+        </div>
+      </div>
+    );
+  }
+}
+/* Modals */
 class MotoristContentBottom extends Component {
   constructor(props){
     super(props);
@@ -1820,7 +2116,7 @@ class MotoristContentBottom extends Component {
         </div>
         <div className="col-3">
           <div className="card">
-            <div className="card__image" id="card-2" style={{backgroundImage: "url(" + picture + ")"}}>
+            <div className="card__image" id="card-2" style={{backgroundImage: "url(" + picture + ")"}} data-toggle="modal" data-target="#pictureModal">
               <div className="image-overlay"></div>
             </div>
           </div>
@@ -2065,7 +2361,7 @@ class ReservationContent extends Component {
           </div>
         </div>
         <div className="col">
-          <div className="card card__two">
+          <div data-toggle="modal" data-target="#consultingModal" className="card card__two">
             <div className="lamp">
               <div dangerouslySetInnerHTML={{ __html: svgString__two }} className="lamp lamp--left">
               </div>
@@ -2169,6 +2465,607 @@ class ReservationContent extends Component {
     );
   }
 }
+class MotoristContentAbout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      login: '',
+      passwordnew: '',
+      countries: [],
+      cities: [],
+      citiesWanted: [],
+  	  ipersonLastname: '',
+  	  ipersonFirstname: '',
+  	  ipersonBirthday: '',
+  	  ipersonCountry: '',
+  	  ipersonCity: '',
+  	  ipersonNationalcardid : '',
+  	  ipersonEmail: '',
+  	  ipersonPhone: '',
+      formErrors: {
+        login: '', 
+        passwordnew: '',
+        ipersonLastname: '',
+  	    ipersonFirstname: '',
+  	    ipersonBirthday: '',
+    	  ipersonCountry: '',
+  	    ipersonCity: '',
+  	    ipersonNationalcardid : '',
+  	    ipersonEmail: '',
+  	    ipersonPhone: ''
+      },
+      loginValid: false,
+      loginRepeated: false,
+      passwordnewValid: false,
+      ipersonLastnameValid: false,
+  	  ipersonFirstnameValid: false,
+  	  ipersonBirthdayValid: false,
+  	  ipersonCountryValid: false,
+  	  ipersonCityValid: false,
+  	  ipersonNationalcardidValid: false,
+  	  ipersonEmailValid: false,
+  	  ipersonEmailRepeated: false,
+  	  ipersonPhoneValid: false,
+      formValid: false
+    };
+  }
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let loginValid = this.state.loginValid;
+    let passwordnewValid = this.state.passwordnewValid;
+    let ipersonLastnameValid = this.state.ipersonLastnameValid;
+  	let ipersonFirstnameValid = this.state.ipersonFirstnameValid;
+  	let ipersonBirthdayValid = this.state.ipersonBirthdayValid;
+  	let ipersonCountryValid = this.state.ipersonCountryValid;
+  	let ipersonCityValid = this.state.ipersonCityValid;
+  	let ipersonNationalcardidValid = this.state.ipersonNationalcardidValid;
+  	let ipersonEmailValid = this.state.ipersonEmailValid;
+  	let ipersonPhoneValid = this.state.ipersonPhoneValid;
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let phoneReg = /^([0|\+[0-9]{1,5})?([0-9]{10})$/;
+
+    switch(fieldName) {
+      case 'login':
+        loginValid = value.length >= 6 && value != this.state.passwordnew && value.match(/^\s*$/) != true;
+        fieldValidationErrors.login = loginValid ? '' : ' is invalid';
+        $('#exists').fadeTo("fast" , 0);
+        break;
+      case 'passwordnew':
+        passwordnewValid = value.length >= 6 && value != this.state.login && value.match(/^\s*$/) != true;
+        fieldValidationErrors.passwordnew = passwordnewValid ? '' : ' is too short';
+        break;
+      case 'ipersonLastname':
+        ipersonLastnameValid = value.length >= 1;
+        fieldValidationErrors.ipersonLastname = ipersonLastnameValid ? '' : ' is invalid';
+        break;
+      case 'ipersonFirstname':
+        ipersonFirstnameValid = value.length >= 1;
+        fieldValidationErrors.ipersonFirstname = ipersonFirstnameValid ? '' : ' is invalid';
+        break;
+      case 'ipersonBirthday':
+        ipersonBirthdayValid = moment(value, 'YYYY-MM-DD', true).isValid();
+        fieldValidationErrors.ipersonBirthday = ipersonBirthdayValid ? '' : ' is invalid';
+        break;
+      case 'ipersonCountry':
+        ipersonCountryValid = value.length >= 1;
+        fieldValidationErrors.ipersonCountry = ipersonCountryValid ? '' : ' is invalid';
+        break;
+      case 'ipersonCity':
+        ipersonCityValid = value.length >= 1;
+        fieldValidationErrors.ipersonCity = ipersonCityValid ? '' : ' is invalid';
+        break;
+      case 'ipersonNationalcardid':
+        ipersonNationalcardidValid = value.length >= 7;
+        fieldValidationErrors.ipersonNationalcardid = ipersonNationalcardidValid ? '' : ' is invalid';
+        break;
+      case 'ipersonEmail':
+        ipersonEmailValid = reg.test(value);
+        fieldValidationErrors.ipersonEmail = ipersonEmailValid ? '' : ' is invalid';
+        $('#exists').fadeTo("fast" , 0);
+        break;
+      case 'ipersonPhone':
+        ipersonPhoneValid = phoneReg.test(value);
+        fieldValidationErrors.ipersonPhone = ipersonPhoneValid ? '' : ' is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                  loginValid: loginValid,
+                  passwordnewValid: passwordnewValid,
+                  ipersonLastnameValid: ipersonLastnameValid,
+                  ipersonFirstnameValid: ipersonFirstnameValid,
+                  ipersonBirthdayValid: ipersonBirthdayValid,
+                  ipersonCountryValid: ipersonCountryValid,
+                  ipersonCityValid: ipersonCityValid,
+                  ipersonNationalcardidValid: ipersonNationalcardidValid,
+                  ipersonEmailValid: ipersonEmailValid,
+                  ipersonPhoneValid: ipersonPhoneValid
+                  }, this.validateForm);
+  }
+  validateEmail(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let ipersonEmailRepeated = this.state.ipersonEmailRepeated;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/api/iPersons', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      ipersonEmailRepeated = _.findWhere(responseData._embedded.motorists, {ipersonEmail: value}) === undefined;
+      fieldValidationErrors.ipersonEmail = ipersonEmailRepeated ? '' : ' Already exists';
+      this.setState({formErrors: fieldValidationErrors,
+        ipersonEmailRepeated: ipersonEmailRepeated
+      }, this.validateForm);
+      if(ipersonEmailRepeated === false){
+        $('#exists').fadeTo("slow" , 1);
+      }else{
+        
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("x-my-custom-header", "INDEED");
+        var myInit = { method: 'GET',
+                       headers: myHeaders,
+                       mode: 'cors',
+                       cache: 'default',
+                       credentials: 'same-origin' };
+        fetch('/api/tvgs', myInit)
+        .then((response) => response.json()) 
+        .then((responseData) => {
+          ipersonEmailRepeated = _.findWhere(responseData._embedded.tvgs, {tvgEmail: value}) === undefined;
+          fieldValidationErrors.ipersonEmail = ipersonEmailRepeated ? '' : ' Already exists';
+          this.setState({formErrors: fieldValidationErrors,
+            ipersonEmailRepeated: ipersonEmailRepeated
+          }, this.validateForm);
+          if(ipersonEmailRepeated === false){
+            $('#exists').fadeTo("slow" , 1);
+          }
+        });
+
+      }
+    });
+  }
+  validateLogin(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let loginRepeated = this.state.loginRepeated;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                  headers: myHeaders,
+                  mode: 'cors',
+                  cache: 'default',
+                  credentials: 'same-origin' };
+    fetch('/api/accounts', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      loginRepeated = _.findWhere(responseData._embedded.accounts, {accountLogin: value}) === undefined;
+      fieldValidationErrors.login = loginRepeated ? '' : ' Already exists';
+      this.setState({formErrors: fieldValidationErrors,
+        loginRepeated: loginRepeated
+      }, this.validateForm);
+      if(loginRepeated === false){
+        $('#exists').fadeTo("slow" , 1);
+      }
+    });
+  }
+  validateForm() {
+    this.setState({formValid: this.state.loginValid && 
+                              this.state.passwordnewValid && 
+                              this.state.loginRepeated &&
+                              this.state.ipersonLastnameValid &&
+                              this.state.ipersonFirstnameValid &&
+                              this.state.ipersonBirthdayValid &&
+                              this.state.ipersonCountryValid &&
+                              this.state.ipersonCityValid &&
+                              this.state.ipersonNationalcardidValid &&
+                              this.state.ipersonEmailValid &&
+                              this.state.ipersonPhoneValid &&
+                              this.state.ipersonEmailRepeated});
+  }
+  handleBlurEmail(e){
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateEmail(name, value) });
+  }
+  handleBlurLogin(e){
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value}, () => { this.validateLogin(name, value) });
+  }
+  handleUserInput(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    if(name == 'ipersonCountry'){
+      var countrySelected = '';
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
+      myHeaders.append("x-my-custom-header", "INDEED");
+      var myInit = { method: 'GET',
+                     headers: myHeaders,
+                     mode: 'cors',
+                     cache: 'default',
+                     credentials: 'same-origin' };
+      fetch('../js/json/COUNTRIES.json', myInit)
+      .then((response) => response.json()) 
+      .then((responseData) => { 
+        countrySelected = _.first(_.where(responseData, {code: value})).code;
+        this.loadCitiesFromJSON(countrySelected);
+        this.setState({[name]: value}, () => { this.validateField(name, value) });
+      });
+    }else{
+      this.setState({[name]: value}, () => { this.validateField(name, value) });
+    }
+  }
+  errorClass(error) {
+   return(error.length === 0 ? '' : 'has-error');
+  }
+  loadCountriesFromJSON() {
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/COUNTRIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({countries: responseData});
+    });
+
+  }
+  loadCitiesFromJSON(countryID) {
+    var rowsC = [];
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/CITIES.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({cities: _.sortBy(_.where(responseData, {country: countryID}), 'name')});
+      this.state.cities.forEach(function(city) {
+        rowsC.push(<City cityProp={city} />);
+      });
+      this.setState({citiesWanted: rowsC});
+    });
+
+  }
+  loadDataFromJSON(){
+    var self = this;
+    self.setState({
+      login: self.props.account.accountLogin,
+      passwordnew: '******',
+  	  ipersonLastname: self.props.account.motorist.ipersonLastname,
+  	  ipersonFirstname: self.props.account.motorist.ipersonFirstname,
+  	  ipersonBirthday: moment(new Date(self.props.account.motorist.ipersonBirthday)).format('YYYY-MM-DD'),
+  	  ipersonCountry: self.props.account.motorist.ipersonCountry,
+  	  ipersonCity: self.props.account.motorist.ipersonCity,
+  	  ipersonNationalcardid : self.props.account.motorist.ipersonNationalcardid,
+  	  ipersonEmail: self.props.account.motorist.ipersonEmail,
+  	  ipersonPhone: self.props.account.motorist.ipersonPhone,
+      formErrors: {
+        login: '', 
+        passwordnew: '',
+        ipersonLastname: '',
+  	    ipersonFirstname: '',
+  	    ipersonBirthday: '',
+    	  ipersonCountry: '',
+  	    ipersonCity: '',
+  	    ipersonNationalcardid : '',
+  	    ipersonEmail: '',
+  	    ipersonPhone: ''
+      },
+      loginValid: true,
+      loginRepeated: true,
+      passwordnewValid: true,
+      ipersonLastnameValid: true,
+  	  ipersonFirstnameValid: true,
+  	  ipersonBirthdayValid: true,
+  	  ipersonCountryValid: true,
+  	  ipersonCityValid: true,
+  	  ipersonNationalcardidValid: true,
+  	  ipersonEmailValid: true,
+  	  ipersonEmailRepeated: true,
+  	  ipersonPhoneValid: true,
+      formValid: true
+    });
+    var exampleInputipersonCountry = document.querySelector("#exampleInputipersonCountry");
+    exampleInputipersonCountry.addEventListener('DOMNodeInserted', function(evt) {
+      $('option[value='+self.props.account.motorist.ipersonCountry+']').prop('selected', 'selected');
+    }, false);
+
+    var exampleInputipersonCity = document.querySelector("#exampleInputipersonCity");
+    exampleInputipersonCity.addEventListener('DOMNodeInserted', function(evt) {
+      $('option[value='+self.props.account.motorist.ipersonCity+']').prop('selected', 'selected');
+    }, false);
+  }
+  componentWillMount() {
+    var self = this;
+    this.loadCitiesFromJSON(self.props.account.motorist.ipersonCountry);
+  }
+  componentDidMount() {
+    this.loadCountriesFromJSON();
+    this.loadDataFromJSON();
+    var self = this;
+    $('.grid').masonry({
+      itemSelector: '.grid-item',
+      columnWidth: '.grid-sizer',
+      percentPosition: true
+    });
+  }
+  handleButtonClick(event) {
+    if(!$(event.target).find('i').hasClass("fa-paper-plane")){
+      $('.about-content').find('i.fa-paper-plane').toggleClass('fa-paper-plane fa-pencil');
+      $('.about-content').find('input, select').prop("disabled", true);
+      this.loadDataFromJSON();
+      $(event.target).find('i').toggleClass('fa-pencil fa-paper-plane');
+      $(event.target).parent('.card-header').parent('.card').find('input, select').prop("disabled", false);
+      
+      $('.fa-btn-cancel').remove();
+      var $buttonOverlay = $('<button type="button" class="btn btn-outline-danger fa-btn-cancel"><i class="fa fa-times" aria-hidden="true"></i></button>'),
+          $button = $(event.target);
+      $buttonOverlay.click(() => {
+        $('.about-content').find('i.fa-paper-plane').toggleClass('fa-paper-plane fa-pencil');
+        $('.about-content').find('input, select').prop("disabled", true);
+        this.loadDataFromJSON();
+        $(event.target).find('i').toggleClass('fa-pencil fa-paper-plane');
+        $(event.target).parent('.card-header').parent('.card').find('input, select').prop("disabled", false);
+        $buttonOverlay.remove();
+      });
+      $buttonOverlay.insertAfter($button);
+    }else{
+      var $form = $(event.target).parent('.card-header').parent('.card').find('form');
+      if($form.prop('name') === 'updateContactInfoMotorist' || $form.prop('name') === 'updatePersonalInfoMotorist'){
+        var $username = $('<input type="hidden" name="username" value="' + this.state.login + '" />');
+        $form.append($username);
+        $form.submit();
+      }else if($form.prop('name') === 'updateAccountMotorist'){
+        var $ipersonEmail = $('<input type="hidden" name="ipersonEmail" value="' + this.state.ipersonEmail + '" />');
+        $form.append($ipersonEmail);
+        $form.submit();
+      }
+    }
+  }
+  handleBlur(e){
+    const name = e.target.name;
+    if(name == 'ipersonBirthday' || name == 'vehicleFirstCirculation'){
+      e.target.type = 'text';
+    }
+  }
+  handleFocus(e){
+    const name = e.target.name;
+    if(name == 'ipersonBirthday' || name == 'vehicleFirstCirculation'){
+      e.target.type = 'date';
+    }
+  }
+  render(){
+    var rows = [];
+    this.state.countries.forEach(function(country) {
+      rows.push(<Country countryProp={country} />);
+    });
+    return(
+      <div className="container">
+        <div className="row grid">
+          <div className="col-6 grid-sizer"></div>
+          <div className="col-6 grid-item">
+            <div className="container">
+              <div className="card bg-light mb-3">
+                <div className="card-header">Contact Info<button type="button" onClick={(event) => this.handleButtonClick(event)} name="SubmitupdateContactInfoMotorist" className="btn btn-outline-primary fa-btn" disabled={!this.state.formValid}><i className="fa fa-pencil" aria-hidden="true"></i></button></div>
+                <div className="card-body">
+                  <form data-ajax="false" id="updateContactInfoMotorist" name="updateContactInfoMotorist" action="/updateContactInfoMotorist" method="post">
+
+                    <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.ipersonEmail)}`}>
+                      <span id="exists" className={`tooltip tooltip-${this.state.formErrors.ipersonEmail}`}><span>{this.state.formErrors.ipersonEmail}</span></span>
+                      <input disabled tabIndex="1" value={this.state.ipersonEmail} onBlur={(event) => this.handleBlurEmail(event)} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonEmail" aria-describedby="ipersonEmailHelp" name="ipersonEmail" required/>
+                      <label for="{label}"><small className="form-text text-muted">Email</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Email.
+                      </div>
+                      <small id="ipersonEmailHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonPhone)}`}>
+                      <input disabled tabIndex="2" value={this.state.ipersonPhone} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonPhone" aria-describedby="ipersonPhoneHelp" name="ipersonPhone" required/>
+                      <label for="{label}"><small className="form-text text-muted">Phone</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Phone.
+                      </div>
+                      <small id="ipersonPhoneHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonNationalcardid)}`}>
+                      <input disabled tabIndex="3" value={this.state.ipersonNationalcardid} onChange={(event) => this.handleUserInput(event)} type="text" onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonNationalcardid" aria-describedby="ipersonNationalcardidHelp" name="ipersonNationalcardid" required/>
+                      <label for="{label}"><small className="form-text text-muted">National Card Id</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid national card id.
+                      </div>
+                      <small id="ipersonNationalcardidHelp" className="form-text text-muted"></small>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-6 grid-item">
+            <div className="container">
+              <div className="card bg-light mb-3">
+                <div className="card-header">Personal Info<button type="button" onClick={(event) => this.handleButtonClick(event)} name="SubmitupdatePersonalInfoMotorist" className="btn btn-outline-primary fa-btn" disabled={!this.state.formValid}><i className="fa fa-pencil" aria-hidden="true"></i></button></div>
+                <div className="card-body">
+                  <form data-ajax="false" id="updatePersonalInfoMotorist" name="updatePersonalInfoMotorist" action="/updatePersonalInfoMotorist" method="post">
+                
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonLastname)}`}>
+                      <input disabled tabIndex="1" value={this.state.ipersonLastname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonLastname" aria-describedby="ipersonLastnameHelp" name="ipersonLastname" required/>
+                      <label for="{label}"><small className="form-text text-muted">Last Name</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid Last Name.
+                      </div>
+                      <small id="ipersonLastnameHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonFirstname)}`}>
+                      <input disabled tabIndex="2" value={this.state.ipersonFirstname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonFirstname" aria-describedby="ipersonFirstnameHelp" name="ipersonFirstname" required/>
+                      <label for="{label}"><small className="form-text text-muted">First Name</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid First Name.
+                      </div>
+                      <small id="ipersonFirstnameHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonBirthday)}`}>
+                      <input disabled tabIndex="3" value={this.state.ipersonBirthday} onChange={(event) => this.handleUserInput(event)} type="text" onBlur={(event) => this.handleBlur(event)} onFocus={(event) => this.handleFocus(event)} className="form-control" id="exampleInputipersonBirthday" aria-describedby="ipersonBirthdayHelp" name="ipersonBirthday" required/>
+                      <label for="{label}"><small className="form-text text-muted">Birthday</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please Choose a Birthday.
+                      </div>
+                      <small id="ipersonBirthdayHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCountry)}`}>
+                      <select disabled tabIndex="4" value={this.props.ipersonCountry} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCountry" aria-describedby="ipersonCountryHelp" name="ipersonCountry" required>
+                        <option value=""></option>
+                        {rows}
+                      </select>
+                      <label for="{label}"><small className="form-text text-muted">Country</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please Choose a Country.
+                      </div>
+                      <small id="ipersonCountryHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonCity)}`}>
+                      <select disabled tabIndex="5" value={this.props.ipersonCity} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputipersonCity" aria-describedby="ipersonCityHelp" name="ipersonCity" required>
+                        <option value=""></option>
+                        {this.state.citiesWanted}
+                      </select>
+                      <label for="{label}"><small className="form-text text-muted">City</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please Choose a City.
+                      </div>
+                      <small id="ipersonCityHelp" className="form-text text-muted"></small>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-6 grid-item">
+            <div className="container">
+              <div className="card bg-light mb-3">
+                <div className="card-header">Account<button type="button" onClick={(event) => this.handleButtonClick(event)} name="SubmitupdateAccountMotoristInfo" className="btn btn-outline-primary fa-btn" disabled={!this.state.formValid}><i className="fa fa-pencil" aria-hidden="true"></i></button></div>
+                <div className="card-body">
+                  <form data-ajax="false" id="updateAccountMotorist" name="updateAccountMotorist" action="/updateAccountMotorist" method="post">
+                  
+                    <div className={`input-container has-tooltip ${this.errorClass(this.state.formErrors.login)}`}>
+                      <span id="exists" className={`tooltip tooltip-${this.state.formErrors.login}`}><span>{this.state.formErrors.login}</span></span>
+                      <input disabled tabIndex="1" value={this.state.login} onBlur={(event) => this.handleBlurLogin(event)} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputLogin1" aria-describedby="loginHelp" name="login" required/>
+                      <label for="{label}"><small className="form-text text-muted">Login</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        Please provide a valid login.
+                      </div>
+                      <small id="loginHelp" className="form-text text-muted"></small>
+                    </div>
+
+                    <div className={`input-container ${this.errorClass(this.state.formErrors.passwordnew)}`}>
+                      <input disabled tabIndex="2" value={this.state.passwordnew} onChange={(event) => this.handleUserInput(event)} type="password" className="form-control" id="exampleInputpasswordnew1" aria-describedby="passwordnewHelp" name="passwordnew" required/>
+                      <label for="{label}"><small className="form-text text-muted">Password</small></label>
+                      <div className="bar"></div>
+                      <div className="invalid-feedback">
+                        A password has to have more than 6 characters.
+                      </div>
+                      <small id="passwordnewHelp" className="form-text text-muted"></small>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+class TvgContentAbout extends Component {
+  //Shit Here
+}
+class AboutContent extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      Content: ''
+    };
+  }
+  loadAccountFromServer(){
+    var self = this;
+    var myHeaders = new Headers();
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('/auth', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => {
+      if(responseData.activated != false){
+        if(responseData.motorist === undefined || responseData.motorist === null){
+          self.setState({
+            Content: <TvgContentAbout account={responseData} />
+          });
+        }else{
+          self.setState({
+            Content: <MotoristContentAbout account={responseData} />
+          });
+        }
+      }else{
+        $('.sessionVariables').submit();
+      }
+    });
+  }
+  componentDidMount() {
+    this.loadAccountFromServer();
+  }
+  render() {
+    return (
+      <div className="about-content">
+        <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
+        {this.state.Content}
+      </div>
+    );
+  }
+}
 
 class FirstSectionHome extends Component {
   constructor(props){
@@ -2206,7 +3103,7 @@ class FirstSectionHome extends Component {
     return (
       <section className="firstsection row">
         <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
-        <a href="#" className="col disabled profil-firstsection">
+        <a className="col disabled profil-firstsection">
           <ul className="nav nav-social flex-column">
             <li className="nav-item">
               <button type="button" className="btn btn-secondary"><i className="fa fa-instagram" aria-hidden="true"></i></button>
@@ -2221,7 +3118,7 @@ class FirstSectionHome extends Component {
               <ContactUsModalLauncher />
             </li>
           </ul>
-          <ProfilContent account={this.state.accountType} />
+          <ProfilContent account={this.state.accountType}/>
         </a>
         <ContactUsModal />
         <VehicleModal />
@@ -2255,7 +3152,7 @@ class FirstSectionReservation extends Component {
     return (
       <section className="firstsection row">
         <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
-        <a href="#" className="col disabled reservation-firstsection">
+        <a className="col disabled reservation-firstsection">
           <ul className="nav nav-social flex-column">
             <li className="nav-item">
               <button type="button" className="btn btn-secondary"><i className="fa fa-instagram" aria-hidden="true"></i></button>
@@ -2276,6 +3173,7 @@ class FirstSectionReservation extends Component {
         <VehicleModal />
         <PictureModal />
         <BookingModal />
+        <ConsultingModal />
         <CentresByRegionModal />
       </section>
     );
@@ -2284,6 +3182,9 @@ class FirstSectionReservation extends Component {
 class FirstSectionAbout extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      accountType: ''
+    };
   }
   componentDidMount(){
     var myHeaders = new Headers();
@@ -2296,7 +3197,15 @@ class FirstSectionAbout extends Component {
     .then((response) => response.json()) 
     .then((responseData) => {
       if(responseData.activated != false){
-        //console.log('account active');
+        if(responseData.motorist == undefined){
+          this.setState({
+            accountType: 'tvg'
+          });
+        }else{
+          this.setState({
+            accountType: 'motorist'
+          });
+        }
       }else{
         $('.sessionVariables').submit();
       }
@@ -2306,7 +3215,7 @@ class FirstSectionAbout extends Component {
     return (
       <section className="firstsection row">
         <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
-        <a href="#" className="col disabled profil-firstsection">
+        <a className="col disabled profil-firstsection">
           <ul className="nav nav-social flex-column">
             <li className="nav-item">
               <button type="button" className="btn btn-secondary"><i className="fa fa-instagram" aria-hidden="true"></i></button>
@@ -2321,7 +3230,7 @@ class FirstSectionAbout extends Component {
               <ContactUsModalLauncher />
             </li>
           </ul>
-          <h3>About</h3>
+          <AboutContent account={this.state.accountType}/>
         </a>
         <ContactUsModal />
         <VehicleModal />
@@ -2355,7 +3264,7 @@ class FirstSectionStatistics extends Component {
     return (
       <section className="firstsection row">
         <form data-ajax="false" className="sessionVariables" action="/authRedirection" method="post"></form>
-        <a href="#" className="col disabled profil-firstsection">
+        <a className="col disabled profil-firstsection">
           <ul className="nav nav-social flex-column">
             <li className="nav-item">
               <button type="button" className="btn btn-secondary"><i className="fa fa-instagram" aria-hidden="true"></i></button>

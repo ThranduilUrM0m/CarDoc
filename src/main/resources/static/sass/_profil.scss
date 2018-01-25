@@ -411,6 +411,13 @@ $default-color-bg:    $white;
         }
     }
 }
+#vehicleModal{
+    .modal-footer{
+        button{
+            transition: all 0.2s ease-out;
+        }
+    }
+}
 #bookingModal{
     padding: 0;
     .modal-dialog{
@@ -427,6 +434,52 @@ $default-color-bg:    $white;
                     text-align: center;
                 }
                 #myScheduler{
+                    .scheduler-view-content{
+                        overflow: scroll;
+                    }
+                    .scheduler-view-day .scheduler-view-table {
+                        margin: 0 0 0 60px;
+                    }
+                    .yui3-widget-bd{
+                        .scheduler-view-scrollable{
+                            display: initial;
+                        }
+                    }
+                    .yui3-widget-hd{
+                        .scheduler-base-hd{
+                            margin: 0;
+                            .scheduler-base-views{
+                                margin-left: auto;
+                            }
+                        }
+                    }
+                }
+            }
+            .modal-footer{
+                button{
+                    font-size: 1.5rem;
+                }
+            }
+        }
+      }
+    @import "react-multistep-master/_progtracker.scss";
+}
+#consultingModal{
+    padding: 0;
+    .modal-dialog{
+        margin: 0;
+        padding: 0;
+        .modal-content{
+            height: 100vh;
+            width: 100vw;
+            .modal-body{
+                overflow: scroll;
+                max-height: 82%;
+                padding: 20px 24px 0 !important;
+                .container{
+                    text-align: center;
+                }
+                #myScheduler, #mySchedulerConsult{
                     .scheduler-view-content{
                         overflow: scroll;
                     }
@@ -800,6 +853,31 @@ $default-color-bg:    $white;
                         height: 100%;
                     }
                 }
+            }
+        }
+    }
+    .about-content{
+        height: 100%;
+        input[type="text"]:disabled, input[type="password"]:disabled, select:disabled{
+            background-color: initial;
+            cursor: default;
+            color: $darkgray;
+        }
+        button{
+            float: right;
+            margin: 0;
+            i{
+                pointer-events: none;
+            }
+        }
+        label{
+            float: right;
+        }
+        .card-header{
+            position: relative;
+            .fa-btn-cancel{
+                margin-right: .2rem;
+                transition: all .5s ease-in-out;
             }
         }
     }

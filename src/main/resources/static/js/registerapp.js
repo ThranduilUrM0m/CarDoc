@@ -760,8 +760,10 @@ class RegisterMotoristPanel extends Component{
                     </div>
                     <small id="ipersonCountryHelp" className="form-text text-muted"></small>
                   </div>
+
                 </div>
                 <div className="col">
+
                   <div className={`input-container ${this.errorClass(this.state.formErrors.ipersonFirstname)}`}>
                     <input tabIndex="2" value={this.state.ipersonFirstname} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputipersonFirstname" aria-describedby="ipersonFirstnameHelp" name="ipersonFirstname" required/>
                     <label for="{label}">First Name</label>
@@ -804,6 +806,7 @@ class RegisterMotoristPanel extends Component{
                     </div>
                     <small id="ipersonCityHelp" className="form-text text-muted"></small>
                   </div>
+                  
                 </div>
               </div>
               <div className="row">

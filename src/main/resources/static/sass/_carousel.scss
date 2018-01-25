@@ -1,174 +1,191 @@
 .ui-loading .ui-loader { display: none; }
 .ui-loader { display: none; }
-.video-thumbs-frame {
-	position: relative;
-	margin: 0 auto;
-    width: 100%;
-    height: 100%;
-	overflow: hidden !important;
-	-webkit-user-select: none !important;
-    user-select: none !important;
-    .video-thumbs {
-        padding: 0;
+#image-carouselMotorist, #image-carouselTVG {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 20rem;
+    height: 25rem;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0px 8px 32px 0px $thirdgray;
+    transition: all 0.2s ease-out;
+    &:hover {
+      box-shadow: 0px 3px 12px 0px $thirdgray;
+    }
+    .handle {
+      height: 100%;
+      border-radius: 0;
+      .slide {
+        float: left;
         position: relative;
-        display: block;
-        overflow: hidden;
-        width: 100vw;
-        height: -webkit-calc(100% - 2rem);
-        height: -moz-calc(100% - 2rem);
-        height: calc(100% - 2rem);
-        margin-top: 1rem;
-        z-index: 300;
-        transform: translateX(0);
-        -webkit-transform-style: preserve-3d;
-        -webkit-perspective: 1000px;
-        transition: all 0.2s ease-out;
+        height: 100%;
+        
+        background: $white;
+        cursor: pointer;
+        border-radius: 2px;
         -webkit-user-select: none !important;
         user-select: none !important;
-        &.position-1 {
-            transform: translateX(0);
-            transition: all 0.2s ease-out;
-        }
-        &.position-2 {
-            transform: translateX(-22rem);
-            transition: all 0.2s ease-out;
-        }
-        &.position-3 {
-            transform: translateX(-44rem);
-            transition: all 0.2s ease-out;
-        }
-        &.position-4 {
-            transform: translateX(-66rem);
-            transition: all 0.2s ease-out;
-        }
-        .video-thumb {
-            position: relative;
-            display: inline-block;
-            background: $white;
-            cursor: pointer;
-            width: 20rem;
-            height: 25rem;
-            margin-left: -10rem;
-            margin-right: 1rem;
-            margin-top: calc((34% - 23rem)/2);
-            margin-bottom: 0;
-            border-radius: 2px;
-            box-shadow: 0px 8px 32px 0px $thirdgray;
-            -webkit-transform: translateZ(-8rem);
-            -webkit-transform-style: preserve-3d;
-            -webkit-filter: brightness(0.7);
-            filter: brightness(0.7);
-            transition: all 0.2s ease-out;
-            z-index: 10;
+        .video-thumb-wrapper {
+          position: relative;
+          display: flex;
+          flex-wrap: wrap;
+          width: 100%;
+          height: 100%;
+          border-radius: 2px;
+          overflow: hidden !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
+          .video-info-container {
+            width: 100%;
+            height: 8rem;
+            padding-left: 1rem;
+            padding-top: 1rem;
+            color: $gray;
             -webkit-user-select: none !important;
             user-select: none !important;
-            &:nth-child(2n+1) {
-                margin-left: 1rem;
-                margin-right: 1rem;
-            }
-            &.thumb-1 {
-                margin-left: calc((34% - 20rem)/2);
-            }
-            &:hover {
-                box-shadow: 0px 3px 12px 0px $thirdgray;
-                transition: all 0.2s ease-out;
-            }
-            &.active {
-                transform: translateZ(0);
-                transform-style: preserve-3d;
-                transition: all 0.2s ease-out;
-                z-index: 50;
-                -webkit-filter: brightness(1);
-                filter: brightness(1);
-                &:not(.thumb-1){
-                    margin-left: 1rem;
-                }
-            }
-            &-wrapper {
+            .video-stats {
+              padding-top: 9px;
+              font-size: 0.7em;
+              font-weight: 400;
+              color: #c8c8c8;
+              .stats-item {
                 position: relative;
-                display: flex;
-                flex-wrap: wrap;
+                display: inline-block;
+                margin-right: 15px;
+              }
+              .item-views {
+                -webkit-user-select: none;
+                user-select: none;
+              }
+            }
+            .video-thumb-title {
+              font-size: 1.25em;
+              font-weight: 500;
+              line-height: 1.25em;
+            }
+            .video-thumb-subtitle {
+              font-size: 0.85em;
+              font-weight: 300;
+              color: #a8a8a8;
+            }
+          }
+          .video-thumbnail {
+            display: block;
+            width: 100%;
+            height: 10rem;
+            overflow: hidden !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            img {
+              object-fit: cover;
+              width: 100%;
+              -webkit-user-select: none !important;
+              user-select: none !important;
+              transition: all .4s;
+            }
+          }
+          .nav{
+            width: 100%;
+            i{
+              font-size: 2rem;
+            }
+          }
+          &::before{
+            content: '';
+            top: 0;
+            right: auto;
+            bottom: auto;
+            left: 50%;
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: $darkgray;
+            z-index: 1111;
+            transition: all .4s;
+          }
+          &:hover{
+            &::before{
+              width: 100%;
+              left: 0;
+            }
+            img{
+              transform: scale(1.2) rotate(-2deg);
+            }
+          }
+        }
+      }
+    }
+}
+$ease-out-quint : cubic-bezier(0.230, 1.000, 0.720, 1.000);
+$default-border:#555;
+
+.menu-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 4;
+    opacity: 0.5;
+    width: fit-content;
+    text-align: center;
+    .indicator-wrapper {
+        transform: translate3d(0, 0, 0);
+        width: 150px;
+        margin: 0 auto;
+        .indicator-cursor {
+            width:25px;
+            position: absolute;
+            top: 1.75em;
+            z-index: 5;
+            animation: cursor-animation 1.2s $ease-out-quint infinite;
+            @keyframes cursor-animation {
+                0%   {left: 100px; transform: rotate(30deg);}
+                100% {left: 40px; transform: rotate(0deg);}
+            }
+        }
+        .box-wrapper {
+            width: 150px;
+            overflow: hidden;
+            height: 50px;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            $widthOfBox: 3em;
+            &:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: 100%;
-                border-radius: 2px;
-                overflow: hidden !important;
-                -webkit-user-select: none !important;
-                user-select: none !important;
-                .video-info-container {
-                    width: 100%;
-                    height: 8rem;
-                    padding-left: 1rem;
-                    padding-top: 1rem;
-                    color: $gray;
-                    -webkit-user-select: none !important;
-                    user-select: none !important;
-                    .video-stats {
-                        padding-top: 9px;
-                        font-size: 0.7em;
-                        font-weight: 400;
-                        color: #c8c8c8;
-                        .stats-item {
-                            position: relative;
-                            display: inline-block;
-                            margin-right: 15px;
-                        }
-                        .item-views {
-                            -webkit-user-select: none;
-                            user-select: none;
-                        }
+                background: none;
+                z-index: 2;
+            }
+            .box-outer {
+                position: relative;
+                top: calc(50% - 1em);
+                animation: box-animation 1.2s $ease-out-quint infinite;
+                @keyframes box-animation {
+                    0%{
+                        left: 0px;
                     }
-                    .video-thumb-title {
-                        font-size: 1.25em;
-                        font-weight: 500;
-                        line-height: 1.25em;
-                    }
-                    .video-thumb-subtitle {
-                        font-size: 0.85em;
-                        font-weight: 300;
-                        color: #a8a8a8;
+                    100% {
+                        left: -5em;
                     }
                 }
-                .video-thumbnail {
-                    display: block;
-                    width: 100%;
-                    height: 10rem;
-                    overflow: hidden !important;
-                    -webkit-user-select: none !important;
-                    user-select: none !important;
-                    img {
-                        object-fit: cover;
-                        width: 100%;
-                        -webkit-user-select: none !important;
-                        user-select: none !important;
-                        transition: all .4s;
-                    }
-                }
-                .nav{
-                    width: 100%;
-                    i{
-                        font-size: 2rem;
-                    }
-                }
-                &::before{
-                    content: '';
-                    top: 0;
-                    right: auto;
-                    bottom: auto;
-                    left: 50%;
-                    position: absolute;
-                    width: 0;
-                    height: 2px;
-                    background-color: $darkgray;
-                    z-index: 1111;
-                    transition: all .4s;
-                }
-                &:hover{
-                    &::before{
-                        width: 100%;
-                        left: 0;
-                    }
-                    img{
-                        transform: scale(1.2) rotate(-2deg);
+            }
+            .box {
+                position: absolute;
+                width: $widthOfBox;
+                height: 2em;
+                border-radius:3px;
+                border: 1px solid $default-border;
+                @for $i from 0 through 3 {
+                    &:nth-of-type(#{$i}) {
+                        left: 4.25em * $i;
                     }
                 }
             }

@@ -193,7 +193,7 @@ public class FormsController {
         		Account accountInConsult = iAccountMetier.getAccountByUsername(login);
         		if(accountInConsult != null) {
         			response.sendRedirect("/?error=repeatedLogin");
-        		}else {
+        		} else {
         			httpSession.setAttribute("login", login);
                 	httpSession.setAttribute("password", passwordnew);
                 	httpSession.setAttribute("signupas", signupas);
@@ -333,7 +333,7 @@ public class FormsController {
     					Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(ipersonEmail);
     					if(motoristInConsult != null || tvgInConsult != null) {
     	        			response.sendRedirect("/?error=repeatedEmail");
-    	        		}else {
+    	        		} else {
     	        			try {
             					Motorist motoristInCreation = iMotoristMetier.createMotorist(ipersonLastname, ipersonFirstname, (sdf.parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "MO_"+login, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_MOTORIST"), vehicleBrand, vehicleType, (sdf.parse(vehicleFirstCirculation)), vehicleRegistration);
                     			emailValidation(motoristInCreation.getAccount(), ipersonEmail);
@@ -480,5 +480,81 @@ public class FormsController {
 			response.sendRedirect("/profil?Parseerror=" + e);
 		}
 	}
+	
+	@RequestMapping(value = "/updateContactInfo", method = RequestMethod.POST)
+	public void updateContactInfoMotorist(	Model model,
+											@RequestParam(name = "username", required = true) String username,
+											@RequestParam(name = "ipersonEmail", required = true) @Email(message="Please provide a valid email address") @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address") String ipersonEmail,
+											@RequestParam(name = "ipersonPhone", required = true) @Pattern(regexp="^([0|\\+[0-9]{1,5})?([0-9]{10})$", message="Please provide a valid phone number") String ipersonPhone,
+											@RequestParam(name = "ipersonNationalcardid", required = true) @Size(min = 7) String ipersonNationalcardid,
+											HttpServletResponse response) throws IOException {
+		Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(ipersonEmail);
+		if(motoristInConsult != null) {
+			response.sendRedirect("/profil/about?Error=repeatedEmail");
+		} else {
+			try {
+				Motorist motoristUpdated = iMotoristMetier.getMotoristByLogin(username);
+				motoristUpdated.setIpersonEmail(ipersonEmail);
+				motoristUpdated.setIpersonPhone(ipersonPhone);
+				motoristUpdated.setIpersonNationalcardid(ipersonNationalcardid);
+				iMotoristMetier.updateContactInfoMotorist(motoristUpdated);
 
+				response.sendRedirect("/profil");
+			} catch (Exception e) {
+				response.sendRedirect("/profil/about?Error=" + e);
+			}
+		}
+	}
+	
+	@RequestMapping(value = "/updatePersonalInfoMotorist", method = RequestMethod.POST)
+	public void updatePersonalInfoMotorist(	Model model,
+											@RequestParam(name = "username", required = true) String username,
+											@RequestParam(name = "ipersonLastname", required = true) String ipersonLastname,
+											@RequestParam(name = "ipersonFirstname", required = true) String ipersonFirstname,
+											@RequestParam(name = "ipersonBirthday", required = true) String ipersonBirthday,
+											@RequestParam(name = "ipersonCountry", required = true) String ipersonCountry,
+											@RequestParam(name = "ipersonCity", required = true) String ipersonCity,
+											HttpServletResponse response) throws IOException {
+		try {
+			if(!isValidDateStr(ipersonBirthday))
+    			response.sendRedirect("/profil/about?Error="+error+":"+ipersonBirthday);
+    		else {
+    			Motorist motoristUpdated = iMotoristMetier.getMotoristByLogin(username);
+    			motoristUpdated.setIpersonLastname(ipersonLastname);
+    			motoristUpdated.setIpersonFirstname(ipersonFirstname);
+    			motoristUpdated.setIpersonBirthday((sdf.parse(ipersonBirthday)));
+    			motoristUpdated.setIpersonCountry(ipersonCountry);
+    			motoristUpdated.setIpersonCity(ipersonCity);
+    			iMotoristMetier.updateContactInfoMotorist(motoristUpdated);
+
+				response.sendRedirect("/profil");
+    		}
+		} catch (Exception e) {
+			response.sendRedirect("/profil/about?Error=" + e);
+		}
+	}
+
+	@RequestMapping(value = "/updateAccountMotorist", method = RequestMethod.POST)
+	public void updateAccountMotorist(	Model model,
+										@RequestParam(name = "ipersonEmail", required = true) @Email(message="Please provide a valid email address") @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address") String ipersonEmail,
+										@RequestParam(name = "login", required = true) String login, 
+										@RequestParam(name = "passwordnew", required = true) String passwordnew, 
+										HttpServletResponse response) throws IOException {
+		Account accountInConsult = iAccountMetier.getAccountByUsername(login);
+		if(accountInConsult != null) {
+			response.sendRedirect("/profil/about?Error=repeatedLogin");
+		} else {
+			try {
+				Motorist motoristUpdated = iMotoristMetier.getMotoristByIpersonEmail(ipersonEmail);
+				Account accountUpdated = motoristUpdated.getAccount();
+				accountUpdated.setAccountLogin(login);
+				accountUpdated.setAccountPassword(passwordnew);
+	        	iAccountMetier.updateAccount(accountUpdated);
+
+				response.sendRedirect("/profil");
+			} catch (Exception e) {
+				response.sendRedirect("/profil/about?Error=" + e);
+			}
+		}
+	}
 }
