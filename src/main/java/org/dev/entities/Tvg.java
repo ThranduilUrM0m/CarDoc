@@ -28,112 +28,128 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 
-@Data
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="tvgId")
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@tvgId")
 public class Tvg implements Serializable {
 	
-   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
-   protected Long tvgId;
-   @Column(length=100)
-   protected String tvgLegalname;
-   @Column(length=100)
-   protected String tvgLegaladresse;
-   protected java.util.Date tvgCreationdate;
-   @Column(length=100)
-   protected String tvgCity;
-   @Column(length=100)
-   protected String tvgCountry;
-   @Column(length=100)
-   protected String tvgRegion;
-   @Column(length=100, unique=true)
-   protected String tvgEmail;
-   @Column(length=20)
-   protected String tvgPhone;
-   @Column(length=5)
-   protected String tvgDaystartA;
-   @Column(length=5)
-   protected String tvgDaystartB;
-   @Column(length=5)
-   protected String tvgDayendA;
-   @Column(length=5)
-   protected String tvgDayendB;
-   protected boolean tvgAvailable;
-
-   @OneToMany(mappedBy="tvg",targetEntity=Employee.class)
-   protected java.util.Collection<Employee> employee;
-   @OneToMany(mappedBy="tvg",targetEntity=Booking.class,cascade = CascadeType.ALL) @LazyCollection(LazyCollectionOption.FALSE)
-   protected java.util.Collection<Booking> booking;
-   @OneToMany(mappedBy="tvg",targetEntity=Control.class)
-   protected java.util.Collection<Control> control;
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false)
+	protected Long tvgId;
+	@Column(length=100)
+	protected String tvgLegalname;
+	@Column(length=100)
+	protected String tvgLegaladresse;
+	protected java.util.Date tvgCreationdate;
+	@Column(length=100)
+	protected String tvgCity;
+	@Column(length=100)
+	protected String tvgCountry;
+	@Column(length=100)
+	protected String tvgRegion;
+	@Column(length=100, unique=true)
+	protected String tvgEmail;
+	@Column(length=20)
+	protected String tvgPhone;
+	@Column(length=5)
+	protected String tvgDaystartA;
+	@Column(length=5)
+	protected String tvgDaystartB;
+	@Column(length=5)
+	protected String tvgDayendA;
+	@Column(length=5)
+	protected String tvgDayendB;
+	protected boolean tvgAvailable;
+	
+	@OneToMany(mappedBy="tvg", targetEntity=Employee.class)
+	protected java.util.Collection<Employee> employee;
+	@OneToMany(mappedBy="tvg", targetEntity=Booking.class)
+	protected java.util.Collection<Booking> booking;
+	@OneToMany(mappedBy="tvg", targetEntity=Control.class)
+	protected java.util.Collection<Control> control;
+	  
+	@OneToOne(optional=false) @JoinColumn(name="accountId")
+	protected Account account;
    
-   @OneToOne(optional=false) @JoinColumn(name="accountId")
-   protected Account account;
-   
-   public Long getTvgId() {
-      return tvgId;
-   }
-   public void setTvgId(Long newTvgId) {
-      tvgId = newTvgId;
-   }
-   
-   public String getTvgLegalname() {
-      return tvgLegalname;
-   }
-   public void setTvgLegalname(String newTvgLegalname) {
-      tvgLegalname = newTvgLegalname;
-   }
-   
-   public String getTvgLegaladresse() {
-      return tvgLegaladresse;
-   }
-   public void setTvgLegaladresse(String newTvgLegaladresse) {
-      tvgLegaladresse = newTvgLegaladresse;
-   }
-   
-   public java.util.Date getTvgCreationdate() {
-      return tvgCreationdate;
-   }
-   public void setTvgCreationdate(java.util.Date newTvgCreationdate) {
-      tvgCreationdate = newTvgCreationdate;
-   }
-   
-   public String getTvgCity() {
-      return tvgCity;
-   }
-   public void setTvgCity(String newTvgCity) {
-      tvgCity = newTvgCity;
-   }
-   
-   public String getTvgCountry() {
-      return tvgCountry;
-   }
-   public void setTvgCountry(String newTvgCountry) {
-      tvgCountry = newTvgCountry;
-   }
-   
-   public String getTvgRegion() {
-      return tvgRegion;
-   }
-   public void setTvgRegion(String newTvgRegion) {
-      tvgRegion = newTvgRegion;
-   }
-   
-   public String getTvgEmail() {
-      return tvgEmail;
-   }
-   public void setTvgEmail(String newTvgEmail) {
-      tvgEmail = newTvgEmail;
-   }
-   
-   public String getTvgPhone() {
-      return tvgPhone;
-   }
-   public void setTvgPhone(String newTvgPhone) {
-      tvgPhone = newTvgPhone;
-   }
-   
-   	public String getTvgDaystartA() {
+	
+	public java.util.Collection<Employee> getEmployee() {
+		return employee;
+	}
+	public void setEmployee(java.util.Collection<Employee> employee) {
+		this.employee = employee;
+	}
+	public java.util.Collection<Booking> getBooking() {
+		return booking;
+	}
+	public void setBooking(java.util.Collection<Booking> booking) {
+		this.booking = booking;
+	}
+	public java.util.Collection<Control> getControl() {
+		return control;
+	}
+	public void setControl(java.util.Collection<Control> control) {
+		this.control = control;
+	}
+	public Account getAccount() {
+		return account;
+	}
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	
+	public Long getTvgId() {
+		return tvgId;
+	}
+	public void setTvgId(Long tvgId) {
+		this.tvgId = tvgId;
+	}
+	public String getTvgLegalname() {
+		return tvgLegalname;
+	}
+	public void setTvgLegalname(String tvgLegalname) {
+		this.tvgLegalname = tvgLegalname;
+	}
+	public String getTvgLegaladresse() {
+		return tvgLegaladresse;
+	}
+	public void setTvgLegaladresse(String tvgLegaladresse) {
+		this.tvgLegaladresse = tvgLegaladresse;
+	}
+	public java.util.Date getTvgCreationdate() {
+		return tvgCreationdate;
+	}
+	public void setTvgCreationdate(java.util.Date tvgCreationdate) {
+		this.tvgCreationdate = tvgCreationdate;
+	}
+	public String getTvgCity() {
+		return tvgCity;
+	}
+	public void setTvgCity(String tvgCity) {
+		this.tvgCity = tvgCity;
+	}
+	public String getTvgCountry() {
+		return tvgCountry;
+	}
+	public void setTvgCountry(String tvgCountry) {
+		this.tvgCountry = tvgCountry;
+	}
+	public String getTvgRegion() {
+		return tvgRegion;
+	}
+	public void setTvgRegion(String tvgRegion) {
+		this.tvgRegion = tvgRegion;
+	}
+	public String getTvgEmail() {
+		return tvgEmail;
+	}
+	public void setTvgEmail(String tvgEmail) {
+		this.tvgEmail = tvgEmail;
+	}
+	public String getTvgPhone() {
+		return tvgPhone;
+	}
+	public void setTvgPhone(String tvgPhone) {
+		this.tvgPhone = tvgPhone;
+	}
+	public String getTvgDaystartA() {
 		return tvgDaystartA;
 	}
 	public void setTvgDaystartA(String tvgDaystartA) {
@@ -157,29 +173,11 @@ public class Tvg implements Serializable {
 	public void setTvgDayendB(String tvgDayendB) {
 		this.tvgDayendB = tvgDayendB;
 	}
-	public boolean getTvgAvailable() {
-	      return tvgAvailable;
-	   }
-	   public void setTvgAvailable(boolean newTvgAvailable) {
-	      tvgAvailable = newTvgAvailable;
-	   }
-	public java.util.Collection<Employee> getEmployee() {
-		return employee;
+	public boolean isTvgAvailable() {
+		return tvgAvailable;
 	}
-	public void setEmployee(java.util.Collection<Employee> employee) {
-		this.employee = employee;
-	}
-	public java.util.Collection<Control> getControl() {
-		return control;
-	}
-	public void setControl(java.util.Collection<Control> control) {
-		this.control = control;
-	}
-	public Account getAccount() {
-		return account;
-	}
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setTvgAvailable(boolean tvgAvailable) {
+		this.tvgAvailable = tvgAvailable;
 	}
 	
 	public Tvg() {
@@ -207,5 +205,6 @@ public class Tvg implements Serializable {
 		this.control = control;
 		this.account = account;
 		this.booking = booking;
+		// TODO Auto-generated constructor stub
 	}
 }

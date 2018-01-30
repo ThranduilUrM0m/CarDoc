@@ -37,7 +37,6 @@ public class Motorist extends IPerson implements Serializable {
 	public java.util.Collection<Vehicle> getVehicle() {
 		return vehicle;
 	}
-
 	public void setVehicle(java.util.Collection<Vehicle> vehicle) {
 		this.vehicle = vehicle;
 	}

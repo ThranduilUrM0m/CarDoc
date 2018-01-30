@@ -37,6 +37,7 @@ public class Vehicle implements Serializable {
 
    @ManyToOne(optional=true) @JoinColumn(name="motoristMatricule", referencedColumnName="motoristMatricule")
    protected Motorist motorist;
+   
    @OneToMany(mappedBy="vehicle",targetEntity=Booking.class, fetch = FetchType.EAGER)
    protected java.util.Collection<Booking> booking;
    

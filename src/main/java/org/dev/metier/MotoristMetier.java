@@ -15,6 +15,5 @@ public interface MotoristMetier {
 	public Motorist getMotoristByLogin(String login);
 	public Motorist getMotoristByIpersonEmail(String ipersonEmail);
 	public Collection<Motorist> getAllMotorist();
-	
 	public void updateContactInfoMotorist(Motorist motoristUppdated);
 }

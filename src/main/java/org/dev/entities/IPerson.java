@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.JOINED)
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@ipersonId")
 @DiscriminatorColumn(name="IPERSON_TYPE", length=2, discriminatorType=DiscriminatorType.STRING)
 public abstract class IPerson implements Serializable {

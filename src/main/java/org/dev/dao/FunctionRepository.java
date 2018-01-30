@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FunctionRepository extends JpaRepository<Function, Long> {
-	
+	public Function findByFunctionLabel(String functionLabel);
 }

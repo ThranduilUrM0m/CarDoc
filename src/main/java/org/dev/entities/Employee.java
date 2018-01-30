@@ -33,14 +33,15 @@ public class Employee extends IPerson implements Serializable {
 	@Column(length=40)
 	protected String employeeMatricule;
 
+	@ManyToOne(optional=true) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
+	protected Tvg tvg;
+	@ManyToOne(optional=true) @JoinColumn(name="functionId", referencedColumnName="functionId")
+	protected Function function;
+
 	@OneToMany(mappedBy="employee", targetEntity=Furlough.class)
 	protected java.util.Collection<Furlough> furlough;
-	@ManyToOne(optional=true, fetch = FetchType.LAZY) @JoinColumn(name="functionId", referencedColumnName="functionId")
-	protected Function function;
-	@ManyToOne(optional=true, fetch = FetchType.LAZY) @JoinColumn(name="tvgId", referencedColumnName="tvgId")
-	protected Tvg tvg;
 	
-	@OneToOne(optional=false, cascade=CascadeType.ALL, mappedBy="employee", targetEntity=Control.class)
+	@OneToOne(optional=true, cascade=CascadeType.ALL, mappedBy="employee", targetEntity=Control.class)
 	protected Control control;
    
    	public String getEmployeeMatricule() {
@@ -74,10 +75,20 @@ public class Employee extends IPerson implements Serializable {
 		this.control = control;
 	}
 	
-	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry, String ipersonCity,
-			String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
-		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail,
-				ipersonPhone);
+	@Override
+	public String toString() {
+		return "Employee [employeeMatricule=" + employeeMatricule + ", furlough=" + furlough + ", function=" + function
+				+ ", tvg=" + tvg + ", control=" + control + "]";
+	}
+	
+	public Employee() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday, String ipersonCountry,
+			String ipersonCity, String ipersonNationalcardid, String ipersonEmail, String ipersonPhone) {
+		super(ipersonLastname, ipersonFirstname, ipersonBirthday, ipersonCountry, ipersonCity, ipersonNationalcardid,
+				ipersonEmail, ipersonPhone);
 		// TODO Auto-generated constructor stub
 	}
 	public Employee(String ipersonLastname, String ipersonFirstname, Date ipersonBirthday,

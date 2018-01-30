@@ -10,6 +10,5 @@ public interface MotoristRepository extends JpaRepository<Motorist, Long> {
     		"where m.account.accountId = a.accountId\r\n" + 
     		"and a.accountLogin = :x")
     public Motorist findByAccountLogin(@Param("x") String accountLogin);
-	
 	public Motorist findByIpersonEmail(String ipersonEmail);
 }

@@ -19,6 +19,8 @@ import javax.validation.constraints.Size;
 
 import org.dev.entities.Account;
 import org.dev.entities.Booking;
+import org.dev.entities.Employee;
+import org.dev.entities.Function;
 import org.dev.entities.Motorist;
 import org.dev.entities.Picture;
 import org.dev.entities.Tvg;
@@ -26,6 +28,8 @@ import org.dev.entities.Vehicle;
 import org.dev.mail.MailSender;
 import org.dev.metier.AccountMetier;
 import org.dev.metier.BookingMetier;
+import org.dev.metier.EmployeeMetier;
+import org.dev.metier.FunctionMetier;
 import org.dev.metier.MotoristMetier;
 import org.dev.metier.PictureMetier;
 import org.dev.metier.TVGMetier;
@@ -67,6 +71,10 @@ public class FormsController {
     private PictureMetier iPictureMetier;
     @Autowired
     private BookingMetier iBookingMetier;
+    @Autowired
+    private EmployeeMetier iEmployeeMetier;
+    @Autowired
+    private FunctionMetier iFunctionMetier;
     
     @Autowired
     private Environment env;
@@ -275,29 +283,28 @@ public class FormsController {
 										@RequestParam(name = "tvgDayendA", required = true) @Pattern(regexp="^0[0-9]|1[0-9]|2[0-3]:[0-5][0-9]$", message="Please provide a valid time") String tvgDayendA,
 										@RequestParam(name = "tvgDayendB", required = true) @Pattern(regexp="^0[0-9]|1[0-9]|2[0-3]:[0-5][0-9]$", message="Please provide a valid time") String tvgDayendB,
 										HttpServletResponse response) throws IOException {
-		try {
-        	if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
-        		response.sendRedirect("/?error=invalidLogin");
-        	else {
-        		if(!isValidDateStr(tvgCreationdate))
-        			response.sendRedirect("/register?error="+error);
-        		else {
-        			Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(tvgEmail);
-					Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(tvgEmail);
-					if(motoristInConsult != null || tvgInConsult != null) {
-	        			response.sendRedirect("/?error=repeatedEmail");
-	        		}else {
-	        			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, sdf.parse(tvgCreationdate), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_TVG"));
-	        			model.addAttribute("TVG", tvgInCreation);
-	        			emailValidation(tvgInCreation.getAccount(), tvgEmail);
-	                	response.sendRedirect("/success?emailValidation=" + tvgEmail);
-	        		}
+		if(login.equals(password) || login.length() < 6 || password.length() < 6 || (!signupas.toLowerCase().equals("motorist") && !signupas.toLowerCase().equals("tvg")))
+    		response.sendRedirect("/?error=invalidLogin");
+    	else {
+    		if(!isValidDateStr(tvgCreationdate))
+    			response.sendRedirect("/register?error="+error);
+    		else {
+    			Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(tvgEmail);
+				Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(tvgEmail);
+				Employee employeeInConsult = iEmployeeMetier.getEmployeeByipersonEmail(tvgEmail);
+				if(motoristInConsult != null || tvgInConsult != null || employeeInConsult != null) {
+        			response.sendRedirect("/?error=repeatedEmail");
+        		}else {
+        			try {
+            			Tvg tvgInCreation = iTVGMetier.createTVG(tvgLegalname, tvgLegaladresse, sdf.parse(tvgCreationdate), tvgCity, tvgCountry, tvgRegion, tvgEmail, tvgPhone, tvgDaystartA, tvgDaystartB, tvgDayendA, tvgDayendB, true, null, null, new Account(login, password, new java.sql.Date(Calendar.getInstance().getTime().getTime()), false, null, null, null, null, null, null, "ROLE_TVG"));
+            			emailValidation(tvgInCreation.getAccount(), tvgEmail);
+                    	response.sendRedirect("/success?emailValidation=" + tvgEmail);
+        	        } catch (Exception e) {
+    					response.sendRedirect("/register?Parseerror=" + e);
+        	        }
         		}
-        	}
-        } catch (Exception e) {
-        	model.addAttribute("error", e);
-        	response.sendRedirect("/register?error=" + e.getMessage());
-        }
+    		}
+    	}
 	}
 	
 	@RequestMapping(value = "/signupmotorist", method = RequestMethod.POST)
@@ -331,7 +338,8 @@ public class FormsController {
     				else {
     					Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(ipersonEmail);
     					Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(ipersonEmail);
-    					if(motoristInConsult != null || tvgInConsult != null) {
+    					Employee employeeInConsult = iEmployeeMetier.getEmployeeByipersonEmail(ipersonEmail);
+    					if(motoristInConsult != null || tvgInConsult != null || employeeInConsult != null) {
     	        			response.sendRedirect("/?error=repeatedEmail");
     	        		} else {
     	        			try {
@@ -489,7 +497,9 @@ public class FormsController {
 											@RequestParam(name = "ipersonNationalcardid", required = true) @Size(min = 7) String ipersonNationalcardid,
 											HttpServletResponse response) throws IOException {
 		Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(ipersonEmail);
-		if(motoristInConsult != null) {
+		Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(ipersonEmail);
+		Employee employeeInConsult = iEmployeeMetier.getEmployeeByipersonEmail(ipersonEmail);
+		if(motoristInConsult != null || tvgInConsult != null || employeeInConsult != null) {
 			response.sendRedirect("/profil/about?Error=repeatedEmail");
 		} else {
 			try {
@@ -555,6 +565,84 @@ public class FormsController {
 			} catch (Exception e) {
 				response.sendRedirect("/profil/about?Error=" + e);
 			}
+		}
+	}
+	
+	@RequestMapping(value = "/employeeAdd", method = RequestMethod.POST)
+	public void saveEmployee(	Model model, 
+								@RequestParam(name = "ipersonLastname", required = true) String ipersonLastname,
+								@RequestParam(name = "ipersonFirstname", required = true) String ipersonFirstname,
+								@RequestParam(name = "ipersonBirthday", required = true) String ipersonBirthday,
+								@RequestParam(name = "ipersonCountry", required = true) String ipersonCountry,
+								@RequestParam(name = "ipersonCity", required = true) String ipersonCity,
+								@RequestParam(name = "ipersonNationalcardid", required = true) @Size(min = 7) String ipersonNationalcardid,
+								@RequestParam(name = "ipersonEmail", required = true) @Email(message="Please provide a valid email address") @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address") String ipersonEmail,
+								@RequestParam(name = "ipersonPhone", required = true) @Pattern(regexp="^([0|\\+[0-9]{1,5})?([0-9]{10})$", message="Please provide a valid phone number") String ipersonPhone,
+								@RequestParam(name = "functionLabel", required = true) String functionLabel,
+								HttpServletResponse response) throws IOException {
+		if(!isValidDateStr(ipersonBirthday))
+			response.sendRedirect("/profil?error="+error+":"+ipersonBirthday);
+		else {
+			Motorist motoristInConsult = iMotoristMetier.getMotoristByIpersonEmail(ipersonEmail);
+			Tvg tvgInConsult = iTVGMetier.consulteTVGByEmail(ipersonEmail);
+			Employee employeeInConsult = iEmployeeMetier.getEmployeeByipersonEmail(ipersonEmail);
+			if(motoristInConsult != null || tvgInConsult != null || employeeInConsult != null) {
+    			response.sendRedirect("/profil?error=repeatedEmail");
+    		} else {
+    			try {
+    				Function functionIn = iFunctionMetier.getFunctionByFunctionLabel(functionLabel);
+    				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			    	Account accountLogged = iAccountMetier.getAccountByUsername(auth.getName());
+			    	iEmployeeMetier.createEmployee(ipersonLastname, ipersonFirstname, (sdf.parse(ipersonBirthday)), ipersonCountry, ipersonCity, ipersonNationalcardid, ipersonEmail, ipersonPhone, "EM_"+ipersonFirstname+""+ipersonLastname, functionIn, accountLogged.getTvg());
+		    		response.sendRedirect("/profil");
+				} catch (ParseException e) {
+					response.sendRedirect("/profil?Parseerror=" + e);
+				}
+    		}
+		}
+	}
+	
+	@RequestMapping(value = "/employeeUpdate", method = RequestMethod.POST)
+	public void updateEmployee(	Model model, 
+								@RequestParam(name = "dataId", required = true) String vehicleId,
+								@RequestParam(name = "vehicleBrand", required = true) String vehicleBrand,
+								@RequestParam(name = "vehicleType", required = true)  String vehicleType,
+								@RequestParam(name = "vehicleFirstCirculation", required = true) String vehicleFirstCirculation,
+								@RequestParam(name = "vehicleRegistration", required = true) String vehicleRegistration,
+								HttpServletResponse response) throws IOException {
+		if(!isValidDateStr(vehicleFirstCirculation))
+			response.sendRedirect("/profil?error="+error+":"+vehicleFirstCirculation);
+		else {
+			if((!vehicleType.toLowerCase().equals("car (light vehicles)") && !vehicleType.toLowerCase().equals("gas-powered vehicles") && !vehicleType.toLowerCase().equals("collection vehicles") && !vehicleType.toLowerCase().equals("utilities") && !vehicleType.toLowerCase().equals("electric vehicles") && !vehicleType.toLowerCase().equals("specific vehicles")))
+				response.sendRedirect("/profil?error=Vehicle_Type_Error");
+			else {
+				try {
+					Vehicle vehicleUpdating = iVehicleMetier.getVehicle(Long.valueOf(vehicleId).longValue());
+					
+					vehicleUpdating.setVehicleBrand(vehicleBrand);
+					vehicleUpdating.setVehicleType(vehicleType);
+					vehicleUpdating.setVehicleFirstCirculation((sdf.parse(vehicleFirstCirculation)));
+					vehicleUpdating.setVehicleRegistration(vehicleRegistration);
+					
+		        	iVehicleMetier.updateVehicle(vehicleUpdating);
+		        	
+					response.sendRedirect("/profil");
+				} catch (ParseException e) {
+					response.sendRedirect("/profil?Parseerror=" + e);
+				}
+			}
+		}
+	}
+	
+	@RequestMapping(value = "/employeeDelete", method = RequestMethod.POST)
+	public void deleteEmployee(	Model model, 
+								@RequestParam(name = "dataId", required = true) String vehicleId,
+								HttpServletResponse response) throws IOException {
+		try {
+        	iVehicleMetier.deleteVehicle(Long.valueOf(vehicleId).longValue());
+			response.sendRedirect("/profil");
+		} catch (Exception e) {
+			response.sendRedirect("/profil?Parseerror=" + e);
 		}
 	}
 }

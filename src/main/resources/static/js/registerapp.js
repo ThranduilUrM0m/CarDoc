@@ -976,19 +976,19 @@ class RegisterTvgPanel extends Component{
         fieldValidationErrors.tvgPhone = tvgPhoneValid ? '' : ' is invalid';
         break;
       case 'tvgDaystartA':
-        tvgDaystartAValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartB, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm");
+        tvgDaystartAValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendA, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDaystartA = tvgDaystartAValid ? '' : ' is invalid';
         break;
       case 'tvgDaystartB':
-        tvgDaystartBValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDayendA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm");
+        tvgDaystartBValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDayendA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDaystartB = tvgDaystartBValid ? '' : ' is invalid';
         break;
       case 'tvgDayendA':
-        tvgDayendAValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendB, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartB, "HHmm").format("HH:mm");
+        tvgDayendAValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartB, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDayendA = tvgDayendAValid ? '' : ' is invalid';
         break;
       case 'tvgDayendB':
-        tvgDayendBValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartB, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDaystartA, "HHmm").format("HH:mm") && moment(value, "HHmm").format("HH:mm") < moment(this.state.tvgDayendA, "HHmm").format("HH:mm");
+        tvgDayendBValid = timeReg.test(value) && moment(value, "HHmm").format("HH:mm") > moment(this.state.tvgDaystartB, "HHmm").format("HH:mm");
         fieldValidationErrors.tvgDayendB = tvgDayendBValid ? '' : ' is invalid';
         break;
       default:

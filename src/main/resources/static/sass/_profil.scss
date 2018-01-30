@@ -418,6 +418,17 @@ $default-color-bg:    $white;
         }
     }
 }
+#employeeModal{
+    label{
+        float: right;
+        font-size: .8rem;
+    }
+    .modal-footer{
+        button{
+            transition: all 0.2s ease-out;
+        }
+    }
+}
 #bookingModal{
     padding: 0;
     .modal-dialog{
