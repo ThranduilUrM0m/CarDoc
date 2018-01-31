@@ -381,6 +381,13 @@ var City = React.createClass({
     );
   }
 });
+var Region = React.createClass({
+  render: function() {
+    return (
+      <option value={this.props.regionProp.name}>{this.props.regionProp.name}</option>
+    );
+  }
+});
 class RegisterMotoristPanel extends Component{
   constructor(props) {
     super(props);
@@ -878,6 +885,8 @@ class RegisterTvgPanel extends Component{
       countries: [],
       cities: [],
       citiesWanted: [],
+      regions: [],
+      regionsWanted: [],
       login: '',
       password: '',
       signupas: '',
@@ -1096,6 +1105,7 @@ class RegisterTvgPanel extends Component{
       .then((responseData) => { 
         countrySelected = _.first(_.where(responseData, {code: value})).code;
         this.loadCitiesFromJSON(countrySelected);
+        this.loadRegionsFromJSON(countrySelected);
         this.setState({[name]: value}, () => { this.validateField(name, value) });
       });
     }else{
@@ -1146,8 +1156,32 @@ class RegisterTvgPanel extends Component{
     });
 
   }
+  loadRegionsFromJSON(countryID) {
+    var rowsR = [];
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("x-my-custom-header", "INDEED");
+    var myInit = { method: 'GET',
+                   headers: myHeaders,
+                   mode: 'cors',
+                   cache: 'default',
+                   credentials: 'same-origin' };
+    fetch('../js/json/REGIONS.json', myInit)
+    .then((response) => response.json()) 
+    .then((responseData) => { 
+      this.setState({regions: _.sortBy(_.where(responseData, {countryShortCode: countryID}).regions, 'name')});
+      this.state.regions.forEach(function(region) {
+        rowsC.push(<Region regionProp={region} />);
+      });
+      this.setState({regionsWanted: rowsR});
+    });
+
+  }
   componentWillMount() {
     this.loadCitiesFromJSON("AF");
+    this.loadRegionsFromJSON("AF");
   }
   componentDidMount() {
     this.loadCountriesFromJSON();
@@ -1300,7 +1334,10 @@ class RegisterTvgPanel extends Component{
                   </div>
 
                   <div className={`input-container ${this.errorClass(this.state.formErrors.tvgRegion)}`}>
-                    <input tabIndex="6" value={this.state.tvgRegion} onChange={(event) => this.handleUserInput(event)} type="text" className="form-control" id="exampleInputtvgRegion" aria-describedby="tvgRegionHelp" name="tvgRegion" required/>
+                    <select tabIndex="6" value={this.props.tvgRegion} onChange={(event) => this.handleUserInput(event)} className="form-control custom-select" id="exampleInputtvgRegion" aria-describedby="tvgRegionHelp" name="tvgRegion" required>
+                      <option value=""></option>
+                      {this.state.regionsWanted}
+                    </select>  
                     <label for="{label}">Region</label>
                     <div className="bar"></div>
                     <div className="invalid-feedback">

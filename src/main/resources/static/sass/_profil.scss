@@ -595,68 +595,71 @@ $default-color-bg:    $white;
     }
     .reservation-content{
         height: 100%;
-        .col{
-            padding-right: 0.5rem;
-            padding-left: 0.5rem;
-            .card{
-                cursor: pointer;
-                background-color: $darkgray;
-                transition: all .2s ease-in-out;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                height: 100%;
-                i{
-                    flex: 1 1 auto;
-                    font-size: 15rem;
-                    text-align: center;
-                }
-                .st0-lamp{fill:#191919;}
-                .st1-lamp{fill:#8F9995;}
-                .st2-lamp{opacity:0.7;fill:url(#SVGID_1_);}
-                .st3-lamp{fill:#D8D9DA;}
-                .st0{fill:#FFFFFF;}
-                .st1{fill:#DC4844;}
-                .st2{fill:#BF3A37;}
-                .st3{fill:#EBEBEB;}
-                .st4{fill:#BABABA;}
-                .st5{fill:#E7E6E6;}
-                .lamp {
+        .row{
+            height: 100%;
+            .col{
+                padding-right: 0.5rem;
+                padding-left: 0.5rem;
+                .card{
+                    cursor: pointer;
+                    background-color: $darkgray;
+                    transition: all .2s ease-in-out;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
                     height: 100%;
-                    pointer-events: none;
-                    position: absolute;
-                    top: 0;
-                    width: 100%;
-                    z-index: 999;
-                    &--left {
-                      height: 100%;
-                      left: 0;
-                      position: absolute;
-                      top: 0;
-                      width: 100%;
+                    i{
+                        flex: 1 1 auto;
+                        font-size: 15rem;
+                        text-align: center;
                     }
-                }
-                .calendar{
-                    height: 100%;
-                    pointer-events: none;
-                    position: absolute;
-                    top: 0;
-                    width: 100%;
-                    z-index: 998;
-                    margin-top: 50%;
-                    #Layer_5{
-                        .st1{
-                            animation: stroke_fill 4s linear forwards;
-                            stroke-dasharray: 324.774;
-                            stroke-dashoffset: 324.774;
+                    .st0-lamp{fill:#191919;}
+                    .st1-lamp{fill:#8F9995;}
+                    .st2-lamp{opacity:0.7;fill:url(#SVGID_1_);}
+                    .st3-lamp{fill:#D8D9DA;}
+                    .st0{fill:#FFFFFF;}
+                    .st1{fill:#DC4844;}
+                    .st2{fill:#BF3A37;}
+                    .st3{fill:#EBEBEB;}
+                    .st4{fill:#BABABA;}
+                    .st5{fill:#E7E6E6;}
+                    .lamp {
+                        height: 100%;
+                        pointer-events: none;
+                        position: absolute;
+                        top: 0;
+                        width: 100%;
+                        z-index: 999;
+                        &--left {
+                          height: 100%;
+                          left: 0;
+                          position: absolute;
+                          top: 0;
+                          width: 100%;
                         }
                     }
-                }
-                .card-title{
-                    border-bottom: 0.4rem solid $gray;
-                }
-                &:hover{
-                    @include scale(1.1);
+                    .calendar{
+                        height: 100%;
+                        pointer-events: none;
+                        position: absolute;
+                        top: 0;
+                        width: 100%;
+                        z-index: 998;
+                        margin-top: 50%;
+                        #Layer_5{
+                            .st1{
+                                animation: stroke_fill 4s linear forwards;
+                                stroke-dasharray: 324.774;
+                                stroke-dashoffset: 324.774;
+                            }
+                        }
+                    }
+                    .card-title{
+                        border-bottom: 0.4rem solid $gray;
+                    }
+                    &:hover{
+                        @include scale(1.1);
+                    }
                 }
             }
         }
